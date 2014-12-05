@@ -198,7 +198,7 @@ form {
 	-ms-box-shadow: 0 0 2px #ed1c24 inset;
 	-o-box-shadow: 0 0 2px #ed1c24 inset;
 	box-shadow: 0 0 2px #ED1C24 inset;
-	background-color: #FFF;
+	background-color: white;
 	border: 1px solid #ED1C24;
 	outline: none;
 }
@@ -209,7 +209,7 @@ form {
 }
 
 #s2 {
-	background-color: #F2D03B;
+	background-color: #E3C00C;
 }
 
 #s3 {
@@ -220,6 +220,13 @@ form {
 	background-color: #006E22;
 }
 
-#s5 {
-	background-color: purple;
-}
+/*
+	GroupRight Blue: #04518C;
+	GroupRight Gold: #E3C00C;
+	GroupRight Teal: #00A1D9;
+	GroupRight Green: #006E22;
+	GroupRight DarkBlue: #003056;
+	Black: #000;
+	White: #FFF;
+*/
+
