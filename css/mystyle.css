@@ -25,12 +25,12 @@ a {
 
 /* Pure CSS Icons, Arrows Inside of Circles By Sam Peniak */
 a:hover .bottom, a:hover .top {
-	border: 0.5em solid black;
+	border: 0.5vw solid black;
 }
 
 a:hover .bottom:after, a:hover .top:after {
-	border-top: 0.5em solid black;
-	border-right: 0.5em solid black;
+	border-top: 0.5vw solid black;
+	border-right: 0.5vw solid black;
 }
 /* end Sam Peniak code */
 
@@ -109,12 +109,12 @@ footer {
 /* main changes I made were to center the button better on the page */
 .bottom {
 	display: block;
-	width: 4em;
-	height: 4em;
-	border: 0.5em solid white;
+	width: 4vw;
+	height: 4vw;
+	border: 0.5vw solid white;
 	border-radius: 50%;
 	position: absolute;
-	bottom: 2em;
+	bottom: 2vw;
 	left: 50%;
 	-moz-transform: translateX(-50%);
 	-webkit-transform: translate(-50%);
@@ -124,11 +124,11 @@ footer {
 .bottom:after {
 	content: '';
 	display: inline-block;
-	margin-top: 0.6em;
-	width: 1.4em;
-	height: 1.4em;
-	border-top: 0.5em solid white;
-	border-right: 0.5em solid white;
+	margin-top: 0.6vw;
+	width: 1.4vw;
+	height: 1.4vw;
+	border-top: 0.5vw solid white;
+	border-right: 0.5vw solid white;
 	-moz-transform: rotate(135deg);
 	-webkit-transform: rotate(135deg);
 	transform: rotate(135deg);
@@ -136,12 +136,12 @@ footer {
 
 .top {
 	display: block;
-	width: 4em;
-	height: 4em;
-	border: 0.5em solid white;
+	width: 4vw;
+	height: 4vw;
+	border: 0.5vw solid white;
 	border-radius: 50%;
 	position: absolute;
-	bottom: 2em;
+	bottom: 2vw;
 	left: 50%;
 	-moz-transform: translateX(-50%);
 	-webkit-transform: translate(-50%);
@@ -151,11 +151,11 @@ footer {
 .top:after {
 	content: '';
 	display: inline-block;
-	margin-top: 1.4em;
-	width: 1.4em;
-	height: 1.4em;
-	border-top: 0.5em solid white;
-	border-right: 0.5em solid white;
+	margin-top: 1.4vw;
+	width: 1.4vw;
+	height: 1.4vw;
+	border-top: 0.5vw solid white;
+	border-right: 0.5vw solid white;
 	-moz-transform: rotate(-45deg);
 	-webkit-transform: rotate(-45deg);
 	transform: rotate(-45deg);
