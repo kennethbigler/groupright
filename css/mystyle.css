@@ -205,12 +205,12 @@ form {
 /* code from weebly */
 
 #mywarning {
-	color:red;
-	display:none;
+	color: white;
+	display: none;
 }
 
-#mywarning a{
-	color:blue !important;
+#mywarning a {
+	text-decoration: underline;
 }
 
 #s1 {
