@@ -10,6 +10,7 @@
 .navbar-brand-logo{
 	max-height:30px;
 	margin:10px;
+	width:auto;
 	
 }
 .nav-center {
@@ -103,7 +104,9 @@
 /* flip speed goes here */
 .flipper {
 	transition: 1.6s;
+	-webkit-transition:1.6s;
 	transform-style: preserve-3d;
+	-webkit-transform-style:preserve-3d;
 
 	position: relative;
 }
@@ -111,6 +114,7 @@
 /* hide back of pane during swap */
 .front, .back {
 	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
 
 	position: absolute;
 }
@@ -120,9 +124,11 @@
 	z-index: 2;
 	/* for firefox 31 */
 	transform: rotateY(0deg);
+	-webkit-transform:rotate(0deg);
 }
 
 /* back, initially hidden pane */
 .back {
 	transform: rotateY(180deg);
+	-webkit-transform: rotateY(180deg);
 }
