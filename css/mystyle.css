@@ -204,6 +204,15 @@ form {
 }
 /* code from weebly */
 
+#mywarning {
+	color:red;
+	display:none;
+}
+
+#mywarning a{
+	color:blue !important;
+}
+
 #s1 {
 	background-color: #04518C;
 }
