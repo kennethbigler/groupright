@@ -207,6 +207,10 @@ form {
 #mywarning {
 	color: white;
 	display: none;
+	max-width: 1000px;
+	display: block;
+	margin: 0px auto;
+	text-align: center;
 }
 
 #mywarning a {
