@@ -35,20 +35,30 @@
 
 .login-box input[type="text"],
 .login-box input[type="email"],
-.login-box input[type="password"]
+.login-box input[type="password"],
+.login-box .btn,
+.signup-box input[type="text"],
+.signup-box input[type="email"],
+.signup-box input[type="password"],
+.signup-box .btn
 {
 	margin-top:10px;
+}
+
+.gr-spaced{
+	margin-top:10px;
+	margin-bottom:10px;
 }
 
 /********************************************************************/
 /*		LOGIN STYLES												*/
 /********************************************************************/
 
-.login-box{
+.login-box,.signup-box,.flipper,.flip-container{
 
 	/* sizing */
 	width:450px;
-	height:350px;
+	height:400px;
 	
 	/* positioning */
 	position:absolute;
@@ -56,12 +66,63 @@
 	left:0px; right:0px;
 	margin:auto;
 	
-	
-	/* border */
-	border-radius:10px;
-	box-shadow: 0px 0px 50px 0px #000;
-	
+}
+
+.login-box{	
 	/* padding */
 	padding:20px;
 	padding-top:0px;
+}
+
+.signup-box,.flipper{	
+	/* padding */
+	padding:20px;
+	padding-top:0px;
+}
+
+
+.flipper{
+	/* border */
+	border-radius:10px;
+	box-shadow: 0px 0px 50px 0px #000;
+}
+
+/********************************************************************/
+/*		FLIPPING STYLES												*/
+/********************************************************************/
+
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000;
+}
+	/* flip the pane when hovered */
+	.flip-container:hover .flipper, .flip-container.hover .flipper {
+		/*transform: rotateY(180deg);*/
+	}
+
+/* flip speed goes here */
+.flipper {
+	transition: 1.6s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+
+	position: absolute;
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(180deg);
 }

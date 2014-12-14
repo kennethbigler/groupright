@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,47 +27,86 @@
 
   <body class="login">
 
-    <!-- Fixed navbar -->
+  <!-- Fixed navbar -->
     <nav class="navbar navbar-fixed-top navbar-groupright" role="navigation">
-      <div class="container">
+      <div class="container-fluid">
         <div class="navbar-header nav-center">
-			<img class="navbar-brand-logo" src="images/LogoWhite.svg" alt="GroupRight">
-		</div>
+			    <img class="navbar-brand-logo" src="images/LogoWhite.svg" alt="GroupRight">
+		    </div>
       </div>
     </nav>
 
 	
-	
-	
-	
-    <div class="container-fluid login-box">
+	<div class="flip-container">
+	<div class="flipper">
+		<div class="container-fluid login-box front">
+		  <form class="" role="form">
+			<h2 class="header-center">Log In</h2>
+			<label for="inputEmail" class="sr-only">Email address</label>
+			<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+			
+			<label for="inputPassword" class="sr-only">Password</label>
+			<input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+			
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="checkbox">
+					  <label>
+						<input type="checkbox" value="remember-me" /> Remember me
+					  </label>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="text-right gr-spaced">
+						<a href="#">Forgot Password?</a>
+					</div>
+				</div>
+			</div>
+			
+			<button class="btn btn-lg btn-block btn-primary" type="submit">Sign in</button>
+			<hr class="groupright-divider"/>
+			<button class="btn btn-lg btn-block" type="button"  onclick="flipToSignUp()">Sign up</button>
+		  </form>
 
-      <form class="" role="form">
-        <h2 class="header-center">Log In</h2>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+		</div> <!-- /container -->
 		
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-		
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me" /> Remember me
-          </label>
-        </div>
-		
-        <button class="btn btn-lg btn-block btn-primary" type="submit">Sign in</button>
-		<hr class="groupright-divider"/>
-        <button class="btn btn-lg btn-block" type="submit">Sign up</button>
-      </form>
+		<div class="container-fluid signup-box back">
 
-    </div> <!-- /container -->
+		  <form class="" role="form">
+			<h2 class="header-center">Sign Up</h2>
+			
+			
+			<div class="row">
+				<div class="col-xs-6">
+					<label for="firstName" class="sr-only">First Name</label>
+					<input type="text" id="firstName" class="form-control" placeholder="First Name" required>
+				</div>
+				<div class="col-xs-6">
+					<label for="lastName" class="sr-only">Last Name</label>
+					<input type="text" id="lastName" class="form-control" placeholder="Last Name" required>
+				</div>
+			</div>
+			
+			
+			<label for="inputEmail" class="sr-only">Email address</label>
+			<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+			
+			
+			<label for="inputPassword" class="sr-only">Password</label>
+			<input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+			
+			<label for="confirmPassword" class="sr-only">Confirm Password</label>
+			<input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
+						
+			<button class="btn btn-lg btn-block btn-primary" type="submit">Sign up</button>
+			<hr class="groupright-divider"/>
+			<button class="btn btn-lg btn-block" type="button" onclick="flipToLogIn()">Cancel</button>
+		  </form>
 
-	
-	
-	
-	
-	
+		</div> <!-- /container -->
+	</div>
+	</div>
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -77,5 +115,19 @@
     <script src="js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!--script src="js/ie10-viewport-bug-workaround.js"></script-->
+	
+	<script>
+	
+	function flipToSignUp(){
+		$(".flipper").css({"transform":"rotateY(180deg)"});	
+	}
+	
+	function flipToLogIn(){
+		$(".flipper").css({"transform":"rotateY(0deg)"});	
+	}
+	
+	</script>
+	
+	
   </body>
 </html>
