@@ -3,13 +3,15 @@
 <head>
 	<meta charset="UTF-8">
 	<title>GroupRight, Groups Done Right</title>
-	<base href="https://www.groupright.net/" target="_blank">
-	<script type="text/javascript" src="js/homescripts.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+	<!--<base href="https://www.groupright.net/" target="_blank">-->
+	
+	<link rel="stylesheet" type="text/css" href="css/mystyle.css"> <!--
 	<link rel='stylesheet' media='screen and (min-width: 446px) and (max-width: 683px)' href='css/tablet.css' />
-	<link rel='stylesheet' media='screen and (max-width: 446px)' href='css/phone.css' />
+	<link rel='stylesheet' media='screen and (max-width: 446px)' href='css/phone.css' /> -->
+	<!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 	<!--link rel="icon" href="images/favicon.png" type="image/png" /-->
-	<link rel="icon" href="/images/favicon.png" />
+	<link rel="icon" href="images/favicon.png" />
 	<link rel="apple-touch-icon" href="images/favicon.png" type="image/png" />
 	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 	<meta name="apple-mobile-web-app-capable" content="yes" >
@@ -17,13 +19,14 @@
 	<meta name="description" content="GroupRight is a collaborative group management system.  It is the Senior Design Project for Kenneth Bigler, Zachary Wilson, and Scott Sarsfield, students from Santa Clara University.">
 	<meta name="author" content="Kenneth Bigler">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="js/homescripts.js"></script>
 </head>
 <body>
 	<div id="hidethis">
-		<header>
+		<!--<header>
 			<h2><a href="#s1">&nbsp;&nbsp;1</a> &nbsp;<a href="#s2">2</a> &nbsp;<a href="#s3">3</a> &nbsp;<a href="#s4">4</a></h2>
-		</header>
-		<div class="container">
+		</header>-->
+		<div class=".container-fluid">
 			<section id="s1">
 				<div class="content">
 					<div class="text">
@@ -59,8 +62,17 @@
 				<div class="content">
 					<div class="text">
 						<h1>Join our mailing list: </h1>
-							<input class="inputs" type="text" id="email"><br>
-							<button onclick="addEmail();">Join!</button>
+						<div class="row" >
+							<div style="width:500px;margin:auto;">
+						    <div class="input-group" >
+						      <input type="text" class="form-control" placeholder="Email Address" id="inputEmail" required autofocus>
+						      <span class="input-group-btn">
+						        <button class="btn btn-default" type="button" onclick="addEmail()" id="joinButton">Join!</button>
+						      </span>
+						    </div><!-- /input-group -->
+						</div>
+						</div><!-- /.row -->
+							
 					</div>
 					<div>
 						<a href="#s1"><span class="top"></span></a>
@@ -74,7 +86,7 @@
 		</div>
 	<!-- /#hidethis -->
 	</div>
-	<div id="mywarning">
+	<div id="mywarning" style="display:none">
 		<img src="images/smallLogo.png" />
 		<br />
 		<p><b>This tool does not support Internet Explorer 8 or other older browsers, please use another browser like <a href="http://www.google.com/chrome/">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/">Mozilla Firefox</a>.</b></p>
