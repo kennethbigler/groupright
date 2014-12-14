@@ -19,14 +19,17 @@ function addEmail(){
 	//Validate Email Address Before Continuing
 	*****************************************************/
     if (email == null || email == "") {
-        alert("You must enter an email address");
+        //alert("You must enter an email address");
+        document.getElementById("inputEmail").value="Please enter an email address.";
+        document.getElementById("inputEmail").style.color="Red";
         return false;
     }
     else{
 	    var atpos = email.indexOf("@");
 	    var dotpos = email.lastIndexOf(".");
 	    if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=email.length) {
-	        alert("Not a valid e-mail address");
+	        document.getElementById("inputEmail").value="Please enter a valid email address.";
+        	document.getElementById("inputEmail").style.color="Red";
 	        return false;
 	    }
 	}
@@ -49,5 +52,7 @@ function addEmail(){
 	xhr.open("POST", "mailing-list.php", true); 
 	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");                    
     xhr.send(data);
+    document.getElementById("inputEmail").value="Thank You!";
+    document.getElementById("inputEmail").style.color="Green";
  }
 
