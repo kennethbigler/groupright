@@ -12,9 +12,4 @@ window.onload = function(){
 		document.getElementById('mywarning').style.display='block';
 		document.body.style.backgroundColor = "#04518C";
 	}
-
-	//all other browsers
-	else {
-		alert("#420YOLOSWAG4Jesus");
-	}
 }
