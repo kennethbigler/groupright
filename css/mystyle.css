@@ -85,7 +85,7 @@ div.text {
 h1 {
 	margin: 0;
 	font-family: 'Lato', sans-serif !important;
-	font-size: 2.5vw !important;
+	font-size: 3.8vw !important;
 }
 
 p, h2 {
@@ -209,9 +209,9 @@ form {
 /* code from weebly */
 
 div.joinbox {
-	width:100%;
-	max-width:500px;
-	margin:auto;"
+	width: 100%;
+	max-width: 666px;
+	margin: auto;"
 }
 
 #mywarning {
