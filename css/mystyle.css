@@ -105,6 +105,10 @@ footer {
 	line-height: 3em;
 }
 
+footer p {
+	margin: 0;
+}
+
 /* Pure CSS Icons, Arrows Inside of Circles By Sam Peniak */
 /* main changes I made were to center the button better on the page */
 .bottom {
@@ -203,6 +207,12 @@ form {
 	outline: none;
 }
 /* code from weebly */
+
+div.joinbox {
+	width:100%;
+	max-width:500px;
+	margin:auto;"
+}
 
 #mywarning {
 	color: white;
