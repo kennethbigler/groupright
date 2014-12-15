@@ -34,7 +34,7 @@ a:hover .bottom:after, a:hover .top:after {
 }
 /* end Sam Peniak code */
 
-div.container{
+div.holder{
 	position: absolute;
 	top: 3em;
 	left: 0;
@@ -43,7 +43,7 @@ div.container{
 	overflow: auto;
 }
 
-div.container::-webkit-scrollbar {
+div.holder::-webkit-scrollbar {
 	display:none;
 }
 

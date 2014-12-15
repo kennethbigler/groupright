@@ -34,16 +34,16 @@ a:hover .bottom:after, a:hover .top:after {
 }
 /* end Sam Peniak code */
 
-div.container{
+div.holder{
 	position: absolute;
-	top: 3em;
+	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
 	overflow: auto;
 }
 
-div.container::-webkit-scrollbar {
+div.holder::-webkit-scrollbar {
 	display:none;
 }
 
@@ -84,8 +84,8 @@ div.text {
 
 h1 {
 	margin: 0;
-	font-family: 'Lato', sans-serif;
-	font-size: 2.5vw;
+	font-family: 'Lato', sans-serif !important;
+	font-size: 2.5vw !important;
 }
 
 p, h2 {
