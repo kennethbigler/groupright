@@ -31,7 +31,9 @@
     <nav class="navbar navbar-fixed-top navbar-groupright" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header nav-center">
-			    <img class="navbar-brand-logo" src="images/LogoWhite.svg" alt="GroupRight">
+			    <a href="https://www.groupright.net/">
+				<img class="navbar-brand-logo" src="images/LogoWhite.svg" alt="GroupRight">
+				</a>
 		    </div>
       </div>
     </nav>
@@ -42,17 +44,17 @@
 		<div class="container-fluid login-box front">
 		  <form class="" role="form">
 			<h2 class="header-center">Log In</h2>
-			<label for="inputEmail" class="sr-only">Email address</label>
-			<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+			<label for="loginInputEmail" class="sr-only">Email address</label>
+			<input type="email" id="loginInputEmail" class="form-control" placeholder="Email address" required autofocus>
 			
-			<label for="inputPassword" class="sr-only">Password</label>
-			<input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+			<label for="loginInputPassword" class="sr-only">Password</label>
+			<input type="password" id="loginInputPassword" class="form-control" placeholder="Password" required>
 			
 			<div class="row">
 				<div class="col-xs-6">
 					<div class="checkbox">
 					  <label>
-						<input type="checkbox" value="remember-me" /> Remember me
+						<input type="checkbox" value="login-remember-me" /> Remember me
 					  </label>
 					</div>
 				</div>
@@ -63,7 +65,7 @@
 				</div>
 			</div>
 			
-			<button class="btn btn-lg btn-block btn-primary" type="submit">Sign in</button>
+			<button class="btn btn-lg btn-block btn-primary" type="submit"  id="signInButton">Sign in</button>
 			<hr class="groupright-divider"/>
 			<button class="btn btn-lg btn-block" type="button"  onclick="flipToSignUp()">Sign up</button>
 		  </form>
@@ -72,41 +74,41 @@
 		
 		<div class="container-fluid signup-box back">
 
-		  <form class="" role="form">
+		  <form class="" role="form" onsubmit="signUp()">
 			<h2 class="header-center">Sign Up</h2>
 			
 			
 			<div class="row">
 				<div class="col-xs-6">
-					<label for="firstName" class="sr-only">First Name</label>
-					<input type="text" id="firstName" class="form-control" placeholder="First Name" required>
+					<label for="signupFirstName" class="sr-only">First Name</label>
+					<input type="text" id="signupFirstName" class="form-control" placeholder="First Name" required>
 				</div>
 				<div class="col-xs-6">
-					<label for="lastName" class="sr-only">Last Name</label>
-					<input type="text" id="lastName" class="form-control" placeholder="Last Name" required>
+					<label for="signupLastName" class="sr-only">Last Name</label>
+					<input type="text" id="signupLastName" class="form-control" placeholder="Last Name" required>
 				</div>
 			</div>
 			
 			
-			<label for="inputEmail" class="sr-only">Email address</label>
-			<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+			<label for="signupInputEmail" class="sr-only">Email address</label>
+			<input type="email" id="signupInputEmail" class="form-control" placeholder="Email address" required autofocus>
 			
 			
-			<label for="inputPassword" class="sr-only">Password</label>
-			<input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+			<label for="signupInputPassword" class="sr-only">Password</label>
+			<input type="password" id="signupInputPassword" class="form-control" placeholder="Password" required>
 			
-			<label for="confirmPassword" class="sr-only">Confirm Password</label>
-			<input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
+			<label for="signupConfirmPassword" class="sr-only">Confirm Password</label>
+			<input type="password" id="signupConfirmPassword" class="form-control has-error" placeholder="Confirm Password" required>
 			
 			
 			<div class="checkbox">
 			  <label>
-				<input type="checkbox" value="terms-conditions" /> I have read and agree to the
+				<input id="termsAndConditionsAgreed" type="checkbox" value="signup-terms-conditions" /> I have read and agree to the
 					<a href="terms.html" target="_blank">Terms and Conditions</a>.
 			  </label>
 			</div>
 						
-			<button class="btn btn-lg btn-block btn-primary" type="submit">Sign up</button>
+			<button class="btn btn-lg btn-block btn-primary" type="submit" id="signUpButton">Sign up</button>
 			<hr class="groupright-divider"/>
 			<button class="btn btn-lg btn-block" type="button" onclick="flipToLogIn()">Cancel</button>
 		  </form>
@@ -124,17 +126,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!--script src="js/ie10-viewport-bug-workaround.js"></script-->
 	
-	<script>
-	
-	function flipToSignUp(){
-		$(".flipper").css({"transform":"rotateY(180deg)","-webkit-transform":"rotateY(180deg)"});	
-	}
-	
-	function flipToLogIn(){
-		$(".flipper").css({"transform":"rotateY(0deg)","-webkit-transform":"rotateY(0deg)"});	
-	}
-	
-	</script>
+	<script src="js/gr-login-logic.js"></script>
 	
 	
   </body>
