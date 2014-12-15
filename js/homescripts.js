@@ -1,3 +1,4 @@
+/* This is to display the IE8 or less version of the page */
 window.onload = function(){
 	//check for IE7 or lower
 	if (document.all && !document.querySelector) {
@@ -12,7 +13,19 @@ window.onload = function(){
 		document.getElementById('mywarning').style.display='block';
 		document.body.style.backgroundColor = "#04518C";
 	}
+
+	/* When window too small, this will remove the buttons*/
+    var w = window.innerWidth;
+    if (w < 700) {
+		var bottom = document.getElementsByClassName('bottom'), i;
+
+		for (var i = 0; i < bottom.length; i ++) {
+			bottom[i].style.display = 'none';
+		}
+		document.getElementsByClassName('top')[0].style.visibility='hidden';
+    }
 }
+
 function addEmail(){
 	var email=document.getElementById("inputEmail").value;
 	/*****************************************************
@@ -55,4 +68,3 @@ function addEmail(){
     document.getElementById("inputEmail").value="Thank You!";
     document.getElementById("inputEmail").style.color="Green";
  }
-
