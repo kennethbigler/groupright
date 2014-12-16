@@ -3,40 +3,15 @@
 /*		NAVBAR STYLES												*/
 /********************************************************************/
 .navbar-groupright{
-	background-color: gray;
+	background-color: #00A1D9;
 	min-height:0;
 }
-
-.navbar-brand-logo{
-	max-height:30px;
-	margin:10px;
-	width:auto;
-	
+.navbar-header{
+	width:200px;
 }
-.nav-center {
-    margin:0;
-    float:none;
-	text-align:center;
-	
+.navbar-brand{
+	padding-top:9px;
 }
-
-.header-center{
-	margin-left:auto;
-	margin-right:auto;
-	text-align:center;
-}
-
-img {
-	display:block;
-	margin:auto;
-	width: 100%;
-}
-
-a {
-	color: white;
-	text-decoration: none;
-}
-
 
 div.holder{
 	position: absolute;
