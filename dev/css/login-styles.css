@@ -90,6 +90,8 @@
 	/* border */
 	border-radius:10px;
 	box-shadow: 0px 0px 50px 0px #000;
+	background-color: white;
+
 }
 
 /********************************************************************/
@@ -136,3 +138,9 @@
 	transform: rotateY(180deg);
 	-webkit-transform: rotateY(180deg);
 }
+
+body{
+	background-image: url("../images/collage_blur.jpeg");
+	
+}
+
