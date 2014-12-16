@@ -23,16 +23,6 @@ a {
 	text-decoration: none;
 }
 
-/* Pure CSS Icons, Arrows Inside of Circles By Sam Peniak */
-a:hover .bottom, a:hover .top {
-	border: 0.5vw solid black;
-}
-
-a:hover .bottom:after, a:hover .top:after {
-	border-top: 0.5vw solid black;
-	border-right: 0.5vw solid black;
-}
-/* end Sam Peniak code */
 
 div.holder{
 	position: absolute;

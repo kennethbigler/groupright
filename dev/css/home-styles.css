@@ -1,0 +1,110 @@
+
+/********************************************************************/
+/*		NAVBAR STYLES												*/
+/********************************************************************/
+.navbar-groupright{
+	background-color: gray;
+	min-height:0;
+}
+
+.navbar-brand-logo{
+	max-height:30px;
+	margin:10px;
+	width:auto;
+	
+}
+.nav-center {
+    margin:0;
+    float:none;
+	text-align:center;
+	
+}
+
+.header-center{
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+}
+
+img {
+	display:block;
+	margin:auto;
+	width: 100%;
+}
+
+a {
+	color: white;
+	text-decoration: none;
+}
+
+
+div.holder{
+	position: absolute;
+	top: 3em;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: auto;
+}
+
+div.holder::-webkit-scrollbar {
+	display:none;
+}
+
+section {
+	position: relative;
+	width: 100%;
+	display: block;
+	margin: auto;
+	color: white;
+	text-align: center;
+}
+section:before {
+	content: "";
+	display: block;
+	padding-top: 50.5%;
+}
+
+div.content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	/*-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;*/
+}
+
+div.text {
+	position: absolute;
+	top: 50%;
+	left: 15%;
+	right: 15%;
+	-moz-transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+h1 {
+	margin: 0;
+	font-family: 'Lato', sans-serif;
+	font-size: 2.5vw;
+}
+
+p, h2 {
+	margin: 0;
+	font-family: 'Lato', sans-serif;
+}
+
+h2 {
+	font-size: 2em;
+}
+
+footer {
+	text-align: center;
+	background-color: #003056;
+	color: white;
+	height: 3em;
+	line-height: 3em;
+}
