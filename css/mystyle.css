@@ -84,13 +84,12 @@ div.text {
 
 h1 {
 	margin: 0;
-	font-family: 'Lato', sans-serif !important;
 	font-size: 3.8vw !important;
 }
 
-p, h2 {
+a, p, h1, h2 {
 	margin: 0;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Lato', sans-serif !important;
 }
 
 h2 {
@@ -221,10 +220,13 @@ div.joinbox {
 	display: block;
 	margin: 0px auto;
 	text-align: center;
+	font-size: 1.5em !important;
 }
 
 #mywarning a {
 	text-decoration: underline;
+	color: white;
+	font-size: 1.5em;
 }
 
 #s1 {
