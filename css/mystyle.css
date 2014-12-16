@@ -221,6 +221,12 @@ div.joinbox {
 	margin: auto;"
 }
 
+img.snm {
+	width: 31px !important;
+	height: 31px !important;
+	display: inline;
+}
+
 #mywarning {
 	color: white;
 	display: none;
