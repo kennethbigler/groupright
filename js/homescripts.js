@@ -15,16 +15,37 @@ window.onload = function(){
 	}
 
 	/* When window too small, this will remove the buttons*/
-    var w = window.innerWidth;
-    if (w < 700) {
+	var w = window.innerWidth;
+	if (w < 768) {
 		var bottom = document.getElementsByClassName('bottom'), i;
 
 		for (var i = 0; i < bottom.length; i ++) {
 			bottom[i].style.display = 'none';
 		}
-		document.getElementsByClassName('top')[0].style.visibility='hidden';
-    }
-}
+		document.getElementsByClassName('top')[0].style.display='none';
+	}
+};
+
+window.onresize = function() {
+	/* When window too small, this will remove the buttons*/
+	var w = window.innerWidth;
+	if (w < 768) {
+		var bottom = document.getElementsByClassName('bottom'), i;
+
+		for (var i = 0; i < bottom.length; i ++) {
+			bottom[i].style.display = 'none';
+		}
+		document.getElementsByClassName('top')[0].style.display='none';
+	}
+	else {
+		var bottom = document.getElementsByClassName('bottom'), i;
+
+		for (var i = 0; i < bottom.length; i ++) {
+			bottom[i].style.display = 'block';
+		}
+		document.getElementsByClassName('top')[0].style.display='block';
+	}
+};
 
 function addEmail(){
 	var email=document.getElementById("inputEmail").value;
@@ -67,4 +88,4 @@ function addEmail(){
     xhr.send(data);
     document.getElementById("inputEmail").value="Thank You!";
     document.getElementById("inputEmail").style.color="Green";
- }
+ };

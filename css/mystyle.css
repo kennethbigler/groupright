@@ -58,7 +58,7 @@ section {
 section:before {
 	content: "";
 	display: block;
-	padding-top: 50.5%;
+	padding-top: 52%;
 }
 
 div.content {
@@ -97,15 +97,23 @@ h2 {
 }
 
 footer {
-	text-align: center;
 	background-color: #003056;
 	color: white;
-	height: 3em;
 	line-height: 3em;
+	min-height: 3em;
+	text-align: center;
 }
 
 footer p {
 	margin: 0;
+}
+
+footer a {
+	color: white;
+}
+
+footer a:hover {
+	color: #E3C00C;
 }
 
 /* Pure CSS Icons, Arrows Inside of Circles By Sam Peniak */
