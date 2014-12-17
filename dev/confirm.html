@@ -89,8 +89,9 @@
 		    document.getElementById("alertSuccessBanner").style.display="none";
 		}
 
-		function logIn(){
-	
+		function verifyAccount(){
+			var password = $("#loginInputPassword").val();
+
 			if (password == null || password == "") {
 		        //alert("You must enter an email address");
 		        alertBanner("Please enter your password or select forgot password.");
@@ -128,10 +129,8 @@
 				}
 			
 			});
-			
-			
 			return false;
-}
+		}
 
     </script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

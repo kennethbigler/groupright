@@ -98,7 +98,7 @@ function logIn(){
 			},
 			206:function(data, status, jqXHR){
 				alert("Invalid Attempt");
-				alertBanner("The username or password you entered is incorrect.")
+				alertBanner("The username or password you entered is incorrect.");
 			},
 			207:function(data, status, jqXHR){
 				alertBanner("Sorry, GroupRight is temporarily offline for Maintenance.");
