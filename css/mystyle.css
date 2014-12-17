@@ -227,11 +227,14 @@ img.snm {
 	display: inline;
 }
 
+div.footing {
+	padding: 0;
+}
+
 #mywarning {
 	color: white;
 	display: none;
 	max-width: 1000px;
-	display: block;
 	margin: 0px auto;
 	text-align: center;
 	font-size: 1.5em !important;
