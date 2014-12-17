@@ -53,7 +53,7 @@
 			<label for="loginInputPassword" class="sr-only">Password</label>
 			<input type="password" id="loginInputPassword" class="form-control" placeholder="Password" required autofocus>
 			
-			<button class="btn btn-lg btn-block btn-primary" type="submit" onclick="verifyAccount();"  id="signInButton">Verify and Sign in</button>
+			<button class="btn btn-lg btn-block btn-primary" onsubmit="verifyAccount();"  id="signInButton">Verify and Sign in</button>
 		  </form>
 
 		</div> <!-- /container -->
@@ -94,11 +94,17 @@
 
 			if (password == null || password == "") {
 		        //alert("You must enter an email address");
-		        alertBanner("Please enter your password or select forgot password.");
+		        alertBanner("Please enter your password.");
 		        return false;
 		    }
 			
 			var _GET=getSearchParameters();
+
+			if (_GET["vc"] == null || _GET["vc"] == "") {
+		        alertBanner("Your URL is not valid. Try copying and pasting the entire link from the email into your browser.");
+		        return false;
+		    }
+
 			var obj = {
 						"function":"confirm_account",
 						"vc":_GET["vc"],
@@ -131,6 +137,13 @@
 			});
 			return false;
 		}
+		$(document).ready(function(){
+			$("#signInButton").click(function(e){
+				//e.preventDefault();
+				verifyAccount();
+				return false;
+			});
+		});
 
     </script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
