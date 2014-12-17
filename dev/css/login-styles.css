@@ -139,8 +139,12 @@
 	-webkit-transform: rotateY(180deg);
 }
 
+/********************************************
+body background 
+********************************************/
 body{
 	background-image: url("../images/collage_blur.jpeg");
+	padding-top: 70px;
 	
 }
 

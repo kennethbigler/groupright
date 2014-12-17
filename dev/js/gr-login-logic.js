@@ -1,5 +1,13 @@
 
 //==================================================
+// ALERT BANNER CONTROLLER
+//==================================================
+function alertBanner(text){
+	document.getElementById("alertBanner").innerHTML=text;
+    document.getElementById("alertBanner").style.display="block";
+}
+
+//==================================================
 // FLIP FUNCTIONS
 //==================================================
 function flipToSignUp(){
@@ -19,20 +27,55 @@ function logIn(){
 	// Get necessary information.
 	var email = $("#loginInputEmail").val();
 	var password = $("#loginInputPassword").val();
-	
-	// Check for incomplete information.
-	if(email == ""){alert("enter email"); return false;}
-	if(password == ""){alert("enter password"); return false;}
+	var rememberMe = $("#loginInputPassword").val();
+
+	if (email == null || email == "") {
+        //alert("You must enter an email address");
+        alertBanner("Please enter an email address.");
+        return false;
+    }
+    else{
+	    var atpos = email.indexOf("@");
+	    var dotpos = email.lastIndexOf(".");
+	    if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=email.length) {
+	        alertBanner("Please enter a valid email address.");
+	        return false;
+	    }
+	}
+	if (password == null || password == "") {
+        //alert("You must enter an email address");
+        alertBanner("Please enter your password or select forgot password.");
+        return false;
+    }
 	
 	var obj = {
+				"function":"login",
 				"email":email,
 				"password":password
 			  };
 	
 	// Contact Server
-	$.ajax("#",{
-		
-		data:obj
+	$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		type:"POST",
+		data:obj,
+		statusCode:{
+			200:function(data, status, jqXHR){
+				alert("Validated User");
+				//install cookie
+				installCookieAndRedirect(data);
+			},
+			206:function(data, status, jqXHR){
+				alert("Invalid Attempt");
+				alertBanner("The username or password you entered is incorrect.")
+			},
+			207:function(data, status, jqXHR){
+				alertBanner("Sorry, GroupRight is temporarily offline for Maintenance.");
+			},
+			209:function(data, status, jqXHR){
+				alertBanner("Maximum number of Login Attempts exceeded. Your account has been locked for your protection. A reset email has been sent to the e-mail address on file.");
+				$("#signInButton").prop("disabled",true);
+			}
+		}
 	
 	});
 	
@@ -89,8 +132,12 @@ function signUp(){
 	return false;
 }
 	
-	
-	
+//==================================================
+// INSTALL COOKIE AND REDIRECT
+//==================================================
+function installCookieAndRedirect(data){
+	alert(data);
+}
 
 //==================================================
 // SET UP FUNCTIONS

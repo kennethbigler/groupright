@@ -83,7 +83,7 @@ function addEmail(){
     }
 	var data="email_address="+email;
 	//alert(data);
-	xhr.open("POST", "mailing-list.php", true); 
+	xhr.open("POST", "https://www.groupright.net/mailing-list.php", true); 
 	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");                    
     xhr.send(data);
     document.getElementById("inputEmail").value="Thank You!";
