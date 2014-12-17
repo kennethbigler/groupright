@@ -1,10 +1,16 @@
 
 //==================================================
-// ALERT BANNER CONTROLLER
+// ALERT BANNER CONTROLLERs
 //==================================================
 function alertBanner(text){
-	document.getElementById("alertBanner").innerHTML=text;
-    document.getElementById("alertBanner").style.display="block";
+	document.getElementById("alertDangerBanner").innerHTML=text;
+    document.getElementById("alertDangerBanner").style.display="block";
+    document.getElementById("alertSuccessBanner").style.display="none";
+}
+function alertSuccessBanner(text){
+	document.getElementById("alertSuccessBanner").innerHTML=text;
+    document.getElementById("alertSuccessBanner").style.display="block";
+    document.getElementById("alertDangerBanner").style.display="none";
 }
 
 //==================================================
@@ -99,17 +105,30 @@ function signUp(){
 	var termsCond = $("#termsAndConditionsAgreed").is(":checked");
 	
 	// Check for incomplete / inconsistent info.
-	if(fname == ""){alert("enter first name"); return false;}
-	if(lname == ""){alert("enter last name"); return false;}
-	if(email == ""){alert("enter email"); return false;}
-	if(password == ""){alert("enter password"); return false;}
+	if (email == ""   || email == null      ||
+		fname==""     || fname ==null       ||
+		lname==""     || lname ==null		||
+		password==""  || password==null 	||
+		password2=="" || password2==null 	||
+		termsCond=="" || termsCond==null) {
+       
+        alertBanner("All Fields Are Required");
+        return false;
+    }
+    // Validate Email Address
+	var atpos = email.indexOf("@");
+	var dotpos = email.lastIndexOf(".");
+	if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=email.length) {
+	    alertBanner("Please enter a valid email address.");
+	    return false;
+	}
 	
 	if(password != password2){
-		alert("passwords do not match");
+		alertBanner("Your passwords do not match.");
 		return false;
 	}
 	if(!termsCond){
-		alert("you must agree to the terms and conditions");
+		alertBanner("You must agree to the terms and conditions in order to use GroupRight.");
 		return false;
 	}
 	
@@ -125,8 +144,13 @@ function signUp(){
 	$.ajax("https://www.groupright.net/dev/groupserve.php",{
 			type:'POST',
 			data:obj,
-			success:function(data,status,jqXHR){
-				alert(data);				
+			statusCode:{
+				200:function(data,status,jqXHR){
+					alertSuccessBanner("Thanks for signing up for GroupRight. Please check your email and follow the instructions to verify your account.");				
+				},
+				208:function(data,status,jqXHR){
+					alertBanner("You have already an account with GroupRight. <a href='forgot.html'>Did you forget your password?</a>")
+				}
 			}
 		});
 	return false;
