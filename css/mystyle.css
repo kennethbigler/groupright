@@ -227,6 +227,10 @@ img.snm {
 	display: inline;
 }
 
+div.footing {
+	padding: 0;
+}
+
 #mywarning {
 	color: white;
 	display: none;
