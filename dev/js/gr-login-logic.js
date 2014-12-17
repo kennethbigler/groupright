@@ -14,14 +14,40 @@ function alertSuccessBanner(text){
 }
 
 //==================================================
+// URL PARAMETER PARSING
+//==================================================
+function getSearchParameters(){
+	var prmstr = window.location.search.substr(1);
+	return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
+}
+
+function transformToAssocArray( prmstr ){
+	var params = {};
+	var prmarr = prmstr.split("&");
+	for (var i = 0; i < prmarr.length; i++){
+		var tmparr = prmarr[i].split("=");
+		params[tmparr[0]] = tmparr[1];
+	}
+	return params;
+}
+
+var _GET;
+
+
+
+//==================================================
 // FLIP FUNCTIONS
 //==================================================
+var LogInFront = true;
+
 function flipToSignUp(){
-	$(".flipper").css({"transform":"rotateY(180deg)","-webkit-transform":"rotateY(180deg)"});	
+	if(LogInFront) $(".flipper").css({"transform":"rotateY(180deg)","-webkit-transform":"rotateY(180deg)"});	
+	else $(".flipper").css({"transform":"rotateY(0deg)","-webkit-transform":"rotateY(0deg)"});	
 }
 
 function flipToLogIn(){
-	$(".flipper").css({"transform":"rotateY(0deg)","-webkit-transform":"rotateY(0deg)"});	
+	if(LogInFront) $(".flipper").css({"transform":"rotateY(0deg)","-webkit-transform":"rotateY(0deg)"});		
+	else $(".flipper").css({"transform":"rotateY(180deg)","-webkit-transform":"rotateY(180deg)"});	
 }
 
 //==================================================
@@ -167,6 +193,17 @@ function installCookieAndRedirect(data){
 // SET UP FUNCTIONS
 //==================================================
 $(document).ready(function(){
+
+
+	_GET = getSearchParameters();
+	
+	if(parseInt(_GET['signup'])==1){
+		$(".login-box").removeClass("front");
+		$(".signup-box").removeClass("back");
+		$(".login-box").addClass("back");
+		$(".signup-box").addClass("front");
+		LogInFront = false;
+	}
 
 	$("#signInButton").click(function(e){
 		//e.preventDefault();
