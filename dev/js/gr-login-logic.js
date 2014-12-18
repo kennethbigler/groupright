@@ -54,23 +54,6 @@ function flipToLogIn(){
 // LOGIN FUNCTIONS
 //==================================================
 
-function installCookieAndRedirect(data,extended){
-	
-	var extra = "";
-	if(extended){
-		var now = new Date();
-		var time = now.getTime();
-		var expireTime = time + 30*24*60*60;
-		now.setTime(expireTime);
-		extra = "expires="+now.toGMTString()+';';
-	}
-	
-	document.cookie="accesscode="+data+";"+extra+'path=/';
-	
-	window.location = "./home.html"; /* presumed redirect */
-}
-
-
 function logIn(){
 	
 	// Get necessary information.
@@ -202,9 +185,23 @@ function signUp(){
 //==================================================
 // INSTALL COOKIE AND REDIRECT
 //==================================================
-function installCookieAndRedirect(data){
-	alert(data);
+function installCookieAndRedirect(data,extended){
+	
+	var extra = "";
+	if(extended){
+		var now = new Date();
+		var time = now.getTime();
+		var expireTime = time + 30*24*60*60;
+		now.setTime(expireTime);
+		extra = "expires="+now.toGMTString()+';';
+	}
+	
+	document.cookie="accesscode="+data+";"+extra+'path=/';
+	
+	window.location = "./home.html"; /* presumed redirect */
 }
+
+
 
 //==================================================
 // SET UP FUNCTIONS
