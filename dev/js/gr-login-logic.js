@@ -94,7 +94,7 @@ function logIn(){
 			200:function(data, status, jqXHR){
 				alert("Validated User");
 				//install cookie
-				installCookieAndRedirect(data,rememberMe);
+				installCookieAndRedirect(data,email,rememberMe);
 			},
 			206:function(data, status, jqXHR){
 				alert("Invalid Attempt");
@@ -185,7 +185,7 @@ function signUp(){
 //==================================================
 // INSTALL COOKIE AND REDIRECT
 //==================================================
-function installCookieAndRedirect(data,extended){
+function installCookieAndRedirect(data,user,extended){
 	
 	var extra = "";
 	if(extended){
@@ -197,6 +197,7 @@ function installCookieAndRedirect(data,extended){
 	}
 	
 	document.cookie="accesscode="+data+";"+extra+'path=/';
+	document.cookie="user="+user+";"+extra+'path=/';
 	
 	window.location = "./home.html"; /* presumed redirect */
 }
