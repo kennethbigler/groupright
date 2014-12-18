@@ -92,12 +92,12 @@ function logIn(){
 		data:obj,
 		statusCode:{
 			200:function(data, status, jqXHR){
-				alert("Validated User");
+				//alert("Validated User");
 				//install cookie
 				installCookieAndRedirect(data,email,rememberMe);
 			},
 			206:function(data, status, jqXHR){
-				alert("Invalid Attempt");
+				//alert("Invalid Attempt");
 				alertBanner("The username or password you entered is incorrect.");
 			},
 			207:function(data, status, jqXHR){
