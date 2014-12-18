@@ -88,6 +88,11 @@
 		    document.getElementById("alertDangerBanner").style.display="block";
 		    document.getElementById("alertSuccessBanner").style.display="none";
 		}
+		
+		function installCookieAndRedirect(data){
+			document.cookie="accesscode="+data+";"+'path=/';
+			window.location = "./home.html"; /* presumed redirect */
+		}
 
 		function verifyAccount(){
 			var password = $("#loginInputPassword").val();

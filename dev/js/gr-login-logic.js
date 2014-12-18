@@ -54,12 +54,29 @@ function flipToLogIn(){
 // LOGIN FUNCTIONS
 //==================================================
 
+function installCookieAndRedirect(data,extended){
+	
+	var extra = "";
+	if(extended){
+		var now = new Date();
+		var time = now.getTime();
+		var expireTime = time + 30*24*60*60;
+		now.setTime(expireTime);
+		extra = "expires="+now.toGMTString()+';';
+	}
+	
+	document.cookie="accesscode="+data+";"+extra+'path=/';
+	
+	window.location = "./home.html"; /* presumed redirect */
+}
+
+
 function logIn(){
 	
 	// Get necessary information.
 	var email = $("#loginInputEmail").val();
 	var password = $("#loginInputPassword").val();
-	var rememberMe = $("#loginInputPassword").val();
+	var rememberMe = $("rememberMe")[0].checked;
 
 	if (email == null || email == "") {
         //alert("You must enter an email address");
@@ -94,7 +111,7 @@ function logIn(){
 			200:function(data, status, jqXHR){
 				alert("Validated User");
 				//install cookie
-				installCookieAndRedirect(data);
+				installCookieAndRedirect(data,rememberMe);
 			},
 			206:function(data, status, jqXHR){
 				alert("Invalid Attempt");
