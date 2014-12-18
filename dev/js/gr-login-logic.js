@@ -76,7 +76,7 @@ function logIn(){
 	// Get necessary information.
 	var email = $("#loginInputEmail").val();
 	var password = $("#loginInputPassword").val();
-	var rememberMe = $("rememberMe")[0].checked;
+	var rememberMe = $("#rememberMe")[0].checked;
 
 	if (email == null || email == "") {
         //alert("You must enter an email address");
