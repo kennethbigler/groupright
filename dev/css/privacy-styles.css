@@ -18,3 +18,28 @@
 	text-align:center;
 	
 }
+footer {
+	background-color: gray;
+	color: white;
+	line-height: 3em;
+	min-height: 3em;
+	text-align: center;
+	width: 100%;
+}
+
+footer p {
+	margin: 0;
+}
+
+footer a {
+	color: white;
+}
+
+footer a:hover {
+	color: #E3C00C;
+}
+img.snm {
+	width: 31px !important;
+	height: 31px !important;
+	display: inline;
+}
