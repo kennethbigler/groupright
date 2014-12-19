@@ -5,6 +5,8 @@
 .navbar-groupright{
 	background-color: #00A1D9;
 	min-height:0;
+	height:50px;
+	margin-top: 0px;
 }
 .navbar-header{
 	width:200px;
