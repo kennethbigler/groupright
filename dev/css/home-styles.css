@@ -56,11 +56,14 @@ header {
 }
 
 nav {
-	margin-top: 10px;
-}
-
-nav {
+	padding-top: 10px;
+	margin-top:10px;
 	position: relative;
 	bottom: 10px;
 	width: 100%;
+}
+
+#teamsbox {
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
