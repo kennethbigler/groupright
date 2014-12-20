@@ -1,8 +1,16 @@
 @charset "utf-8";
 /* CSS Document */
-/*******************************************
-Special index.html footer
-*******************************************/
+
+h1 {
+	text-align: center;
+	color: white;
+	text-shadow: 1px 1px #888;
+}
+
+hr {
+	color: white;
+}
+
 footer {
 	background-color: gray;
 	color: white;
@@ -57,7 +65,6 @@ header {
 
 nav {
 	padding-top: 10px;
-	margin-top:10px;
 	position: relative;
 	bottom: 10px;
 	width: 100%;
@@ -65,5 +72,12 @@ nav {
 
 #teamsbox {
 	padding-top: 10px;
-	padding-bottom: 10px;
+}
+
+#mainview {
+	border-radius: 15px;
+	background-color: #00A1D9;
+	padding: 15px;
+	border: 3px solid #04518C;
+	margin: 10px;
 }
