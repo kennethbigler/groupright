@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>GroupRight, Groups Done Right</title>
-<link rel="stylesheet" type="text/css" href="css/home-styles.css">
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/home-styles.css" rel="stylesheet">
@@ -13,24 +12,38 @@
 <meta name="description" content="GroupRight is a collaborative group management system.  It is the Senior Design Project for Kenneth Bigler, Zachary Wilson, and Scott Sarsfield, students from Santa Clara University.">
 <meta name="author" content="Kenneth Bigler">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/homescripts.js"></script>
+<script src="js/cookie.js"></script>
 </head>
 <body>
  
 <header class="container-fluid">
 	<div class="row">
 		<div class="col-sm-4">
-			<h2 class="heading-text">Overview</h2>
+			<h4 class="heading-text">My Overview</h4>
 		</div>
 		<div class="col-sm-4" align="center">
 			<a href="https://www.groupright.net/">
-			<img class="navbar-brand-logo" src="images/LogoWhite.svg" alt="GroupRight" height="50px" />
+			<img class="navbar-brand-logo" src="images/LogoWhite.svg" alt="GroupRight" id="whitelogo" />
 			</a>
 		</div>
 		<div class="col-sm-4" align="right">
-			<h2 class="heading-text">Name <img src="images/gear.png" id="home-settings" alt="GroupRight" height="31px" width="31px" /></h2>
+				<h4 class="heading-text">Zachary  <span id="arrow" class="glyphicon glyphicon-chevron-down" onclick="showDropdown()"></span> </h4>
+				
 		</div>
 	</div>
 </header>
+<div id="dropdown">
+        <h5 onclick="logoutAndRedirect()"><span class="glyphicon glyphicon-log-out"  aria-hidden="true"></span><a href="#">Logout</a></h5>
+        <hr class="groupright-divider">
+        <h5><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span><a href="#">My Account</a></h5>
+        <h5><span class="glyphicon glyphicon-cog" aria-hidden="true"></span><a href="#">Settings</a></h5>
+        <h5><span class="glyphicon glyphicon-bell" aria-hidden="true"></span><a href="#">Notifications</a></h5>
+        <hr class="groupright-divider">
+        <h5><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span><a href="#">Report Error</a></h5>
+        <h5><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span><a href="#">Help</a></h5>
+</div>
 
 <div id="teamsbox" class="container-fluid">
 	<div class="col-sm-2">
@@ -52,7 +65,7 @@
 		<button type="button" class="btn btn-lg btn-block btn-primary">Team 6</button>
 	</div>
 </div>
-
+      
 <div id="mainview" class="container-fluid">
 	<div id="row">
 		<div id="updates" class="col-lg-3 col-sm-6" style="background-color:red; height: 700px;">
