@@ -8,6 +8,8 @@ footer {
 	line-height: 3em;
 	min-height: 3em;
 	text-align: center;
+	position: relative;
+	bottom: 0px;
 	width: 100%;
 }
 
