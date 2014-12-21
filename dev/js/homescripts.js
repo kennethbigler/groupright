@@ -41,10 +41,12 @@ function logoutAndRedirect(){
 			type:"POST",
 			data:obj,
 			statusCode:{
-				200: function(){
+				200: function(data, status, jqXHR){
 						window.location = "./index.html"; /* presumed redirect */
 					},
-				211: /*Figure out what to do*/
+				211: function(data, status, jqXHR){
+						/* do nothing */
+					}
 			}
 		
 		});
