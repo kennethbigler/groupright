@@ -64,7 +64,7 @@ header {
 	margin-top:5px;
 }
 
-nav {
+div.options {
 	padding-top: 10px;
 	position: relative;
 	bottom: 10px;
