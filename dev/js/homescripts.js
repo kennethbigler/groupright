@@ -45,11 +45,12 @@ function logoutAndRedirect(){
 						window.location = "./index.html"; /* presumed redirect */
 					},
 				211: function(data, status, jqXHR){
-						/* do nothing */
+						window.location = "./index.html"; //redirect, but be kind of misleading when doing it
 					}
 			}
 		
 		});
 	}
+	window.location = "./index.html"; //redirect, but be really misleading when doing it
 	
 }
