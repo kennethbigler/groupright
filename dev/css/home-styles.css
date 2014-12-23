@@ -63,7 +63,7 @@ header {
 	max-height: 32px;
 	margin-top:12px;
 	display: inline;
-	max-width:200px
+	max-width:175px
 }
 
 #mainview {
@@ -83,7 +83,6 @@ nav {
 	background-color:#00A1D9 !important;
 	border: 0 !important;
 	border-radius: 0 !important;
-	margin-bottom: 15px !important;
 }
 
 nav a.dropdown-toggle {
