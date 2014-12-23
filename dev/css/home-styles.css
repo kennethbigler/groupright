@@ -63,6 +63,7 @@ header {
 	max-height: 32px;
 	margin-top:12px;
 	display: inline;
+	max-width:200px
 }
 
 #mainview {
@@ -75,11 +76,14 @@ header {
 
 div.foofooter {
 	display: block;
-	height: 3em;
+	height: 4.5em;
 }
 
 nav {
 	background-color:#00A1D9 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	margin-bottom: 15px !important;
 }
 
 nav a.dropdown-toggle {
@@ -88,34 +92,4 @@ nav a.dropdown-toggle {
 
 .dropdown-menu>li>a {
 	color: black !important;
-}
-
-/****************************************
-Dropdown
-****************************************/
-#dropdown{
-	position: absolute;
-	right:10px;
-	background-color: white;
-	text-align: left;
-	width:140px;
-	height: 200px;
-	border: 2px solid black;
-	padding-right: 10px;
-	padding-left: 10px;
-	z-index: 2;
-	display: none;
-}
-#dropdown a{
-	margin-left: 5px;
-}
-#dropdown span{
-	margin-left: 5px;
-}
-.groupright-divider{
-	border: 1px solid #ccc;
-	margin:5px;
-}
-#arrow{
-	cursor:pointer;
 }
