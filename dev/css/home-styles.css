@@ -40,6 +40,14 @@ img.snm {
 	display: inline;
 }
 
+img.profpic {
+	width: 31px !important;
+	height: 31px !important;
+	display: inline;
+	margin-top: 10px;
+	margin-left: 15px;
+}
+
 div.footing {
 	padding: 0;
 }
