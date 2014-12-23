@@ -1,29 +1,3 @@
-var visibleDropdown=false;
-window.onload = function(){
-	//check for IE7 or lower
-	if (document.all && !document.querySelector) {
-		document.getElementById('hidethis').style.display='none';
-		document.getElementById('mywarning').style.display='block';
-		document.body.style.backgroundColor = "#04518C";
-	}
-
-	//check for IE8
-	if (document.all && document.querySelector && !document.addEventListener) {
-		document.getElementById('hidethis').style.display='none';
-		document.getElementById('mywarning').style.display='block';
-		document.body.style.backgroundColor = "#04518C";
-	}
-}
-function showDropdown(){
-	if(visibleDropdown){
-		document.getElementById('dropdown').style.display='none';
-		document.getElementById('arrow').className="glyphicon glyphicon-chevron-down";
-	}else{
-		document.getElementById('dropdown').style.display='block';
-		document.getElementById('arrow').className="glyphicon glyphicon-chevron-up";
-	}
-	visibleDropdown=!visibleDropdown;
-}
 function logoutAndRedirect(){
 	
 	var _cookies = genCookieDictionary();
@@ -42,15 +16,19 @@ function logoutAndRedirect(){
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
+						//eatCookies();
 						window.location = "./index.html"; /* presumed redirect */
 					},
 				211: function(data, status, jqXHR){
+						//eatCookies();
 						window.location = "./index.html"; //redirect, but be kind of misleading when doing it
 					}
 			}
 		
 		});
 	}
+	//For Safety Do it here too
+	/*eatCookies();
 	window.location = "./index.html"; //redirect, but be really misleading when doing it
-	
+	*/
 }

@@ -30,3 +30,24 @@ function checkCookie(goodFn,badFn){
 		});
 	}
 };
+function eatCookies()
+{   
+    var cookies = document.cookie.split(";");
+    alert(cookies);
+    for (var i = 0; i < cookies.length; i++)
+    {   
+        var spcook =  cookies[i].split("=");
+        deleteCookie(spcook[0]);
+    }
+    function deleteCookie(cookiename)
+    {
+        var d = new Date();
+        d.setDate(d.getDate() - 1);
+        var expires = ";expires="+d;
+        var name=cookiename;
+        alert(name);
+        var value="";
+        document.cookie = name + "=" + value + expires + "; path=/";                    
+    }
+    window.location = ""; // TO REFRESH THE PAGE
+}
