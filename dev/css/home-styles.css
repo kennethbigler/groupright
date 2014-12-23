@@ -17,8 +17,8 @@ footer {
 	line-height: 3em;
 	min-height: 3em;
 	text-align: center;
-	position: relative;
-	bottom: 0px;
+	/*position: relative;
+	bottom: 0px;*/
 	width: 100%;
 }
 
@@ -62,17 +62,7 @@ header {
 #whitelogo {
 	max-height: 32px;
 	margin-top:12px;
-}
-
-div.options {
-	padding-top: 10px;
-	position: relative;
-	bottom: 10px;
-	width: 100%;
-}
-
-#teamsbox {
-	padding-top: 10px;
+	display: inline;
 }
 
 #mainview {
@@ -82,9 +72,24 @@ div.options {
 	border: 3px solid #04518C;
 	margin: 10px;
 }
-nav h4{
-	display:block;
+
+div.foofooter {
+	display: block;
+	height: 3em;
 }
+
+nav {
+	background-color:#00A1D9 !important;
+}
+
+nav a.dropdown-toggle {
+	color: white !important;
+}
+
+.dropdown-menu>li>a {
+	color: black !important;
+}
+
 /****************************************
 Dropdown
 ****************************************/
