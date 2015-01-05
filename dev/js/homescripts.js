@@ -16,11 +16,11 @@ function logoutAndRedirect(){
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
-						//eatCookies();
+						eatCookies();
 						window.location = "./index.html"; /* presumed redirect */
 					},
 				211: function(data, status, jqXHR){
-						//eatCookies();
+						eatCookies();
 						window.location = "./index.html"; //redirect, but be kind of misleading when doing it
 					}
 			}

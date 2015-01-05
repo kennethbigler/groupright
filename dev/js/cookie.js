@@ -47,7 +47,7 @@ function eatCookies()
         var name=cookiename;
         alert(name);
         var value="";
-        document.cookie = name + "=" + value + expires + "; path=/";                    
+        document.cookie = name + "=" + value + expires;                    
     }
     window.location = ""; // TO REFRESH THE PAGE
 }
