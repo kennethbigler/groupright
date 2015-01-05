@@ -164,7 +164,7 @@ function signUp(){
 				"lastName":lname,
 				"email":email,
 				"password":password
-			  };
+	};
 	
 	// Contact Server
 	$.ajax("https://www.groupright.net/dev/groupserve.php",{

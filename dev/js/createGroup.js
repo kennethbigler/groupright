@@ -35,3 +35,40 @@ function addField(fieldnumber){
 	rowDiv.appendChild(rightColDiv);
 	document.getElementById("members").appendChild(rowDiv);
 }
+
+function createGroup(){
+	//get the groupname
+
+	//get all emails json stringify
+
+	//get user email
+
+	//get user access code
+
+	var obj = {
+				"function":"create_group",
+				"group_name":group_name,
+				"member_array":members,
+				"email":email,
+				"ac":ac
+	};
+	
+	// Contact Server
+	$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:'POST',
+			data:obj,
+			statusCode:{
+				200:function(data,status,jqXHR){
+					alertSuccessBanner("Thanks for signing up for GroupRight. Please check your email and follow the instructions to verify your account.");				
+				},
+				210:function(){
+					//access denied, redirect to login
+				},
+				220:function(){
+					//something else happened
+				}
+			}
+	});
+	return false;
+}
+
