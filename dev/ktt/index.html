@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GroupRight, Groups Done Right</title>
+</head>
+<body>
+
+<style type="text/css">
+	html,body{width:100%;height:100%; margin:0; padding:0;}
+</style>
+
+<div style="width:600px; height:100%; padding:10px; float:left;">
+	<div id="lastCookie" style="width:600px; height:25px; font-family:Courier; font-weight:bold">
+	Last Cookie: <span style="color:blue;"></span>
+	</div>
+	<div style="width:600px; height:25px; font-family:Courier; font-weight:bold">
+	Type Input Here
+	</div>
+	<textarea id="inputText" style="width:600px; height:150px;"></textarea>
+	<br />
+	<button onclick="postToGroupServe()" style="width:600px; height:30px">Go</button>
+	<br />
+	<br />
+	<div style="width:600px; height:25px; font-family:Courier; font-weight:bold">
+	Parsed Input
+	</div>
+	<hr style="margin:2px 0;padding:0;width:600px;"/>
+	<div id="input" style="width:600px; height:150px; font-family:Courier;">
+	(input)
+	</div>
+	<br />
+	<div id="status_code" style="width:600px; height:25px; font-family:Courier; font-weight:bold">
+	Status Code: (code)
+	</div>
+	<hr style="margin:2px 0;padding:0;width:600px;"/>
+	<div id="output" style="width:600px; height:300px; font-family:Courier;">
+	(output)
+	</div>
+</div>
+<div id="templates" style="background-color:#666;position:absolute;left:630px;height:100%;right:0px;">
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+
+function createTemplate(fn,elm,color){
+
+
+	var str = "";
+	str += "function="+fn+"\n";
+	
+	for(var i = 0; i < elm.length; i++){
+		str += "&"+elm[i]+"= <"+ elm[i]+">\n";
+	}
+
+
+	var mask = fn;
+	var value = str;
+
+	var button = $("<button />").html(mask).click(function(){
+	
+		$("#inputText").val(value);
+	
+	});
+	button.css({"padding":"10px","box-sizing":"border-box","width":"100%","margin-bottom":"3px"});
+	button.css({"background-color":"white","box-shadow":"0 0 60px 0 "+color+" inset"});
+	
+	return button;
+}
+
+
+$(document).ready(function(){
+	
+	var cont = $("#templates");
+	cont.append(
+	
+		createTemplate("signup",["first_name","last_name","email","password"],"yellow"),
+		createTemplate("confirm_account",["password","vc"],"yellow"),
+		
+		createTemplate("login",["email","password"],"green"),
+		createTemplate("remember_user",["email","code"],"green"),
+		createTemplate("logout_user",["email","code"],"green"),
+		
+		createTemplate("forgot",["email"],"blue"),
+		createTemplate("unlock_account",["vc"],"blue"),
+		createTemplate("reset_password",["vc","password"],"blue"),
+		
+		//createTemplate("get_memberships",["email","cookie"],"red"),		
+		createTemplate("get_user_info",["email","cookie"],"red"),
+		createTemplate("create_group",["group_name","member_array","email","ac"],"red")
+	);
+	
+	var str = document.cookie;
+	
+	var vars = str.split(";");
+	
+	var obj = {};
+	
+	for(var i = 0; i < vars.length; i++){
+		var rel = vars[i].split("=");
+		var key = rel[0].trim();
+		var val = rel[1].trim();
+		if(key != "" && val != "")	obj[ key ] = val;
+	}
+	
+	$("#lastCookie").children("span").html(obj["accesscode"]);
+
+});
+
+
+function parseInput(str){	
+	var vars = str.split("&");
+	
+	var obj = {};
+	
+	for(var i = 0; i < vars.length; i++){
+		var rel = vars[i].split("=");
+		var key = rel[0].trim();
+		var val = rel[1].trim();
+		if(key != "" && val != "")	obj[ key ] = val;
+	}
+	
+	return obj;
+}
+
+function postToGroupServe(){
+
+		var obj = parseInput($("#inputText").val());
+		var str = JSON.stringify(obj);
+		str = str.replace(/,/g,",<br />");
+		str = str.replace(/{/g,"{<br />");
+		str = str.replace(/}/g,"<br />}");
+		$("#input").html(str);
+
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:"POST",
+			data:obj,
+			success: function(d,s,j){
+				$("#status_code").text("Status Code: "+j.status + "("+statusCodeMeaning(j.status)+")");
+				var str = d;
+				str = str.replace(/,/g,",<br />");
+				str = str.replace(/{/g,"{<br />");
+				str = str.replace(/}/g,"<br />}");
+				$("#output").html(str);
+				//alert(JSON.stringify(j));
+				
+				// special login
+				if(obj.function == 'login'){
+					document.cookie = "accesscode="+d.trim()+";path=/";
+					$("#lastCookie").children("span").html(d);
+				}
+			}
+		
+		});
+
+}
+
+function statusCodeMeaning(code){
+
+	var stc = {
+		200:"Success",
+		206:"Invalid Password / Credentials",
+		207:"Maintenance",
+		208:"Duplicate Account",
+		209:"Locked Out",
+		210:"Link Expired",
+		211:"Bad Cookie",
+		212:"Account Not Found",
+		213:"Duplicate Group",
+		220:"Something went wrong..."
+	
+	};
+
+	if(!stc[code])return "Not Defined";
+	
+	return stc[code];
+}
+
+</script>
+
+</body>
+</html>

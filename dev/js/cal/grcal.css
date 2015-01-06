@@ -1,0 +1,36 @@
+/* styles for Group Right Calendar (grcal) */
+
+body{
+	background-color:black;
+}
+
+.gr-calendar{}
+.gr-days{width:100%;height:100%;}
+
+
+.gr-day{
+	float:left;
+	position:relative;
+	width:19%;
+}
+
+
+.gr-hours{
+	float:left;
+	width:4.5%;
+	margin-right:0.5%;
+	margin-top:16px;
+}
+
+
+.gr-hours .gr-hour{
+	height:35px;
+	text-align:right;
+	font-size:11px;
+}
+.gr-day .gr-hour{
+	height:34px;
+	background:#eee;
+	border-top: 1px solid #ccc;
+	margin:0 1.5%;
+}
