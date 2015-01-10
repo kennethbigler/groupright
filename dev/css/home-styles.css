@@ -3,12 +3,12 @@
 
 h1 {
 	text-align: center;
-	color: white;
 	text-shadow: 1px 1px #888;
 }
 
-hr {
-	color: white;
+h2 {
+	text-align: center;
+	text-shadow: 1px 1px #888;
 }
 
 footer {
@@ -96,4 +96,36 @@ nav a.dropdown-toggle {
 
 .dropdown-menu>li>a {
 	color: black !important;
+}
+
+div.main3w {
+	border: 1px solid black;
+	height: 785px;
+	-moz-box-shadow: .0625em .3125em .625em #888;
+	-webkit-box-shadow: .0625em .3125em .625em #888;
+	box-shadow: .0625em .3125em .625em #888;
+}
+
+div.main6w {
+	border: 1px solid black;
+	height: 785px;
+	-moz-box-shadow: .0625em .3125em .625em #888;
+	-webkit-box-shadow: .0625em .3125em .625em #888;
+	box-shadow: .0625em .3125em .625em #888;
+}
+
+div.scrollable {
+	overflow:auto;
+	height: 680px;
+}
+
+div.scrollable::-webkit-scrollbar {
+		display:none;
+}
+
+.alert-danger {
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #ebccd1;
+	margin: 3%;
 }
