@@ -196,7 +196,7 @@ function installCookieAndRedirect(data,user,extended){
 		extra = "expires="+now.toGMTString()+';';
 	}
 	
-	document.cookie="accesscode="+data+";"+extra+'path=/';
+	document.cookie="accesscode="+data.trim()+";"+extra+'path=/';
 	document.cookie="user="+user+";"+extra+'path=/';
 	
 	window.location = "./home.html"; /* presumed redirect */
