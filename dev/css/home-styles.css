@@ -116,6 +116,7 @@ div.main6w {
 
 div.scrollable {
 	overflow:auto;
+	-ms-overflow-style: none;
 	height: 680px;
 }
 
