@@ -13,10 +13,18 @@
 <meta name="description" content="GroupRight is a collaborative group management system.  It is the Senior Design Project for Kenneth Bigler, Zachary Wilson, and Scott Sarsfield, students from Santa Clara University.">
 <meta name="author" content="Kenneth Bigler">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="js/homescripts.js"></script>
-<script src="js/cookie.js"></script>
-<script src="js/createEvent.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.js">
+</script>
+<script src="js/homescripts.js">
+</script>
+<script src="js/cookie.js">
+</script>
+<script src="js/createEvent.js">
+</script>
+
 </head>
 <body style="margin-top:60px;">
 
@@ -70,36 +78,6 @@
 			</div>
 			</div>
 			<br/>
-			
-			<!--<div class="container">
-				<div class="row">
-					<div class='col-sm-6'>
-						<div class="form-group">
-							<div class='input-group date' id='datetimepicker1'>
-								<input type='text' class="form-control" />
-								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-								</span>
-							</div>
-						</div>
-					</div>
-					<script type="text/javascript">
-						$(function () {
-							$('#datetimepicker1').datetimepicker();
-						});
-					</script>
-				</div>
-			</div>-->
-
-			<div class="input-group" id="datetimepicker7">
-				<span style="margin-top:10px;" class="input-group-addon datepickerbutton">
-					<span class="glyphicon glyphicon-calendar"></span>
-				</span>
-				<input type='text' class="form-control"/>
-				<span class="input-group-addon">
-					<span class="glyphicon glyphicon-remove"></span>
-				</span>
-			</div>
-
 
 			<button class="btn btn-lg btn-block btn-primary" type="submit" id="signUpButton">Create Event</button>
 			<hr class="groupright-divider"/>
@@ -108,15 +86,28 @@
 
 </div>
 
+<!--
+	event name
+	date range __ to __
+	time range __ to __
+	Duration
+	Group
+	Notifiy group when ideal time is found
+	provide the best __ options, and I'll decide
+	Start
+	Advanced
+		members selection
+		exact times per each day
+		better multi-day format
+		drag and drop thingy in zach's head, scott match it now!!! exactly
+-->
+
 
 <!-- Incase we want to fix to the bottom, fix scrolling issues with this, needs more work for small screens after the bottom stacks.  To continue work, add class "navbar-fixed-bottom" to footer
 <div class="foofooter">&nbsp;</div>-->
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.js">
-</script>
+
 
 </body>
 </html>
