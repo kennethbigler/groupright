@@ -100,7 +100,4 @@ window.onload = function() {
 		
 		});
 	}
-
-	
-	
 };
