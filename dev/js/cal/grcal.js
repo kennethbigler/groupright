@@ -137,7 +137,7 @@
 		var width = this.element.width();
 		
 		// fix day width (assume 5% for hours labels)
-		this.dim.day_width = Math.floor(94/this.options.num_days)+"%";
+		this.dim.day_width = 94/this.options.num_days+"%";
 		
 		// fix height
 		var nHours = hournames.indexOf(this.options.end_hour) 
