@@ -11,7 +11,7 @@
 	html,body{width:100%;height:100%; margin:0; padding:0;}
 </style>
 
-<div id="calendar" style="width:700px;height:700px;">
+<div id="calendar" style="width:650px;height:550px;">
 </div>
 
 </div>
@@ -22,10 +22,18 @@
 
 $(document).ready(function(){
 	var cal = $("#calendar");
-	cal.css({"background-color":"#ddd"});
 	cal.html("Calendar goes here.");
 	
-	cal.grCalendar();
+	cal.grCalendar({num_days:8,start_hour:"9am",end_hour:"11pm",start_day:"Tuesday"});
+	cal[0]._grcalendar.addEvent(
+		{title:"Dinner Club", color:"#FF6068", day:"Monday",start_time:"7:15pm",end_time:"10:00pm"},
+		{title:"Dinner Club",color:"#FF6068", day:"Friday",start_time:"7:15pm",end_time:"10:00pm"},
+		{title:"Poker Night",day:"Wednesday",start_time:"9:15pm",end_time:"10:45pm"},
+		{title:"Poker Night",day:"Thursday",start_time:"9:15pm",end_time:"10:45pm"},
+		{title:"Poker Night",day:"Tuesday",start_time:"9:15pm",end_time:"10:45pm"},
+		{title:"Soccer Practice",color:"#C6928D",day:"Saturday",start_time:"4:15pm",end_time:"6:30pm"},
+		{title:"Soccer Game",color:"#C6928D",day:"Sunday",start_time:"6pm",end_time:"7:15pm"}
+	);
 
 });
 

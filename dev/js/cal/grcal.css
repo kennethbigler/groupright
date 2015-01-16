@@ -1,36 +1,53 @@
 /* styles for Group Right Calendar (grcal) */
 
-body{
-	background-color:black;
-}
-
-.gr-calendar{}
+.gr-calendar{border: solid black 1px;overflow:hidden;}
 .gr-days{width:100%;height:100%;}
 
-
-.gr-day{
-	float:left;
-	position:relative;
-	width:19%;
-}
-
+/* hour labels */
 
 .gr-hours{
 	float:left;
 	width:4.5%;
 	margin-right:0.5%;
-	margin-top:16px;
+	margin-top:11px;
 }
 
-
 .gr-hours .gr-hour{
-	height:35px;
 	text-align:right;
 	font-size:11px;
 }
+
+/* days */
+
+.gr-day{
+	float:left;
+	position:relative;
+}
+
+.gr-day .gr-day-title{
+	font-size:0.8em;
+	text-align:center;
+	width:100%;
+}
 .gr-day .gr-hour{
-	height:34px;
 	background:#eee;
 	border-top: 1px solid #ccc;
 	margin:0 1.5%;
 }
+
+/* events */
+.gr-day .gr-event{
+	position:absolute;
+	width:97%;
+	margin:0 1.5%;
+}
+
+.gr-event p{
+	margin:0;padding:0;
+	font-family:Helvetica, sans-serif;
+	font-weight:bold;
+	margin:5px;
+}
+
+.gr-event p.title{ font-size:12px; }
+.gr-event p.subtitle{ font-size: 10px; }
