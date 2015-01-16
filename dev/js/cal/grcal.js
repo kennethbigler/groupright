@@ -96,7 +96,7 @@
 				j < hournames.indexOf(this.options.end_hour);
 				j++){
 				contDiv.append(
-					$("<div />",{class:"gr-hour"}).height(this.dim.cell_height-1)
+					$("<div />",{class:"gr-hour"}).height(this.dim.cell_height)
 				);
 			}
 			
@@ -137,13 +137,13 @@
 		var width = this.element.width();
 		
 		// fix day width (assume 5% for hours labels)
-		this.dim.day_width = 94/this.options.num_days+"%";
+		this.dim.day_width = Math.floor(94/this.options.num_days)+"%";
 		
 		// fix height
 		var nHours = hournames.indexOf(this.options.end_hour) 
 						- hournames.indexOf(this.options.start_hour);
 						
-		this.dim.cell_height = (height-20)/nHours;
+		this.dim.cell_height = Math.floor((height-30)/nHours);
 	};
 	
 	//---------------------------------------------------------------------
@@ -187,7 +187,7 @@
 			var h = parseInt(x[1]);
 			
 			// adjust hours for am / pm
-			if(x[4].match(/[Pp][Mm]/)){ h += 12; }
+			if( (h!=12) && x[4].match(/[Pp][Mm]/)){ h += 12; }
 						
 			// set the hours
 			d.setHours(h);
