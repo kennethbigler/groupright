@@ -1,6 +1,10 @@
 @charset "utf-8";
 /* CSS Document */
 
+html, body {
+	height: 100%;
+}
+
 h1 {
 	text-align: center;
 	text-shadow: 1px 1px #888;
@@ -100,7 +104,6 @@ nav a.dropdown-toggle {
 
 div.main3w {
 	border: 1px solid black;
-	height: 785px;
 	-moz-box-shadow: .0625em .3125em .625em #888;
 	-webkit-box-shadow: .0625em .3125em .625em #888;
 	box-shadow: .0625em .3125em .625em #888;
@@ -108,7 +111,6 @@ div.main3w {
 
 div.main6w {
 	border: 1px solid black;
-	height: 785px;
 	-moz-box-shadow: .0625em .3125em .625em #888;
 	-webkit-box-shadow: .0625em .3125em .625em #888;
 	box-shadow: .0625em .3125em .625em #888;
