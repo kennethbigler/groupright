@@ -115,5 +115,5 @@ window.onload = function() {
 		});
 	}
 
-	document.getElementById("").value=_cookies.user;
+	document.getElementById("member1").value=_cookies.user;
 };
