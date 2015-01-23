@@ -76,6 +76,20 @@ function addUsersGroups(allGroups){
 	}
 	groupMenu.innerHTML = allMyGroups;
 }
+function showSelectionBox(number){
+	if(number==1){
+		document.getElementById("createGroupBox").style.display="block";
+	}
+	else if(number==2){
+
+	}
+	else if(number==3){
+
+	}
+	else if(number==4){
+
+	}
+}
 window.onload = function() {
 	//get the cookies and get all of the data from the server
 	var _cookies = genCookieDictionary();
@@ -100,4 +114,6 @@ window.onload = function() {
 		
 		});
 	}
+
+	document.getElementById("").value=_cookies.user;
 };

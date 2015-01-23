@@ -21,16 +21,16 @@
 <body style="margin-top:60px;">
 
 
-<div class="container signup-box back" id="createGroupBox">
+<div class="container signup-box back" id="createGroupBox" style="display:none;">
 
-	<form class="createGroupForm" role="form" onsubmit="signUp()">
+	<form class="createGroupForm" role="form" >
 		<h2 class="header-center">Create a group</h2>	
 			
 		<h5 class="header-center">Step 1: Add a group name.</h5>	
 			<div class="row">
 				<div class="col-xs-12">
-					<label for="signupInputEmail" class="sr-only">Group Name</label>	
-					<input type="text" id="signupInputEmail" class="form-control" placeholder="Group Name (All members will see this)" required autofocus>
+					<label for="groupNameField" class="sr-only">Group Name</label>	
+					<input type="text" id="groupnameField" class="form-control" placeholder="Group Name (All members will see this)" required autofocus>
 				</div>
 			</div>
 
@@ -38,7 +38,7 @@
 			<div id="members">
 			<div class="row">
 				<div class="col-xs-9">
-					<input type="text" id="member1" class="form-control" placeholder="yourEmail@groupright.net" disabled>
+					<input type="text" id="member1" class="form-control" placeholder="yourEmail@groupright.net" required disabled>
 				</div>
 				<div class="col-xs-2">
 					<br/><span class="label label-success">Leader</span>
@@ -56,7 +56,7 @@
 			</div>
 			<br/>
 						
-			<button class="btn btn-lg btn-block btn-primary" type="submit" id="signUpButton">Create Group</button>
+			<button class="btn btn-lg btn-block btn-primary" type="submit" onclick="createGroup()" id="signUpButton">Create Group</button>
 			<hr class="groupright-divider"/>
 			<button class="btn btn-lg btn-block" type="button" onclick="cancelCreateGroup()">Cancel</button>
 	</form>
