@@ -54,41 +54,63 @@
 -->
 
 
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-sm-3">
-			&nbsp;
-		</div>
-		<div class="col-sm-6">
-			<div class="signup-box back" id="createEventBox">
-				<form class="createEventForm" role="form" onsubmit="signUp()">
-					<h2 class="header-center">Create an Event for Group <span id="groupname">Fake Madrid</span></h2>
+<div class="container">
+	<div class="signup-box back sizing" id="createEventBox">
+		<form class="createEventForm form-horizontal" role="form" onsubmit="signUp()" role="form">
+			<h2 class="header-center">Create an Event for Group <span id="groupname">Fake Madrid</span></h2>
 
-					<h5 class="header-center">Step 1: Add an event name.</h5>	
-					<div class="row">
-						<div class="col-xs-12">
-							<label for="signupInputEmail" class="sr-only">Event Name</label>	
-							<input type="text" id="signupInputEmail" class="form-control" placeholder="Event Name (All members will see this)" required autofocus>
-						</div>
-					</div>
+			<h5 class="header-center">Step 1: Add an event name.</h5>	
+			<div class="row">
+				<div class="col-xs-12">
+					<label for="signupInputEmail" class="sr-only">Event Name</label>	
+					<input type="text" id="signupInputEmail" class="form-control" placeholder="Event Name (All members will see this)" required autofocus>
+				</div>
+			</div>
 
-					<h5 class="header-center">Step 2: Set the Event Details. </h5>
-					<div class="input-daterange input-group datepicker" data-date-format="mm/dd/yyyy">
+			<h5 class="header-center">Step 2: set the event date range. </h5>
+			<div class="form-group" style="margin-bottom:0px;">
+				<label class="control-label col-sm-2">Date:</label>
+				<div class="col-sm-10">
+					<div class="input-daterange input-group datepicker botpad" data-date-format="mm/dd/yyyy">
 						<input class="input-sm form-control" type="text" name="start">
 						<span class="input-group-addon">to</span>
 						<input class="input-sm form-control" type="text" name="end">
 					</div>
-
-					<!-- Submit Section -->
-					<button class="btn btn-lg btn-block btn-primary" type="submit" id="signUpButton">Create Event</button>
-					<hr class="groupright-divider"/>
-					<button class="btn btn-lg btn-block" type="button" onclick="cancelCreateEvent()">Cancel</button>
-				</form>
+				</div>
 			</div>
-		</div>
-		<div class="col-sm-3">
-			&nbsp;
-		</div>
+
+			<h5 class="header-center">Step 3: set the suggested start times. </h5>
+			<div class="form-group">
+				<label class="control-label col-sm-2">Time:</label>
+				<div class="col-sm-5">
+					<div class="input-group">
+						<input type="number" class="form-control" id="number" min="0" max="23">
+						<span class="input-group-addon"><b>:</b></span>
+						<input type="number" class="form-control" id="number" min="0" max="59">
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<select class="form-control">
+						<option>AM</option>
+						<option>PM</option>
+					</select>
+				</div>
+				<label class="control-label col-sm-2">&nbsp;</label>
+			</div>
+			<h5 class="header-center">Step 4: set the duration. </h5>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="email">Duration:</label>
+				<div class="col-sm-6">
+					<input type="number" class="form-control" id="number" placeholder="Duration">
+				</div>
+				<label class="control-label col-sm-2">Minutes</label>
+				<label class="control-label col-sm-2">&nbsp;</label>
+			</div>
+			<!-- Submit Section -->
+			<button class="btn btn-lg btn-block btn-warning" type="submit" id="signUpButton">Create Event</button>
+			<hr class="groupright-divider"/>
+			<button class="btn btn-lg btn-block" type="button" onclick="cancelCreateEvent()">Cancel</button>
+		</form>
 	</div>
 </div>
 
