@@ -3,11 +3,6 @@
 /********************************************************************/
 /*		FORM STYLES												*/
 /********************************************************************/
-
-.btn-half{
-	width:49%;
-}
-
 .groupright-divider{
 	border: 1px solid #ccc;
 }
@@ -16,23 +11,4 @@
 	border: 7px solid lightblue;
 	padding:10px;
 	border-radius: 10px;
-}
-
-/********************************************************************/
-/*		LOGIN STYLES												*/
-/********************************************************************/
-
-.login-box,.signup-box,.flipper,.flip-container{
-
-	/* sizing */
-	width: 60%;
-	height: 50%;
-	
-	/* positioning */
-	position:absolute;
-	top:0px;
-	bottom:0px;
-	left:0px;
-	right:0px;
-	margin:auto;
 }

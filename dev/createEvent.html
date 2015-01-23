@@ -12,7 +12,7 @@
 <link rel="icon" href="images/favicon.png" />
 <meta name="keywords" content="GroupRight, Group Right, Groups done right, Group, Right, GroupWright, Group Wright, Group, Wright, groups, collaboration, collaborative group management, management, tasks, assignment, teamwork, scheduler, scheduling, planning, coordination, team building, Santa Clara University, SCU, Santa Clara, Kenneth Bigler, Kenneth, Bigler, Kenneth William Lidgate Bigler, Zachary Wilson, Zachary, Wilson, Scott Sarsfield, Scott, Sarsfield, Senior Design Project, Senior, Design, Project">
 <meta name="description" content="GroupRight is a collaborative group management system.  It is the Senior Design Project for Kenneth Bigler, Zachary Wilson, and Scott Sarsfield, students from Santa Clara University.">
-<meta name="author" content="Kenneth Bigler">
+<meta name="author" content="GroupRight">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
@@ -53,33 +53,46 @@
 		Cancel
 -->
 
-<div class="container signup-box back" id="createEventBox">
 
-	<form class="createEventForm" role="form" onsubmit="signUp()">
-		<h2 class="header-center">Create an Event for Group <span id="groupname">Fake Madrid</span></h2>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3">
+			&nbsp;
+		</div>
+		<div class="col-sm-6">
+			<div class="signup-box back" id="createEventBox">
+				<form class="createEventForm" role="form" onsubmit="signUp()">
+					<h2 class="header-center">Create an Event for Group <span id="groupname">Fake Madrid</span></h2>
 
-		<h5 class="header-center">Step 1: Add an event name.</h5>	
-		<div class="row">
-			<div class="col-xs-12">
-				<label for="signupInputEmail" class="sr-only">Event Name</label>	
-				<input type="text" id="signupInputEmail" class="form-control" placeholder="Event Name (All members will see this)" required autofocus>
+					<h5 class="header-center">Step 1: Add an event name.</h5>	
+					<div class="row">
+						<div class="col-xs-12">
+							<label for="signupInputEmail" class="sr-only">Event Name</label>	
+							<input type="text" id="signupInputEmail" class="form-control" placeholder="Event Name (All members will see this)" required autofocus>
+						</div>
+					</div>
+
+					<h5 class="header-center">Step 2: Set the Event Details. </h5>
+					<div class="input-daterange input-group datepicker" data-date-format="mm/dd/yyyy">
+						<input class="input-sm form-control" type="text" name="start">
+						<span class="input-group-addon">to</span>
+						<input class="input-sm form-control" type="text" name="end">
+					</div>
+
+					<!-- Submit Section -->
+					<button class="btn btn-lg btn-block btn-primary" type="submit" id="signUpButton">Create Event</button>
+					<hr class="groupright-divider"/>
+					<button class="btn btn-lg btn-block" type="button" onclick="cancelCreateEvent()">Cancel</button>
+				</form>
 			</div>
 		</div>
-
-		<h5 class="header-center">Step 2: Set the Event Details. </h5>
-		<div class="input-daterange input-group datepicker" data-date-format="mm/dd/yyyy">
-			<input class="input-sm form-control" type="text" name="start">
-			<span class="input-group-addon">to</span>
-			<input class="input-sm form-control" type="text" name="end">
+		<div class="col-sm-3">
+			&nbsp;
 		</div>
-
-		<!-- Submit Section -->
-		<button class="btn btn-lg btn-block btn-primary" type="submit" id="signUpButton">Create Event</button>
-		<hr class="groupright-divider"/>
-		<button class="btn btn-lg btn-block" type="button" onclick="cancelCreateEvent()">Cancel</button>
-	</form>
-
+	</div>
 </div>
+
+
 
 
 
