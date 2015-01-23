@@ -37,14 +37,39 @@ function addField(fieldnumber){
 }
 
 function createGroup(){
+	alert("I got called");
 	//get the groupname
-
-	//get all emails json stringify
-
-	//get user email
+	var group_name=document.getElementById("groupnameField").value;
+	if(group_name=="" || group_name.length<=0){
+		alert("Your Group Name is invalid");
+	}
+	var allEmails=[];
+	//Add the Group Leader's email
+	var _cookies = genCookieDictionary();
+	var leader=_cookies.user; 
+	allEmails.push();
+	//get and verify all members emails
+	for(var i=2; i<numberOfFields; i++){
+		if(document.getElementById("member"+i)){
+			tempEmail=document.getElementById("member"+i).value;
+			//validate the email
+			var atpos = tempEmail.indexOf("@");
+			var dotpos = tempEmail.lastIndexOf(".");
+			if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=tempEmail.length) {
+			    alert("Invalid Email Address was entered.");
+			    return false;
+			}
+			//add it to the email array if its good
+			allEmails.push(tempEmail);
+		}
+	}
+	//json stringify
+	var members=JSON.stringify(allEmails);
+	console.log(members);
 
 	//get user access code
-
+	var ac=_cookies.ac;
+	var email=leader;
 	var obj = {
 				"function":"create_group",
 				"group_name":group_name,
@@ -59,16 +84,21 @@ function createGroup(){
 			data:obj,
 			statusCode:{
 				200:function(data,status,jqXHR){
-					alertSuccessBanner("Thanks for signing up for GroupRight. Please check your email and follow the instructions to verify your account.");				
+					alert("Group Created");				
 				},
 				210:function(){
 					//access denied, redirect to login
+					alert("Acces Denied");	
+					window.location = "./login.html";
 				},
 				220:function(){
 					//something else happened
+					alert("We have literally no idea what happened.")
 				}
 			}
 	});
 	return false;
 }
-
+function cancelCreateGroup(){
+	document.getElementById("createGroupBox").style.display="none";
+}

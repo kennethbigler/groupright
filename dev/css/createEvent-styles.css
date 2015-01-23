@@ -8,7 +8,15 @@
 }
 
 .createEventForm{
-	border: 7px solid lightblue;
+	border: 7px solid #f0ad4e;
 	padding:10px;
 	border-radius: 10px;
+}
+
+.botpad {
+	padding-bottom: 20px !important;
+}
+
+.sizing {
+	width: 550px;
 }

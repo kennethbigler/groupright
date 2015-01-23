@@ -7,9 +7,11 @@
 <link href="css/bootstrap.min.css" rel="stylesheet" />
 <link href="css/home-styles.css" rel="stylesheet" />
 <link href="js/cal/grcal.css" rel="stylesheet"/>
+<link href="css/createGroup-styles.css" rel="stylesheet">
+<link href="css/font.css">
 <link rel='stylesheet' media='screen and (min-width: 1200px)' href='css/home-styles-computer.css' />
-<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 <link rel="icon" href="images/favicon.png" />
+
 <meta name="keywords" content="GroupRight, Group Right, Groups done right, Group, Right, GroupWright, Group Wright, Group, Wright, groups, collaboration, collaborative group management, management, tasks, assignment, teamwork, scheduler, scheduling, planning, coordination, team building, Santa Clara University, SCU, Santa Clara, Kenneth Bigler, Kenneth, Bigler, Kenneth William Lidgate Bigler, Zachary Wilson, Zachary, Wilson, Scott Sarsfield, Scott, Sarsfield, Senior Design Project, Senior, Design, Project">
 <meta name="description" content="GroupRight is a collaborative group management system.  It is the Senior Design Project for Kenneth Bigler, Zachary Wilson, and Scott Sarsfield, students from Santa Clara University.">
 <meta name="author" content="GroupRight">
@@ -17,6 +19,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="js/homescripts.js"></script>
 <script src="js/cookie.js"></script>
+<script src="js/createGroup.js"></script>
 <script>
 	$(document).ready(function(){
 		var cal = $("#calendar");
@@ -87,16 +90,16 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3">
-			<button type="button" class="btn btn-lg btn-block btn-primary">Create a Group</button>
+			<button type="button" class="btn btn-lg btn-block btn-primary" onclick="showSelectionBox(1)">Create a Group</button>
 		</div>
 		<div class="col-sm-3">
-			<button type="button" class="btn btn-lg btn-block btn-warning">Schedule an Event</button>
+			<button type="button" class="btn btn-lg btn-block btn-warning" onclick="showSelectionBox(2)">Schedule an Event</button>
 		</div>
 		<div class="col-sm-3">
-			<button type="button" class="btn btn-lg btn-block btn-success">Start a Task</button>
+			<button type="button" class="btn btn-lg btn-block btn-success" onclick="showSelectionBox(3)">Start a Task</button>
 		</div>
 		<div class="col-sm-3">
-			<button type="button" class="btn btn-lg btn-block btn-danger">Send a Message</button>
+			<button type="button" class="btn btn-lg btn-block btn-danger" onclick="showSelectionBox(4)">Send a Message</button>
 		</div>
 	</div>
 </div>
@@ -128,39 +131,7 @@
 					<div class="alert alert-danger">
 						<p>Warning!</p>
 					</div>
-					<div class="alert alert-danger">
-						<p>Warning!</p>
-					</div>
-					<div class="alert alert-danger">
-						<p>Warning!</p>
-					</div>
-					<div class="alert alert-danger">
-						<p>Warning!</p>
-					</div>
-					<div class="alert alert-danger">
-						<p>Warning!</p>
-					</div>
-					<div class="alert alert-danger">
-						<p>Warning!</p>
-					</div>
-					<div class="alert alert-danger">
-						<p>Warning!</p>
-					</div>
-					<div class="alert alert-danger">
-						<p>Warning!</p>
-					</div>
-					<div class="alert alert-danger">
-						<p>Warning!</p>
-					</div>
-					<div class="alert alert-danger">
-						<p>Warning!</p>
-					</div>
-					<div class="alert alert-danger">
-						<p>Warning!</p>
-					</div>
-					<div class="alert alert-danger">
-						<p>Warning!</p>
-					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -191,6 +162,52 @@
 </div>
 <!-- Incase we want to fix to the bottom, fix scrolling issues with this, needs more work for small screens after the bottom stacks.  To continue work, add class "navbar-fixed-bottom" to footer
 <div class="foofooter">&nbsp;</div>-->
+<!--************************************************************************************************************
+	LIGHT BOX SECTION
+	**************************************************************************************************************-->
+	<div class="container signup-box" id="createGroupBox" style="display:none;">
+
+		<form class="createGroupForm" role="form" style="background-color:white;">
+			<h2 class="header-center">Create a group</h2>	
+				
+			<h5 class="header-center">Step 1: Add a group name.</h5>	
+				<div class="row">
+					<div class="col-xs-12">
+						<label for="groupNameField" class="sr-only">Group Name</label>	
+						<input type="text" id="groupnameField" class="form-control" placeholder="Group Name (All members will see this)" required autofocus>
+					</div>
+				</div>
+
+			<h5 class="header-center">Step 2: Add an email address for each member. </h5>
+				<div id="members" style="height:125px;overflow-y:scroll">
+				<div class="row">
+					<div class="col-xs-9">
+						<input type="text" id="member1" class="form-control" placeholder="yourEmail@groupright.net" required disabled>
+					</div>
+					<div class="col-xs-2">
+						<br/><span class="label label-success">Leader</span>
+					</div>
+				</div>
+				<div class="row">
+
+					<div class="col-xs-9">
+						<input type="text" class="form-control" id="member2" placeholder="Member 2" onkeydown="addField(2)">
+					</div>
+					<div class="col-xs-2">
+						<br/><span class="label label-info">Member</span>
+					</div>
+				</div>
+				</div>
+				<br/>
+							
+				<button class="btn btn-lg btn-block btn-primary" type="submit" onclick="createGroup()" id="signUpButton">Create Group</button>
+				<hr class="groupright-divider"/>
+				<button class="btn btn-lg btn-block" type="button" onclick="cancelCreateGroup()">Cancel</button>
+		</form>
+	</div>
+	<!--************************************************************************************************************
+	END OF LIGHT BOX SECTION
+	**************************************************************************************************************-->
 
 <footer class="container-fluid">
 	<div class="row">
