@@ -245,6 +245,9 @@
 		
 			this._grcalendar = new GRCalendar( $(this), options );
 			this._grcalendar.render();
+			$(this).on('resize',function(){
+				this._grcalendar.render();
+			});
 			
 		});
  
