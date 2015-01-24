@@ -117,7 +117,8 @@ div.main6w {
 }
 
 div.scrollable {
-	overflow:auto;
+	overflow: auto;
+	overflow-y: scroll;
 	-ms-overflow-style: none;
 }
 
@@ -130,4 +131,12 @@ div.scrollable::-webkit-scrollbar {
 	background-color: #f2dede;
 	border-color: #ebccd1;
 	margin: 3%;
+}
+
+.frontbox {
+	position:absolute;
+	top:95px;
+	left:20px;
+	bottom:20px;
+	right:20px;
 }
