@@ -81,7 +81,7 @@ function showSelectionBox(number){
 		document.getElementById("createGroupBox").style.display="block";
 	}
 	else if(number==2){
-
+		document.getElementById("createEventBox").style.display="block";
 	}
 	else if(number==3){
 
@@ -109,6 +109,10 @@ window.onload = function() {
 			statusCode:{
 				200: function(data, status, jqXHR){
 					addUsersInfo(data);
+				}
+				220: function(data, status, jqXHR){
+					//they don't have the necessary access to see this page
+					window.location="https://www.groupright.net/dev/login.html";
 				}
 			}
 		

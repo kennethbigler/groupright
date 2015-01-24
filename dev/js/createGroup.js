@@ -48,7 +48,7 @@ function createGroup(){
 	//Add the Group Leader's email
 	var _cookies = genCookieDictionary();
 	var leader=_cookies.user; 
-	allEmails.push();
+	allEmails.push(leader);
 	//get and verify all members emails
 	for(var i=2; i<numberOfFields; i++){
 		if(document.getElementById("member"+i)){
@@ -69,7 +69,7 @@ function createGroup(){
 	console.log(members);
 
 	//get user access code
-	var ac=_cookies.ac;
+	var ac=_cookies.accesscode;
 	var email=leader;
 	var obj = {
 				"function":"create_group",
@@ -87,7 +87,7 @@ function createGroup(){
 				200:function(data,status,jqXHR){
 					alert("Group Created");
 					cancelCreateGroup();
-					window.location = "./login.html";				
+					window.location = "./home.html";				
 				},
 				210:function(){
 					//access denied, redirect to login
