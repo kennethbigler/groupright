@@ -22,7 +22,7 @@
 		if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {
 		
 			// Enter DB.
-			$dbh = ConnectToDB()
+			$dbh = ConnectToDB();
 			
 			// Get user info.
 			$stmt = $dbh->prepare(
