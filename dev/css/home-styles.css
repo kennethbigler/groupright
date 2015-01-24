@@ -137,6 +137,6 @@ div.scrollable::-webkit-scrollbar {
 	position:absolute;
 	top:95px;
 	left:20px;
-	bottom:20px;
+	bottom:40px;
 	right:20px;
 }
