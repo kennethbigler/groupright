@@ -102,7 +102,7 @@
 			
 			for(var j = 0; j < this.events[daytitles[ind]].length; j++){
 				var ev = this.events[ daytitles[ind] ][ j ];
-				var evDiv = ev.render();
+				var evDiv = ev.render({mobile:this.mobile});
 				var stMark = hoursBetween(parseTime(this.options.start_hour),
 											parseTime(ev.options.start_time));
 				var enMark = hoursBetween(parseTime(ev.options.start_time),
@@ -144,6 +144,9 @@
 						- hournames.indexOf(this.options.start_hour);
 						
 		this.dim.cell_height = Math.floor((height-30)/nHours);
+		
+		// determine mobile view
+		this.mobile = (width <= 589);
 	};
 	
 	//---------------------------------------------------------------------
@@ -226,14 +229,16 @@
 		return settings;
 	};
 	
-	GRCalendarEvent.prototype.render = function(){
+	GRCalendarEvent.prototype.render = function(opt){
 		var div = $("<div />",{class:"gr-event-cont"});
 		var div2 = $("<div />",{class:"gr-event"});
 		
-		div2.append( 
-			$("<p />",{class:"title",text:this.options.title}),
-			$("<p />",{class:"subtitle",text:this.options.start_time+" - "+this.options.end_time})
-		);
+		if(!opt.mobile){
+			div2.append( 
+				$("<p />",{class:"title",text:this.options.title}),
+				$("<p />",{class:"subtitle",text:this.options.start_time+" - "+this.options.end_time})
+			);
+		}
 					
 		div2.css("background-color",this.options.color);
 		div.append(div2);
