@@ -186,20 +186,9 @@ function signUp(){
 // INSTALL COOKIE AND REDIRECT
 //==================================================
 function installCookieAndRedirect(data,user,extended){
-	
-	var extra = "";
-	if(extended){
-		var now = new Date();
-		var time = now.getTime();
-		var expireTime = time + 30*24*60*60;
-		now.setTime(expireTime);
-		extra = "expires="+now.toGMTString()+';';
-	}
-	
-	document.cookie="accesscode="+data.trim()+";"+extra+'path=/';
-	document.cookie="user="+user+";"+extra+'path=/';
-	
-	window.location = "./home.html"; /* presumed redirect */
+	installCookie( user, data, extended, function(){
+		window.location = "./home.html"; /* presumed redirect */
+	});
 }
 
 
