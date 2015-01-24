@@ -85,7 +85,9 @@ function createGroup(){
 			data:obj,
 			statusCode:{
 				200:function(data,status,jqXHR){
-					alert("Group Created");				
+					alert("Group Created");
+					cancelCreateGroup();
+					window.location = "./login.html";				
 				},
 				210:function(){
 					//access denied, redirect to login

@@ -160,8 +160,8 @@ function signUp(){
 	
 	var obj = {
 				"function":"signup",
-				"firstName":fname,
-				"lastName":lname,
+				"first_name":fname,
+				"last_name":lname,
 				"email":email,
 				"password":password
 	};
