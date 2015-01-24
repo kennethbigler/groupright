@@ -227,15 +227,126 @@
 	};
 	
 	GRCalendarEvent.prototype.render = function(){
-		var div = $("<div />",{class:"gr-event"});
+		var div = $("<div />",{class:"gr-event-cont"});
+		var div2 = $("<div />",{class:"gr-event"});
 		
-		div.append( $("<p />",{class:"title",text:this.options.title}),
-					$("<p />",{class:"subtitle",text:this.options.start_time+" - "+this.options.end_time}));
+		div2.append( 
+			$("<p />",{class:"title",text:this.options.title}),
+			$("<p />",{class:"subtitle",text:this.options.start_time+" - "+this.options.end_time})
+		);
 					
-		div.css("background-color",this.options.color);
+		div2.css("background-color",this.options.color);
+		div.append(div2);
+		
+		// add popup window click event
+		var windowSettings = {
+			color:this.options.color,
+			description:"Something intelligent.",
+			title:this.options.title,
+			time:this.options.start_time+" - "+this.options.end_time,
+			attending:[],
+			exit:function(){
+				$(".gr-event").removeClass("active");
+				$(".gr-event-cont").removeClass("inactive");
+			}
+		};
+		div.on('click',function(){
+			var p = new GRCalendarPopWindow(this,windowSettings);
+			p.render();
+			$(".gr-event").removeClass("active");
+			$(".gr-event-cont").addClass("inactive");
+			$(this).removeClass("inactive");
+			$(this).children(".gr-event").addClass("active");
+		});
 		
 		return div;
 	};
+	
+	//---------------------------------------------------------------------
+	function GRCalendarPopWindow( elm, options ){
+		options = $.extend({
+			color:"red",
+			description:"Standard corportate potluck.  Bring potato salad.",
+			title:"Picnic",
+			attending:["A","B","C","D","E","F","G","H","..."],
+			time:"1p - 3p",
+			exit:function(){}
+			
+		},options);
+		
+		this.el = (elm instanceof jQuery)? elm : $(elm);
+		this.init( options );
+	}
+	
+	GRCalendarPopWindow.prototype.init = function( options ){
+		this.color = options.color;
+		this.description = options.description;
+		this.timeString = options.time;
+		this.attending = options.attending;
+		this.title = options.title;		
+		this.exitFn = options.exit;
+	};
+	GRCalendarPopWindow.prototype.render = function(){
+		if(!this.el) return;
+		
+		var elm = this.el;
+		
+		$(".gr-calendar .gr-pop-window").remove();
+		
+		var cont = $("<div />",{class:"gr-pop-window"});
+		
+		var cont_head = $("<div />",{class:"gr-pop-head"});
+			{
+				// color box
+				var color_box = $("<div />",{class:"gr-pop-color"});
+				color_box.css("background-color",this.color);
+				cont_head.append(color_box);
+				
+				// title
+				var title_div = $("<div />",{class:"gr-pop-title"});
+				title_div.text(this.title);
+				cont_head.append(title_div);
+				
+				// time
+				var time_div = $("<div />",{class:"gr-pop-time"});
+				time_div.text(this.timeString);
+				cont_head.append(time_div);
+				
+				// exit
+				var exit_div = $("<div />",{class:"gr-pop-exit"});
+				exit_div.text("X");
+				
+				var exitOptFn = this.exitFn;
+				exit_div.on('click',function(){
+					exitOptFn();
+					$(this).parent().parent().remove();
+					return false; // make sure it doesn't propagate
+				});
+				
+				cont_head.append(exit_div);
+				
+				
+				
+			}
+		cont.append(cont_head);
+		
+		// description
+		var descr_div = $("<div />",{class:"gr-pop-desc"});
+		descr_div.text(this.description);
+		cont.append(descr_div);
+		
+		// attending
+		var attend_div = $("<div />",{class:"gr-pop-attending"});
+		for(var i = 0; i < this.attending.length; i++){
+			var x = $("<div />",{class:"gr-attending-personal"});
+			x.text(this.attending[i]);
+			attend_div.append(x);
+		}		
+		cont.append(attend_div);
+		
+		elm.append(cont);
+	}
+	
 	
 	//---------------------------------------------------------------------
  

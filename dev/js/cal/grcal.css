@@ -32,14 +32,26 @@
 .gr-day .gr-hour{
 	background:#eee;
 	border-top: 1px solid #ccc;
-	margin:0 1.5%;
+	margin:0 2.5%;
+	box-sizing:border-box;
 }
 
 /* events */
-.gr-day .gr-event{
+.gr-day .gr-event-cont{
 	position:absolute;
-	width:97%;
-	margin:0 1.5%;
+	width:95%;
+	margin:0 2.5%;
+}
+
+.gr-event{position:relative;width:100%;height:100%;}
+.gr-event.active{
+	box-shadow: 0.3em 0.3em 0.4em 0 black;
+	left:-0.3em;
+	top:-0.3em;
+	box-sizing:border-box;
+}
+.gr-event-cont.inactive{
+	opacity:0.7;
 }
 
 .gr-event p{
@@ -50,3 +62,72 @@
 
 .gr-event p.title{ font-size:1.1em;}
 .gr-event p.subtitle{ font-size: 0.9em; }
+
+/* popup windows */
+.gr-pop-window{
+	background-color:white;
+	border-radius:5px;
+	position:absolute;
+	z-index:10;
+	width:350%;
+	margin:0;
+	padding:0.5em;
+	border:solid 1pt;
+	
+	/*debug*/
+	right:-50px;
+	
+}
+
+.gr-pop-window .gr-pop-head{width:100%;overflow:hidden;}
+.gr-pop-head .gr-pop-color{width:1.5em;height:1.5em;float:left;border-radius:0.2em;}
+.gr-pop-head .gr-pop-title{font-size:1.5em;margin-left:0.4em;float:left;font-weight:bold;}
+.gr-pop-head .gr-pop-time{
+	height:1.2em;
+	position:relative;
+	top:0.5em;
+	font-size:1em;
+	float:left;
+	margin-left:0.5em;
+	vertical-align:bottom;
+}
+.gr-pop-head .gr-pop-exit{
+	font-size:1.2em;
+	float:right; 
+	opacity:0.5; 
+	margin-left:1.2em;
+	height:1.1em;
+	width:1.1em;
+	overflow:hidden;
+	text-align:center;
+	cursor:pointer;
+}
+.gr-pop-head .gr-pop-exit:hover{
+	opacity:0.9;
+}
+.gr-pop-window .gr-pop-desc{
+	font-size:0.9em; 
+	width:100%; 
+	overflow:hidden; 
+	font-style:italic;
+	padding:1.5em;
+}
+.gr-pop-window .gr-pop-attending{
+	font-size:1.1em; 
+	width:100%; 
+	overflow:hidden; 
+}
+.gr-pop-attending .gr-attending-personal{
+	float:left;
+	padding:5px;
+	margin:2px;
+	border:solid 1pt black;
+	background-color:#ddd;
+	border-radius:1.2em;
+	height:1.2em;
+	width:1.2em;
+	text-align:center;
+	font-size:1.2em;
+	overflow:hidden;
+	color:#555;
+}
