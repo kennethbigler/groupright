@@ -12,7 +12,7 @@ h1 {
 
 h2 {
 	text-align: center;
-	text-shadow: 1px 1px #888;
+	text-shadow: .5px .5px #888;
 }
 
 footer {
@@ -137,6 +137,6 @@ div.scrollable::-webkit-scrollbar {
 	position:absolute;
 	top:95px;
 	left:20px;
-	bottom:40px;
+	bottom:35px;
 	right:20px;
 }

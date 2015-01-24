@@ -184,8 +184,8 @@
 	**************************************************************************************************************-->
 	<div class="container signup-box" id="createGroupBox" style="display:none;">
 
-		<form class="createGroupForm" role="form" style="background-color:white;">
-			<h2 class="header-center">Create a group</h2>	
+		<div class="createGroupForm" role="form" style="background-color:white;">
+			<h2 class="header-center" >Create a group</h2>	
 				
 			<h5 class="header-center">Step 1: Add a group name.</h5>	
 				<div class="row">
@@ -196,7 +196,7 @@
 				</div>
 
 			<h5 class="header-center">Step 2: Add an email address for each member. </h5>
-				<div id="members" style="height:125px;overflow-y:scroll">
+				<div class="scrollable"id="members" style="height:125px;" >
 				<div class="row">
 					<div class="col-xs-9">
 						<input type="text" id="member1" class="form-control" placeholder="yourEmail@groupright.net" required disabled>
@@ -220,7 +220,7 @@
 				<button class="btn btn-lg btn-block btn-primary" type="submit" onclick="createGroup()" id="signUpButton">Create Group</button>
 				<hr class="groupright-divider"/>
 				<button class="btn btn-lg btn-block" type="button" onclick="cancelCreateGroup()">Cancel</button>
-		</form>
+		</div>
 	</div>
 	<!--************************************************************************************************************
 	END OF LIGHT BOX SECTION

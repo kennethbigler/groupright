@@ -42,6 +42,7 @@ function createGroup(){
 	var group_name=document.getElementById("groupnameField").value;
 	if(group_name=="" || group_name.length<=0){
 		alert("Your Group Name is invalid");
+		return false;
 	}
 	var allEmails=[];
 	//Add the Group Leader's email
@@ -77,7 +78,7 @@ function createGroup(){
 				"email":email,
 				"ac":ac
 	};
-	
+	console.log(obj);
 	// Contact Server
 	$.ajax("https://www.groupright.net/dev/groupserve.php",{
 			type:'POST',
@@ -88,7 +89,7 @@ function createGroup(){
 				},
 				210:function(){
 					//access denied, redirect to login
-					alert("Acces Denied");	
+					alert("Access Denied");	
 					window.location = "./login.html";
 				},
 				220:function(){
