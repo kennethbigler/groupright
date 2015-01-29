@@ -1,3 +1,39 @@
+window.onload = function() {
+	//get the cookies and get all of the data from the server
+	var _cookies = genCookieDictionary();
+
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"cookie":_cookies.accesscode,
+			"email":_cookies.user,
+			"function":"get_user_info"
+		};
+	
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					addUsersInfo(data);
+				},
+				220: function(data, status, jqXHR){
+					//they don't have the necessary access to see this page have them login again
+					window.location="https://www.groupright.net/dev/login.html";
+				}
+			}
+		
+		});
+	}
+	else{
+		alert("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
+		//window.location="https://www.groupright.net/dev/login.html";
+		addCalendarInfo();
+	}
+
+};
+
 function logoutAndRedirect(){
 	
 	var _cookies = genCookieDictionary();
@@ -34,13 +70,51 @@ function logoutAndRedirect(){
 }
 
 function addUsersInfo(data){
+	//What to do on the page load
 	obj = JSON.parse(data);
-	//console.log(obj);
-	//console.log(obj.memberships);
-	initials=obj.first_name[0] + obj.last_name[0];
-	addUsersGroups(obj.memberships);
-	dealwithProfilePic(obj.photo_url,initials);
+	//Add their name
 	addUsersName(obj.first_name);
+	//Add their groups
+	addUsersGroups(obj.memberships);
+	//Deal with Profile Pick
+	initials=obj.first_name[0] + obj.last_name[0];
+	dealwithProfilePic(obj.photo_url,initials);
+	//Do some calendar Stuff (Eventually will need some of the data)
+	andCalendarInfo();
+	//Add tasks
+	addTasks();
+	//Add Updates
+	addUpdates();
+	//Set the user's email
+	document.getElementById("member1").value=_cookies.user;
+
+	
+}
+function addUpdates(){
+
+
+}
+function addTasks(){
+
+
+}
+function addCalendarInfo(){
+	var cal = $("#calendar");
+		cal.grCalendar({num_days:5,start_hour:"7am",end_hour:"11pm",start_day:"Monday"});
+		cal[0]._grcalendar.addEvent(
+			{title:"Team Practice", color:"#FF6068", day:"Monday",start_time:"11am",end_time:"12:30pm"},
+			{title:"Game 3", color:"#FF6068", day:"Thursday",start_time:"8:30pm",end_time:"9:30pm"},
+			
+			{title:"Project Meeting",color:"rgb(138, 181, 227)",day:"Tuesday",start_time:"7:30am",end_time:"9:00am"},
+			{title:"Project Meeting",color:"rgb(138, 181, 227)",day:"Friday",start_time:"1:30pm",end_time:"2:45pm"},
+			
+			{title:"Product Test Meeting",color:"rgb(150, 232, 194)",day:"Tuesday",start_time:"10:15am",end_time:"11:30am"},
+			{title:"Sales Call",color:"rgb(150, 232, 194)",day:"Wednesday",start_time:"12pm",end_time:"1pm"},
+			{title:"Staff Picnic",color:"rgb(150, 232, 194)",day:"Friday",start_time:"10:30am",end_time:"12:15pm"},
+			
+			{title:"Zach's Dinner",color:"rgb(255, 240, 127)",day:"Monday",start_time:"7:15pm",end_time:"9:30pm"},
+			{title:"Scott's Dinner",color:"rgb(255, 240, 127)",day:"Friday",start_time:"7:45pm",end_time:"10:00pm"}
+		);
 }
 function addUsersName(firstName){
 	document.getElementById("profileName").innerHTML=firstName+'<span class="caret"></span>';
@@ -90,34 +164,4 @@ function showSelectionBox(number){
 
 	}
 }
-window.onload = function() {
-	//get the cookies and get all of the data from the server
-	var _cookies = genCookieDictionary();
 
-	if(_cookies.accesscode && _cookies.user){
-	
-		var obj = {
-			"cookie":_cookies.accesscode,
-			"email":_cookies.user,
-			"function":"get_user_info"
-		};
-	
-		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
-			type:"POST",
-			data:obj,
-			statusCode:{
-				200: function(data, status, jqXHR){
-					addUsersInfo(data);
-				}
-				220: function(data, status, jqXHR){
-					//they don't have the necessary access to see this page
-					window.location="https://www.groupright.net/dev/login.html";
-				}
-			}
-		
-		});
-	}
-
-	document.getElementById("member1").value=_cookies.user;
-};

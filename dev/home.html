@@ -22,31 +22,12 @@
 <script src="js/homescripts.js"></script>
 <script src="js/cookie.js"></script>
 <script src="js/createGroup.js"></script>
-<script>
-	$(document).ready(function(){
-		var cal = $("#calendar");
-		cal.grCalendar({num_days:5,start_hour:"7am",end_hour:"11pm",start_day:"Monday"});
-		cal[0]._grcalendar.addEvent(
-			{title:"Team Practice", color:"#FF6068", day:"Monday",start_time:"11am",end_time:"12:30pm"},
-			{title:"Game 3", color:"#FF6068", day:"Thursday",start_time:"8:30pm",end_time:"9:30pm"},
-			
-			{title:"Project Meeting",color:"rgb(138, 181, 227)",day:"Tuesday",start_time:"7:30am",end_time:"9:00am"},
-			{title:"Project Meeting",color:"rgb(138, 181, 227)",day:"Friday",start_time:"1:30pm",end_time:"2:45pm"},
-			
-			{title:"Product Test Meeting",color:"rgb(150, 232, 194)",day:"Tuesday",start_time:"10:15am",end_time:"11:30am"},
-			{title:"Sales Call",color:"rgb(150, 232, 194)",day:"Wednesday",start_time:"12pm",end_time:"1pm"},
-			{title:"Staff Picnic",color:"rgb(150, 232, 194)",day:"Friday",start_time:"10:30am",end_time:"12:15pm"},
-			
-			{title:"Zach's Dinner",color:"rgb(255, 240, 127)",day:"Monday",start_time:"7:15pm",end_time:"9:30pm"},
-			{title:"Scott's Dinner",color:"rgb(255, 240, 127)",day:"Friday",start_time:"7:45pm",end_time:"10:00pm"}
-		);
-	});
-</script>
+
 </head>
 <body>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container-fluid">
+	<div class="container-fluid page-container">
 			<a href="https://www.groupright.net/" >
 				<img align="left" src="images/LogoWhite.svg" alt="GroupRight" id="whitelogo"/>
 			</a>
@@ -92,7 +73,7 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3">
-			<button type="button" class="btn btn-lg btn-block btn-primary" onclick="showSelectionBox(1)">Create a Group</button>
+			<button type="button" class="btn btn-lg btn-block btn-primary"  data-toggle="modal" href="#createGroupBox" >Create a Group</button>
 		</div>
 		<div class="col-sm-3">
 			<button type="button" class="btn btn-lg btn-block btn-warning" onclick="showSelectionBox(2)">Schedule an Event</button>
@@ -184,46 +165,49 @@
 <!--************************************************************************************************************
 	LIGHT BOX SECTION
 	**************************************************************************************************************-->
-	<div class="container signup-box" id="createGroupBox" style="display:none;">
-
-		<div class="createGroupForm" role="form" style="background-color:white;">
-			<h2 class="header-center" >Create a group</h2>	
-				
-			<h5 class="header-center">Step 1: Add a group name.</h5>	
+<div class="modal fade" id="createGroupBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Create a Group</h4>
+      </div>
+      <div class="modal-body">
+      			<h5 class="header-center">Step 1: Add a group name.</h5>	
 				<div class="row">
 					<div class="col-xs-12">
 						<label for="groupNameField" class="sr-only">Group Name</label>	
 						<input type="text" id="groupnameField" class="form-control" placeholder="Group Name (All members will see this)" required autofocus>
 					</div>
 				</div>
+				<h5 class="header-center">Step 2: Add an email address for each member. </h5>
+				<div class="scrollable"id="members" >
+					<div class="row">
+						<div class="col-xs-9">
+							<input type="text" id="member1" class="form-control" placeholder="yourEmail@groupright.net" required disabled>
+						</div>
+						<div class="col-xs-2">
+							<br/><span class="label label-success">Leader</span>
+						</div>
+					</div>
+					<div class="row">
 
-			<h5 class="header-center">Step 2: Add an email address for each member. </h5>
-				<div class="scrollable"id="members" style="height:125px;" >
-				<div class="row">
-					<div class="col-xs-9">
-						<input type="text" id="member1" class="form-control" placeholder="yourEmail@groupright.net" required disabled>
-					</div>
-					<div class="col-xs-2">
-						<br/><span class="label label-success">Leader</span>
+						<div class="col-xs-9">
+							<input type="text" class="form-control" id="member2" placeholder="Member 2" onkeydown="addField(2)">
+						</div>
+						<div class="col-xs-2">
+							<br/><span class="label label-info">Member</span>
+						</div>
 					</div>
 				</div>
-				<div class="row">
-
-					<div class="col-xs-9">
-						<input type="text" class="form-control" id="member2" placeholder="Member 2" onkeydown="addField(2)">
-					</div>
-					<div class="col-xs-2">
-						<br/><span class="label label-info">Member</span>
-					</div>
-				</div>
-				</div>
-				<br/>
-							
-				<button class="btn btn-lg btn-block btn-primary" type="submit" onclick="createGroup()" id="signUpButton">Create Group</button>
-				<hr class="groupright-divider"/>
-				<button class="btn btn-lg btn-block" type="button" onclick="cancelCreateGroup()">Cancel</button>
-		</div>
-	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="createGroup()" >Create Group</button>
+      </div>
+    </div>
+  </div>
+</div>
 	<!--************************************************************************************************************
 	END OF LIGHT BOX SECTION
 	**************************************************************************************************************-->
