@@ -69,6 +69,23 @@ function logoutAndRedirect(){
 	window.location = "./index.html"; //redirect, but be really misleading when doing it
 	*/
 }
+function initializeEvents(){
+	// adding todays date as the value to the datepickers.
+	var d = new Date();
+	var curr_day = d.getDate();
+	var curr_month = d.getMonth() + 1; //Months are zero based
+	var curr_year = d.getFullYear();
+	var ustoday = curr_month + "/" + curr_day + "/" + curr_year;
+	$("div.datepicker input").attr('value', ustoday);
+
+	//calling the datepicker for bootstrap plugin
+	// https://github.com/eternicode/bootstrap-datepicker
+	// http://eternicode.github.io/bootstrap-datepicker/
+	$('.input-daterange').datepicker({
+		autoclose:true,
+    	todayHighlight: true
+	});
+}
 
 function addUsersInfo(data){
 	//What to do on the page load
@@ -93,24 +110,7 @@ function addUsersInfo(data){
 
 	
 }
-function initializeEvents(){
-	// adding todays date as the value to the datepickers.
-	var d = new Date();
-	var curr_day = d.getDate();
-	var curr_month = d.getMonth() + 1; //Months are zero based
-	var curr_year = d.getFullYear();
-	var ustoday = curr_month + "/" + curr_day + "/" + curr_year;
-	$("div.datepicker input").attr('value', ustoday);
 
-	//calling the datepicker for bootstrap plugin
-	// https://github.com/eternicode/bootstrap-datepicker
-	// http://eternicode.github.io/bootstrap-datepicker/
-	$('.datepicker').datepicker({
-		autoclose: true,
-		todayHighlight: true,
-		startDate: new Date()
-	});
-}
 function addUpdates(){
 
 
