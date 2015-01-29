@@ -1,75 +1,67 @@
-$(document).ready(function() {
-	// adding todays date as the value to the datepickers.
-	var d = new Date();
-	var curr_day = d.getDate();
-	var curr_month = d.getMonth() + 1; //Months are zero based
-	var curr_year = d.getFullYear();
-	var ustoday = curr_month + "/" + curr_day + "/" + curr_year;
-	$("div.datepicker input").attr('value', ustoday);
-
-	//calling the datepicker for bootstrap plugin
-	// https://github.com/eternicode/bootstrap-datepicker
-	// http://eternicode.github.io/bootstrap-datepicker/
-	$('.datepicker').datepicker({
-		autoclose: true,
-		todayHighlight: true,
-		startDate: new Date()
-	});
-});
-
-var numberOfFields=2;
-function addField(fieldnumber){
-	if(fieldnumber<numberOfFields){
+var eventstep=1;
+function previous(){
+	if(eventstep==1){
 		return;
 	}
-	numberOfFields++;
-	var members="";
-	
-	var rowDiv = document.createElement('div');
-	rowDiv.className="row";
-	
-	var leftColDiv = document.createElement('div');
-	leftColDiv.className="col-xs-9";
-	
-	var rightColDiv = document.createElement('div');
-	rightColDiv.className="col-xs-2";
-	
-	var memberSpan = document.createElement('span');
-	memberSpan.className="label label-info";
-	memberSpan.innerText="Member";
-
-	var br=document.createElement('br');
-
-	var inputBox=document.createElement('input');
-	inputBox.type="text";
-	inputBox.className="form-control";
-	inputBox.id="member "+numberOfFields;
-	inputBox.placeholder="Member "+numberOfFields;
-	//inputBox.onkeydown= function(){addField(numberOfFields);};
-	inputBox.onkeydown=function(x){ return function(){addField(x);};}(numberOfFields);
-	rightColDiv.appendChild(br);
-	rightColDiv.appendChild(memberSpan);
-	leftColDiv.appendChild(inputBox);
-	rowDiv.appendChild(leftColDiv); 
-	rowDiv.appendChild(rightColDiv);
-	document.getElementById("members").appendChild(rowDiv);
+	else{
+		eventstep--;
+		displayEvent();
+	}
 }
+function next(){
+	if(eventstep==9){
+		return;
+	}
+	else{
+		if(isValid(eventstep)){
+			eventstep++;
+			displayNextEvent(eventstep);
+		}
+	}
+}
+function updateProgressBar(step){
+	var percent=step*20;
+	percent=percent+"%";
+	document.getElementById("eventprogress").style.width=percent;
+}
+function displayNextEvent(step){
+	updateProgressBar(step);
+	if(step==2){
+		document.getElementById("eventStep1").style.display="none";
+		document.getElementById("eventStep2").style.display="block";
+	}
+}
+function isValid(event){
+	return true;
 
+}
 function createEvent(){
+	var group_id="";
 	//get the event name
-
+	var event_name="";
+	var description="";
 	//get all emails json stringify
+	var start_date="";
+	var end_date="";
+	var start_time="";
+	var end_time="";
+	var duration="";
 
-	//get user email
-
-	//get user access code
+	var creator_email="";
+	//get user email and get user access code
+	var _cookies = genCookieDictionary();
 
 	var obj = {
 				"function":"create_event",
 				"event_name":event_name,
-				"member_array":members,
-				"email":email,
-				"ac":ac
+				"start_date":start_date,
+				"group_id":group_id,
+				"end_date":end_date,
+				"start_time":start_time,
+				"end_time":end_time,
+				"duration":duration,
+				"creator_email":_cookies.user,
+				"ac":_cookies.accesscode
 	};
 	
 	// Contact Server
@@ -78,48 +70,22 @@ function createEvent(){
 			data:obj,
 			statusCode:{
 				200:function(data,status,jqXHR){
-					alertSuccessBanner("Thanks for signing up for GroupRight. Please check your email and follow the instructions to verify your account.");				
+					alert("Event Created");
+					window.location = "./home.html";				
 				},
 				210:function(){
 					//access denied, redirect to login
+					alert("Access Denied");	
+					window.location = "./login.html";
 				},
 				220:function(){
 					//something else happened
+					alert("We have literally no idea what happened.")
 				}
 			}
 	});
 	return false;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -30,6 +30,7 @@ window.onload = function() {
 		alert("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
 		//window.location="https://www.groupright.net/dev/login.html";
 		addCalendarInfo();
+		initializeEvents();
 	}
 
 };
@@ -85,10 +86,30 @@ function addUsersInfo(data){
 	addTasks();
 	//Add Updates
 	addUpdates();
-	//Set the user's email
+	//Set the user's email for creating groups
 	document.getElementById("member1").value=_cookies.user;
+	//initialize event date
+	initializeEvents();
 
 	
+}
+function initializeEvents(){
+	// adding todays date as the value to the datepickers.
+	var d = new Date();
+	var curr_day = d.getDate();
+	var curr_month = d.getMonth() + 1; //Months are zero based
+	var curr_year = d.getFullYear();
+	var ustoday = curr_month + "/" + curr_day + "/" + curr_year;
+	$("div.datepicker input").attr('value', ustoday);
+
+	//calling the datepicker for bootstrap plugin
+	// https://github.com/eternicode/bootstrap-datepicker
+	// http://eternicode.github.io/bootstrap-datepicker/
+	$('.datepicker').datepicker({
+		autoclose: true,
+		todayHighlight: true,
+		startDate: new Date()
+	});
 }
 function addUpdates(){
 

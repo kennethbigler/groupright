@@ -37,7 +37,6 @@ function addField(fieldnumber){
 }
 
 function createGroup(){
-	alert("I got called");
 	//get the groupname
 	var group_name=document.getElementById("groupnameField").value;
 	if(group_name=="" || group_name.length<=0){
@@ -86,7 +85,6 @@ function createGroup(){
 			statusCode:{
 				200:function(data,status,jqXHR){
 					alert("Group Created");
-					cancelCreateGroup();
 					window.location = "./home.html";				
 				},
 				210:function(){
@@ -101,7 +99,4 @@ function createGroup(){
 			}
 	});
 	return false;
-}
-function cancelCreateGroup(){
-	document.getElementById("createGroupBox").style.display="none";
 }
