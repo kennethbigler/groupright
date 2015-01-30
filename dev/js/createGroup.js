@@ -8,16 +8,22 @@ function addField(fieldnumber){
 	
 	var rowDiv = document.createElement('div');
 	rowDiv.className="row";
+	rowDiv.style.marginTop="4px";
 	
 	var leftColDiv = document.createElement('div');
-	leftColDiv.className="col-xs-9";
+	leftColDiv.className="col-xs-8";
+
 	
 	var rightColDiv = document.createElement('div');
 	rightColDiv.className="col-xs-2";
 	
+	var holderDiv=document.createElement('div');
+	holderDiv.style.marginTop="6px";
+
 	var memberSpan = document.createElement('span');
 	memberSpan.className="label label-info";
 	memberSpan.innerText="Member";
+
 
 	var br=document.createElement('br');
 
@@ -28,8 +34,9 @@ function addField(fieldnumber){
 	inputBox.placeholder="Member "+numberOfFields;
 	//inputBox.onkeydown= function(){addField(numberOfFields);};
 	inputBox.onkeydown=function(x){ return function(){addField(x);};}(numberOfFields);
-	rightColDiv.appendChild(br);
-	rightColDiv.appendChild(memberSpan);
+	//rightColDiv.appendChild(br);
+	holderDiv.appendChild(memberSpan);
+	rightColDiv.appendChild(holderDiv);
 	leftColDiv.appendChild(inputBox);
 	rowDiv.appendChild(leftColDiv); 
 	rowDiv.appendChild(rightColDiv);
