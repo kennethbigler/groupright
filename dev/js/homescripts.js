@@ -27,7 +27,7 @@ window.onload = function() {
 		});
 	}
 	else{
-		alert("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
+		console.log("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
 		//window.location="https://www.groupright.net/dev/login.html";
 		addCalendarInfo();
 		initializeEvents();
@@ -69,7 +69,7 @@ function logoutAndRedirect(){
 	window.location = "./index.html"; //redirect, but be really misleading when doing it
 	*/
 }
-function initializeEvents(){
+function initializeEvents(allGroups){
 	// adding todays date as the value to the datepickers.
 	var d = new Date();
 	var curr_day = d.getDate();
@@ -85,6 +85,29 @@ function initializeEvents(){
 		autoclose:true,
     	todayHighlight: true
 	});
+	$('#startdatefixed').datepicker({
+    	todayHighlight: true,
+    	autoclose:true
+	});
+	$('#enddatefixed').datepicker({
+    	todayHighlight: true,
+    	autoclose:true
+	});
+	$('#timepicker1').timepicker();
+	$('#timepicker2').timepicker();
+	allGroups=[{"groupName":"Test1","color":"red","groupID":"77"},
+				{"groupName":"Test2","color":"blue","groupID":"77"}];
+	console.log(allGroups);
+	var groupMenu = document.getElementById("eventGroups");
+	var numGroups = allGroups.length;
+
+	for(var i = 0; i < numGroups; i ++) {
+		var item=document.createElement('option');
+		item.style.color=allGroups[i].color;
+		item.value=allGroups[i].groupID;
+		item.innerHTML=allGroups[i].groupName;
+		groupMenu.appendChild(item);
+	}
 }
 
 function addUsersInfo(data){
@@ -106,7 +129,7 @@ function addUsersInfo(data){
 	//Set the user's email for creating groups
 	document.getElementById("member1").value=_cookies.user;
 	//initialize event date
-	initializeEvents();
+	initializeEvents(obj.memberships);
 
 	
 }
