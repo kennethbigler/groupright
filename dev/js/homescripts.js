@@ -96,10 +96,15 @@ function initializeEvents(allGroups){
 	$('#timepicker1').timepicker();
 	$('#timepicker2').timepicker();
 	allGroups=[{"groupName":"Test1","color":"red","groupID":"77"},
-				{"groupName":"Test2","color":"blue","groupID":"77"}];
+				{"groupName":"Potatoes","color":"blue","groupID":"78"}];
 	console.log(allGroups);
 	var groupMenu = document.getElementById("eventGroups");
 	var numGroups = allGroups.length;
+
+	//If only one group, make it default
+	if(numGroups==1){
+		groupMenu.innerHTML="";
+	}
 
 	for(var i = 0; i < numGroups; i ++) {
 		var item=document.createElement('option');
@@ -194,18 +199,5 @@ function addUsersGroups(allGroups){
 	}
 	groupMenu.innerHTML = allMyGroups;
 }
-function showSelectionBox(number){
-	if(number==1){
-		document.getElementById("createGroupBox").style.display="block";
-	}
-	else if(number==2){
-		document.getElementById("createEventBox").style.display="block";
-	}
-	else if(number==3){
 
-	}
-	else if(number==4){
-
-	}
-}
 

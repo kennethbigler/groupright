@@ -8,7 +8,8 @@ var fixedStartDate="Not Added";
 var helpEndDate="Not Added";
 var helpStartDate="Not Added";
 var fixedEndDate="Not Added";
-var eventGroup="Not Added"
+var eventGroup="Not Added";
+var eventGroupID="";
 var fixedStartTime="Not Added";
 var helpEndTime="Not Added";
 var helpStartTime="Not Added";
@@ -166,6 +167,12 @@ function isValid(step){
 			document.getElementById('eventError').innerHTML="Event Names must be at least 4 characters.";
 			return false;
 		}
+		if($( "#eventGroups" ).val()=="XXX"){
+			document.getElementById('eventError').innerHTML="Please select a group for the event.";
+			return false;
+		}
+		eventGroup=$( "#eventGroups option:selected" ).text();
+		eventGroupID=$( "#eventGroups" ).val();
 		eventName=name;
 		return true;
 	}
