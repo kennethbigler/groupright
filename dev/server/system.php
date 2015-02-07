@@ -85,8 +85,8 @@
 		$stmt = $dbh->prepare("UPDATE active_users SET session_expiration=? WHERE email=? AND last_session_code=?");
 		$stmt->execute(array(date("Y-m-d H:i:s",$today),$user,$cookie));
 		
-		echo $user;
-		echo $cookie;
+		//echo $user;
+		//echo $cookie;
 			
 		return;
 	}
@@ -102,7 +102,7 @@
 	}
 	
 	function isEmptyString($str){
-		print_r($str);
+		//print_r($str);
 		if($str == null) return false;
 		if(!isset($str)) return false;
 		if($str == "") return false;

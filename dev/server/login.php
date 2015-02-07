@@ -121,7 +121,7 @@
 						$lname = $arr[1];
 						
 						// Update table to reflect lock.
-						echo $vc; echo $email_address;
+						//echo $vc; echo $email_address;
 						lockAccount($email_address,$vc);
 						
 						// Send Confirmation Email

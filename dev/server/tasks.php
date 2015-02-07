@@ -3,8 +3,6 @@
 function getAllTasks($email){
 	$dbh = ConnectToDB();
 	
-	if(isEmptyString($email)){ http_response_code(210); return; }
-	
 	$stmt = $dbh->prepare(
 		"SELECT * FROM tasks_assignments JOIN tasks USING (task_uid) WHERE email = ?"
 	);
@@ -21,15 +19,13 @@ function getAllTasks($email){
 			"is_completed"=>$row['is_completed'],
 			"is_personal"=>$row['is_personal']
 		);
-		echo $obj;
+		//echo $obj;
 		$arr[] = $obj;
 	}
 	return $arr;
 }
 
 function addTask($email,$title,$description,$group_uid,$event_uid,$is_personal,$deadline){
-	
-	if(isEmptyString($email)){http_response_code(210); return;}
 			
 	$dbh = ConnectToDB();
 	
