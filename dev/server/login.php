@@ -133,6 +133,9 @@
 			
 			}
 			
+		}else{
+			http_response_code(206);
+			return;
 		}
 	
 	}
@@ -159,6 +162,9 @@
 				http_response_code(211); return;
 			}
 			
+		}else{
+			http_response_code(206);
+			return;
 		}
 	
 	}

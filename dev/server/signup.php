@@ -115,6 +115,8 @@
 		}
 		else {
 			// maybe do something
+			http_response_code(220);
+			return;
 		}
 	}
 
