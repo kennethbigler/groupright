@@ -16,20 +16,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
 </script>
+<script src="js/createEvent.js">
+</script>
 <script src="js/homescripts.js">
 </script>
 <script src="js/cookie.js">
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.js">
-</script>
-<script scr="js/datepicker.js">
+<script src="js/createGroup.js">
 </script>
 </head>
 <body>
-
-<div class="col-sm-3">
-	<button type="button" class="btn btn-lg btn-block btn-success" data-toggle="modal" href="#createTaskBox">Start a Task</button>
-</div>
 
 <!--Create Task -->
 <div class="modal fade" id="createTaskBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -47,7 +43,7 @@
 						<input type="text" id="taskNameField" class="form-control" placeholder="Task Name" required autofocus>
 					</div>
 				</div>
-				<h5 class="header-center">Step 2: Set the deadline.</h5>
+				<!--<h5 class="header-center">Step 2: Set the deadline.</h5>
 				<div class="row">
 					<div class="col-xs-8">
 						<div class="input-daterange input-group" id="datepicker">
@@ -56,33 +52,10 @@
 					<div class="col-xs-4">
 						&nbsp;
 					</div>
-
-					<div class="col-sm-10">
-					<div class="input-daterange input-group datepicker botpad" data-date-format="mm/dd/yyyy">
-						<input class="input-sm form-control" type="text" name="start">
-						<span class="input-group-addon">to</span>
-						<input class="input-sm form-control" type="text" name="end">
-					</div>
-				</div>
-				</div>
-				<!--<div class="row">
-					<label class="control-label col-sm-3">Time:</label>
-					<div class="col-xs-3">
-						<div class="input-append bootstrap-timepicker">
-							<input class="timepicker form-control" id="timepicker1" type="text">
-	            			<span class="add-on"><i class="icon-time"></i></span>
-            			</div>
-					</div>
-					<div class="col-sm-2">
-						<select class="form-control">
-							<option>AM</option>
-							<option>PM</option>
-						</select>
-					</div>
 				</div>-->
-				<div class="row">
+				<div class="row tp15">
 					<div class="col-sm-7">
-						<h5 class="header-center">Step 3: Who do you want to assign this to?</h5>
+						<h5 class="header-center">Step 2: Who do you want to assign this to?</h5>
 					</div>
 					<div class="col-sm-5">
 			            <div class="btn-group" data-toggle="buttons">
@@ -90,12 +63,19 @@
 			                    <input type="radio" name="fixedtime" value="1" /> A Group
 			                </label> 
 			                <label class="btn btn-default">
-			                    <input type="radio" name="fixedtime" value="2" /> A Member
+			                    <input type="radio" name="fixedtime" value="2" /> Myself
 			                </label> 
 			            </div>
 			        </div>
 				</div>
-				<h5 class="header-center">Step 4: Pick the group or member:</h5>	
+				<h5 class="header-center">Step 3: Add a task description:</h5>	
+				<div class="row">
+					<div class="col-xs-12">
+						<label for="taskDescription" class="sr-only">Assignment Name</label>	
+						<input type="text" id="taskDescription" class="form-control" placeholder="Task Description" required>
+					</div>
+				</div>
+				<!--<h5 class="header-center">Step 3: Pick the group or member:</h5>	
 				<div class="row">
 					<div class="col-xs-10">
 						<label for="assignmentNameField" class="sr-only">Assignment Name</label>	
@@ -122,7 +102,7 @@
 						<label for="assignmentNameField" class="sr-only">Assignment Name</label>	
 						<input type="text" id="assignmentNameField" class="form-control" placeholder="Assignment Name" required autofocus>
 					</div>
-				</div>
+				</div>-->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -137,10 +117,13 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.js">
 </script>
+<script src="js/timepicker.js">
+</script>
 <script src="js/cal/grcal.js">
 </script>
 <script src="js/datepicker.js">
 </script>
+
 
 </body>
 </html>
