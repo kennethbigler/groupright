@@ -31,13 +31,6 @@ function getAllEvents($email){
 
 	function verifyUserGroup($email,$cookie,$group_uid){
 		$dbh = ConnectToDB();
-		//echo $email;
-		if(isEmptyString($email)
-			||isEmptyString($cookie)
-			||isEmptyString($group_uid)){
-				http_response_code(299); return;
-		}
-		//echo $email;
 		
 		$stmt = $dbh->prepare(
 			"SELECT * FROM active_users JOIN memberships USING (email)
@@ -58,20 +51,41 @@ function getAllEvents($email){
 				
 		$dbh = ConnectToDB();
 		
-		if(!isset($start_time)){
-			$stmt = $dbh->prepare(
-				"INSERT INTO events(name,description,group_uid,email,start_time,end_time)
-				VALUES(?,?,?,?,NULL,NULL)"
-			);
-			$stmt->execute(array($name,$description,$group_uid,$email));
+		// Name
+		$arr = array($name);		
+		$sql = "INSERT INTO events(name,description,group_uid,email,start_time,end_time)";
+		$sql = $sql." VALUES(?,";
+		
+		// Description (can be empty)
+		if(isset($description) && $description != ""){
+			$sql = $sql."?,";
+			$arr[] = $description;
 		}else{
-			$stmt = $dbh->prepare(
-				"INSERT INTO events(name,description,group_uid,email,start_time,end_time)
-				VALUES(?,?,?,?,?,?)"
-			);
-			$stmt->execute(array($name,$description,$group_uid,$email,$start_time,$end_time));
+			$sql = $sql."'',";
 		}
 		
+		// Group_UID, email, 
+		$sql = $sql."?,"; $arr[] = $group_uid;
+		$sql = $sql."?,"; $arr[] = $email;
+		
+		// Start time (def. NULL)
+		if(isset($start_time) && $start_time != ""){
+			$sql = $sql."?,";
+			$arr[] = $start_time;
+		}else{
+			$sql = $sql."NULL,";
+		}
+		
+		// End time (def. NULL)
+		if(isset($end_time) && $end_time != ""){
+			$sql = $sql."?)";
+			$arr[] = $end_time;
+		}else{
+			$sql = $sql."NULL)";
+		}
+		
+		$stmt = $dbh->prepare( $sql );
+		$stmt->execute($arr);		
 		return $dbh->lastInsertId();
 	}
 	
@@ -105,6 +119,8 @@ function getAllEvents($email){
 				return;
 			}
 			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,$start_time,$end_time);
+			echo $event_uid;
+			http_response_code(200);
 		}else{
 			http_response_code(206);
 			return;
