@@ -23,7 +23,7 @@ function getAllEvents($email){
 			"start_time"=>$row['start_time'],
 			"end_time"=>$row['end_time']
 		);
-		echo $obj;
+		//echo $obj;
 		$arr[] = $obj;
 	}
 	return $arr;
@@ -31,13 +31,13 @@ function getAllEvents($email){
 
 	function verifyUserGroup($email,$cookie,$group_uid){
 		$dbh = ConnectToDB();
-		echo $email;
+		//echo $email;
 		if(isEmptyString($email)
 			||isEmptyString($cookie)
 			||isEmptyString($group_uid)){
 				http_response_code(299); return;
 		}
-		echo $email;
+		//echo $email;
 		
 		$stmt = $dbh->prepare(
 			"SELECT * FROM active_users JOIN memberships USING (email)

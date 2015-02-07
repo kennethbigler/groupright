@@ -135,7 +135,7 @@
 		$stmt->execute(array($vc));	
 
 		while($row = $stmt->fetch()){
-			print_r($row);
+			//print_r($row);
 			$password = grHash($password,$row['email']);
 			if($row['password'] == $password){
 			
