@@ -25,20 +25,23 @@ function getAllTasks($email){
 	return $arr;
 }
 
-function addTask($email,$title,$description,$group_uid,$event_uid,$is_personal){
+function addTask($email,$title,$description,$group_uid,$event_uid,$is_personal,$deadline){
 			
 	$dbh = ConnectToDB();
 	
-	$sql = "INSERT INTO tasks(creator_email,title,description,group_uid,event_uid,is_personal)
+	$sql = "INSERT INTO tasks(creator_email,title,description,group_uid,event_uid,is_personal,deadline)
 			VALUES(?,?,?,"
 			.((isset($group_uid))? "?" : "NULL").","
 			.((isset($event_uid))? "?" : "NULL").","
-			."?)";
+			."?,"
+			.((isset($deadline))? "?" : "NULL").")";
 	
 	$arr = array($email,$title,$description);
 	if(isset($group_uid)) $arr[] = $group_uid;
 	if(isset($event_uid)) $arr[] = $event_uid;
 	$arr[] = $is_personal;
+	if(isset($deadline)) $arr[] = $deadline;
+	
 	
 	$stmt = $dbh->prepare($sql);
 	$stmt->execute($arr);
@@ -66,6 +69,7 @@ function createTask(){
 		$task_title = $_POST['task_title'];
 		$task_descr = $_POST['task_description'];
 		$is_personal = $_POST['is_personal'];
+		$deadline = $_POST['deadline'];
 		
 		
 		if(!isset($task_title)){ http_reponse_code(299); return; }
@@ -75,7 +79,7 @@ function createTask(){
 		// IF valid, continue.
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
-			$task_uid = addTask($email,$task_title,$task_descr,$group_uid,$event_uid,$is_personal);
+			$task_uid = addTask($email,$task_title,$task_descr,$group_uid,$event_uid,$is_personal,$deadline);
 			print_r($task_uid);
 		}
 }
