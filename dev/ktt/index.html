@@ -89,7 +89,13 @@ $(document).ready(function(){
 		
 		//createTemplate("get_memberships",["email","cookie"],"red"),		
 		createTemplate("get_user_info",["email","cookie"],"red"),
-		createTemplate("create_group",["group_name","member_array","email","ac"],"red")
+		createTemplate("create_group",["group_name","member_array","email","ac"],"red"),
+	
+		createTemplate("create_fixed_event",["email","cookie","group_uid","event_title","event_description","start_time","end_time"],"purple"),
+		createTemplate("create_votable_event",["email","cookie","group_uid","event_title","event_description","start_date","end_date","start_time","end_time","duration"],"purple"),
+		
+		createTemplate("create_task",["email","cookie","group_uid","event_uid","task_title","task_description","is_personal"],"orange"),
+		createTemplate("assign_task",["email","cookie","group_uid","task_uid"],"orange")
 	);
 	
 	var str = document.cookie;
