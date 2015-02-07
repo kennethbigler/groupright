@@ -91,5 +91,14 @@
 		return;
 	}
 	
+	function sanitizeEmail($email){
+		
+		$email_address = htmlspecialchars($email);
+		$email_address = trim($email_address);
+		$email_address = stripslashes($email_address);
+		
+		return $email_address;
+		
+	}
 
 ?>

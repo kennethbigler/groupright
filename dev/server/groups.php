@@ -150,7 +150,7 @@
 
 		// Run Query.			
 		$stmt = $dbh->prepare(
-			"SELECT g.group_name AS group_name, m.properties AS properties
+			"SELECT g.group_name AS group_name, m.properties AS properties, g.group_uid AS group_uid
 			FROM memberships AS m 
 			LEFT JOIN groups AS g ON m.group_uid = g.group_uid 
 			LEFT JOIN active_users AS u ON m.email = u.email
@@ -165,9 +165,10 @@
 			// Parse rows.
 			$name = $row['group_name'];
 			$properites = json_decode($row['properties'],true);
+			$uid = $row['group_uid'];
 			
 			// Create membership object.
-			$gr = array("groupName"=>$name,"groupColor"=>$properites["color"]);
+			$gr = array("group_name"=>$name,"group_color"=>$properites["color"],"group_id"=>$uid);
 			
 			// Add to groups.
 			$groups[] = $gr;
