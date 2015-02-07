@@ -21,11 +21,16 @@
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="js/createEvent.js"></script>
-<script src="js/homescripts.js"></script>
-<script src="js/cookie.js"></script>
-<script src="js/createGroup.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+</script>
+<script src="js/createEvent.js">
+</script>
+<script src="js/homescripts.js">
+</script>
+<script src="js/cookie.js">
+</script>
+<script src="js/createGroup.js">
+</script>
 
 
 
@@ -85,7 +90,7 @@
 			<button type="button" class="btn btn-lg btn-block btn-warning" data-toggle="modal" href="#createEventBox">Schedule an Event</button>
 		</div>
 		<div class="col-sm-3">
-			<button type="button" class="btn btn-lg btn-block btn-success" onclick="showSelectionBox(3)">Start a Task</button>
+			<button type="button" class="btn btn-lg btn-block btn-success" data-toggle="modal" href="#createTaskBox">Start a Task</button>
 		</div>
 		<div class="col-sm-3">
 			<button type="button" class="btn btn-lg btn-block btn-danger" onclick="showSelectionBox(4)">Send a Message</button>
@@ -417,6 +422,90 @@
   </div>
 </div>
 <!--Create Task -->
+<div class="modal fade" id="createTaskBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Create a Task</h4>
+      </div>
+      <div class="modal-body">
+      			<h5 class="header-center">Step 1: What is the task you are assigning?</h5>	
+				<div class="row">
+					<div class="col-xs-10">
+						<label for="taskNameField" class="sr-only">Task Name</label>	
+						<input type="text" id="taskNameField" class="form-control" placeholder="Task Name" required autofocus>
+					</div>
+				</div>
+				<!--<h5 class="header-center">Step 2: Set the deadline.</h5>
+				<div class="row">
+					<div class="col-xs-8">
+						<div class="input-daterange input-group" id="datepicker">
+					    <input type="text" class="input-sm form-control" />
+					</div>
+					<div class="col-xs-4">
+						&nbsp;
+					</div>
+				</div>-->
+				<div class="row tp15">
+					<div class="col-sm-7">
+						<h5 class="header-center">Step 2: Who do you want to assign this to?</h5>
+					</div>
+					<div class="col-sm-5">
+			            <div class="btn-group" data-toggle="buttons" id="is_personal">
+							<label class="btn btn-default">
+								<input type="radio" name="personal" value="0" /> A Group
+							</label> 
+							<label class="btn btn-default">
+								<input type="radio" name="personal" value="1" /> Myself
+							</label> 
+			            </div>
+			        </div>
+				</div>
+				<h5 class="header-center">Step 3: Add a task description:</h5>	
+				<div class="row">
+					<div class="col-xs-12">
+						<label for="taskDescription" class="sr-only">Assignment Name</label>	
+						<input type="text" id="taskDescription" class="form-control" placeholder="Task Description" required>
+					</div>
+				</div>
+				<!--<h5 class="header-center">Step 3: Pick the group or member:</h5>	
+				<div class="row">
+					<div class="col-xs-10">
+						<label for="assignmentNameField" class="sr-only">Assignment Name</label>	
+						<input type="text" id="assignmentNameField" class="form-control" placeholder="Assignment Name" required autofocus>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<h5 class="header-center">Step 5: Is this event reoccurring?</h5>
+					</div>
+					<div class="col-sm-6">
+			            <div class="btn-group" data-toggle="buttons">
+			                <label class="btn btn-default">
+			                    <input type="radio" name="fixedtime" value="1" /> Yes
+			                </label> 
+			                <label class="btn btn-default">
+			                    <input type="radio" name="fixedtime" value="2" /> No
+			                </label> 
+			            </div>
+			        </div>
+				</div>
+				<div class="row">
+					<div class="col-xs-10">
+						<label for="assignmentNameField" class="sr-only">Assignment Name</label>	
+						<input type="text" id="assignmentNameField" class="form-control" placeholder="Assignment Name" required autofocus>
+					</div>
+				</div>-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" onclick="createTask()" >Create Task</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Send Message-->
 
 
 <!--************************************************************************************************************

@@ -100,5 +100,13 @@
 		return $email_address;
 		
 	}
+	
+	function isEmptyString($str){
+		print_r($str);
+		if($str == null) return false;
+		if(!isset($str)) return false;
+		if($str == "") return false;
+		return true;
+	}
 
 ?>

@@ -3,6 +3,8 @@
 function getAllTasks($email){
 	$dbh = ConnectToDB();
 	
+	if(isEmptyString($email)){ http_response_code(210); return; }
+	
 	$stmt = $dbh->prepare(
 		"SELECT * FROM tasks_assignments JOIN tasks USING (task_uid) WHERE email = ?"
 	);
@@ -25,20 +27,25 @@ function getAllTasks($email){
 	return $arr;
 }
 
-function addTask($email,$title,$description,$group_uid,$event_uid,$is_personal){
+function addTask($email,$title,$description,$group_uid,$event_uid,$is_personal,$deadline){
+	
+	if(isEmptyString($email)){http_response_code(210); return;}
 			
 	$dbh = ConnectToDB();
 	
-	$sql = "INSERT INTO tasks(creator_email,title,description,group_uid,event_uid,is_personal)
+	$sql = "INSERT INTO tasks(creator_email,title,description,group_uid,event_uid,is_personal,deadline)
 			VALUES(?,?,?,"
 			.((isset($group_uid))? "?" : "NULL").","
 			.((isset($event_uid))? "?" : "NULL").","
-			."?)";
+			."?,"
+			.((isset($deadline))? "?" : "NULL").")";
 	
 	$arr = array($email,$title,$description);
 	if(isset($group_uid)) $arr[] = $group_uid;
 	if(isset($event_uid)) $arr[] = $event_uid;
 	$arr[] = $is_personal;
+	if(isset($deadline)) $arr[] = $deadline;
+	
 	
 	$stmt = $dbh->prepare($sql);
 	$stmt->execute($arr);
@@ -66,6 +73,7 @@ function createTask(){
 		$task_title = $_POST['task_title'];
 		$task_descr = $_POST['task_description'];
 		$is_personal = $_POST['is_personal'];
+		$deadline = $_POST['deadline'];
 		
 		
 		if(!isset($task_title)){ http_reponse_code(299); return; }
@@ -75,8 +83,11 @@ function createTask(){
 		// IF valid, continue.
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
-			$task_uid = addTask($email,$task_title,$task_descr,$group_uid,$event_uid,$is_personal);
+			$task_uid = addTask($email,$task_title,$task_descr,$group_uid,$event_uid,$is_personal,$deadline);
 			print_r($task_uid);
+		}else{
+			http_response_code(206);
+			return;
 		}
 }
 
@@ -92,6 +103,9 @@ function assignTask(){
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
 			addTaskAssignment($task_uid,$group_uid,$email);
+		}else{
+			http_response_code(206);
+			return;
 		}
 	
 }

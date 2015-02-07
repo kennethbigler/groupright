@@ -31,6 +31,13 @@ function getAllEvents($email){
 
 	function verifyUserGroup($email,$cookie,$group_uid){
 		$dbh = ConnectToDB();
+		echo $email;
+		if(isEmptyString($email)
+			||isEmptyString($cookie)
+			||isEmptyString($group_uid)){
+				http_response_code(299); return;
+		}
+		echo $email;
 		
 		$stmt = $dbh->prepare(
 			"SELECT * FROM active_users JOIN memberships USING (email)
@@ -91,11 +98,16 @@ function getAllEvents($email){
 		$start_time = $_POST['start_time'];
 		$end_time = $_POST['end_time'];
 		
-		
 		// If valid, continue.
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
+			if(!verifyUserGroup($email,$cookie,$group_uid)){
+				http_response_code(206);
+				return;
+			}
 			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,$start_time,$end_time);
+		}else{
+			http_response_code(206);
+			return;
 		}
 	
 	}
@@ -121,6 +133,9 @@ function getAllEvents($email){
 			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr);
 			addEventVoteSettings($event_uid,$start_date,$end_date,$start_time,$end_time,$duration);
 			addEventVotingTask($email,$group_uid,$event_title,$event_uid);
+		}else{
+			http_response_code(206);
+			return;
 		}
 	}
 
