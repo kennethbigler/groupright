@@ -121,6 +121,7 @@ function initializeEvents(allGroups){
 }
 
 function addUsersInfo(data){
+	var _cookies = genCookieDictionary();
 	//What to do on the page load
 	obj = JSON.parse(data);
 	//Add their name
@@ -131,7 +132,7 @@ function addUsersInfo(data){
 	initials=obj.first_name[0] + obj.last_name[0];
 	dealwithProfilePic(obj.photo_url,initials);
 	//Do some calendar Stuff (Eventually will need some of the data)
-	andCalendarInfo();
+	addCalendarInfo();
 	//Add tasks
 	addTasks();
 	//Add Updates

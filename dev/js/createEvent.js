@@ -324,7 +324,7 @@ function createGREvent(){
 	var time="9:30";
 	var time2="10:30";
 
-
+	var obj;
 
 	//get user email and get user access code
 	var _cookies = genCookieDictionary();
@@ -349,7 +349,7 @@ function createGREvent(){
 		
 		
 
-		var obj = {
+		obj = {
 			"function":"create_fixed_event",
 			"email":_cookies.user,
 			"cookie":_cookies.accesscode,
@@ -376,7 +376,7 @@ function createGREvent(){
 					updateProgressBar(6);
 					//window.location = "./home.html";				
 				},
-				210:function(){
+				206:function(){
 					//access denied, redirect to login
 					alert("Access Denied");	
 					//window.location = "./login.html";
