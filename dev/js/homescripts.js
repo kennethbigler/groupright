@@ -95,8 +95,8 @@ function initializeEvents(allGroups){
 	});
 	$('#timepicker1').timepicker();
 	$('#timepicker2').timepicker();
-	allGroups=[{"group_name":"Test1","group_color":"red","group_id":"77"},
-				{"group_name":"Potatoes","group_color":"blue","group_id":"78"}];
+	/*allGroups=[{"group_name":"Test1","group_color":"red","group_id":"77"},
+				{"group_name":"Potatoes","group_color":"blue","group_id":"78"}];*/
 	//console.log(allGroups);
 	var groupMenu = document.getElementById("eventGroups");
 	var numGroups = allGroups.length;
