@@ -4,17 +4,43 @@ var eventIsFixed=false;
 var attendance=false;
 var grouprightDecides=false;
 var eventName="Not Added";
-var fixedStartDate="Not Added";
-var helpEndDate="Not Added";
-var helpStartDate="Not Added";
-var fixedEndDate="Not Added";
+var eventDescription="";
+
 var eventGroup="Not Added";
 var eventGroupID="";
+
 var fixedStartTime="Not Added";
+var fixedEndTime="Not Added";
+var fixedStartDate="Not Added";
+var fixedEndDate="Not Added";
+
 var helpEndTime="Not Added";
 var helpStartTime="Not Added";
-var fixedEndTime="Not Added";
+var helpEndDate="Not Added";
+var helpStartDate="Not Added";
 
+
+function resetEventParameters(){
+	eventstep=1;
+	eventIsFixed=false;
+	attendance=false;
+	grouprightDecides=false;
+	eventName="Not Added";
+	fixedStartDate="Not Added";
+	helpEndDate="Not Added";
+	helpStartDate="Not Added";
+	fixedEndDate="Not Added";
+	eventGroup="Not Added";
+	eventGroupID="";
+	fixedStartTime="Not Added";
+	helpEndTime="Not Added";
+	helpStartTime="Not Added";
+	fixedEndTime="Not Added";
+	event_descripton="";
+	updateProgressBar(1);
+	//Hide all but the initial steps
+
+}
 function previous(){
 	if(eventstep==1){
 		return;
@@ -38,6 +64,9 @@ function next(){
 function updateProgressBar(step){
 	if(step==5){
 		var percent=step*20 -3;
+	}
+	else if(step==6){
+		var percent=100;
 	}
 	else{
 		var percent=step*20;
@@ -173,6 +202,7 @@ function isValid(step){
 		}
 		eventGroup=$( "#eventGroups option:selected" ).text();
 		eventGroupID=$( "#eventGroups" ).val();
+		eventDescription=$( "#eventDescription" ).val();
 		eventName=name;
 		return true;
 	}
@@ -283,35 +313,59 @@ function isValid(step){
 
 }
 
-function createEvent(){
-	var group_id="";
-	//get the event name
-	var event_name="";
-	var description="";
-	//get all emails json stringify
-	var start_date="";
-	var end_date="";
-	var start_time="";
-	var end_time="";
-	var duration="";
+function createGREvent(){
+	alert("hi");
+	//get the event parameters
 
-	var creator_email="";
+	var group_id=eventGroupID;
+	var event_name=eventName;
+	var description=eventDescription;
+
+	var time="9:30";
+	var time2="10:30";
+
+
+
 	//get user email and get user access code
 	var _cookies = genCookieDictionary();
 
-	var obj = {
-				"function":"create_event",
-				"event_name":event_name,
-				"start_date":start_date,
-				"group_id":group_id,
-				"end_date":end_date,
-				"start_time":start_time,
-				"end_time":end_time,
-				"duration":duration,
-				"creator_email":_cookies.user,
-				"ac":_cookies.accesscode
-	};
+	if(eventIsFixed){
+		
+		var start_time = new Date(fixedStartDate);
+		time=time.split(":");
+		var hours=time[0];
+		var minutes=time[1];
+		start_time.setHours(hours);
+		start_time.setMinutes(minutes);
+		start_time=start_time.toJSON();
 	
+		var end_time= new Date(fixedEndDate);
+		time2=time2.split(":");
+		hours=time2[0];
+		minutes=time2[1];
+		end_time.setHours(parseInt(hours));
+		end_time.setMinutes(parseInt(minutes));
+		end_time=end_time.toJSON();
+		
+		
+
+		var obj = {
+			"function":"create_fixed_event",
+			"email":_cookies.user,
+			"cookie":_cookies.accesscode,
+			"event_title":event_name,
+			"event_descripton":description,
+			"group_uid":group_id,
+			"start_time":start_time,
+			"end_time":end_time
+			
+		};
+		console.log(obj);
+	}
+	else{
+
+	}
+
 	// Contact Server
 	$.ajax("https://www.groupright.net/dev/groupserve.php",{
 			type:'POST',
@@ -319,12 +373,13 @@ function createEvent(){
 			statusCode:{
 				200:function(data,status,jqXHR){
 					alert("Event Created");
-					window.location = "./home.html";				
+					updateProgressBar(6);
+					//window.location = "./home.html";				
 				},
 				210:function(){
 					//access denied, redirect to login
 					alert("Access Denied");	
-					window.location = "./login.html";
+					//window.location = "./login.html";
 				},
 				220:function(){
 					//something else happened

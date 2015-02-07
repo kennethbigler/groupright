@@ -27,7 +27,7 @@ window.onload = function() {
 		});
 	}
 	else{
-		console.log("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
+		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
 		//window.location="https://www.groupright.net/dev/login.html";
 		addCalendarInfo();
 		initializeEvents();
@@ -95,11 +95,16 @@ function initializeEvents(allGroups){
 	});
 	$('#timepicker1').timepicker();
 	$('#timepicker2').timepicker();
-	allGroups=[{"groupName":"Test1","color":"red","groupID":"77"},
-				{"groupName":"Potatoes","color":"blue","groupID":"78"}];
-	console.log(allGroups);
+	allGroups=[{"group_name":"Test1","group_color":"red","group_id":"77"},
+				{"group_name":"Potatoes","group_color":"blue","group_id":"78"}];
+	//console.log(allGroups);
 	var groupMenu = document.getElementById("eventGroups");
 	var numGroups = allGroups.length;
+
+	//If no groups
+	if(numGroups==0){
+		console.warn("You currently have no groups. Events will not work.");
+	}
 
 	//If only one group, make it default
 	if(numGroups==1){
@@ -108,9 +113,9 @@ function initializeEvents(allGroups){
 
 	for(var i = 0; i < numGroups; i ++) {
 		var item=document.createElement('option');
-		item.style.color=allGroups[i].color;
-		item.value=allGroups[i].groupID;
-		item.innerHTML=allGroups[i].groupName;
+		item.style.color=allGroups[i].group_color;
+		item.value=allGroups[i].group_id;
+		item.innerHTML=allGroups[i].group_name;
 		groupMenu.appendChild(item);
 	}
 }
@@ -192,9 +197,9 @@ function addUsersGroups(allGroups){
 
 	for(var i = 0; i < numGroups; i ++) {
 		allMyGroups += '<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:' + 
-			allGroups[i].groupColor +
+			allGroups[i].group_color +
 			';"></span>&nbsp;' +
-			allGroups[i].groupName +
+			allGroups[i].group_name +
 			'</a></li>';
 	}
 	groupMenu.innerHTML = allMyGroups;
