@@ -3,6 +3,8 @@
 function getAllTasks($email){
 	$dbh = ConnectToDB();
 	
+	if(isEmptyString($email)){ http_response_code(210); return; }
+	
 	$stmt = $dbh->prepare(
 		"SELECT * FROM tasks_assignments JOIN tasks USING (task_uid) WHERE email = ?"
 	);
@@ -26,6 +28,8 @@ function getAllTasks($email){
 }
 
 function addTask($email,$title,$description,$group_uid,$event_uid,$is_personal,$deadline){
+	
+	if(isEmptyString($email)){http_response_code(210); return;}
 			
 	$dbh = ConnectToDB();
 	
@@ -81,6 +85,9 @@ function createTask(){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
 			$task_uid = addTask($email,$task_title,$task_descr,$group_uid,$event_uid,$is_personal,$deadline);
 			print_r($task_uid);
+		}else{
+			http_response_code(206);
+			return;
 		}
 }
 
@@ -96,6 +103,9 @@ function assignTask(){
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
 			addTaskAssignment($task_uid,$group_uid,$email);
+		}else{
+			http_response_code(206);
+			return;
 		}
 	
 }
