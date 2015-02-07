@@ -1,60 +1,48 @@
 function createTask(){
-	//get the groupname
-	var group_name=document.getElementById("groupnameField").value;
-	if(group_name=="" || group_name.length<=0){
-		alert("Your Group Name is invalid");
+	//get the task name
+	var task_title = document.getElementById("taskNameField").value;
+	if (task_title == "" || task_title.length<=0) {
+		alert("Your Task Name is invalid");
 		return false;
 	}
-	var allEmails=[];
-	//Add the Group Leader's email
-	var _cookies = genCookieDictionary();
-	var leader=_cookies.user; 
-	allEmails.push(leader);
-	//get and verify all members emails
-	for(var i=2; i<numberOfFields; i++){
-		if(document.getElementById("member"+i)){
-			tempEmail=document.getElementById("member"+i).value;
-			//validate the email
-			var atpos = tempEmail.indexOf("@");
-			var dotpos = tempEmail.lastIndexOf(".");
-			if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=tempEmail.length) {
-			    alert("Invalid Email Address was entered.");
-			    return false;
-			}
-			//add it to the email array if its good
-			allEmails.push(tempEmail);
-		}
-	}
-	//json stringify
-	var members=JSON.stringify(allEmails);
-	console.log(members);
 
+	//get personal or group
+	var is_personal = document.getElementById("is_personal").elements["personal"].value;
+
+	//get task description
+	var task_description = document.getElementById("taskDescription").value;
+	
 	//get user access code
-	var ac=_cookies.accesscode;
-	var email=leader;
+	var _cookies = genCookieDictionary();
+	var email = _cookies.user; 
+	var ac = _cookies.accesscode;
 	var obj = {
-				"function":"create_group",
-				"group_name":group_name,
-				"member_array":members,
+				"function":"create_task",
 				"email":email,
-				"ac":ac
+				"cookie":ac,
+				"group_uid":,
+				"event_uid":"",
+				"task_title":task_title,
+				"task_description":task_description,
+				"is_personal":is_personal,
 	};
 	console.log(obj);
+
 	// Contact Server
 	$.ajax("https://www.groupright.net/dev/groupserve.php",{
 			type:'POST',
 			data:obj,
 			statusCode:{
-				200:function(data,status,jqXHR){
+				200:function(data,status,jqXHR) {
 					alert("Group Created");
 					window.location = "./home.html";				
 				},
-				210:function(){
+				210:function() {
 					//access denied, redirect to login
 					alert("Access Denied");	
 					window.location = "./login.html";
 				},
-				220:function(){
+				220:function() {
 					//something else happened
 					alert("We have literally no idea what happened.")
 				}
