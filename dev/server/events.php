@@ -47,13 +47,13 @@ function getAllEvents($email){
 		return false;
 	}
 
-	function addEvent($email,$group_uid,$name,$description,$start_time,$end_time){
+	function addEvent($email,$group_uid,$name,$description,$start_time,$end_time,$location){
 				
 		$dbh = ConnectToDB();
 		
 		// Name
 		$arr = array($name);		
-		$sql = "INSERT INTO events(name,description,group_uid,email,start_time,end_time)";
+		$sql = "INSERT INTO events(name,description,group_uid,email,start_time,end_time,location)";
 		$sql = $sql." VALUES(?,";
 		
 		// Description (can be empty)
@@ -78,10 +78,18 @@ function getAllEvents($email){
 		
 		// End time (def. NULL)
 		if(isset($end_time) && $end_time != ""){
-			$sql = $sql."?)";
+			$sql = $sql."?,";
 			$arr[] = $end_time;
 		}else{
-			$sql = $sql."NULL)";
+			$sql = $sql."NULL,";
+		}
+		
+		// Location
+		if(isset($location) && $location != ""){
+			$sql = $sql."?)";
+			$arr[] = $location;
+		}else{
+			$sql = $sql."'')";
 		}
 		
 		$stmt = $dbh->prepare( $sql );
@@ -111,6 +119,7 @@ function getAllEvents($email){
 		$event_descr = $_POST['event_description'];
 		$start_time = $_POST['start_time'];
 		$end_time = $_POST['end_time'];
+		$location = $_POST['location'];
 		
 		// If valid, continue.
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -118,7 +127,7 @@ function getAllEvents($email){
 				http_response_code(206);
 				return;
 			}
-			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,$start_time,$end_time);
+			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,$start_time,$end_time,$location);
 			echo $event_uid;
 			http_response_code(200);
 		}else{
@@ -142,11 +151,12 @@ function getAllEvents($email){
 		$start_time = $_POST['start_time'];
 		$end_time = $_POST['end_time'];
 		$duration = $_POST['duration'];
+		$location = $_POST['location'];
 		
 		// IF valid, continue.
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
-			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr);
+			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,NULL,NULL,$location);
 			addEventVoteSettings($event_uid,$start_date,$end_date,$start_time,$end_time,$duration);
 			addEventVotingTask($email,$group_uid,$event_title,$event_uid);
 		}else{
