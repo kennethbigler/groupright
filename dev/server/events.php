@@ -46,43 +46,42 @@ function getAllEvents($email){
 		http_response_code(299);
 		return false;
 	}
+	
+	function _appendQS(&$sql,&$arr,$var,$backup){
+		if(isset($var) && $var != ""){
+			$sql = $sql."?";
+			$arr[] = $var;
+		}else{
+			$sql = $sql.$backup;
+		}
+	}
 
-	function addEvent($email,$group_uid,$name,$description,$start_time,$end_time){
+	function addEvent($email,$group_uid,$name,$description,$start_time,$end_time,$location){
 				
 		$dbh = ConnectToDB();
 		
 		// Name
 		$arr = array($name);		
-		$sql = "INSERT INTO events(name,description,group_uid,email,start_time,end_time)";
+		$sql = "INSERT INTO events(name,description,group_uid,email,start_time,end_time,location)";
 		$sql = $sql." VALUES(?,";
 		
 		// Description (can be empty)
-		if(isset($description) && $description != ""){
-			$sql = $sql."?,";
-			$arr[] = $description;
-		}else{
-			$sql = $sql."'',";
-		}
+		_appendQS($sql,$arr,$description,"''");
+		$sql .= ",";
 		
 		// Group_UID, email, 
 		$sql = $sql."?,"; $arr[] = $group_uid;
 		$sql = $sql."?,"; $arr[] = $email;
 		
-		// Start time (def. NULL)
-		if(isset($start_time) && $start_time != ""){
-			$sql = $sql."?,";
-			$arr[] = $start_time;
-		}else{
-			$sql = $sql."NULL,";
-		}
+		// Start time (def. NULL)		
+		_appendQS($sql,$arr,$start_time,"NULL");
+		$sql .= ",";
+		_appendQS($sql,$arr,$end_time,"NULL");
+		$sql .= ",";
 		
-		// End time (def. NULL)
-		if(isset($end_time) && $end_time != ""){
-			$sql = $sql."?)";
-			$arr[] = $end_time;
-		}else{
-			$sql = $sql."NULL)";
-		}
+		// Location
+		_appendQS($sql,$arr,$location,"''");
+		$sql .= ")";
 		
 		$stmt = $dbh->prepare( $sql );
 		$stmt->execute($arr);		
@@ -111,6 +110,7 @@ function getAllEvents($email){
 		$event_descr = $_POST['event_description'];
 		$start_time = $_POST['start_time'];
 		$end_time = $_POST['end_time'];
+		$location = $_POST['location'];
 		
 		// If valid, continue.
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -118,7 +118,7 @@ function getAllEvents($email){
 				http_response_code(206);
 				return;
 			}
-			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,$start_time,$end_time);
+			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,$start_time,$end_time,$location);
 			echo $event_uid;
 			http_response_code(200);
 		}else{
@@ -142,11 +142,12 @@ function getAllEvents($email){
 		$start_time = $_POST['start_time'];
 		$end_time = $_POST['end_time'];
 		$duration = $_POST['duration'];
+		$location = $_POST['location'];
 		
 		// IF valid, continue.
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
-			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr);
+			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,NULL,NULL,$location);
 			addEventVoteSettings($event_uid,$start_date,$end_date,$start_time,$end_time,$duration);
 			addEventVotingTask($email,$group_uid,$event_title,$event_uid);
 		}else{
