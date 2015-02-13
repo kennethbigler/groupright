@@ -29,8 +29,29 @@ window.onload = function() {
 	else{
 		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
 		//window.location="https://www.groupright.net/dev/login.html";
+		var allGroups=[{"group_name":"Test1","group_color":"red","group_id":"77"},
+				{"group_name":"Potatoes","group_color":"blue","group_id":"78"}];
+
+		var tasks=[{
+			"task_title":"Provide Availability for 'Yo Gabba Gabba'",
+			"task_description":"",
+			"group_id":"10",
+			"creator":"scomatbarsar@gmail.com",
+			"is_completed":"0",
+			"is_personal":"1"
+			},
+			{
+			"task_title":"Provide Availability for 'South Park Marathon'",
+			"task_description":"",
+			"group_id":"10",
+			"creator":"scomatbarsar@gmail.com",
+			"is_completed":"0",
+			"is_personal":"1"
+			}];
+		console.log(allGroups);
 		addCalendarInfo();
-		initializeEvents();
+		initializeEvents(allGroups);
+		addTasks(tasks);
 	}
 
 };
@@ -95,9 +116,7 @@ function initializeEvents(allGroups){
 	});
 	$('#timepicker1').timepicker();
 	$('#timepicker2').timepicker();
-	/*allGroups=[{"group_name":"Test1","group_color":"red","group_id":"77"},
-				{"group_name":"Potatoes","group_color":"blue","group_id":"78"}];*/
-	//console.log(allGroups);
+
 	var groupMenu = document.getElementById("eventGroups");
 	var numGroups = allGroups.length;
 
@@ -134,14 +153,13 @@ function addUsersInfo(data){
 	//Do some calendar Stuff (Eventually will need some of the data)
 	addCalendarInfo();
 	//Add tasks
-	addTasks();
+	addTasks(obj.tasks);
 	//Add Updates
 	addUpdates();
 	//Set the user's email for creating groups
 	document.getElementById("member1").value=_cookies.user;
 	//initialize event date
 	initializeEvents(obj.memberships);
-
 	
 }
 
@@ -149,8 +167,22 @@ function addUpdates(){
 
 
 }
-function addTasks(){
-
+function addTasks(task_array){
+	var tasks=document.getElementById('addTasks');
+	if(task_array.length==0){
+		//Add no pending tasks
+		return;
+	}
+	for(var i=0; i<task_array.length; i++){
+		var div=document.createElement('div');
+		div.className="alert";
+		div.style.backgroundColor="lightBlue";
+		div.style.border="1px solid darkBlue";
+		var paragraph=document.createElement('p');
+		paragraph.innerText=task_array[i].task_title;
+		div.appendChild(paragraph);
+		document.getElementById('addTasks').appendChild(div);
+	}
 
 }
 function addCalendarInfo(){

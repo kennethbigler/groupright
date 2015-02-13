@@ -50,7 +50,7 @@ function checkCookie(goodFn,badFn){
 function eatCookies()
 {   
     var cookies = document.cookie.split(";");
-    alert(cookies);
+    //alert(cookies);
     for (var i = 0; i < cookies.length; i++)
     {   
         var spcook =  cookies[i].split("=");
@@ -62,7 +62,7 @@ function eatCookies()
         d.setDate(d.getDate() - 1);
         var expires = ";expires="+d;
         var name=cookiename;
-        alert(name);
+        //alert(name);
         var value="";
         document.cookie = name + "=" + value + expires;                    
     }

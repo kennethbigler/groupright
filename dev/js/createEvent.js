@@ -38,6 +38,8 @@ function resetEventParameters(){
 	fixedEndTime="Not Added";
 	event_descripton="";
 	updateProgressBar(1);
+	//close the modal view
+	$('#createEventBox').modal('hide');
 	//Hide all but the initial steps
 
 }
@@ -314,13 +316,13 @@ function isValid(step){
 }
 
 function createGREvent(){
-	alert("hi");
 	//get the event parameters
-
 	var group_id=eventGroupID;
 	var event_name=eventName;
 	var description=eventDescription;
+	var location="Location";
 
+	//Times 24 hour format
 	var time="9:30";
 	var time2="10:30";
 
@@ -330,24 +332,8 @@ function createGREvent(){
 	var _cookies = genCookieDictionary();
 
 	if(eventIsFixed){
-		
-		var start_time = new Date(fixedStartDate);
-		time=time.split(":");
-		var hours=time[0];
-		var minutes=time[1];
-		start_time.setHours(hours);
-		start_time.setMinutes(minutes);
-		start_time=start_time.toJSON();
-	
-		var end_time= new Date(fixedEndDate);
-		time2=time2.split(":");
-		hours=time2[0];
-		minutes=time2[1];
-		end_time.setHours(parseInt(hours));
-		end_time.setMinutes(parseInt(minutes));
-		end_time=end_time.toJSON();
-		
-		
+		var start_time=makeDateAndTimeObject(fixedStartDate,time);
+		var end_time=makeDateAndTimeObject(fixedEndDate,time2);
 
 		obj = {
 			"function":"create_fixed_event",
@@ -357,13 +343,32 @@ function createGREvent(){
 			"event_descripton":description,
 			"group_uid":group_id,
 			"start_time":start_time,
+			"location":location,
 			"end_time":end_time
 			
 		};
 		console.log(obj);
 	}
 	else{
-
+		var start_date=makeDateAndTimeObject(helpStartDate,null);
+		var end_date=makeDateAndTimeObject(helpEndDate,null);
+		var start_time=time;
+		var end_time=time2;
+		var duration=30;
+		obj = {
+			"function":"create_votable_event",
+			"email":_cookies.user,
+			"cookie":_cookies.accesscode,
+			"event_title":event_name,
+			"event_descripton":description,
+			"group_uid":group_id,
+			"start_time":start_time,
+			"end_time":end_time,
+			"start_date":start_date,
+			"end_date":end_date,
+			"duration":duration,
+			"location":location
+		};
 	}
 
 	// Contact Server
@@ -374,6 +379,7 @@ function createGREvent(){
 				200:function(data,status,jqXHR){
 					alert("Event Created");
 					updateProgressBar(6);
+					resetEventParameters();
 					//window.location = "./home.html";				
 				},
 				206:function(){
@@ -388,6 +394,18 @@ function createGREvent(){
 			}
 	});
 	return false;
+}
+function makeDateAndTimeObject(_date,_time){
+	var dateAndTime= new Date(_date);
+	if(_time!=null){
+		_time=_time.split(":");
+		var hours=_time[0];
+		var minutes=_time[1];
+		dateAndTime.setHours(hours);
+		dateAndTime.setMinutes(minutes);
+	}
+	dateAndTime=dateAndTime.toJSON();
+	return dateAndTime;
 }
 function isValidDate(dateString)
 {
@@ -413,4 +431,4 @@ function isValidDate(dateString)
 
     // Check the range of the day
     return day > 0 && day <= monthLength[month - 1];
-};
+}
