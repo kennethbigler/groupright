@@ -46,6 +46,15 @@ function getAllEvents($email){
 		http_response_code(299);
 		return false;
 	}
+	
+	function _appendQS(&$sql,&$arr,$var,$backup){
+		if(isset($var) && $var != ""){
+			$sql = $sql."?";
+			$arr[] = $var;
+		}else{
+			$sql = $sql.$backup;
+		}
+	}
 
 	function addEvent($email,$group_uid,$name,$description,$start_time,$end_time,$location){
 				
@@ -57,40 +66,22 @@ function getAllEvents($email){
 		$sql = $sql." VALUES(?,";
 		
 		// Description (can be empty)
-		if(isset($description) && $description != ""){
-			$sql = $sql."?,";
-			$arr[] = $description;
-		}else{
-			$sql = $sql."'',";
-		}
+		_appendQS($sql,$arr,$description,"''");
+		$sql .= ",";
 		
 		// Group_UID, email, 
 		$sql = $sql."?,"; $arr[] = $group_uid;
 		$sql = $sql."?,"; $arr[] = $email;
 		
-		// Start time (def. NULL)
-		if(isset($start_time) && $start_time != ""){
-			$sql = $sql."?,";
-			$arr[] = $start_time;
-		}else{
-			$sql = $sql."NULL,";
-		}
-		
-		// End time (def. NULL)
-		if(isset($end_time) && $end_time != ""){
-			$sql = $sql."?,";
-			$arr[] = $end_time;
-		}else{
-			$sql = $sql."NULL,";
-		}
+		// Start time (def. NULL)		
+		_appendQS($sql,$arr,$start_time,"NULL");
+		$sql .= ",";
+		_appendQS($sql,$arr,$end_time,"NULL");
+		$sql .= ",";
 		
 		// Location
-		if(isset($location) && $location != ""){
-			$sql = $sql."?)";
-			$arr[] = $location;
-		}else{
-			$sql = $sql."'')";
-		}
+		_appendQS($sql,$arr,$location,"''");
+		$sql .= ")";
 		
 		$stmt = $dbh->prepare( $sql );
 		$stmt->execute($arr);		
