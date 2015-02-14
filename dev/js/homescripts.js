@@ -241,7 +241,8 @@ function addTasks(task_array){
 		containingDiv.style.margin="10px";
 		//headingDiv.style.color="darkBlue";
 		//headingDiv.style.backgroundColor="#8AB5E3";
-		headingDiv.style.backgroundColor=gr_colors[Math.floor(Math.random() * 12) ];
+		//headingDiv.style.backgroundColor=gr_colors[Math.floor(Math.random() * 12) ];
+		containingDiv.style.borderLeft="12px solid "+gr_colors[Math.floor(Math.random() * 8) ];
 		/*div.className="alert";
 		div.style.backgroundColor="lightBlue";
 		div.style.border="1px solid darkBlue";
