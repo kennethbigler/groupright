@@ -1,3 +1,15 @@
+var gr_colors=[
+"#48CB09",
+"#FFF763",
+"#E03FFE",
+"#3865CB",
+"#FE3779",
+"#DD0816",
+"#E3C00C",
+"#00A1D9",
+"#006E22"
+];
+
 window.onload = function() {
 	//get the cookies and get all of the data from the server
 	var _cookies = genCookieDictionary();
@@ -34,6 +46,20 @@ window.onload = function() {
 
 		var tasks=[{
 			"task_title":"Provide Availability for 'Yo Gabba Gabba'",
+			"task_description":"",
+			"group_id":"10",
+			"creator":"scomatbarsar@gmail.com",
+			"is_completed":"0",
+			"is_personal":"1"
+			},
+			{"task_title":"Provide Availability for 'Yo Gabba Gabba'",
+			"task_description":"",
+			"group_id":"10",
+			"creator":"scomatbarsar@gmail.com",
+			"is_completed":"0",
+			"is_personal":"1"
+			},
+			{"task_title":"Provide Availability for 'Yo Gabba Gabba'",
 			"task_description":"",
 			"group_id":"10",
 			"creator":"scomatbarsar@gmail.com",
@@ -174,14 +200,56 @@ function addTasks(task_array){
 		return;
 	}
 	for(var i=0; i<task_array.length; i++){
-		var div=document.createElement('div');
-		div.className="alert";
+		var temp=i+1;
+		var containingDiv=document.createElement('div');
+		containingDiv.className="panel panel-default";
+		var headingDiv=document.createElement('div');
+		headingDiv.className="panel-heading";
+		$(headingDiv).attr( 'role', 'tab' );
+		$(headingDiv).attr( 'id', 'heading'+temp );
+		var heading=document.createElement('h4');
+		heading.className="panel-title";
+		var link=document.createElement('a');
+		$(link).attr( 'data-toggle', 'collapse' );
+		$(link).attr( 'data-parent', '#addTasks' );
+		$(link).attr( 'href', '#collapse'+temp);
+		$(link).attr( 'aria-expanded', 'false' );
+		$(link).attr( 'aria-controls', 'collapse1' );
+		link.innerText=task_array[i].task_title;
+		var collapseDiv=document.createElement('div');
+		$(collapseDiv).attr( 'id', 'collapse'+temp );
+		$(collapseDiv).attr( 'class', 'panel-collapse collapse' );
+		$(collapseDiv).attr( 'role', 'tabpannel' );
+		$(collapseDiv).attr( 'aria-labelledby', 'heading'+temp );
+		var detailDiv=document.createElement('div');
+		detailDiv.className="panel-body";
+		var createdPar=document.createElement('p');
+		collapseDiv.innerText+="Created By: "+task_array[i].creator;
+		//var responsibilityPar=document.createElement('p');
+		//collapseDiv.appendChild(createdPar);
+		if(task_array[i].task_description==""){
+			detailDiv.innerText="No Description Provided";
+		}
+		else{
+			detailDiv.innerText=task_array[i].task_description;
+		}
+		collapseDiv.appendChild(detailDiv);
+		heading.appendChild(link);
+		headingDiv.appendChild(heading);
+		containingDiv.appendChild(headingDiv);
+		containingDiv.appendChild(collapseDiv);
+		containingDiv.style.margin="10px";
+		//headingDiv.style.color="darkBlue";
+		//headingDiv.style.backgroundColor="#8AB5E3";
+		headingDiv.style.backgroundColor=gr_colors[Math.floor(Math.random() * 12) ];
+		/*div.className="alert";
 		div.style.backgroundColor="lightBlue";
 		div.style.border="1px solid darkBlue";
 		var paragraph=document.createElement('p');
 		paragraph.innerText=task_array[i].task_title;
 		div.appendChild(paragraph);
-		document.getElementById('addTasks').appendChild(div);
+		*/
+		document.getElementById('addTasks').appendChild(containingDiv);
 	}
 
 }
