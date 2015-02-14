@@ -1,0 +1,77 @@
+
+
+/********************************************************************/
+/*		FORM STYLES												*/
+/********************************************************************/
+
+.btn-half{
+	width:49%;
+}
+
+.groupright-divider{
+	border: 1px solid #ccc;
+}
+
+.login-box input[type="text"],
+.login-box input[type="email"],
+.login-box input[type="password"],
+.login-box .btn,
+.signup-box input[type="text"],
+.signup-box input[type="email"],
+.signup-box input[type="password"],
+.signup-box .btn
+{
+	margin-top:10px;
+}
+
+.gr-spaced{
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.createGroupForm{
+	border: 7px solid #2e6da4;
+	padding:10px;
+	border-radius: 10px;
+}
+
+/********************************************************************/
+/*		LOGIN STYLES												*/
+/********************************************************************/
+
+.login-box,.signup-box,.flipper,.flip-container{
+
+	/* sizing */
+	width:450px;
+	height:430px;
+	
+	/* positioning */
+	position:absolute;
+	top:0px; bottom:0px;
+	left:0px; right:0px;
+	margin:auto;
+	
+}
+
+.login-box{	
+	/* padding */
+	padding:20px;
+	padding-top:0px;
+}
+
+.signup-box,.flipper{	
+	/* padding */
+	padding:20px;
+	padding-top:0px;
+}
+
+
+.flipper{
+	/* border */
+	border-radius:10px;
+	box-shadow: 0px 0px 50px 0px #000;
+
+}
+
+
+

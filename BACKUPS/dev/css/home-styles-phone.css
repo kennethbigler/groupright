@@ -1,0 +1,23 @@
+@charset "utf-8";
+/* CSS Document */
+
+#updates, #tasks {
+	height: 369px;
+	margin-bottom: 20px;
+}
+
+div.main3w {
+	height: 369px;
+}
+
+div.main6w {
+	height: 666px;
+}
+
+#comingup {
+	height: 666px;
+}
+
+.btn-lg, .btn-group-lg>.btn {
+	margin-bottom: 5px;
+}
