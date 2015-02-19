@@ -10,6 +10,16 @@ var gr_colors=[
 "#006E22"
 ];
 
+/********************************************************************************
+Array of people objects that has every member of every group that the user is in
+obj={
+	"email":xxx
+	"first_name":xxx
+	"last_name":xxx
+}
+********************************************************************************/
+var gr_contacts=[];
+
 window.onload = function() {
 	//get the cookies and get all of the data from the server
 	var _cookies = genCookieDictionary();
@@ -74,10 +84,86 @@ window.onload = function() {
 			"is_completed":"0",
 			"is_personal":"1"
 			}];
-		console.log(allGroups);
+
+		var memberships=[
+			{
+			"group_name":"Test",
+			"group_color":"#900000",
+			"group_id":"11",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			}]
+			},
+			{
+			"group_name":"Kyle",
+			"group_color":"#900000",
+			"group_id":"12",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			},
+			{
+			"email":"scomatbarsar@gmail.com",
+			"first_name":"Scott",
+			"last_name":"Sarsfield"
+			}]
+			},
+			{
+			"group_name":"Another Test",
+			"group_color":"#900000",
+			"group_id":"13",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			}]
+			},
+			{
+			"group_name":"Group Test",
+			"group_color":"#900000",
+			"group_id":"14",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			}]
+			},
+			{
+			"group_name":"Test 1234",
+			"group_color":"#900000",
+			"group_id":"15",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			}]
+			},
+			{
+			"group_name":"Left Villas 10",
+			"group_color":"#900000",
+			"group_id":"16",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			},
+			{
+			"email":"monica.e.pires@gmail.com",
+			"first_name":"Monica",
+			"last_name":"Pires "
+			}]
+		}];
+
+		console.log(memberships);
 		addCalendarInfo();
 		initializeEvents(allGroups);
+		dealwithProfilePic(null,"ZW");
+		addGRContacts(memberships);
 		addTasks(tasks);
+		addUpdates();
 	}
 
 };
@@ -186,12 +272,78 @@ function addUsersInfo(data){
 	document.getElementById("member1").value=_cookies.user;
 	//initialize event date
 	initializeEvents(obj.memberships);
-	
+	//add all members to global store
+	addGRcontacts(obj.memberships);
+
+}
+//returns a contact if it is in the user's global address book
+//FALSE otherwise
+function isInContacts(email){
+	for(var i=0; i<gr_contacts.length;i++){
+		if(gr_contacts[i].email==email){
+			return true;
+		}
+	}
+	return false;
+}
+function addGRContacts(memberships){
+	for(var i=0; i<memberships.length;i++){
+		var temp=memberships[i].members;
+		for(var j=0; j<temp.length; j++){
+			if(!isInContacts(temp[j].email)){
+				var obj={
+					"email":temp[j].email,
+					"first_name":temp[j].first_name,
+					"last_name":temp[j].last_name
+				};
+				gr_contacts.push(obj);
+			}
+		}
+	}
+	console.log(gr_contacts);
+
 }
 
 function addUpdates(){
+	
+
+	var adder=document.getElementById("addUpdates");
+	for(var i=0; i<10; i++){
+		//var span = document.createElement('span');
+		//$(span).attr('class','glyphicon glyphicon-asterisk');
+		//span.style.color=gr_colors[Math.floor(Math.random() * 8) ];
+		var a=document.createElement('a');
+		$(a).attr( 'class', 'list-group-item' );
+		$(a).attr( 'href', '#' );
+		var h4=document.createElement('h4');
+		//h4.appendChild(span);
+		$(h4).attr('class','list-group-item-heading');
+		h4.innerText="This is an update!";
+		var p=document.createElement('p');
+		$(p).attr('class','list-group-item-text');
+		p.innerText="This is additional info for the update that is in the heading!";
+		a.style.backgroundColor=gr_colors[Math.floor(Math.random() * 8) ];
+
+		a.appendChild(h4);
+		a.appendChild(p);
+		adder.appendChild(a);
+
+	}
 
 
+}
+
+function getFullNameForEmail(email){
+	//console.log(gr_contacts.length);
+	for(var i=0; i<gr_contacts.length;i++){
+		//console.log(email);
+		//console.log(gr_contacts[i].email);
+		if(email==gr_contacts[i].email){
+			return gr_contacts[i].first_name +" "+gr_contacts[i].last_name;
+		}
+	}
+	console.warn("Control Reached unexpected End in fx: getFullNameForEmail");
+	return "Unknown";
 }
 function addTasks(task_array){
 	var tasks=document.getElementById('addTasks');
@@ -224,9 +376,11 @@ function addTasks(task_array){
 		var detailDiv=document.createElement('div');
 		detailDiv.className="panel-body";
 		var createdPar=document.createElement('p');
-		collapseDiv.innerText+="Created By: "+task_array[i].creator;
+		
+		createdPar.innerText+="Created By: "+getFullNameForEmail(task_array[i].creator);
+		createdPar.style.marginLeft="5px";
+		collapseDiv.appendChild(createdPar);
 		//var responsibilityPar=document.createElement('p');
-		//collapseDiv.appendChild(createdPar);
 		if(task_array[i].task_description==""){
 			detailDiv.innerText="No Description Provided";
 		}
@@ -281,7 +435,8 @@ function dealwithProfilePic(url, initials){
 	var profileImage=document.getElementById("profileImage");
 	if(url==null){
 		//alert("here");
-		profileImage.src="images/black.png";
+		//profileImage.src="images/black.png";
+		profileImage.src="images/orange.jpg";
 		profileImage.style.backgroundColor="orange";
 		profileImage.style.border="2px solid #AF7817";
 		//still have to do something with initials
