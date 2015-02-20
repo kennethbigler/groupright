@@ -1,3 +1,25 @@
+var gr_colors=[
+"#48CB09",
+"#FFF763",
+"#E03FFE",
+"#3865CB",
+"#FE3779",
+"#DD0816",
+"#E3C00C",
+"#00A1D9",
+"#006E22"
+];
+
+/********************************************************************************
+Array of people objects that has every member of every group that the user is in
+obj={
+	"email":xxx
+	"first_name":xxx
+	"last_name":xxx
+}
+********************************************************************************/
+var gr_contacts=[];
+
 window.onload = function() {
 	//get the cookies and get all of the data from the server
 	var _cookies = genCookieDictionary();
@@ -39,6 +61,20 @@ window.onload = function() {
 			"is_completed":"0",
 			"is_personal":"1"
 			},
+			{"task_title":"Provide Availability for 'Yo Gabba Gabba'",
+			"task_description":"",
+			"group_id":"10",
+			"creator":"scomatbarsar@gmail.com",
+			"is_completed":"0",
+			"is_personal":"1"
+			},
+			{"task_title":"Provide Availability for 'Yo Gabba Gabba'",
+			"task_description":"",
+			"group_id":"10",
+			"creator":"scomatbarsar@gmail.com",
+			"is_completed":"0",
+			"is_personal":"1"
+			},
 			{
 			"task_title":"Provide Availability for 'South Park Marathon'",
 			"task_description":"",
@@ -47,10 +83,86 @@ window.onload = function() {
 			"is_completed":"0",
 			"is_personal":"1"
 			}];
-		console.log(allGroups);
+
+		var memberships=[
+			{
+			"group_name":"Test",
+			"group_color":"#900000",
+			"group_id":"11",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			}]
+			},
+			{
+			"group_name":"Kyle",
+			"group_color":"#900000",
+			"group_id":"12",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			},
+			{
+			"email":"scomatbarsar@gmail.com",
+			"first_name":"Scott",
+			"last_name":"Sarsfield"
+			}]
+			},
+			{
+			"group_name":"Another Test",
+			"group_color":"#900000",
+			"group_id":"13",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			}]
+			},
+			{
+			"group_name":"Group Test",
+			"group_color":"#900000",
+			"group_id":"14",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			}]
+			},
+			{
+			"group_name":"Test 1234",
+			"group_color":"#900000",
+			"group_id":"15",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			}]
+			},
+			{
+			"group_name":"Left Villas 10",
+			"group_color":"#900000",
+			"group_id":"16",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			},
+			{
+			"email":"monica.e.pires@gmail.com",
+			"first_name":"Monica",
+			"last_name":"Pires "
+			}]
+		}];
+
+		console.log(memberships);
 		addCalendarInfo();
 		initializeEvents(allGroups);
+		dealwithProfilePic(null,"ZW");
+		addGRContacts(memberships);
 		addTasks(tasks);
+		addUpdates();
 	}
 
 };
@@ -149,6 +261,8 @@ function addUsersInfo(data){
 	//Deal with Profile Pick
 	initials=obj.first_name[0] + obj.last_name[0];
 	dealwithProfilePic(obj.photo_url,initials);
+	//add all members to global store
+	addGRContacts(obj.memberships);
 	//Do some calendar Stuff (Eventually will need some of the data)
 	addCalendarInfo();
 	//Add tasks
@@ -160,11 +274,76 @@ function addUsersInfo(data){
 	//initialize event date
 	initializeEvents(obj.memberships);
 	
+
+}
+//returns a contact if it is in the user's global address book
+//FALSE otherwise
+function isInContacts(email){
+	for(var i=0; i<gr_contacts.length;i++){
+		if(gr_contacts[i].email==email){
+			return true;
+		}
+	}
+	return false;
+}
+function addGRContacts(memberships){
+	for(var i=0; i<memberships.length;i++){
+		var temp=memberships[i].members;
+		for(var j=0; j<temp.length; j++){
+			if(!isInContacts(temp[j].email)){
+				var obj={
+					"email":temp[j].email,
+					"first_name":temp[j].first_name,
+					"last_name":temp[j].last_name
+				};
+				gr_contacts.push(obj);
+			}
+		}
+	}
+	console.log(gr_contacts);
+
 }
 
 function addUpdates(){
+	
+
+	var adder=document.getElementById("addUpdates");
+	for(var i=0; i<10; i++){
+		//var span = document.createElement('span');
+		//$(span).attr('class','glyphicon glyphicon-asterisk');
+		//span.style.color=gr_colors[Math.floor(Math.random() * 8) ];
+		var a=document.createElement('a');
+		$(a).attr( 'class', 'list-group-item' );
+		$(a).attr( 'href', '#' );
+		var h4=document.createElement('h4');
+		//h4.appendChild(span);
+		$(h4).attr('class','list-group-item-heading');
+		h4.innerText="This is an update!";
+		var p=document.createElement('p');
+		$(p).attr('class','list-group-item-text');
+		p.innerText="This is additional info for the update that is in the heading!";
+		a.style.backgroundColor=gr_colors[Math.floor(Math.random() * 8) ];
+
+		a.appendChild(h4);
+		a.appendChild(p);
+		adder.appendChild(a);
+
+	}
 
 
+}
+
+function getFullNameForEmail(email){
+	//console.log(gr_contacts.length);
+	for(var i=0; i<gr_contacts.length;i++){
+		//console.log(email);
+		//console.log(gr_contacts[i].email);
+		if(email==gr_contacts[i].email){
+			return gr_contacts[i].first_name +" "+gr_contacts[i].last_name;
+		}
+	}
+	console.warn("Control Reached unexpected End in fx: getFullNameForEmail");
+	return "Unknown";
 }
 function addTasks(task_array){
 	var tasks=document.getElementById('addTasks');
@@ -174,8 +353,57 @@ function addTasks(task_array){
 	}
 	//document.getElementById('taskNumber').innerHTML=task_array.length;
 	for(var i=0; i<task_array.length; i++){
+<<<<<<< HEAD
 		var div=document.createElement('div');
 		div.className="alert alert-danger";
+=======
+		var temp=i+1;
+		var containingDiv=document.createElement('div');
+		containingDiv.className="panel panel-default";
+		var headingDiv=document.createElement('div');
+		headingDiv.className="panel-heading";
+		$(headingDiv).attr( 'role', 'tab' );
+		$(headingDiv).attr( 'id', 'heading'+temp );
+		var heading=document.createElement('h4');
+		heading.className="panel-title";
+		var link=document.createElement('a');
+		$(link).attr( 'data-toggle', 'collapse' );
+		$(link).attr( 'data-parent', '#addTasks' );
+		$(link).attr( 'href', '#collapse'+temp);
+		$(link).attr( 'aria-expanded', 'false' );
+		$(link).attr( 'aria-controls', 'collapse1' );
+		link.innerText=task_array[i].task_title;
+		var collapseDiv=document.createElement('div');
+		$(collapseDiv).attr( 'id', 'collapse'+temp );
+		$(collapseDiv).attr( 'class', 'panel-collapse collapse' );
+		$(collapseDiv).attr( 'role', 'tabpannel' );
+		$(collapseDiv).attr( 'aria-labelledby', 'heading'+temp );
+		var detailDiv=document.createElement('div');
+		detailDiv.className="panel-body";
+		var createdPar=document.createElement('p');
+		
+		createdPar.innerText+="Created By: "+getFullNameForEmail(task_array[i].creator);
+		createdPar.style.marginLeft="5px";
+		collapseDiv.appendChild(createdPar);
+		//var responsibilityPar=document.createElement('p');
+		if(task_array[i].task_description==""){
+			detailDiv.innerText="No Description Provided";
+		}
+		else{
+			detailDiv.innerText=task_array[i].task_description;
+		}
+		collapseDiv.appendChild(detailDiv);
+		heading.appendChild(link);
+		headingDiv.appendChild(heading);
+		containingDiv.appendChild(headingDiv);
+		containingDiv.appendChild(collapseDiv);
+		containingDiv.style.margin="10px";
+		//headingDiv.style.color="darkBlue";
+		//headingDiv.style.backgroundColor="#8AB5E3";
+		//headingDiv.style.backgroundColor=gr_colors[Math.floor(Math.random() * 12) ];
+		containingDiv.style.borderLeft="12px solid "+gr_colors[Math.floor(Math.random() * 8) ];
+		/*div.className="alert";
+>>>>>>> 39ac42723c92284045f734ef3472db8882e7b6f9
 		div.style.backgroundColor="lightBlue";
 		div.style.border="1px solid darkBlue";
 		var paragraph=document.createElement('p');
@@ -183,7 +411,8 @@ function addTasks(task_array){
 		paragraph.innerText=task_array[i].task_title;
 		//paragraph.innerHTML='<a id="popoverData" class="btn" href="#" data-content="Popover with data-trigger" rel="popover" data-placement="bottom" data-original-title="Title" data-trigger="hover">Popover with data-trigger</a>'
 		div.appendChild(paragraph);
-		document.getElementById('addTasks').appendChild(div);
+		*/
+		document.getElementById('addTasks').appendChild(containingDiv);
 	}
 
 }
@@ -214,7 +443,8 @@ function dealwithProfilePic(url, initials){
 	var profileImage=document.getElementById("profileImage");
 	if(url==null){
 		//alert("here");
-		profileImage.src="images/black.png";
+		//profileImage.src="images/black.png";
+		profileImage.src="images/orange.jpg";
 		profileImage.style.backgroundColor="orange";
 		profileImage.style.border="2px solid #AF7817";
 		//still have to do something with initials

@@ -1,0 +1,108 @@
+
+/********************************************************************/
+/*		NAVBAR STYLES												*/
+/********************************************************************/
+.navbar-groupright{
+	background-color: #00A1D9;
+	min-height:0;
+	height:50px;
+	margin-top: 0px;
+}
+.navbar-header{
+	width:200px;
+}
+.navbar-brand{
+	padding-top:9px;
+}
+
+div.holder {
+	position: absolute;
+	top: 3em;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: auto;
+}
+
+div.holder::-webkit-scrollbar {
+	display:none;
+}
+
+section {
+	position: relative;
+	width: 100%;
+	display: block;
+	margin: auto;
+	color: white;
+	text-align: center;
+}
+section:before {
+	content: "";
+	display: block;
+	padding-top: 50.5%;
+}
+
+div.content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	/*-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;*/
+}
+
+div.text {
+	position: absolute;
+	top: 50%;
+	left: 15%;
+	right: 15%;
+	-moz-transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+h1 {
+	margin: 0;
+	font-family: 'Lato', sans-serif;
+	font-size: 2.5vw;
+}
+
+p, h2 {
+	margin: 0;
+	font-family: 'Lato', sans-serif;
+}
+
+h2 {
+	font-size: 2em;
+}
+
+footer {
+	background-color: gray;
+	color: white;
+	line-height: 3em;
+	min-height: 3em;
+	text-align: center;
+	position:absolute;
+	bottom:0px;
+	width:100%;
+}
+
+footer p {
+	margin: 0;
+}
+
+footer a {
+	color: white;
+}
+
+footer a:hover {
+	color: #E3C00C;
+}
+
+img.snm {
+	width: 31px !important;
+	height: 31px !important;
+	display: inline;
+}

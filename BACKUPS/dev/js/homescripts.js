@@ -1,0 +1,465 @@
+var gr_colors=[
+"#48CB09",
+"#FFF763",
+"#E03FFE",
+"#3865CB",
+"#FE3779",
+"#DD0816",
+"#E3C00C",
+"#00A1D9",
+"#006E22"
+];
+
+/********************************************************************************
+Array of people objects that has every member of every group that the user is in
+obj={
+	"email":xxx
+	"first_name":xxx
+	"last_name":xxx
+}
+********************************************************************************/
+var gr_contacts=[];
+
+window.onload = function() {
+	//get the cookies and get all of the data from the server
+	var _cookies = genCookieDictionary();
+
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"cookie":_cookies.accesscode,
+			"email":_cookies.user,
+			"function":"get_user_info"
+		};
+	
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					addUsersInfo(data);
+				},
+				220: function(data, status, jqXHR){
+					//they don't have the necessary access to see this page have them login again
+					window.location="https://www.groupright.net/dev/login.html";
+				}
+			}
+		
+		});
+	}
+	else{
+		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
+		//window.location="https://www.groupright.net/dev/login.html";
+		var allGroups=[{"group_name":"Test1","group_color":"red","group_id":"77"},
+				{"group_name":"Potatoes","group_color":"blue","group_id":"78"}];
+
+		var tasks=[{
+			"task_title":"Provide Availability for 'Yo Gabba Gabba'",
+			"task_description":"",
+			"group_id":"10",
+			"creator":"scomatbarsar@gmail.com",
+			"is_completed":"0",
+			"is_personal":"1"
+			},
+			{"task_title":"Provide Availability for 'Yo Gabba Gabba'",
+			"task_description":"",
+			"group_id":"10",
+			"creator":"scomatbarsar@gmail.com",
+			"is_completed":"0",
+			"is_personal":"1"
+			},
+			{"task_title":"Provide Availability for 'Yo Gabba Gabba'",
+			"task_description":"",
+			"group_id":"10",
+			"creator":"scomatbarsar@gmail.com",
+			"is_completed":"0",
+			"is_personal":"1"
+			},
+			{
+			"task_title":"Provide Availability for 'South Park Marathon'",
+			"task_description":"",
+			"group_id":"10",
+			"creator":"scomatbarsar@gmail.com",
+			"is_completed":"0",
+			"is_personal":"1"
+			}];
+
+		var memberships=[
+			{
+			"group_name":"Test",
+			"group_color":"#900000",
+			"group_id":"11",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			}]
+			},
+			{
+			"group_name":"Kyle",
+			"group_color":"#900000",
+			"group_id":"12",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			},
+			{
+			"email":"scomatbarsar@gmail.com",
+			"first_name":"Scott",
+			"last_name":"Sarsfield"
+			}]
+			},
+			{
+			"group_name":"Another Test",
+			"group_color":"#900000",
+			"group_id":"13",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			}]
+			},
+			{
+			"group_name":"Group Test",
+			"group_color":"#900000",
+			"group_id":"14",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			}]
+			},
+			{
+			"group_name":"Test 1234",
+			"group_color":"#900000",
+			"group_id":"15",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			}]
+			},
+			{
+			"group_name":"Left Villas 10",
+			"group_color":"#900000",
+			"group_id":"16",
+			"members":[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			},
+			{
+			"email":"monica.e.pires@gmail.com",
+			"first_name":"Monica",
+			"last_name":"Pires "
+			}]
+		}];
+
+		console.log(memberships);
+		addCalendarInfo();
+		initializeEvents(allGroups);
+		dealwithProfilePic(null,"ZW");
+		addGRContacts(memberships);
+		addTasks(tasks);
+		addUpdates();
+	}
+
+};
+
+function logoutAndRedirect(){
+	
+	var _cookies = genCookieDictionary();
+
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"code":_cookies.accesscode,
+			"email":_cookies.user,
+			"function":"logout_user"
+		};
+	
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+						eatCookies();
+						window.location = "./index.html"; /* presumed redirect */
+					},
+				211: function(data, status, jqXHR){
+						eatCookies();
+						window.location = "./index.html"; //redirect, but be kind of misleading when doing it
+					}
+			}
+		
+		});
+	}
+	//For Safety Do it here too
+	/*eatCookies();
+	window.location = "./index.html"; //redirect, but be really misleading when doing it
+	*/
+}
+function initializeEvents(allGroups){
+	// adding todays date as the value to the datepickers.
+	var d = new Date();
+	var curr_day = d.getDate();
+	var curr_month = d.getMonth() + 1; //Months are zero based
+	var curr_year = d.getFullYear();
+	var ustoday = curr_month + "/" + curr_day + "/" + curr_year;
+	$("div.datepicker input").attr('value', ustoday);
+
+	//calling the datepicker for bootstrap plugin
+	// https://github.com/eternicode/bootstrap-datepicker
+	// http://eternicode.github.io/bootstrap-datepicker/
+	$('.input-daterange').datepicker({
+		autoclose:true,
+    	todayHighlight: true
+	});
+	$('#startdatefixed').datepicker({
+    	todayHighlight: true,
+    	autoclose:true
+	});
+	$('#enddatefixed').datepicker({
+    	todayHighlight: true,
+    	autoclose:true
+	});
+	$('#timepicker1').timepicker();
+	$('#timepicker2').timepicker();
+
+	var groupMenu = document.getElementById("eventGroups");
+	var numGroups = allGroups.length;
+
+	//If no groups
+	if(numGroups==0){
+		console.warn("You currently have no groups. Events will not work.");
+	}
+
+	//If only one group, make it default
+	if(numGroups==1){
+		groupMenu.innerHTML="";
+	}
+
+	for(var i = 0; i < numGroups; i ++) {
+		var item=document.createElement('option');
+		item.style.color=allGroups[i].group_color;
+		item.value=allGroups[i].group_id;
+		item.innerHTML=allGroups[i].group_name;
+		groupMenu.appendChild(item);
+	}
+}
+
+function addUsersInfo(data){
+	var _cookies = genCookieDictionary();
+	//What to do on the page load
+	obj = JSON.parse(data);
+	//Add their name
+	addUsersName(obj.first_name);
+	//Add their groups
+	addUsersGroups(obj.memberships);
+	//Deal with Profile Pick
+	initials=obj.first_name[0] + obj.last_name[0];
+	dealwithProfilePic(obj.photo_url,initials);
+	//Do some calendar Stuff (Eventually will need some of the data)
+	addCalendarInfo();
+	//Add tasks
+	addTasks(obj.tasks);
+	//Add Updates
+	addUpdates();
+	//Set the user's email for creating groups
+	document.getElementById("member1").value=_cookies.user;
+	//initialize event date
+	initializeEvents(obj.memberships);
+	//add all members to global store
+	addGRcontacts(obj.memberships);
+
+}
+//returns a contact if it is in the user's global address book
+//FALSE otherwise
+function isInContacts(email){
+	for(var i=0; i<gr_contacts.length;i++){
+		if(gr_contacts[i].email==email){
+			return true;
+		}
+	}
+	return false;
+}
+function addGRContacts(memberships){
+	for(var i=0; i<memberships.length;i++){
+		var temp=memberships[i].members;
+		for(var j=0; j<temp.length; j++){
+			if(!isInContacts(temp[j].email)){
+				var obj={
+					"email":temp[j].email,
+					"first_name":temp[j].first_name,
+					"last_name":temp[j].last_name
+				};
+				gr_contacts.push(obj);
+			}
+		}
+	}
+	console.log(gr_contacts);
+
+}
+
+function addUpdates(){
+	
+
+	var adder=document.getElementById("addUpdates");
+	for(var i=0; i<10; i++){
+		//var span = document.createElement('span');
+		//$(span).attr('class','glyphicon glyphicon-asterisk');
+		//span.style.color=gr_colors[Math.floor(Math.random() * 8) ];
+		var a=document.createElement('a');
+		$(a).attr( 'class', 'list-group-item' );
+		$(a).attr( 'href', '#' );
+		var h4=document.createElement('h4');
+		//h4.appendChild(span);
+		$(h4).attr('class','list-group-item-heading');
+		h4.innerText="This is an update!";
+		var p=document.createElement('p');
+		$(p).attr('class','list-group-item-text');
+		p.innerText="This is additional info for the update that is in the heading!";
+		a.style.backgroundColor=gr_colors[Math.floor(Math.random() * 8) ];
+
+		a.appendChild(h4);
+		a.appendChild(p);
+		adder.appendChild(a);
+
+	}
+
+
+}
+
+function getFullNameForEmail(email){
+	//console.log(gr_contacts.length);
+	for(var i=0; i<gr_contacts.length;i++){
+		//console.log(email);
+		//console.log(gr_contacts[i].email);
+		if(email==gr_contacts[i].email){
+			return gr_contacts[i].first_name +" "+gr_contacts[i].last_name;
+		}
+	}
+	console.warn("Control Reached unexpected End in fx: getFullNameForEmail");
+	return "Unknown";
+}
+function addTasks(task_array){
+	var tasks=document.getElementById('addTasks');
+	if(task_array.length==0){
+		//Add no pending tasks
+		return;
+	}
+	for(var i=0; i<task_array.length; i++){
+		var temp=i+1;
+		var containingDiv=document.createElement('div');
+		containingDiv.className="panel panel-default";
+		var headingDiv=document.createElement('div');
+		headingDiv.className="panel-heading";
+		$(headingDiv).attr( 'role', 'tab' );
+		$(headingDiv).attr( 'id', 'heading'+temp );
+		var heading=document.createElement('h4');
+		heading.className="panel-title";
+		var link=document.createElement('a');
+		$(link).attr( 'data-toggle', 'collapse' );
+		$(link).attr( 'data-parent', '#addTasks' );
+		$(link).attr( 'href', '#collapse'+temp);
+		$(link).attr( 'aria-expanded', 'false' );
+		$(link).attr( 'aria-controls', 'collapse1' );
+		link.innerText=task_array[i].task_title;
+		var collapseDiv=document.createElement('div');
+		$(collapseDiv).attr( 'id', 'collapse'+temp );
+		$(collapseDiv).attr( 'class', 'panel-collapse collapse' );
+		$(collapseDiv).attr( 'role', 'tabpannel' );
+		$(collapseDiv).attr( 'aria-labelledby', 'heading'+temp );
+		var detailDiv=document.createElement('div');
+		detailDiv.className="panel-body";
+		var createdPar=document.createElement('p');
+		
+		createdPar.innerText+="Created By: "+getFullNameForEmail(task_array[i].creator);
+		createdPar.style.marginLeft="5px";
+		collapseDiv.appendChild(createdPar);
+		//var responsibilityPar=document.createElement('p');
+		if(task_array[i].task_description==""){
+			detailDiv.innerText="No Description Provided";
+		}
+		else{
+			detailDiv.innerText=task_array[i].task_description;
+		}
+		collapseDiv.appendChild(detailDiv);
+		heading.appendChild(link);
+		headingDiv.appendChild(heading);
+		containingDiv.appendChild(headingDiv);
+		containingDiv.appendChild(collapseDiv);
+		containingDiv.style.margin="10px";
+		//headingDiv.style.color="darkBlue";
+		//headingDiv.style.backgroundColor="#8AB5E3";
+		//headingDiv.style.backgroundColor=gr_colors[Math.floor(Math.random() * 12) ];
+		containingDiv.style.borderLeft="12px solid "+gr_colors[Math.floor(Math.random() * 8) ];
+		/*div.className="alert";
+		div.style.backgroundColor="lightBlue";
+		div.style.border="1px solid darkBlue";
+		var paragraph=document.createElement('p');
+		paragraph.innerText=task_array[i].task_title;
+		div.appendChild(paragraph);
+		*/
+		document.getElementById('addTasks').appendChild(containingDiv);
+	}
+
+}
+function addCalendarInfo(){
+	var cal = $("#calendar");
+		cal.grCalendar({num_days:5,start_hour:"7am",end_hour:"11pm",start_day:"Monday"});
+		cal[0]._grcalendar.addEvent(
+			{title:"Team Practice", color:"#FF6068", day:"Monday",start_time:"11am",end_time:"12:30pm"},
+			{title:"Game 3", color:"#FF6068", day:"Thursday",start_time:"8:30pm",end_time:"9:30pm"},
+			
+			{title:"Project Meeting",color:"rgb(138, 181, 227)",day:"Tuesday",start_time:"7:30am",end_time:"9:00am"},
+			{title:"Project Meeting",color:"rgb(138, 181, 227)",day:"Friday",start_time:"1:30pm",end_time:"2:45pm"},
+			
+			{title:"Product Test Meeting",color:"rgb(150, 232, 194)",day:"Tuesday",start_time:"10:15am",end_time:"11:30am"},
+			{title:"Sales Call",color:"rgb(150, 232, 194)",day:"Wednesday",start_time:"12pm",end_time:"1pm"},
+			{title:"Staff Picnic",color:"rgb(150, 232, 194)",day:"Friday",start_time:"10:30am",end_time:"12:15pm"},
+			
+			{title:"Zach's Dinner",color:"rgb(255, 240, 127)",day:"Monday",start_time:"7:15pm",end_time:"9:30pm"},
+			{title:"Scott's Dinner",color:"rgb(255, 240, 127)",day:"Friday",start_time:"7:45pm",end_time:"10:00pm"}
+		);
+}
+function addUsersName(firstName){
+	document.getElementById("profileName").innerHTML=firstName+'<span class="caret"></span>';
+}
+
+function dealwithProfilePic(url, initials){
+	//alert(initials);
+	var profileImage=document.getElementById("profileImage");
+	if(url==null){
+		//alert("here");
+		//profileImage.src="images/black.png";
+		profileImage.src="images/orange.jpg";
+		profileImage.style.backgroundColor="orange";
+		profileImage.style.border="2px solid #AF7817";
+		//still have to do something with initials
+		return;
+	}
+	profileImage.src=url;
+}
+
+/* Populate the groups field on the homepage with the "groups" json object */
+function addUsersGroups(allGroups){
+	
+	var groupMenu = document.getElementById("myGroups");
+	var numGroups = allGroups.length;
+	var allMyGroups = '';
+
+	for(var i = 0; i < numGroups; i ++) {
+		allMyGroups += '<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:' + 
+			allGroups[i].group_color +
+			';"></span>&nbsp;' +
+			allGroups[i].group_name +
+			'</a></li>';
+	}
+	groupMenu.innerHTML = allMyGroups;
+}
+
+

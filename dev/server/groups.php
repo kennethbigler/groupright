@@ -166,9 +166,10 @@
 			$name = $row['group_name'];
 			$properites = json_decode($row['properties'],true);
 			$uid = $row['group_uid'];
+			$members = getMembers($uid);
 			
 			// Create membership object.
-			$gr = array("group_name"=>$name,"group_color"=>$properites["color"],"group_id"=>$uid);
+			$gr = array("group_name"=>$name,"group_color"=>$properites["color"],"group_id"=>$uid,"members"=>$members);
 			
 			// Add to groups.
 			$groups[] = $gr;
@@ -179,6 +180,41 @@
 		return $groups;		
 	}
 
+function getMembers($group_uid){
+		
+		
+		// Enter DB.
+		$dbh = ConnectToDB();
 
+		// Run Query.			
+		$stmt = $dbh->prepare(
+			"SELECT u.email,u.first_name,u.last_name
+			FROM active_users AS u
+			INNER JOIN memberships AS m
+			ON u.email = m.email
+			WHERE m.group_uid = ?"
+		);				
+		$stmt->execute(array($group_uid));	
+		
+		// Run through results
+		$members = array();
+		while($row = $stmt->fetch()){
+		
+			// Parse rows.
+			$email = $row['email'];
+			$fname = $row['first_name'];
+			$lname = $row['last_name'];
+			
+			// Create membership object.
+			$m = array("email"=>$email,"first_name"=>$fname,"last_name"=>$lname);
+			
+			// Add to groups.
+			$members[] = $m;
+		}	
+		http_response_code(200);
+			
+		
+		return $members;		
+	}
 
 ?>

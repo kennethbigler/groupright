@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteCond %{HTTPS} !=on
+RewriteRule (.*) https://www.groupright.net/dev
+

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="images/favicon.png">
+
+    <title>GroupRight - Groups Done Right.</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/login-styles.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!--script src="js/ie-emulation-modes-warning.js"></script-->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body class="login">
+
+  <!-- Fixed navbar -->
+    <nav class="navbar navbar-fixed-top navbar-groupright" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header nav-center">
+			    <a href="https://www.groupright.net/">
+				<img class="navbar-brand-logo" src="images/LogoWhite.svg" alt="GroupRight" />
+				</a>
+		    </div>
+      </div>
+    </nav>
+    <div class="alert alert-danger" id="alertDangerBanner" style="display:none" role="alert">
+	  This is an invalid login attempt alert.
+	</div>
+	<div class="alert alert-success" id="alertSuccessBanner" style="display:none" role="alert">
+	  This is a successful alert.
+	</div>
+	
+	<div class="flip-container" >
+	<div class="flipper" style="height:200px;">
+		<div class="container-fluid login-box front" style="height:200px">
+		  <form class="" role="form">
+			<h2 class="header-center">Forgot Password</h2>
+			<h5 class="header-center">Enter your email and a reset link will be sent to you.</h5>
+			<label for="forgotEmail" class="sr-only">Password</label>
+			<input type="email" id="forgotEmail" class="form-control" placeholder="Account Email" required autofocus>
+			
+			<button class="btn btn-lg btn-block btn-primary" onsubmit="sendEmail();"  id="signInButton">Send Reset Link</button>
+		  </form>
+
+		</div> <!-- /container -->
+		
+	</div>
+	</div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+
+		function alertBanner(text){
+			document.getElementById("alertDangerBanner").innerHTML=text;
+		    document.getElementById("alertDangerBanner").style.display="block";
+		    document.getElementById("alertSuccessBanner").style.display="none";
+		}
+		function alertSuccess(text){
+			document.getElementById("alertSuccessBanner").innerHTML=text;
+		    document.getElementById("alertSuccessBanner").style.display="block";
+		    document.getElementById("alertDangerBanner").style.display="none";
+		}
+
+		function sendEmail(){
+			var email = $("#forgotEmail").val();
+
+			if (email == null || email == "") {
+		        //alert("You must enter an email address");
+		        alertBanner("Please enter your account email address.");
+		        return false;
+		    }
+		    else{
+			    var atpos = email.indexOf("@");
+			    var dotpos = email.lastIndexOf(".");
+			    if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=email.length) {
+			        alertBanner("Please enter a valid email address.");
+			        return false;
+			    }
+			}
+			
+
+			var obj = {
+						"function":"forgot",
+						"email":email
+					  };
+			
+			// Contact Server
+			$.ajax("https://www.groupright.net/dev/groupserve.php",{
+				type:"POST",
+				data:obj,
+				statusCode:{
+					200:function(data, status, jqXHR){
+						alertSuccess("A reset email has been sent to the address provided. This link will expire within 24 hours.")
+					},
+					212:function(data, status, jqXHR){
+						alertBanner("We could not find an account matching the email address provided.");
+					},
+					207:function(data, status, jqXHR){
+						alertBanner("Sorry, GroupRight is temporarily offline for Maintenance.");
+					}
+				}
+			
+			});
+			return false;
+		}
+		$(document).ready(function(){
+			$("#signInButton").click(function(e){
+				//e.preventDefault();
+				sendEmail();
+				return false;
+			});
+		});
+
+    </script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!--script src="js/ie10-viewport-bug-workaround.js"></script-->
+	
+	
+  </body>
+</html>
