@@ -1,7 +1,6 @@
 window.onload = function() {
 	//get the cookies and get all of the data from the server
 	var _cookies = genCookieDictionary();
-
 	if(_cookies.accesscode && _cookies.user){
 	
 		var obj = {
@@ -173,13 +172,16 @@ function addTasks(task_array){
 		//Add no pending tasks
 		return;
 	}
+	//document.getElementById('taskNumber').innerHTML=task_array.length;
 	for(var i=0; i<task_array.length; i++){
 		var div=document.createElement('div');
-		div.className="alert";
+		div.className="alert alert-danger";
 		div.style.backgroundColor="lightBlue";
 		div.style.border="1px solid darkBlue";
 		var paragraph=document.createElement('p');
+		paragraph.style.color="darkBlue";
 		paragraph.innerText=task_array[i].task_title;
+		//paragraph.innerHTML='<a id="popoverData" class="btn" href="#" data-content="Popover with data-trigger" rel="popover" data-placement="bottom" data-original-title="Title" data-trigger="hover">Popover with data-trigger</a>'
 		div.appendChild(paragraph);
 		document.getElementById('addTasks').appendChild(div);
 	}
