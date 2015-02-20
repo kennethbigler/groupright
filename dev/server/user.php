@@ -41,6 +41,7 @@
 				$user_info["memberships"] = getMemberships($email_address,$cookie);
 				$user_info["tasks"] = getAllTasks($email_address);
 				$user_info["events"] = getAllEvents($email_address);
+				$user_info["updates"] = getAllUpdates($email_address);
 				
 			
 			

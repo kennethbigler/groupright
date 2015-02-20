@@ -72,7 +72,7 @@ function createTask(){
 		$deadline = $_POST['deadline'];
 		
 		
-		if(!isset($task_title)){ http_reponse_code(299); return; }
+		if(!isset($task_title)){ http_response_code(299); return; }
 		if(!isset($task_descr)){ $task_descr = ""; }
 		if(!isset($is_personal)){ $is_personal = false; }
 		
@@ -99,6 +99,7 @@ function assignTask(){
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
 			addTaskAssignment($task_uid,$group_uid,$email);
+			addUpdate($email,$group_uid," was assigned a task.");
 		}else{
 			http_response_code(206);
 			return;
