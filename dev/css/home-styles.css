@@ -3,6 +3,7 @@
 
 html, body {
 	height: 100%;
+	background-color: #eee;
 }
 
 h1 {
@@ -107,6 +108,7 @@ div.main3w {
 	-moz-box-shadow: .0625em .3125em .625em #888;
 	-webkit-box-shadow: .0625em .3125em .625em #888;
 	box-shadow: .0625em .3125em .625em #888;
+	background-color: white;
 }
 
 div.main6w {
@@ -114,6 +116,7 @@ div.main6w {
 	-moz-box-shadow: .0625em .3125em .625em #888;
 	-webkit-box-shadow: .0625em .3125em .625em #888;
 	box-shadow: .0625em .3125em .625em #888;
+	background-color: white;
 }
 
 div.scrollable {
