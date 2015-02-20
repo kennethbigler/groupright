@@ -144,3 +144,8 @@ div.scrollable::-webkit-scrollbar {
 .tp15 {
 	padding-top: 15px;
 }
+
+.list-group-item {
+	margin: 5px;
+	border-radius: 4px;
+}
