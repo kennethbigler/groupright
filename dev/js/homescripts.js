@@ -353,10 +353,8 @@ function addTasks(task_array){
 	}
 	//document.getElementById('taskNumber').innerHTML=task_array.length;
 	for(var i=0; i<task_array.length; i++){
-<<<<<<< HEAD
 		var div=document.createElement('div');
 		div.className="alert alert-danger";
-=======
 		var temp=i+1;
 		var containingDiv=document.createElement('div');
 		containingDiv.className="panel panel-default";
@@ -403,7 +401,6 @@ function addTasks(task_array){
 		//headingDiv.style.backgroundColor=gr_colors[Math.floor(Math.random() * 12) ];
 		containingDiv.style.borderLeft="12px solid "+gr_colors[Math.floor(Math.random() * 8) ];
 		/*div.className="alert";
->>>>>>> 39ac42723c92284045f734ef3472db8882e7b6f9
 		div.style.backgroundColor="lightBlue";
 		div.style.border="1px solid darkBlue";
 		var paragraph=document.createElement('p');
