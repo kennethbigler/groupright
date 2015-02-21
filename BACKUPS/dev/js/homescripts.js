@@ -262,6 +262,8 @@ function addUsersInfo(data){
 	//Deal with Profile Pick
 	initials=obj.first_name[0] + obj.last_name[0];
 	dealwithProfilePic(obj.photo_url,initials);
+	//add all members to global store
+	addGRContacts(obj.memberships);
 	//Do some calendar Stuff (Eventually will need some of the data)
 	addCalendarInfo();
 	//Add tasks
@@ -272,8 +274,7 @@ function addUsersInfo(data){
 	document.getElementById("member1").value=_cookies.user;
 	//initialize event date
 	initializeEvents(obj.memberships);
-	//add all members to global store
-	addGRcontacts(obj.memberships);
+	
 
 }
 //returns a contact if it is in the user's global address book

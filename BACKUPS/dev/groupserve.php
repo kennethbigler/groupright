@@ -12,8 +12,11 @@
 	include './server/groups.php';
 	include './server/user.php';
 	
+	include './server/updates.php';
+	
 	include './server/events.php';
 	include './server/tasks.php';
+	include './server/messages.php';
 
 	
 	
