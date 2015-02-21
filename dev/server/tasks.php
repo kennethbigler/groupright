@@ -99,7 +99,7 @@ function assignTask(){
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
 			addTaskAssignment($task_uid,$group_uid,$email);
-			addUpdate($email,$group_uid," was assigned a task.");
+			addTaskUpdate($email,$group_uid," was assigned a task.",$task_uid);
 		}else{
 			http_response_code(206);
 			return;

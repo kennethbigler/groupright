@@ -10,7 +10,7 @@ function getAllUpdates($email){
 	// Generate Query
 	$sql = "
 		SELECT updates.group_uid, users.email, users.first_name, users.last_name, 
-			updates.description 
+			updates.description ,updates.timestamp
 		FROM notifications,updates,active_users as users
 		WHERE notifications.email = ?
 			AND notifications.update_uid = updates.update_uid
@@ -28,7 +28,8 @@ function getAllUpdates($email){
 		$obj = array(
 			"email"=>$row['email'],
 			"description"=>$row['description'],
-			"group_id"=>$row['group_uid']
+			"group_id"=>$row['group_uid'],
+			"timestamp"=>$row['timestamp']
 		);
 		//echo $obj;
 		$updates[] = $obj;
@@ -37,13 +38,29 @@ function getAllUpdates($email){
 	return $updates;
 }
 
-function addUpdate($email,$group_uid,$description){
+function __addUpdate($email,$group_uid,$description,$event_id,$task_id,$message_id){
 	
 	// Open up connection
 	$dbh = ConnectToDB();
 	
 	// Make initial insertion into 'updates'
-	$sql = "INSERT INTO updates(email,description,group_uid) VALUES(?,?,?)";
+	$sql = "INSERT INTO updates(email,description,group_uid"; 
+	
+	$item = null;
+	if($event_id != null){ $sql = $sql.",event_id)"; $item = $event_id; }
+	else if($task_id != null){ $sql = $sql.",task_id)"; $item = $task_id; }
+	else if($message_id != null){ $sql = $sql.",message_id)"; $item = $message_id; }
+	else { $sql = $sql.")";}
+	
+	$sql = $sql." VALUES(?,?,?";
+		
+	$fillers = array($email,$description,$group_uid);
+	if($item != null){ 
+		$fillers[] = $item;
+		$sql = $sql.",?";
+	}
+	$sql = $sql.")";
+	
 	if((!isset($email) || $email == "") || 
 		(!isset($group_uid) || $group_uid == "") || 
 		(!isset($description) || $description == "")){ 
@@ -52,7 +69,7 @@ function addUpdate($email,$group_uid,$description){
 	
 	
 	$stmt = $dbh->prepare($sql);
-	$stmt->execute(array($email,$description,$group_uid));
+	$stmt->execute($fillers);
 	
 	// Get update_uid
 	$update_uid = $dbh->lastInsertId();
@@ -62,6 +79,20 @@ function addUpdate($email,$group_uid,$description){
 	$stmt = $dbh->prepare($sql);
 	$stmt->execute(array($update_uid,$group_uid));
 	
+}
+
+function addUpdate($email,$group_uid,$description){
+	__addUpdate($email,$group_uid,$description,null,null,null);
+}
+
+function addEventUpdate($email,$group_uid,$description,$event_id){
+	__addUpdate($email,$group_uid,$description,$event_id,null,null);
+}
+function addTaskUpdate($email,$group_uid,$description,$task_id){
+	__addUpdate($email,$group_uid,$description,null,$task_id,null);
+}
+function addMessageUpdate($email,$group_uid,$description,$message_id){
+	__addUpdate($email,$group_uid,$description,null,null,$message_id);
 }
 
 
