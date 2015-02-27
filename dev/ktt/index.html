@@ -95,7 +95,9 @@ $(document).ready(function(){
 		createTemplate("create_votable_event",["email","cookie","group_uid","event_title","event_description","start_date","end_date","start_time","end_time","duration","location"],"purple"),
 		
 		createTemplate("create_task",["email","cookie","group_uid","event_uid","task_title","task_description","is_personal","deadline"],"orange"),
-		createTemplate("assign_task",["email","cookie","group_uid","task_uid"],"orange")
+		createTemplate("assign_task",["email","cookie","group_uid","task_uid"],"orange"),
+		
+		createTemplate("send_message",["email","cookie","group_uid","message_content"],"white")
 	);
 	
 	var str = document.cookie;
