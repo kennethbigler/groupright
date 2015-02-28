@@ -12,6 +12,7 @@
  var GRER = {
 	 aMode:0,
 	 aMap:{},
+	 tMap:{},
 	 eUID:null,
 	 eName:"Default Name",
 	 eDesc:"Default Description",
@@ -53,52 +54,109 @@ function GRER_initialize(){
 	
 	
 	// Display the grid for each day.
-	var grid_space = $("#event_response_days");
-	grid_space.css({"background-color":"green"});
+	var orig_grid_space = $("#event_response_days");
+	
+	var grid_space = $("<div />",{class:"er_gridspace"});
+	orig_grid_space.append(grid_space);
 	
 	// Find number of days.
 	var x = (( (new Date(end_day)) - (new Date(start_day)) ) / (1000*60*60*24) ) + 1;
 	
-	// For each day, create a column.
-	console.log(x);
+	// Find number of time segments (15 minutes)
+	var y_day = (new Date()).toDateString();
+	var y = (new Date(y_day+" "+end_time)) - (new Date(y_day+" "+start_time));
+	y = y / (1000*60*15); // 15 min incr.
+	
+	// Populate the tMap (time map).	
+	var epoch_day_diff = (new Date(start_day) - new Date(0));
+	var epoch_time_diff = new Date("2015-01-01 "+start_time) - new Date(0);
+	var offset = new Date().getTimezoneOffset();
+	var dates = [];
 	for(var i = 0; i < x; i++){
-		var day = $("<div />");
-		day.css({minWidth:"120px",backgroundColor:"#eee",marginRight:"10px",height:"100%",float:"left"});
+		GRER.tMap[i] = {};
+		GRER.aMap[i] = {};
+		for(var j = 0; j < y; j++){
+			var str = "";
+			var day = new Date( epoch_day_diff  + i*24*60*60*1000 + offset*60*1000 );
+			//console.log(day);
+			str += (1+day.getMonth()) + "/" + day.getDate() + "/" + day.getFullYear();
+			dates[i] = str;
+			var day2 = new Date( epoch_time_diff + j*15*60*1000);
+			str += " "+day2.toLocaleTimeString();
+			var day3 = new Date( epoch_time_diff + (j+1)*15*60*1000);
+			str += " - "+day3.toLocaleTimeString();
+			GRER.tMap[i][j] = str;
+			
+			//----------------------
+			GRER.aMap[i][j] = -1;
+		}
+	}
+	
+	// Check version of browser.
+	var oldIE = false;
+	var ua = window.navigator.userAgent;
+	var msie = ua.indexOf("MSIE ");
+	if(msie > 0){
+		var version = parseInt(ua.substring(msie+5,ua.indexOf(".",msie)));
+		if(version < 9) oldIE = true;
+	}
+	
+	// Add the time column.
+	var time_col = $("<div />",{class:"er_timecol"});
+	grid_space.append(time_col);
+	
+	// For each day, create a column.
+	for(var i = 0; i < x; i++){
+		var day = $("<div />",{class:"er_daycol"});
 		
 		grid_space.append(day);
+				
+		// Add the day header.
+		var day_header = $("<div />",{class:"er_dayheader"});
+		day_header.text(dates[i]);
+		day.append(day_header);
 		
-		// For each column, create subdiv to map to the hours.
-		var y_day = (new Date()).toDateString();
-		var y = (new Date(y_day+" "+end_time)) - (new Date(y_day+" "+start_time));
-		y = y / (1000*60*15); // 15 min incr.
-		
-		var availHeight = day.height();
-		
+		// Add each of the hours
 		for(var j = 0; j < y; j++){
-			var time_incr = $("<div />");
-			time_incr.css({height:"15px",width:"100%",backgroundColor:"#ccc",marginBottom:"2px"});
+			var time_incr = $("<div />",{class:"er_time_incr"});
+			
+			// won't necessarily start at hour, but workable.
+			if(j%4 == 3) time_incr.addClass("hour_marker");
+			
 			time_incr.val({i:i,j:j});
-			var epoch_day_diff = (new Date(start_day) - new Date(0));
-			var epoch_time_diff = new Date("2015-01-01 "+start_time) - new Date(0);
-			var offset = new Date().getTimezoneOffset();
+			
+			// Hover - update hover info.
 			time_incr.hover(function(){
 				var rel = $(this).val();
-				var str = "";
-				var day = new Date( epoch_day_diff  + rel.i*24*60*60*1000 + offset*60*1000 );
-				//console.log(day);
-				str += (1+day.getMonth()) + "/" + day.getDate() + "/" + day.getFullYear();
-				var day2 = new Date( epoch_time_diff + rel.j*15*60*1000);
-				str += " "+day2.toLocaleTimeString();
-				var day3 = new Date( epoch_time_diff + (rel.j+1)*15*60*1000);
-				str += " - "+day3.toLocaleTimeString();
-
-				updateHover(str);
+				updateHover(GRER.tMap[rel.i][rel.j]);
 			});
-			time_incr.click(function(){
+			
+			// Color cell mark availability.
+			function colorCell(){
 				var rel = $(this).val();
 				var ER_colors = ["#5cb85c","#337ab7","#f0ad4e","#d9534f"];
 				$(this).css({backgroundColor:ER_colors[GRER.aMode]});
-				
+				GRER.aMap[rel.i][rel.j] = GRER.aMode;
+			};
+			
+			//time_incr.click(colorCell);
+			var isButtonDown = false;
+			var currentDayIndex = 0;
+			var startTimeIndex = 0;
+			var endTimeIndex = 0;
+			time_incr.mousedown(function(e){
+				var val = $(this).val();
+				currentDayIndex = val.i;
+				startTimeIndex = val.j;
+				if(e.which === 1) isButtonDown = true; 
+			});
+			time_incr.mouseup(function(e){ if(e.which === 1) isButtonDown = false; });
+			
+			time_incr.mousemove(function(e){
+				if(oldIE && !event.button){isButtonDown = false;}				
+				if(e.which === 1 && !isButtonDown) e.which = 0;
+				var val = $(this).val();				
+				if(e.which && val.i == currentDayIndex) colorCell.call(this);
 			});
 			day.append(time_incr);
 			//console.log(time_incr.val());
@@ -106,6 +164,7 @@ function GRER_initialize(){
 		
 	}
 	
+	// Relate the Availability Buttons
 	$("#avail_perfect").click(function(){ GRER.aMode = 0; });
 	$("#avail_ok").click(function(){ GRER.aMode = 1; });
 	$("#avail_rather_not").click(function(){ GRER.aMode = 2; });

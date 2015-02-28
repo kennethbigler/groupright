@@ -1,0 +1,43 @@
+/* eventresponse.css */
+
+/* Styles exclusively for event response. */
+
+.er_gridspace{
+	height:100%;
+	width:auto;
+	white-space:nowrap;
+}
+
+.er_timecol{
+	min-width:60px;
+	height:100%;
+	display:inline-block;
+}
+
+.er_dayheader{
+	text-align:center;
+	font-weight:bold;
+	background-color:rgb(0,161,217);
+	color:white;
+}
+
+.er_daycol{
+	min-width:150px;
+	background-color:#eee;
+	margin-right:10px;
+	height:100%;
+	display:inline-block;
+	vertical-align:top;
+}
+
+.er_time_incr{
+	height:15px;
+	width:100%;
+	background-color:#ccc;
+	margin-bottom:1px;
+}
+
+.er_time_incr.hour_marker{
+	margin-bottom:0;
+	border-bottom:solid 1px black;
+}
