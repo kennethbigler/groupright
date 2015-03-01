@@ -237,13 +237,13 @@ function getEventVoteSettings(postFn){
 						//eatCookies();
 						GRER_Settings = JSON.parse(data);
 						postFn();
-					},
-				211: function(data, status, jqXHR){
-						//eatCookies();
 					}
-			}
+			},
+			
 		
 		});
+	}else{
+		GRER_initialize({});
 	}
 }
 
