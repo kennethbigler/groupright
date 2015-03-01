@@ -41,7 +41,7 @@ function GRER_initialize(){
 	// HARD-CODED =========================
 	start_day = "2015-02-27";
 	end_day = "2015-03-03";
-	start_time = "07:00:00";
+	start_time = "06:15:00";
 	end_time = "15:00:00";
 	event_name = "Code Spree";
 	event_description = "To make up for a shit ton of laziness, we need to bum rush this.";
@@ -68,10 +68,11 @@ function GRER_initialize(){
 	y = y / (1000*60*15); // 15 min incr.
 	
 	// Populate the tMap (time map).	
-	var epoch_day_diff = (new Date(start_day) - new Date(0));
-	var epoch_time_diff = new Date("2015-01-01 "+start_time) - new Date(0);
+	var epoch_day_diff = (new Date(start_day)).getTime();
+	var epoch_time_diff = (new Date("2015-01-01 "+start_time)).getTime();
 	var offset = new Date().getTimezoneOffset();
 	var dates = [];
+	var hours = {};
 	for(var i = 0; i < x; i++){
 		GRER.tMap[i] = {};
 		GRER.aMap[i] = {};
@@ -82,6 +83,7 @@ function GRER_initialize(){
 			str += (1+day.getMonth()) + "/" + day.getDate() + "/" + day.getFullYear();
 			dates[i] = str;
 			var day2 = new Date( epoch_time_diff + j*15*60*1000);
+			if(day2.getMinutes() == 0) hours[j] = day2.getHours();
 			str += " "+day2.toLocaleTimeString();
 			var day3 = new Date( epoch_time_diff + (j+1)*15*60*1000);
 			str += " - "+day3.toLocaleTimeString();
@@ -104,6 +106,25 @@ function GRER_initialize(){
 	// Add the time column.
 	var time_col = $("<div />",{class:"er_timecol"});
 	grid_space.append(time_col);
+	time_col.append( $("<div />",{class:"er_timecol_spacer"}) );
+	for(var j = 0; j < y; j++){
+		if(hours[j]){
+			var hour_incr = $("<div />",{class:"er_hour_incr"});
+			
+			var ampm = (hours[j] >= 12) ? 'pm' : 'am';
+			hours[j] = hours[j] % 12;
+			hours[j] = hours[j] ? hours[j] : 12;
+			var hour_str = "<span class='num'>" + hours[j] + "</span> " + ampm;
+			
+			
+			hour_incr.html(hour_str);
+			time_col.append(hour_incr);
+			j+=3;
+		}else{
+			var hour_incr_spacer = $("<div />",{class:"er_hour_incr_spacer"});
+			time_col.append(hour_incr_spacer);
+		}
+	}
 	
 	// For each day, create a column.
 	for(var i = 0; i < x; i++){
@@ -121,7 +142,7 @@ function GRER_initialize(){
 			var time_incr = $("<div />",{class:"er_time_incr"});
 			
 			// won't necessarily start at hour, but workable.
-			if(j%4 == 3) time_incr.addClass("hour_marker");
+			if(hours[j]) time_incr.addClass("hour_marker");
 			
 			time_incr.val({i:i,j:j});
 			

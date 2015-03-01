@@ -6,12 +6,38 @@
 	height:100%;
 	width:auto;
 	white-space:nowrap;
+	overflow-x:auto;
 }
 
 .er_timecol{
 	min-width:60px;
 	height:100%;
 	display:inline-block;
+}
+
+.er_timecol_spacer{
+	height:1.5em;
+}
+
+.er_hour_incr_spacer{
+	height:15px;
+	margin-bottom:1px;
+}
+
+.er_hour_incr{
+	border-top:0.2em solid rgb(0,161,217);
+	margin-top:-0.1em;
+	box-sizing:border-box;
+	height:64px;
+	font-weight:bold;
+	text-align:right;
+	font-size:1.0em;
+	padding-right:0.5em;
+	font-style:italic;	
+}
+.er_hour_incr .num{
+	font-size:1.3em;
+	vertical-align:top;
 }
 
 .er_dayheader{
@@ -34,10 +60,10 @@
 	height:15px;
 	width:100%;
 	background-color:#ccc;
-	margin-bottom:1px;
+	margin-top:1px;
 }
 
 .er_time_incr.hour_marker{
-	margin-bottom:0;
-	border-bottom:solid 1px black;
+	margin-top:0;
+	border-top:solid 1px black;
 }
