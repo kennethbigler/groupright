@@ -17,11 +17,16 @@
 	 eName:"Default Name",
 	 eDesc:"Default Description",
 	 eCreator:"Default Creator",
-	 gUID:null
+	 gUID:null,
  };
+ var GRER_Settings;
  
  $(document).ready(function(){
-	GRER_initialize(); 
+	getEventVoteSettings(function(){
+		
+		GRER_initialize(GRER_Settings); 
+		
+	});
  });
 
 /**
@@ -30,7 +35,7 @@
  *	Initializes the module
  *
  **/
-function GRER_initialize(){
+function GRER_initialize(obj){
 	
 	var start_day,end_day;
 	var start_time,end_time;
@@ -39,13 +44,14 @@ function GRER_initialize(){
 	// Load Event Information.
 	
 	// HARD-CODED =========================
-	start_day = "2015-02-27";
-	end_day = "2015-03-03";
-	start_time = "06:15:00";
-	end_time = "15:00:00";
-	event_name = "Code Spree";
-	event_description = "To make up for a shit ton of laziness, we need to bum rush this.";
-	event_creator = "Maniac McGee";	
+	start_day = (obj.start_date) ? obj.start_date : "2015-02-27";
+	end_day = (obj.end_date) ? obj.end_date : "2015-03-03";
+	start_time = (obj.start_time) ? obj.start_time : "06:15:00";
+	end_time = (obj.end_time) ? obj.end_time : "15:00:00";
+	event_name = (obj.name) ? obj.name : "Code Spree";
+	event_description = (obj.description) ? obj.description : "To make up for a shit ton of laziness, we need to bum rush this.";
+	event_creator = (obj.creator) ? obj.creator : "Maniac McGee";	
+	
 	// ====================================
 	GRER.eName = event_name;
 	GRER.eDesc = event_description;
@@ -127,10 +133,12 @@ function GRER_initialize(){
 	}
 	
 	// For each day, create a column.
+	var day_grid_space = $("<div />",{class:"er_day_gridspace"});
+	grid_space.append(day_grid_space);
 	for(var i = 0; i < x; i++){
 		var day = $("<div />",{class:"er_daycol"});
 		
-		grid_space.append(day);
+		day_grid_space.append(day);
 				
 		// Add the day header.
 		var day_header = $("<div />",{class:"er_dayheader"});
@@ -146,41 +154,43 @@ function GRER_initialize(){
 			
 			time_incr.val({i:i,j:j});
 			
+			time_incr.addClass("er_row"+j);
+			time_incr.addClass("er_col"+i);
+			
 			// Hover - update hover info.
 			time_incr.hover(function(){
 				var rel = $(this).val();
 				updateHover(GRER.tMap[rel.i][rel.j]);
 			});
+						
 			
 			// Color cell mark availability.
 			function colorCell(){
 				var rel = $(this).val();
+								
 				var ER_colors = ["#5cb85c","#337ab7","#f0ad4e","#d9534f"];
 				$(this).css({backgroundColor:ER_colors[GRER.aMode]});
-				GRER.aMap[rel.i][rel.j] = GRER.aMode;
 			};
 			
 			//time_incr.click(colorCell);
 			var isButtonDown = false;
-			var currentDayIndex = 0;
-			var startTimeIndex = 0;
-			var endTimeIndex = 0;
 			time_incr.mousedown(function(e){
 				var val = $(this).val();
-				currentDayIndex = val.i;
-				startTimeIndex = val.j;
 				if(e.which === 1) isButtonDown = true; 
 			});
-			time_incr.mouseup(function(e){ if(e.which === 1) isButtonDown = false; });
+			time_incr.mouseup(function(e){ 
+				if(e.which === 1) isButtonDown = false; 
+			});
 			
 			time_incr.mousemove(function(e){
+				console.log("called");
 				if(oldIE && !event.button){isButtonDown = false;}				
 				if(e.which === 1 && !isButtonDown) e.which = 0;
-				var val = $(this).val();				
-				if(e.which && val.i == currentDayIndex) colorCell.call(this);
+				if(e.which){
+					colorCell.call(this);
+				}
 			});
 			day.append(time_incr);
-			//console.log(time_incr.val());
 		}
 		
 	}
@@ -200,34 +210,36 @@ function updateAvailMap(loc){
 	
 }
 
-function getEventVoteSettings(){
+function getEventVoteSettings(postFn){
 
 	var _cookies = genCookieDictionary();
 	
-	_cookies.user = "scomatbarsar@gmail.com";
-	_cookies.accesscode = "J8vd7t9Y7KRimcA9z4ec2LxmqG24lz5V";
+	var _group_uid = 10;
+	var _event_uid = 31;
 
 	if(_cookies.accesscode && _cookies.user){
 	
 		var obj = {
-			"code":_cookies.accesscode,
+			"cookie":_cookies.accesscode,
 			"email":_cookies.user,
-			"function":"get_event_settings"
+			"function":"get_event_settings",
+			"group_uid":_group_uid,
+			"event_uid":_event_uid
 		};
 	
 		
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
-						eatCookies();
-						var json = JSON.parse(data);
-						console.log(json);
+						//eatCookies();
+						GRER_Settings = JSON.parse(data);
+						postFn();
 					},
 				211: function(data, status, jqXHR){
-						eatCookies();
+						//eatCookies();
 					}
 			}
 		
