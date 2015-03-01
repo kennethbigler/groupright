@@ -98,6 +98,38 @@ function getAllEvents($email){
 		);
 		$stmt->execute(array($event_uid,$start_date,$end_date,$start_time,$end_time,$duration));
 	}
+	
+	function getEventVoteSettings($group_uid,$event_uid){
+		$dbh = ConnectToDB();
+		
+		$sql = "SELECT name,description,email,location,ev.* 
+					FROM events as e 
+					RIGHT JOIN events_vote_settings as ev 
+					ON e.event_uid = ev.event_uid 
+					WHERE e.event_uid = ?
+					AND e.group_uid = ?";
+				
+		$stmt = $dbh->prepare($sql);
+		$stmt->execute(array($event_uid,$group_uid));
+		
+		while($row = $stmt->fetch()){
+			$obj = array();
+			$obj["name"] = $row["name"];
+			$obj["description"] = $row["description"];
+			$obj["creator"] = $row["email"];
+			$obj["start_date"] = $row["start_date"];
+			$obj["end_date"] = $row["end_date"];
+			$obj["start_time"] = $row["start_time"];
+			$obj["end_time"] = $row["end_time"];
+			$obj["duration"] = $row["duration"];
+			
+			$json = json_encode($obj);
+			echo $json;
+			return;
+		}
+		http_response_code(299);
+		return;
+	}
 
 	
 	function createFixedEvent(){
@@ -150,6 +182,26 @@ function getAllEvents($email){
 			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,NULL,NULL,$location);
 			addEventVoteSettings($event_uid,$start_date,$end_date,$start_time,$end_time,$duration);
 			addEventVotingTask($email,$group_uid,$event_title,$event_uid);
+		}else{
+			http_response_code(206);
+			return;
+		}
+	}
+	
+	
+	function getEventSettings(){
+		
+		// Get information.
+		$email = sanitizeEmail( $_POST['email'] );
+		$cookie = grHash($_POST['cookie'],$email);
+		$group_uid = $_POST['group_uid'];
+		$event_uid = $_POST['event_uid'];
+		
+		
+		// IF valid, continue.
+		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
+			getEventVoteSettings($group_uid,$event_uid);
 		}else{
 			http_response_code(206);
 			return;

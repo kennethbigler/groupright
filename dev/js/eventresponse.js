@@ -200,7 +200,40 @@ function updateAvailMap(loc){
 	
 }
 
+function getEventVoteSettings(){
 
+	var _cookies = genCookieDictionary();
+	
+	_cookies.user = "scomatbarsar@gmail.com";
+	_cookies.accesscode = "J8vd7t9Y7KRimcA9z4ec2LxmqG24lz5V";
+
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"code":_cookies.accesscode,
+			"email":_cookies.user,
+			"function":"get_event_settings"
+		};
+	
+		
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+						eatCookies();
+						var json = JSON.parse(data);
+						console.log(json);
+					},
+				211: function(data, status, jqXHR){
+						eatCookies();
+					}
+			}
+		
+		});
+	}
+}
 
 
 
