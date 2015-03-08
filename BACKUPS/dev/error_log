@@ -2,3 +2,4 @@
 [07-Feb-2015 00:49:12 UTC] PHP Fatal error:  Call to undefined function sanitizeEmail() in /home/groupright/public_html/dev/server/events.php on line 86
 [07-Feb-2015 00:49:28 UTC] PHP Fatal error:  Call to undefined function sanitizeEmail() in /home/groupright/public_html/dev/server/events.php on line 86
 [20-Feb-2015 04:21:44 UTC] PHP Fatal error:  Call to undefined function http_reponse_code() in /home/groupright/public_html/dev/server/tasks.php on line 75
+[01-Mar-2015 01:33:43 UTC] PHP Fatal error:  Call to undefined function submitAvailability() in /home/groupright/public_html/dev/groupserve.php on line 50

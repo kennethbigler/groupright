@@ -156,13 +156,29 @@ window.onload = function() {
 			}]
 		}];
 
+		var updates=[{
+			"email":"scomatbarsar@gmail.com",
+			"description":"killed Kenny",
+			"group_id":"10"
+			},
+			{
+			"email":"scomatbarsar@gmail.com",
+			"description":" was assigned a task.",
+			"group_id":"10"
+			},
+			{
+			"email":"scomatbarsar@gmail.com",
+			"description":" was assigned a task.",
+			"group_id":"10"
+			}];
+
 		console.log(memberships);
 		addCalendarInfo();
 		initializeEvents(allGroups);
 		dealwithProfilePic(null,"ZW");
 		addGRContacts(memberships);
 		addTasks(tasks);
-		addUpdates();
+		addUpdates(updates);
 	}
 
 };
@@ -268,7 +284,7 @@ function addUsersInfo(data){
 	//Add tasks
 	addTasks(obj.tasks);
 	//Add Updates
-	addUpdates();
+	addUpdates(obj.updates);
 	//Set the user's email for creating groups
 	document.getElementById("member1").value=_cookies.user;
 	//initialize event date
@@ -304,11 +320,11 @@ function addGRContacts(memberships){
 
 }
 
-function addUpdates(){
+function addUpdates(updates){
 	
 
 	var adder=document.getElementById("addUpdates");
-	for(var i=0; i<10; i++){
+	for(var i=0; i<updates.length; i++){
 		//var span = document.createElement('span');
 		//$(span).attr('class','glyphicon glyphicon-asterisk');
 		//span.style.color=gr_colors[Math.floor(Math.random() * 8) ];
@@ -318,10 +334,10 @@ function addUpdates(){
 		var h4=document.createElement('h4');
 		//h4.appendChild(span);
 		$(h4).attr('class','list-group-item-heading');
-		h4.innerText="This is an update!";
+		h4.innerText=getFullNameForEmail(updates[i].email)+" "+updates[i].description;
 		var p=document.createElement('p');
 		$(p).attr('class','list-group-item-text');
-		p.innerText="This is additional info for the update that is in the heading!";
+		p.innerText=getFullNameForEmail(updates[i].email)+" "+updates[i].description;
 		a.style.backgroundColor=gr_colors[Math.floor(Math.random() * 8) ];
 
 		a.appendChild(h4);

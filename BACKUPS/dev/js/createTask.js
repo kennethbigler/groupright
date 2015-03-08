@@ -7,12 +7,12 @@ function createTask(){
 	}
 
 	//get group
-	if ($( "#taskGroups" ).val()=="XXX") {
+	if ($( "#eventGroups" ).val()=="XXX") {
 		document.getElementById('eventError').innerHTML="Please select a group for the event.";
 		return false;
 	}
-	var taskGroup = $( "#taskGroups option:selected" ).text();
-	var taskGroupID = $( "#taskGroups" ).val();
+	var taskGroup = $( "#eventGroups option:selected" ).text();
+	var taskGroupID = $( "#eventGroups" ).val();
 
 	//get personal/group status
 	var is_personal = document.getElementById("is_personal").elements["personal"].value;

@@ -17,6 +17,9 @@
 	include './server/events.php';
 	include './server/tasks.php';
 	include './server/messages.php';
+	
+	include './server/availability.php';
+	include './server/settings.php';
 
 	
 	
@@ -40,7 +43,11 @@
 	if($function == 'create_group') makeGroup();
 	if($function == 'create_fixed_event') createFixedEvent();
 	if($function == 'create_votable_event') createVotableEvent();
+	if($function == 'get_event_settings') getEventSettings();
 	if($function == 'create_task') createTask();
 	if($function == 'assign_task') assignTask();
+	if($function == 'send_message') sendMessage();
+	if($function == 'get_messages') getMessages();
+	if($function == 'submit_availability') submitAvailability();
 	
 ?> 

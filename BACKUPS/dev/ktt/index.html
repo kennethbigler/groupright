@@ -11,6 +11,9 @@
 </style>
 
 <div style="width:600px; height:100%; padding:10px; float:left;">
+	<div id="lastUser" style="width:600px; height:25px; font-family:Courier; font-weight:bold">
+	Last User: <span style="color:blue;"></span>
+	</div>
 	<div id="lastCookie" style="width:600px; height:25px; font-family:Courier; font-weight:bold">
 	Last Cookie: <span style="color:blue;"></span>
 	</div>
@@ -45,6 +48,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
 
+var lastUser;
+var lastCookie;
+
 function createTemplate(fn,elm,color){
 
 
@@ -61,7 +67,19 @@ function createTemplate(fn,elm,color){
 
 	var button = $("<button />").html(mask).click(function(){
 	
-		$("#inputText").val(value);
+		
+		// user and cookie
+		var str = value;
+		str = str.replace("<email>",lastUser);
+		str = str.replace("<cookie>",lastCookie);
+		str = str.replace("<code>",lastCookie);
+		str = str.replace("<ac>",lastCookie);
+		
+		
+		$("#inputText").val(str);
+		
+		
+		
 	
 	});
 	button.css({"padding":"10px","box-sizing":"border-box","width":"100%","margin-bottom":"3px"});
@@ -93,9 +111,14 @@ $(document).ready(function(){
 	
 		createTemplate("create_fixed_event",["email","cookie","group_uid","event_title","event_description","start_time","end_time","location"],"purple"),
 		createTemplate("create_votable_event",["email","cookie","group_uid","event_title","event_description","start_date","end_date","start_time","end_time","duration","location"],"purple"),
+		createTemplate("get_event_settings",["email","cookie","group_uid","event_uid"],"purple"),
+		createTemplate("submit_availability",["email","cookie","group_uid","event_uid","availability"],"purple"),
 		
 		createTemplate("create_task",["email","cookie","group_uid","event_uid","task_title","task_description","is_personal","deadline"],"orange"),
-		createTemplate("assign_task",["email","cookie","group_uid","task_uid"],"orange")
+		createTemplate("assign_task",["email","cookie","group_uid","task_uid"],"orange"),
+		
+		createTemplate("send_message",["email","cookie","group_uid","message_content"],"white"),
+		createTemplate("get_messages",["email","cookie","group_uid"],"white")
 	);
 	
 	var str = document.cookie;
@@ -110,7 +133,10 @@ $(document).ready(function(){
 		var val = rel[1].trim();
 		if(key != "" && val != "")	obj[ key ] = val;
 	}
-	
+	console.log(obj);
+	lastUser = obj["user"];
+	lastCookie = obj["accesscode"];
+	$("#lastUser").children("span").html(obj["user"]);
 	$("#lastCookie").children("span").html(obj["accesscode"]);
 
 });
@@ -125,6 +151,8 @@ function parseInput(str){
 		var rel = vars[i].split("=");
 		var key = rel[0].trim();
 		var val = rel[1].trim();
+		if(val[0] == "{" && val[val.length-1] == "}") val = eval(val);
+		if(val[0] == "[" && val[val.length-1] == "]") val = eval(val);
 		if(key != "" && val != "")	obj[ key ] = val;
 	}
 	
@@ -139,6 +167,10 @@ function postToGroupServe(){
 		str = str.replace(/{/g,"{<br />");
 		str = str.replace(/}/g,"<br />}");
 		$("#input").html(str);
+		
+		if(obj.function=="login"){
+			lastUser = obj.email;
+		}
 
 		// Contact Server
 		$.ajax("https://www.groupright.net/dev/groupserve.php",{
@@ -157,6 +189,7 @@ function postToGroupServe(){
 				if(obj.function == 'login'){
 					document.cookie = "accesscode="+d.trim()+";path=/";
 					$("#lastCookie").children("span").html(d);
+					lastCookie = d;
 				}
 			}
 		
