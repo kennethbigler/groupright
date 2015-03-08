@@ -6,7 +6,28 @@
 	height:100%;
 	width:auto;
 	white-space:nowrap;
-	overflow:hidden;
+	overflow-x:hidden;
+	overflow-y:auto;
+}
+
+.er_avail_perfect{background-color:#5cb85c;}
+.er_avail_ok{background-color:#337ab7;}
+.er_avail_rathernot{background-color:#f0ad4e;}
+.er_avail_no{background-color:#d9534f;}
+.er_avail_empty{background:color:#ccc;}
+
+#avail_perfect,#avail_ok,#avail_rather_not,#avail_no{margin-top:0;}
+
+#event_title{font-size:1.3em; font-weight:bold; border-bottom:solid 1pt;}
+#event_description{font-style:italic; text-indent:2.0em;}
+
+.er_gridspace *{
+	-webkit-touch-callout:none;
+	-webkit-user-select:none;
+	-khtml-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
 }
 
 .er_timecol{
@@ -51,7 +72,6 @@
 	display:inline-block;
 	vertical-align:top;
 	overflow:auto;
-	height:100%;
 	width:90%;
 	background-color:#555;
 }

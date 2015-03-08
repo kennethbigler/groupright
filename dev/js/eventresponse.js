@@ -11,8 +11,8 @@
 // Global Var (Our "Model" in MVC)
  var GRER = {
 	 aMode:0,
-	 aMap:{},
-	 tMap:{},
+	 aMap:{},		// availability map
+	 tMap:{},		// time label map
 	 eUID:null,
 	 eName:"Default Name",
 	 eDesc:"Default Description",
@@ -132,6 +132,82 @@ function GRER_initialize(obj){
 		}
 	}
 	
+	// ----------------------------------------------------------------------
+	// FUNCTIONALITY
+	
+	var start_cell = null;
+	var last_end_cell = null;
+	var temp_aMap = $.extend(true,{},GRER.aMap);
+				
+	// Cell Coloring -------------------------------------------------
+	function indvColorCell(elm, index){
+		var ER_colors = ["#5cb85c","#337ab7","#f0ad4e","#d9534f"];
+		var sel_color = (index == -1) ? "#ccc" : ER_colors[index];
+		elm.css({backgroundColor:sel_color});
+	}
+	
+	function colorSpanByFn(start,end,fn){
+		var x_dir = (end.i > start.i) ? 1 : -1;
+		var y_dir = (end.j > start.j) ? 1 : -1;
+		for(var i = start.i; i != end.i + x_dir; i += x_dir){
+			for(var j = start.j; j != end.j + y_dir; j+= y_dir){
+				var index = fn(i,j);
+				indvColorCell($(".er_row"+j+".er_col"+i),index);
+				temp_aMap[i][j] = index;
+			}
+		}
+	}
+	function colorCellSpan(start,end,index){
+		colorSpanByFn(start,end,function(i,j){return index;});
+	}
+	function revertToMap(start,end){
+		colorSpanByFn(start,end,function(i,j){return GRER.aMap[i][j];});
+	}
+	
+	function colorCell(){
+		var rel = $(this).val();
+		if(last_end_cell) revertToMap(start_cell,last_end_cell);
+		colorCellSpan(start_cell,rel,GRER.aMode);
+		last_end_cell = rel;
+	};
+	
+	function saveGRERMap(){
+		//console.log("saving");
+		for(var i in GRER.aMap){
+			for(var j in GRER.aMap[i]){
+				GRER.aMap[i][j] = temp_aMap[i][j];
+			}
+		}
+		//console.log(GRER.aMap);
+	}
+	
+	var isButtonDown = false;
+	
+	function timeIncrDown(e){
+		var val = $(this).val();
+		start_cell = val;				
+		if(e.which === 1) isButtonDown = true; 
+	};
+	
+	function timeIncrUp(e){
+		last_end_cell = null;
+		saveGRERMap();
+		//console.log(GRER.aMap);
+		if(e.which === 1) isButtonDown = false; 
+	};
+	
+	function timeIncrMove(e){
+		//console.log("called");
+		if(oldIE && !event.button){isButtonDown = false;}				
+		if(e.which === 1 && !isButtonDown) e.which = 0;
+		if(e.which){
+			colorCell.call(this);
+		}
+	};
+	
+	// ---------------------------------------------------------------------
+	// CONSTRUCTION
+	
 	// For each day, create a column.
 	var day_grid_space = $("<div />",{class:"er_day_gridspace"});
 	grid_space.append(day_grid_space);
@@ -144,7 +220,7 @@ function GRER_initialize(obj){
 		var day_header = $("<div />",{class:"er_dayheader"});
 		day_header.text(dates[i]);
 		day.append(day_header);
-		
+				
 		// Add each of the hours
 		for(var j = 0; j < y; j++){
 			var time_incr = $("<div />",{class:"er_time_incr"});
@@ -156,59 +232,48 @@ function GRER_initialize(obj){
 			
 			time_incr.addClass("er_row"+j);
 			time_incr.addClass("er_col"+i);
+			time_incr.mousedown(timeIncrDown)
+					.mouseup(timeIncrUp)
+					.mousemove(timeIncrMove);
 			
-			// Hover - update hover info.
-			time_incr.hover(function(){
-				var rel = $(this).val();
-				updateHover(GRER.tMap[rel.i][rel.j]);
-			});
-						
-			
-			// Color cell mark availability.
-			function colorCell(){
-				var rel = $(this).val();
-								
-				var ER_colors = ["#5cb85c","#337ab7","#f0ad4e","#d9534f"];
-				$(this).css({backgroundColor:ER_colors[GRER.aMode]});
-			};
-			
-			//time_incr.click(colorCell);
-			var isButtonDown = false;
-			time_incr.mousedown(function(e){
-				var val = $(this).val();
-				if(e.which === 1) isButtonDown = true; 
-			});
-			time_incr.mouseup(function(e){ 
-				if(e.which === 1) isButtonDown = false; 
-			});
-			
-			time_incr.mousemove(function(e){
-				console.log("called");
-				if(oldIE && !event.button){isButtonDown = false;}				
-				if(e.which === 1 && !isButtonDown) e.which = 0;
-				if(e.which){
-					colorCell.call(this);
-				}
-			});
 			day.append(time_incr);
 		}
 		
 	}
 	
 	// Relate the Availability Buttons
+	/*
 	$("#avail_perfect").click(function(){ GRER.aMode = 0; });
 	$("#avail_ok").click(function(){ GRER.aMode = 1; });
 	$("#avail_rather_not").click(function(){ GRER.aMode = 2; });
 	$("#avail_no").click(function(){ GRER.aMode = 3; });
-}
-
-
-function updateHover(txt){
-	$("#hoverTimePrintout").text(txt);
-}
-function updateAvailMap(loc){
+	*/
+	$("#avail_perfect").click(function(){ 
+		GRER.aMode = 1; 
+		$(this).hide();
+		$("#avail_ok").show();
+	});
+	$("#avail_ok").click(function(){ 
+		GRER.aMode = 2; 
+		$(this).hide();
+		$("#avail_rather_not").show();
+	}).hide();
+	$("#avail_rather_not").click(function(){ 
+		GRER.aMode = 3; 
+		$(this).hide();
+		$("#avail_no").show();
+	}).hide();
+	$("#avail_no").click(function(){ 
+		GRER.aMode = 0;
+		$(this).hide();
+		$("#avail_perfect").show();
+	}).hide();
 	
+	// Update other parts.
+	$("#event_title").text(GRER.eName);
+	$("#event_description").text(GRER.eDesc);
 }
+
 
 function getEventVoteSettings(postFn){
 
