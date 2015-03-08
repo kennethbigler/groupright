@@ -83,6 +83,7 @@ function GRER_initialize(obj){
 		GRER.tMap[i] = {};
 		GRER.aMap[i] = {};
 		for(var j = 0; j < y; j++){
+			
 			var str = "";
 			var day = new Date( epoch_day_diff  + i*24*60*60*1000 + offset*60*1000 );
 			//console.log(day);
@@ -93,7 +94,18 @@ function GRER_initialize(obj){
 			str += " "+day2.toLocaleTimeString();
 			var day3 = new Date( epoch_time_diff + (j+1)*15*60*1000);
 			str += " - "+day3.toLocaleTimeString();
-			GRER.tMap[i][j] = str;
+			//GRER.tMap[i][j] = str;
+			
+			
+			var obj = {start_time:"",end_time:"",date:""};
+			var day = new Date( epoch_day_diff  + i*24*60*60*1000 + offset*60*1000 );
+			obj.date = day.getFullYear()+"-"+("0"+(1+day.getMonth())).slice(-2) + "-" + ("0"+day.getDate()).slice(-2);
+			obj.start_time = day2.toLocaleTimeString({},{hour12:false});
+			obj.end_time = day3.toLocaleTimeString({},{hour12:false});
+			
+			
+			GRER.tMap[i][j] = obj;
+			
 			
 			//----------------------
 			GRER.aMap[i][j] = -1;
@@ -272,10 +284,16 @@ function GRER_initialize(obj){
 	// Update other parts.
 	$("#event_title").text(GRER.eName);
 	$("#event_description").text(GRER.eDesc);
+	
+	// save button
+	$("#er_save_button").click( function(){
+		sendEventAvailability(function(){});
+	});
 }
 
 
 function getEventVoteSettings(postFn){
+	if(!(postFn instanceof Function)){ postFn = function(){}; }
 
 	var _cookies = genCookieDictionary();
 	
@@ -309,6 +327,62 @@ function getEventVoteSettings(postFn){
 		});
 	}else{
 		GRER_initialize({});
+	}
+}
+
+function synthesizeAvailability(){
+	var avail = new Array();
+	for(var i in GRER.aMap){
+		for(var j in GRER.aMap[i]){
+			var obj = {};
+			//console.log(GRER.tMap[i][j]);
+			obj.start_time = GRER.tMap[i][j].start_time; // "07:00:00";
+			obj.end_time = GRER.tMap[i][j].end_time; // "07:15:00";
+			obj.date = GRER.tMap[i][j].date; //"2015-03-07";
+			obj.score = GRER.aMap[i][j];
+			console.log(obj);
+			avail.push(obj);
+		}
+	}
+	return avail;
+}
+
+function sendEventAvailability(postFn){
+	if(!(postFn instanceof Function)){ postFn = function(){}; }
+	
+	var _cookies = genCookieDictionary();
+	
+	var _group_uid = 10;
+	var _event_uid = 31;
+
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"cookie":_cookies.accesscode,
+			"email":_cookies.user,
+			"function":"submit_availability",
+			"group_uid":_group_uid,
+			"event_uid":_event_uid,
+			"availability":synthesizeAvailability()
+		};
+	
+		
+		// Contact Server
+		$.ajax("groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+						//eatCookies();
+						GRER_Settings = JSON.parse(data);
+						postFn();
+					}
+			},
+			
+		
+		});
+	}else{
+		console.log(synthesizeAvailability());
 	}
 }
 
