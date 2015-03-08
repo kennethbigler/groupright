@@ -11,6 +11,9 @@
 </style>
 
 <div style="width:600px; height:100%; padding:10px; float:left;">
+	<div id="lastUser" style="width:600px; height:25px; font-family:Courier; font-weight:bold">
+	Last User: <span style="color:blue;"></span>
+	</div>
 	<div id="lastCookie" style="width:600px; height:25px; font-family:Courier; font-weight:bold">
 	Last Cookie: <span style="color:blue;"></span>
 	</div>
@@ -45,6 +48,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
 
+var lastUser;
+var lastCookie;
+
 function createTemplate(fn,elm,color){
 
 
@@ -61,7 +67,19 @@ function createTemplate(fn,elm,color){
 
 	var button = $("<button />").html(mask).click(function(){
 	
-		$("#inputText").val(value);
+		
+		// user and cookie
+		var str = value;
+		str = str.replace("<email>",lastUser);
+		str = str.replace("<cookie>",lastCookie);
+		str = str.replace("<code>",lastCookie);
+		str = str.replace("<ac>",lastCookie);
+		
+		
+		$("#inputText").val(str);
+		
+		
+		
 	
 	});
 	button.css({"padding":"10px","box-sizing":"border-box","width":"100%","margin-bottom":"3px"});
@@ -115,7 +133,10 @@ $(document).ready(function(){
 		var val = rel[1].trim();
 		if(key != "" && val != "")	obj[ key ] = val;
 	}
-	
+	console.log(obj);
+	lastUser = obj["user"];
+	lastCookie = obj["accesscode"];
+	$("#lastUser").children("span").html(obj["user"]);
 	$("#lastCookie").children("span").html(obj["accesscode"]);
 
 });
@@ -146,6 +167,10 @@ function postToGroupServe(){
 		str = str.replace(/{/g,"{<br />");
 		str = str.replace(/}/g,"<br />}");
 		$("#input").html(str);
+		
+		if(obj.function=="login"){
+			lastUser = obj.email;
+		}
 
 		// Contact Server
 		$.ajax("https://www.groupright.net/dev/groupserve.php",{
@@ -164,6 +189,7 @@ function postToGroupServe(){
 				if(obj.function == 'login'){
 					document.cookie = "accesscode="+d.trim()+";path=/";
 					$("#lastCookie").children("span").html(d);
+					lastCookie = d;
 				}
 			}
 		
