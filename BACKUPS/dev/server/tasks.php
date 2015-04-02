@@ -58,23 +58,6 @@ function addTaskAssignment($task_uid,$group_uid,$email){
 	
 }
 
-function _assignToGroup($task_uid,$group_uid)
-{
-	// Get members.
-	$dbh = ConnectToDB();
-	
-	$stmt = $dbh->prepare(
-		"SELECT email FROM memberships WHERE group_uid = ?"
-	);
-	$stmt->execute(array($group_uid));
-			
-	while($row = $stmt->fetch()){
-		$em = $row['email'];
-		addTaskAssignment($task_uid,$group_uid,$em);
-	}
-	
-}
-
 function createTask(){
 	
 		// Get information.
@@ -97,14 +80,6 @@ function createTask(){
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
 			$task_uid = addTask($email,$task_title,$task_descr,$group_uid,$event_uid,$is_personal,$deadline);
-			
-			if($task_uid < 1){ http_response_code(299); return; } // failed task creation
-			
-			// Assign Task
-			if($is_personal){ addTaskAssignment($task_uid,$group_uid,$email); }
-			else{ _assignToGroup($task_uid,$group_uid); }
-			
-			// output task
 			print_r($task_uid);
 		}else{
 			http_response_code(206);

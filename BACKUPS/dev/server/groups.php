@@ -115,12 +115,15 @@
 	
 		// Enter DB.
 		$dbh = ConnectToDB();
+		
+		// Get Membership color
+		$color = _nextGroupColor($email);
 	
 		// Prevent duplicate.
 		$stmt = $dbh->prepare(
-			"INSERT IGNORE INTO `memberships`(`email`, `group_uid`, `role`, `properties`) VALUES (?, ?, ?, ?)"
+			"INSERT IGNORE INTO `memberships`(`email`, `group_uid`, `role`, `color`) VALUES (?, ?, ?, ?)"
 		);				
-		$stmt->execute(array($email,$group_uid,$role,$properties));		
+		$stmt->execute(array($email,$group_uid,$role,$color));		
 		return true;
 		
 	}
@@ -150,7 +153,7 @@
 
 		// Run Query.			
 		$stmt = $dbh->prepare(
-			"SELECT g.group_name AS group_name, m.properties AS properties, g.group_uid AS group_uid
+			"SELECT g.group_name AS group_name, m.color AS color, g.group_uid AS group_uid
 			FROM memberships AS m 
 			LEFT JOIN groups AS g ON m.group_uid = g.group_uid 
 			LEFT JOIN active_users AS u ON m.email = u.email
@@ -164,12 +167,12 @@
 		
 			// Parse rows.
 			$name = $row['group_name'];
-			$properites = json_decode($row['properties'],true);
+			$color = $row['color'];
 			$uid = $row['group_uid'];
 			$members = getMembers($uid);
 			
 			// Create membership object.
-			$gr = array("group_name"=>$name,"group_color"=>$properites["color"],"group_id"=>$uid,"members"=>$members);
+			$gr = array("group_name"=>$name,"group_color"=>"#".$color,"group_id"=>$uid,"members"=>$members);
 			
 			// Add to groups.
 			$groups[] = $gr;
@@ -216,5 +219,146 @@ function getMembers($group_uid){
 		
 		return $members;		
 	}
+	
+	
+// COLOR MANAGEMENT
+//========================================================================
+
+function _getNullColoredGroups($email)
+{
+	$dbh = ConnectToDB();
+	
+	$sql = "
+		SELECT group_uid
+		FROM memberships
+		WHERE color IS NULL
+		AND email = ?
+	";
+	
+	$stmt = $dbh->prepare($sql);
+	
+	$stmt->execute(array($email));
+	
+	$arr = array();
+	while($row = $stmt->fetch()){
+		$arr[] = $row['group_uid'];
+	}
+	
+	return $arr;
+	
+}
+
+function _nextGroupColor($email)
+{
+	$dbh = ConnectToDB();
+	
+	$sql = "
+		SELECT 
+			rgb, 
+			IFNULL(freq,0) as freq
+		FROM gr_colors
+		NATURAL LEFT JOIN 
+		(
+			SELECT 
+				color as rgb, 
+				count(*) as freq
+			FROM memberships
+			WHERE email = ?
+			AND color IS NOT NULL
+			GROUP BY color
+		) as freqs
+		ORDER BY 
+			IFNULL(freq,0) ASC,
+			id ASC
+	";
+	
+	$stmt = $dbh->prepare($sql);
+	
+	$stmt->execute(array($email));
+	
+	while($row = $stmt->fetch()){
+		return $row['rgb'];
+	}
+	
+	return NULL;
+}
+
+function _updateMembershipColor($email,$group_uid,$color)
+{
+	$dbh = ConnectToDB();
+	
+	$sql = "
+		UPDATE memberships
+		SET color = ?
+		WHERE email = ?
+		AND group_uid = ?
+	";
+	
+	$stmt = $dbh->prepare($sql);
+	
+	$stmt->execute(array($color,$email,$group_uid));
+	
+	return;
+}
+
+function _resetColors($email)
+{
+	$dbh = ConnectToDB();
+	
+	$sql = "
+		UPDATE memberships
+		SET color = NULL
+		WHERE email = ?
+	";
+	
+	$stmt = $dbh->prepare($sql);
+	
+	$stmt->execute(array($email));
+	
+	return;
+}
+
+function _fixMembershipColors($email)
+{
+	$groups = _getNullColoredGroups($email);
+	
+	for($i = 0; $i < sizeof($groups); $i++)
+	{
+		$color = _nextGroupColor($email);
+		_updateMembershipColor($email,$groups[$i],$color);
+	}
+	return;
+}
+
+
+function resetMembershipColors()
+{
+// Get Data
+		$email = $_POST['email'];
+		$cookie = $_POST['ac'];
+		
+		// Fix cookie.
+		$cookie = grHash($cookie,$email);
+		
+		// Filter email address
+		$email_address = htmlspecialchars($email);
+		$email_address = trim($email_address);
+		$email_address = stripslashes($email_address);
+		
+		// If valid, continue.
+		if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {
+		
+			_resetColors($email_address);
+			_fixMembershipColors($email_address);
+			return;
+			
+		}
+		else {
+			// maybe do something
+			http_response_code(206);
+			return;
+		}
+		
+}
 
 ?>
