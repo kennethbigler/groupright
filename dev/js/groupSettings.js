@@ -17,7 +17,7 @@ window.onload = function() {
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
-					addUsersInfo(data);
+					addUserGroupInfo(data);
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
@@ -131,6 +131,36 @@ function loadGroups(allGroups){
 		});
 		alert("hi");
 	}
+}
+
+function addUserGroupInfo(data){
+	var _cookies = genCookieDictionary();
+	//What to do on the page load
+	obj = JSON.parse(data);
+	//Add their name
+	addUsersName(obj.first_name);
+	//Add their groups
+	addUsersGroups(obj.memberships);
+	//Deal with Profile Pick
+	initials=obj.first_name[0] + obj.last_name[0];
+	dealwithProfilePic(obj.photo_url,initials);
+	//add all members to global store
+	addGRContacts(obj.memberships);
+	/*
+	//Do some calendar Stuff (Eventually will need some of the data)
+	addCalendarInfo();
+	//Add tasks
+	addTasks(obj.tasks);
+	//Add Updates
+	addUpdates(obj.updates);
+	//Set the user's email for creating groups
+	document.getElementById("member1").value=_cookies.user;
+	//initialize event date
+	initializeEvents(obj.memberships);
+	//initialize tasks
+	initializeTasks(obj.memberships);
+	//initialize messages
+	initializeMessages(obj.memberships);*/
 }
 function leaveGroup(groupID){
 	alert("Warning! This action cannot be undone. Do you wish to continue?");
