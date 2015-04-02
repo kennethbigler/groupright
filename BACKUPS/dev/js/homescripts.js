@@ -390,8 +390,6 @@ function getFullNameForEmail(email){
 	return "Unknown";
 }
 function addTasks(task_array){
-	console.log("TASK ARRAY");
-	console.log(task_array);
 	var tasks=document.getElementById('addTasks');
 	if(task_array.length==0){
 		//Add no pending tasks
