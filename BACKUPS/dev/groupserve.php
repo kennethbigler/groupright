@@ -49,5 +49,6 @@
 	if($function == 'send_message') sendMessage();
 	if($function == 'get_messages') getMessages();
 	if($function == 'submit_availability') submitAvailability();
+	if($function == 'reset_membership_colors') resetMembershipColors();
 	
 ?> 
