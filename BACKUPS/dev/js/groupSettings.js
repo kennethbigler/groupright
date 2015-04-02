@@ -71,7 +71,7 @@ function loadGroups(allGroups){
 		$(colorButton).attr( 'type', 'button' );
 		$(colorButton).attr('data-toggle','popover');
 		$(colorButton).attr('data-placement','top');
-		$(colorButton).attr('onclick','alert("change color");');
+		//$(colorButton).attr('onclick','alert("change color");');
 		$(colorButton).attr('id','popover'+i);
 		$(colorButton).attr('data-content',colorButtons);
 		colorButton.style.padding="4px";
@@ -124,8 +124,12 @@ function loadGroups(allGroups){
 			adder.appendChild(row);
 		}
 	}
-	for(var i=0; i<allGroups.size; i++){
-		$('#popover'+i).popover();
+	for(var i=0; i<allGroups.length; i++){
+		//$('#popover'+i).popover();
+		$(function() {
+		    $('#popover'+i).tooltip();
+		});
+		alert("hi");
 	}
 }
 function leaveGroup(groupID){

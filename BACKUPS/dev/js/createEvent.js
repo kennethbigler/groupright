@@ -380,12 +380,12 @@ function createGREvent(){
 					alert("Event Created");
 					updateProgressBar(6);
 					resetEventParameters();
-					//window.location = "./home.html";				
+					window.location = "./home.html";				
 				},
 				206:function(){
 					//access denied, redirect to login
 					alert("Access Denied");	
-					//window.location = "./login.html";
+					window.location = "./login.html";
 				},
 				220:function(){
 					//something else happened
