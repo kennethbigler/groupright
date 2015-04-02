@@ -7,7 +7,7 @@ function createTask(){
 	}
 
 	//get group
-	if ($( "#eventGroups" ).val()=="XXX") {
+	if ($( "#taskGroups" ).val()=="XXX") {
 		document.getElementById('eventError').innerHTML="Please select a group for the event.";
 		return false;
 	}
