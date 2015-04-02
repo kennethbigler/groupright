@@ -175,6 +175,7 @@ window.onload = function() {
 		console.log(memberships);
 		addCalendarInfo();
 		initializeEvents(allGroups);
+		initializeTasks(allGroups);
 		dealwithProfilePic(null,"ZW");
 		addGRContacts(memberships);
 		addTasks(tasks);
@@ -266,6 +267,30 @@ function initializeEvents(allGroups){
 	}
 }
 
+function initializeTasks(allGroups){
+
+	var groupMenu = document.getElementById("taskGroups");
+	var numGroups = allGroups.length;
+
+	//If no groups
+	if(numGroups==0){
+		console.warn("You currently have no groups. Events will not work.");
+	}
+
+	//If only one group, make it default
+	if(numGroups==1){
+		groupMenu.innerHTML="";
+	}
+
+	for(var i = 0; i < numGroups; i ++) {
+		var item=document.createElement('option');
+		item.style.color=allGroups[i].group_color;
+		item.value=allGroups[i].group_id;
+		item.innerHTML=allGroups[i].group_name;
+		groupMenu.appendChild(item);
+	}
+}
+
 function addUsersInfo(data){
 	var _cookies = genCookieDictionary();
 	//What to do on the page load
@@ -289,6 +314,9 @@ function addUsersInfo(data){
 	document.getElementById("member1").value=_cookies.user;
 	//initialize event date
 	initializeEvents(obj.memberships);
+	//initialize tasks
+	initializeTasks(obj.memberships);
+
 	
 
 }
