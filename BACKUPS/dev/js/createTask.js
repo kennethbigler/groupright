@@ -53,7 +53,7 @@ function createGRTask(){
 			statusCode:{
 				200:function(data,status,jqXHR) {
 					alert("Task Created");
-					window.location = "./home.html";				
+					//window.location = "./home.html";				
 				},
 				210:function() {
 					//access denied, redirect to login
