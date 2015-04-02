@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GroupRight, Groups Done Right</title>
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<link href="css/home-styles.css" rel="stylesheet" />
+<link href="js/cal/grcal.css" rel="stylesheet"/>
+<link href="css/font.css" rel="stylesheet">
+<link href="css/datepicker.css" rel="stylesheet">
+<link href="css/timepicker.css" rel="stylesheet">
+<link rel='stylesheet' media='screen and (max-width: 767px)' href='css/home-styles-phone.css' />
+<link rel='stylesheet' media='screen and (min-width: 768px) and (max-width: 1199px)' href='css/home-styles-tablet.css' />
+<link rel='stylesheet' media='screen and (min-width: 1200px)' href='css/home-styles-computer.css' />
+<link rel="icon" href="images/favicon.png" />
+
+<meta name="keywords" content="GroupRight, Group Right, Groups done right, Group, Right, GroupWright, Group Wright, Group, Wright, groups, collaboration, collaborative group management, management, tasks, assignment, teamwork, scheduler, scheduling, planning, coordination, team building, Santa Clara University, SCU, Santa Clara, Kenneth Bigler, Kenneth, Bigler, Kenneth William Lidgate Bigler, Zachary Wilson, Zachary, Wilson, Scott Sarsfield, Scott, Sarsfield, Senior Design Project, Senior, Design, Project">
+<meta name="description" content="GroupRight is a collaborative group management system.  It is the Senior Design Project for Kenneth Bigler, Zachary Wilson, and Scott Sarsfield, students from Santa Clara University.">
+<meta name="author" content="GroupRight">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.js">
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+</script>
+<script src="js/createEvent.js">
+</script>
+<script src="js/homescripts.js">
+</script>
+<script src="js/cookie.js">
+</script>
+<script src="js/createGroup.js">
+</script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid page-container">
+      <a href="https://www.groupright.net/" >
+        <img align="left" src="images/LogoWhite.svg" alt="GroupRight" id="whitelogo"/>
+      </a>
+      <img class="profpic img-circle" id="profileImage" title="Profile" alt="Profile Picture" src="images/black.png" align="right" />
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Groups<span class="caret"></span></a>
+            <ul class="dropdown-menu" id="myGroups">
+              <li><a href="#"><span class="glyphicon glyphicon-stop" style="color:red;"></span> Senior Design</a></li>
+              <li><a href="#"><span class="glyphicon glyphicon-stop" style="color:orange;"></span> Web Dev</a></li>
+              <li><a href="#"><span class="glyphicon glyphicon-stop" style="color:green;"></span> Family</a></li>
+              <li><a href="#"><span class="glyphicon glyphicon-stop" style="color:blue;"></span> Fake Madrid</a></li>
+              <li><a href="#"><span class="glyphicon glyphicon-stop" style="color:purple;"></span> Spiked Punch</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="profileName">Name<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li onclick="logoutAndRedirect()"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+              <li><a href="account_settings.html"><span class="glyphicon glyphicon-th-list"></span> My Account</a></li>
+              <li><a href="group_settings.html"><span class="glyphicon glyphicon-cog"></span> Group Settings</a></li>
+              <li><a href="notification_settings"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>
+              <li><a href="error_settings.html"><span class="glyphicon glyphicon-wrench"></span> Report Error</a></li>
+              <li><a href="contact.html"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="foofooter">&nbsp;</div>
+
+<div class="container-fluid">
+<div class="row">
+  <div class="col-sm-2" style="height:100%;">
+      <!-- Left column -->
+      <div class="panel panel-primary">
+      <div class="panel-heading"><h4>Menu</h4></div>
+      <div class="panel-body">
+
+      <ul class="list-unstyled">
+        <li class="nav-header">
+          <a href="account_settings.html"><h5>My Account</h5> </a>
+        </li>
+        <li class="nav-header"> 
+          <a href="group_settings.html"><h5>My Groups</h5></a>
+        </li>
+        <li class="nav-header">
+          <a href="notification_settings.html"><h5>Notifications</h5></a>
+        </li>
+        <li class="nav-header">
+          <a href="security_settings.html"><h5>Security</h5></a>
+        </li>
+        <li class="nav-header">
+          <a href="error_settings.html"><h5>Report Error</h5></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+   
+      
+      
+    </div><!-- /col-3 -->
+    <div class="col-sm-10">
+      
+    <div class="row">     
+      <div class="col-md-12">
+        <div class="panel panel-default">
+           <div class="panel-heading"><h4>My Account</h4></div>
+            <div class="panel-body">
+              <div class="container signup-box back" id="createGroupBox">
+
+                <form class="createGroupForm" role="form" >
+                    
+                  <h5 class="header-center">Change Your Name</h5>  
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <label for="groupNameField" class="sr-only">First Name</label>  
+                        <input type="text" id="groupnameField" class="form-control" placeholder="First Name" required >
+                      </div>
+                      <div class="col-xs-4">
+                        <label for="groupNameField" class="sr-only">First Name</label>  
+                        <input type="text" id="groupnameField" class="form-control" placeholder="Last Name" required >
+                      </div>
+                    </div>
+                    
+                    <div class="row" style="margin-top:10px;">
+                      <div class="col-xs-3">
+                      <button class="btn btn-primary" type="button" onclick="changeName()">Update</button>
+                    </div>
+                    </div>
+
+                  <hr>
+
+                  <h5 class="header-center">Change Your Password</h5>  
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <label for="groupNameField" class="sr-only">Current Password</label>  
+                        <input type="text" id="groupnameField" class="form-control" placeholder="Current Password" required >
+                      </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                      <div class="col-xs-4">
+                        <label for="groupNameField" class="sr-only">Current Password</label>  
+                        <input type="text" id="groupnameField" class="form-control" placeholder="New Password" required >
+                      </div>
+                        <div class="col-xs-4">
+                        <label for="groupNameField" class="sr-only">Current Password</label>  
+                        <input type="text" id="groupnameField" class="form-control" placeholder="Confirm New Password" required >
+                      </div>
+                      </div>
+                    <div class="row" style="margin-top:10px;">
+                      <div class="col-xs-3">
+                      <button class="btn btn-primary" type="button" onclick="changeName()">Update</button>
+                      </div>
+                    </div>
+
+                    <hr>
+
+                     <h5 class="header-center">Add a Phone Number</h5>  
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <label for="groupNameField" class="sr-only">First Name</label>  
+                        <input type="text" id="groupnameField" class="form-control" placeholder="Phone Number" required >
+                      </div>
+                    </div>
+                    
+                    <div class="row" style="margin-top:10px;">
+                      <div class="col-xs-3">
+                      <button class="btn btn-primary" type="button" onclick="changeName()">Update</button>
+                    </div>
+                    </div>
+
+                </form>
+              </div>
+                
+            </div>
+            </div>
+            <div class="panel panel-default">
+           <div class="panel-heading"><h4>Current</h4></div>
+            <div class="panel-body">
+            </div>
+        </div>
+      </div><!--/col-span-6-->
+     
+      </div><!--/row-->
+      
+
+    </div><!--/col-span-10-->
+</div>
+</div>
+<!-- /Main -->
+
+<footer class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 footing">
+      <p>GroupRight &copy; 2015</p>
+    </div>
+    <div class="col-sm-1 footing">
+      <p><a href="about.html"> About</a></p>
+    </div>
+    <div class="col-sm-2 footing">
+      <p><a href="contact.html"> Contact</a></p>
+    </div>
+    <div class="col-sm-1 footing">
+      <p><a href="terms.html"> Terms</a></p>
+    </div>
+    <div class="col-sm-2 footing">
+      <p><a href="privacy.html"> Privacy</a></p>
+    </div>
+    <div class="col-sm-3 footing">
+      <div>
+        <a href="https://twitter.com/group_right">
+          <img class="snm" title="Twitter" alt="Twitter" src="images/twitter.png"/>
+        </a>
+        <a href="http://www.pinterest.com/groupright/">
+          <img class="snm" title="Pinterest" alt="Pinterest" src="images/pinterest.png"/>
+        </a>
+        <a href="https://www.facebook.com/groupright">
+          <img class="snm" title="Facebook" alt="Facebook" src="images/facebook.png"/>
+        </a>
+        <a href="https://www.linkedin.com/company/groupright">
+          <img class="snm" title="LinkedIn" alt="LinkedIn" src="images/linkedin.png"/>
+        </a>
+        <a href="http://instagram.com/group.right">
+          <img class="snm" title="Instagram" alt="RSS" src="images/instagram.png"/>
+        </a>
+      </div>
+    </div>
+  <!-- /.row -->
+  </div>
+</footer>
+
+
+
+</body>
+</html>
