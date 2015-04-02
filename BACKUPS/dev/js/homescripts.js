@@ -176,6 +176,7 @@ window.onload = function() {
 		addCalendarInfo();
 		initializeEvents(allGroups);
 		initializeTasks(allGroups);
+		initializeMessages(allGroups);
 		dealwithProfilePic(null,"ZW");
 		addGRContacts(memberships);
 		addTasks(tasks);
@@ -274,7 +275,30 @@ function initializeTasks(allGroups){
 
 	//If no groups
 	if(numGroups==0){
-		console.warn("You currently have no groups. Events will not work.");
+		console.warn("You currently have no groups. Tasks will not work.");
+	}
+
+	//If only one group, make it default
+	if(numGroups==1){
+		groupMenu.innerHTML="";
+	}
+
+	for(var i = 0; i < numGroups; i ++) {
+		var item=document.createElement('option');
+		item.style.color=allGroups[i].group_color;
+		item.value=allGroups[i].group_id;
+		item.innerHTML=allGroups[i].group_name;
+		groupMenu.appendChild(item);
+	}
+}
+function initializeMessages(allGroups){
+
+	var groupMenu = document.getElementById("messageGroups");
+	var numGroups = allGroups.length;
+
+	//If no groups
+	if(numGroups==0){
+		console.warn("You currently have no groups. Messages will not work.");
 	}
 
 	//If only one group, make it default
@@ -316,6 +340,8 @@ function addUsersInfo(data){
 	initializeEvents(obj.memberships);
 	//initialize tasks
 	initializeTasks(obj.memberships);
+	//initialize messages
+	initializeMessages(obj.memberships);
 
 	
 
