@@ -12,6 +12,7 @@ function getAllTasks($email){
 	
 	while($row = $stmt->fetch()){
 		$obj = array(
+			"task_uid"=>$row['task_uid'],
 			"task_title"=>$row['title'],
 			"task_description"=>$row['description'],
 			"group_id"=>$row['group_uid'],

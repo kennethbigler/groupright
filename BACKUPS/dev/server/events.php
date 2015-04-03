@@ -4,7 +4,7 @@ function getAllEvents($email){
 	
 	$stmt = $dbh->prepare(
 		"SELECT name,description,group_uid,
-		events.email as creator_email,
+		events.email as creator_email, event_uid,
 		start_time,end_time FROM events 
 		JOIN groups USING (group_uid) 
 		JOIN memberships USING(group_uid)
@@ -16,6 +16,7 @@ function getAllEvents($email){
 	
 	while($row = $stmt->fetch()){
 		$obj = array(
+			"event_uid"=>$row['event_uid'],
 			"name"=>$row['name'],
 			"description"=>$row['description'],
 			"group_id"=>$row['group_uid'],
