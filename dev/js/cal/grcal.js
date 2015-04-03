@@ -170,6 +170,20 @@
 		this.render();
 	};
 	
+	GRCalendar.prototype.addEvents = function( arr ){
+		// incidentally, we can probably ignore the pass-in value.
+		for(var i = 0; i < arr.length; i++){
+			var options = arr[i];
+			if(!options.color){ 
+				options.color = standardColors[colorIndex]; 
+				colorIndex = (colorIndex + 1) % standardColors.length;
+			}
+			var ev = new GRCalendarEvent( options );
+			this.events[ ev.options.day ].push( ev );
+		}
+		this.render();
+	};
+	
 	//---------------------------------------------------------------------
 	
 	function hoursBetween(a,b){
@@ -250,7 +264,7 @@
 		// add popup window click event
 		var windowSettings = {
 			color:this.options.color,
-			description:"Something intelligent.",
+			description:(this.options.description)? this.options.description : "Something intelligent.",
 			title:this.options.title,
 			time:this.options.start_time+" - "+this.options.end_time,
 			attending:[],

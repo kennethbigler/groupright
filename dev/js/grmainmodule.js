@@ -66,6 +66,34 @@ function GRMainModule(){
 	this.contact = function(email){ return this._contacts[email]; };
 }
 
+
+//=========================================================================
+// ADDITIONAL ACCESSORS
+
+GRMainModule.prototype._filterByGUID = function(arr,guid){
+	var ret = new Array();
+	for(var i in arr){
+		if(arr[i].group_id == guid) ret.push(arr[i]);
+	}
+	return ret;
+}
+
+GRMainModule.prototype.eventsByGroupID = function(guid){
+	return this._filterByGUID(this._events,guid);
+}
+
+GRMainModule.prototype.tasksByGroupID = function(guid){
+	return this._filterByGUID(this._tasks,guid);
+}
+
+GRMainModule.prototype.updatesByGroupID = function(guid){
+	return this._filterByGUID(this._updates,guid);
+}
+
+GRMainModule.prototype.messagesByGroupID = function(guid){
+	return this._filterByGUID(this._messages,guid);
+}
+
 //=======================================================================
 // LOADING / INITIALIZE
 GRMainModule.prototype.load = function(cookies,successFn,failureFn){
@@ -193,16 +221,5 @@ GRMainModule.prototype._parseMessages = function(messages){
 	console.log(messages);
 };
 
-/*
-		console.log(memberships);
-		addCalendarInfo();
-		initializeEvents(allGroups);
-		initializeTasks(allGroups);
-		dealwithProfilePic(null,"ZW");
-		addGRContacts(memberships);
-		addTasks(tasks);
-		addUpdates(updates);
-	}
-};*/
 
 var GRMAIN;

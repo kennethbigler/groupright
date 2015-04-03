@@ -266,11 +266,11 @@ var obj = {
 {
 "event_uid":"6",
 "name":"Trash Party",
-"description":"",
+"description":"So, we need to take out the trash.",
 "group_id":"10",
 "creator":"scomatbarsar@gmail.com",
-"start_time":"2015-02-10 17:30:00",
-"end_time":"2015-02-10 18:30:00"
+"start_time":"2015-04-04 17:30:00",
+"end_time":"2015-04-04 18:30:00"
 },
 {
 "event_uid":"10",

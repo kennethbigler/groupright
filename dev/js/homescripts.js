@@ -68,22 +68,82 @@ function addUsersInfo(data){
 
 
 function addCalendarInfo(){
+	
+	// FILTERING
+	//	[may need to be moved to GRMainModule / Server]
+	var evnts = GRMAIN.events();
+	
+	var good = new Array();
+	for(var i = 0; i < evnts.length; i++){
+		var ent = evnts[i];
+		
+		if(!ent.start_time || !ent.end_time) continue;	// not set.
+		
+		var start_date = new Date(ent.start_time);
+		if(isNaN(start_date.getTime())) continue;		// invalid date
+		
+		//console.log(start_date);
+		if(new Date() > start_date) continue;			// event is past.
+		
+		good.push(ent);
+	}
+	
+	console.log(good);
+	
+	var sh,eh,sd;	// start hour, end hour, start day
+	
+	var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+	sd = days[ (new Date()).getDay() ];
+	
+	var hours = ["12am","1am","2am","3am","4am","5am","6am","7am","8am","9am","10am","11am",
+					"12pm","1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm","9pm","10pm","11pm"];
+	sh = 9; eh = 18;
+	
+	var prepped = new Array();
+	
+	for(var i = 0; i < good.length; i++){
+		var gs = new Date(good[i].start_time);
+		var ge = new Date(good[i].end_time);
+		
+		var obj = {};
+		obj.title = good[i].name;
+		obj.description = good[i].description;
+		obj.color = GRMAIN.group(good[i].group_id).group_color;
+		obj.day = days[ gs.getDay() ];
+		
+		function formatAMPM(date) {
+			var hours = date.getHours();
+			var minutes = date.getMinutes();
+			var ampm = hours >= 12 ? 'pm' : 'am';
+			hours = hours % 12;
+			hours = hours ? hours : 12; // the hour '0' should be '12'
+			minutes = minutes < 10 ? '0'+minutes : minutes;
+			var strTime = hours + ':' + minutes + '' + ampm;
+			return strTime;
+		}
+		
+		obj.start_time = formatAMPM(gs);
+		obj.end_time = formatAMPM(ge);
+		
+		prepped.push(obj);
+		
+		// update bounds
+		if( gs.getHours() < sh) sh = gs.getHours();
+		if( ge.getHours()+1 > eh) eh = ge.getHours() + 1;
+	}
+	
+	console.log(sh+","+eh+","+sd);
+	console.log(prepped);
+	
 	var cal = $("#calendar");
-		cal.grCalendar({num_days:5,start_hour:"7am",end_hour:"11pm",start_day:"Monday"});
-		cal[0]._grcalendar.addEvent(
-			{title:"Team Practice", color:"#FF6068", day:"Monday",start_time:"11am",end_time:"12:30pm"},
-			{title:"Game 3", color:"#FF6068", day:"Thursday",start_time:"8:30pm",end_time:"9:30pm"},
-			
-			{title:"Project Meeting",color:"rgb(138, 181, 227)",day:"Tuesday",start_time:"7:30am",end_time:"9:00am"},
-			{title:"Project Meeting",color:"rgb(138, 181, 227)",day:"Friday",start_time:"1:30pm",end_time:"2:45pm"},
-			
-			{title:"Product Test Meeting with QA",color:"rgb(150, 232, 194)",day:"Tuesday",start_time:"10:15am",end_time:"11:30am"},
-			{title:"Sales Call",color:"rgb(150, 232, 194)",day:"Wednesday",start_time:"12pm",end_time:"1pm"},
-			{title:"Staff Picnic",color:"rgb(150, 232, 194)",day:"Friday",start_time:"10:30am",end_time:"12:15pm"},
-			
-			{title:"Zach's Dinner",color:"rgb(255, 240, 127)",day:"Monday",start_time:"7:15pm",end_time:"9:30pm"},
-			{title:"Scott's Dinner",color:"rgb(255, 240, 127)",day:"Friday",start_time:"7:45pm",end_time:"10:00pm"}
-		);
+		cal.grCalendar({
+			num_days:5,
+			start_hour:hours[sh],
+			end_hour:hours[eh],
+			start_day:sd
+		});
+		
+		cal[0]._grcalendar.addEvents(prepped);
 }
 
 function addTasks(){
