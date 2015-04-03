@@ -38,7 +38,7 @@
 				$user_info['photo_url'] = $row['photo_url'];
 			
 				// Set memberships.
-				$user_info["memberships"] = getMemberships($email_address,$cookie);
+				$user_info["memberships"] = getMemberships($email_address,$cookie,$complete);
 				if($complete){
 					$user_info["tasks"] = getAllTasks($email_address);
 					$user_info["events"] = getAllEvents($email_address);
