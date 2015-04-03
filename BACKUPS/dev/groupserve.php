@@ -39,7 +39,8 @@
 	if($function == 'unlock_account') unlockAccount();
 	if($function == 'reset_password') resetAccountPassword();
 	if($function == 'logout_user') logoutUser();
-	if($function == 'get_user_info') getUserInfo();
+	if($function == 'get_user_info') getUserInfo(true);
+	if($function == 'get_user_groups') getUserInfo(false);
 	if($function == 'create_group') makeGroup();
 	if($function == 'create_fixed_event') createFixedEvent();
 	if($function == 'create_votable_event') createVotableEvent();

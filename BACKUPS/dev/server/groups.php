@@ -145,7 +145,7 @@
 				
 		*/
 
-	function getMemberships($email_address,$cookie){
+	function getMemberships($email_address,$cookie,$complete){
 		
 		
 		// Enter DB.
@@ -153,7 +153,7 @@
 
 		// Run Query.			
 		$stmt = $dbh->prepare(
-			"SELECT g.group_name AS group_name, m.color AS color, g.group_uid AS group_uid
+			"SELECT g.group_name AS group_name, m.color AS color, g.group_uid AS group_uid, role
 			FROM memberships AS m 
 			LEFT JOIN groups AS g ON m.group_uid = g.group_uid 
 			LEFT JOIN active_users AS u ON m.email = u.email
@@ -169,10 +169,15 @@
 			$name = $row['group_name'];
 			$color = $row['color'];
 			$uid = $row['group_uid'];
-			$members = getMembers($uid);
+			$role = $row['role'];
 			
 			// Create membership object.
-			$gr = array("group_name"=>$name,"group_color"=>"#".$color,"group_id"=>$uid,"members"=>$members);
+			$gr = array("group_name"=>$name,"group_color"=>"#".$color,"group_id"=>$uid,"role"=>$role);
+			
+			if($complete){
+				$members = getMembers($uid);
+				$gr["members"] = $members;
+			}
 			
 			// Add to groups.
 			$groups[] = $gr;

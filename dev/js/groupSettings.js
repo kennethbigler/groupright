@@ -80,7 +80,7 @@ function loadGroups(allGroups){
 		//$(colorButton).attr('onclick','alert("change color");');
 		$(colorButton).attr('id','popover'+i);
 		$(colorButton).attr('data-content','Hello World');
-		//$(colorButton).attr('data-content',colorButtons);
+		$(colorButton).attr('onclick','alert("hello")');
 		colorButton.style.padding="4px";
 		colorButton.style.backgroundColor=allGroups[i].group_color;
 

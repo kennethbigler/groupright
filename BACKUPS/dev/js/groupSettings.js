@@ -146,21 +146,9 @@ function addUserGroupInfo(data){
 	dealwithProfilePic(obj.photo_url,initials);
 	//add all members to global store
 	addGRContacts(obj.memberships);
-	/*
-	//Do some calendar Stuff (Eventually will need some of the data)
-	addCalendarInfo();
-	//Add tasks
-	addTasks(obj.tasks);
-	//Add Updates
-	addUpdates(obj.updates);
-	//Set the user's email for creating groups
-	document.getElementById("member1").value=_cookies.user;
-	//initialize event date
-	initializeEvents(obj.memberships);
-	//initialize tasks
-	initializeTasks(obj.memberships);
-	//initialize messages
-	initializeMessages(obj.memberships);*/
+	//populate the page with the users groups
+	loadGroups(obj.memberships);
+
 }
 function leaveGroup(groupID){
 	alert("Warning! This action cannot be undone. Do you wish to continue?");
