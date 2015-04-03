@@ -134,7 +134,7 @@ $(document).ready(function(){
 		var val = rel[1].trim();
 		if(key != "" && val != "")	obj[ key ] = val;
 	}
-	console.log(obj);
+	//console.log(obj);
 	lastUser = obj["user"];
 	lastCookie = obj["accesscode"];
 	$("#lastUser").children("span").html(obj["user"]);
@@ -180,6 +180,11 @@ function postToGroupServe(){
 			success: function(d,s,j){
 				$("#status_code").text("Status Code: "+j.status + "("+statusCodeMeaning(j.status)+")");
 				var str = d;
+				try{
+					console.log(JSON.parse(d));
+				}catch(e){
+					console.log(d);
+				}
 				str = str.replace(/,/g,",<br />");
 				str = str.replace(/{/g,"{<br />");
 				str = str.replace(/}/g,"<br />}");
@@ -189,7 +194,10 @@ function postToGroupServe(){
 				// special login
 				if(obj.function == 'login'){
 					document.cookie = "accesscode="+d.trim()+";path=/";
+					document.cookie = "user="+obj.email.trim()+";path=/";
+					
 					$("#lastCookie").children("span").html(d);
+					$("#lastUser").children("span").html(obj.email);
 					lastCookie = d;
 				}
 			}
