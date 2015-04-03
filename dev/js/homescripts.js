@@ -52,7 +52,7 @@ window.onload = function() {
 function addUsersInfo(data){
 	
 	// Top Bar ---------------------------------------	
-	initTopBar();
+	initTopBar(); 			// [defined in grtopbar.js]
 		
 	// Dashboard -------------------------------------
 	addCalendarInfo();		// init calendar
@@ -60,9 +60,9 @@ function addUsersInfo(data){
 	addUpdates();			// init updates
 	
 	// Lightbox Forms --------------------------------
-	initCreateGroup();			// 'Create a Group'
-	initScheduleEvent();		// 'Schedule an Event'
-	initStartTask();			// 'Start a Task'
+	initCreateGroup();		// 'Create a Group'
+	initScheduleEvent();	// 'Schedule an Event'
+	initStartTask();		// 'Start a Task'
 	
 }
 
@@ -77,7 +77,7 @@ function addCalendarInfo(){
 			{title:"Project Meeting",color:"rgb(138, 181, 227)",day:"Tuesday",start_time:"7:30am",end_time:"9:00am"},
 			{title:"Project Meeting",color:"rgb(138, 181, 227)",day:"Friday",start_time:"1:30pm",end_time:"2:45pm"},
 			
-			{title:"Product Test Meeting",color:"rgb(150, 232, 194)",day:"Tuesday",start_time:"10:15am",end_time:"11:30am"},
+			{title:"Product Test Meeting with QA",color:"rgb(150, 232, 194)",day:"Tuesday",start_time:"10:15am",end_time:"11:30am"},
 			{title:"Sales Call",color:"rgb(150, 232, 194)",day:"Wednesday",start_time:"12pm",end_time:"1pm"},
 			{title:"Staff Picnic",color:"rgb(150, 232, 194)",day:"Friday",start_time:"10:30am",end_time:"12:15pm"},
 			
