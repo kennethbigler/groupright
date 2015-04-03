@@ -10,6 +10,10 @@
 	margin-right:0.5%;
 	margin-top:11px;
 }
+.gr-hours.mobile-compliant{
+	width:9.5%;
+	font-size:0.9em;
+}
 
 .gr-hours .gr-hour{
 	text-align:right;
@@ -19,6 +23,7 @@
 /* days */
 
 .gr-days{width:95%;height:100%;overflow:hidden;position:relative;}
+.gr-days.mobile-compliant{width:90%;}
 
 .gr-day{
 	float:left;

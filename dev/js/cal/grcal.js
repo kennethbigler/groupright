@@ -37,6 +37,8 @@
 		// Dimensions / Sizing
 		this.dim = {};
 		this.resize();
+		var self = this;
+		window.onresize = function(){self.resize();self.render()}
 		
 		// Events
 		this.events = {};
@@ -64,9 +66,11 @@
 		
 		// Days subdiv.
 		var days = $("<div />",{class:"gr-days"});
+		if(this.mobile) days.addClass("mobile-compliant");
 		
 		// Hour labels
 		var hours = $("<div />",{class:"gr-hours"});
+		if(this.mobile) hours.addClass("mobile-compliant");
 		
 		// Add each label.
 		for(var i = hournames.indexOf(this.options.start_hour);
