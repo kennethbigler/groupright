@@ -76,7 +76,7 @@
 				$("<div />",{class:"gr-hour",text:hournames[i]}).height(this.dim.cell_height)
 				);
 		}
-		days.append(hours);
+		calendar.append(hours);
 		
 		// Add each day.
 		for(var i = 0; i < this.options.num_days; i++){
@@ -137,7 +137,7 @@
 		var width = this.element.width();
 		
 		// fix day width (assume 5% for hours labels)
-		this.dim.day_width = 94/this.options.num_days+"%";
+		this.dim.day_width = 100/this.options.num_days+"%";
 		
 		// fix height
 		var nHours = hournames.indexOf(this.options.end_hour) 
@@ -235,8 +235,7 @@
 		
 		if(!opt.mobile){
 			div2.append( 
-				$("<p />",{class:"title",text:this.options.title}),
-				$("<p />",{class:"subtitle",text:this.options.start_time+" - "+this.options.end_time})
+				$("<p />",{class:"title",text:this.options.title})
 			);
 		}
 					
@@ -257,7 +256,8 @@
 		};
 		div.on('click',function(){
 			var p = new GRCalendarPopWindow(this,windowSettings);
-			p.render();
+			var div = p.render();
+			_positionRelativeTo(div,$(this));
 			$(".gr-event").removeClass("active");
 			$(".gr-event-cont").addClass("inactive");
 			$(this).removeClass("inactive");
@@ -266,6 +266,57 @@
 		
 		return div;
 	};
+	
+	function _positionRelativeTo(popup,source){
+		console.log(popup);
+		console.log(source);
+		
+		var ref = {l:0,r:0,t:0,b:0};
+		
+		var x = source;
+		while(!x.hasClass("gr-days")){
+			console.log(x[0].offsetLeft+","+x[0].offsetTop);
+			ref.l += x[0].offsetLeft;
+			ref.t += x[0].offsetTop;
+			x = x.parent();
+		}
+		
+		ref.b = ref.t + source[0].offsetHeight;
+		ref.r = ref.l + source[0].offsetWidth;
+		
+		
+		
+		var src = {w:0,h:0};
+		src.w = source[0].offsetWidth;
+		src.h = source[0].offsetHeight;
+		
+		var playarea = {w:0,h:0};
+		playarea.w = x[0].offsetWidth;
+		playarea.h = x[0].offsetHeight;
+		
+		var pop = {w:0,h:0};
+		pop.w = popup[0].offsetWidth;
+		pop.h = popup[0].offsetHeight;
+		
+		var coords = {l:0,t:0};
+		
+		// proportional response
+		coords.l = (ref.l / (playarea.w - src.w))*(playarea.w - pop.w);
+		
+		// fix vert.
+		coords.t = ref.b;
+		if(coords.t+pop.h > playarea.h){
+			coords.t = ref.t - pop.h - 10;
+		}
+		
+		// below, to right.
+		//coords.l = ref.l;
+		//coords.t = ref.b;
+		
+		popup.css("left",coords.l);
+		popup.css("top",coords.t);
+		console.log(ref);
+	}
 	
 	//---------------------------------------------------------------------
 	function GRCalendarPopWindow( elm, options ){
@@ -294,14 +345,13 @@
 	GRCalendarPopWindow.prototype.render = function(){
 		if(!this.el) return;
 		
-		var elm = this.el;
+		var elm = this.el.parent().parent().parent();
 		
 		$(".gr-calendar .gr-pop-window").remove();
 		
 		var cont = $("<div />",{class:"gr-pop-window"});
 		
 		var cont_head = $("<div />",{class:"gr-pop-head"});
-			{
 				// color box
 				var color_box = $("<div />",{class:"gr-pop-color"});
 				color_box.css("background-color",this.color);
@@ -331,8 +381,6 @@
 				cont_head.append(exit_div);
 				
 				
-				
-			}
 		cont.append(cont_head);
 		
 		// description
@@ -350,6 +398,8 @@
 		cont.append(attend_div);
 		
 		elm.append(cont);
+		
+		return cont;
 	}
 	
 	
