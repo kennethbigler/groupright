@@ -19,26 +19,12 @@
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js">
-</script>
-<script src="js/homescripts.js">
-</script>
-<script src="js/cookie.js">
-</script>
-<script src="js/groupSettings.js">
-</script>
-<script src="js/cal/grcal.js">
-</script>
-<script>
-  $(function() {
-    $('.resetPrice').tooltip();
-});
-  $(function () {
-  $('[data-toggle="popover"]').popover()
-});
-</script>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/grtopbar.js"></script>
+<script src="js/grmainmodule.js"></script>
+<script src="js/cookie.js"></script>
+<script src="js/groupSettings.js"></script>
 
 </head>
 <body>
@@ -89,7 +75,7 @@
 
 <div class="container-fluid">
 <div class="row">
-  <div class="col-sm-2" style="height:100%;">
+  <div class="col-sm-2" style="height:100%;overflow-y:auto;">
       <!-- Left column -->
       <div class="panel panel-primary">
       <div class="panel-heading"><h4>Menu</h4></div>
@@ -134,12 +120,12 @@
 </div><!--/row-->
       
 
-    </div><!--/col-span-10-->
+</div><!--/col-span-10-->
 </div>
 </div>
 <!-- /Main -->
 
-<footer class="container-fluid">
+<footer class="container-fluid" style="position:relative;">
   <div class="row">
     <div class="col-sm-3 footing">
       <p>GroupRight &copy; 2015</p>
