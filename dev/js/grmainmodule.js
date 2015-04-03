@@ -204,3 +204,5 @@ GRMainModule.prototype._parseMessages = function(messages){
 		addUpdates(updates);
 	}
 };*/
+
+var GRMAIN;
