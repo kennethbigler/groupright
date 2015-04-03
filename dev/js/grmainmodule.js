@@ -19,6 +19,12 @@ function GRMainModule(){
 	this.last_name = "";
 	this.photo = "";
 	
+	// Filter
+	this._filterGUID = null;
+	this.removeFilter = function(){this._filterGUID = null;}
+	this.filterByGroupID = function(guid){this._filterGUID = guid;}
+	
+	
 	// Raw
 	this._raw = "";
 	this.raw = function(){ return this._raw; };
@@ -33,6 +39,7 @@ function GRMainModule(){
 	// Events
 	this._events = {};
 	this.events = function(){
+		if(this._filterGUID) return this.eventsByGroupID(this._filterGUID);
 		return obj_to_arr(this._events);
 	};
 	this.group = function(id){ return this._groups[id]; };
@@ -40,6 +47,7 @@ function GRMainModule(){
 	// Tasks
 	this._tasks = {};
 	this.tasks = function(){
+		if(this._filterGUID) return this.tasksByGroupID(this._filterGUID);
 		return obj_to_arr(this._tasks);
 	};
 	this.task = function(id){ return this._tasks[id]; };
@@ -47,6 +55,7 @@ function GRMainModule(){
 	// Updates
 	this._updates = {};
 	this.updates = function(){
+		if(this._filterGUID) return this.updatesByGroupID(this._filterGUID);
 		return obj_to_arr(this._updates);
 	};
 	this.update = function(id){ return this._updates[id]; };
@@ -54,6 +63,7 @@ function GRMainModule(){
 	// Messages
 	this._messages = {};
 	this.messages = function(){
+		if(this._filterGUID) return this.messagesByGroupID(this._filterGUID);
 		return obj_to_arr(this._messages);
 	};
 	this.message = function(id){ return this._messages[id]; };
@@ -61,6 +71,7 @@ function GRMainModule(){
 	// Contacts
 	this._contacts = {};
 	this.contacts = function(){
+		if(this._filterGUID) return this.contactsByGroupID(this._filterGUID);
 		return obj_to_arr(this._contacts);
 	};
 	this.contact = function(email){ return this._contacts[email]; };
@@ -92,6 +103,10 @@ GRMainModule.prototype.updatesByGroupID = function(guid){
 
 GRMainModule.prototype.messagesByGroupID = function(guid){
 	return this._filterByGUID(this._messages,guid);
+}
+
+GRMainModule.prototype.contactsByGroupID = function(guid){
+	return this.group(guid).members;
 }
 
 //=======================================================================

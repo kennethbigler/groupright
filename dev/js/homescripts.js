@@ -36,6 +36,10 @@ window.onload = function() {
 	
 	GRMAIN = new GRMainModule();
 	
+	// Filtering
+	var filter_guid = getGETArguments()["guid"];
+	if(filter_guid) GRMAIN.filterByGroupID(filter_guid);
+	
 	GRMAIN.load(_cookies,
 		function(){
 			addUsersInfo();

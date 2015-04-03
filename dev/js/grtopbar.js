@@ -38,8 +38,11 @@ function addUsersGroups(){
 	var numGroups = allGroups.length;
 	var allMyGroups = '';
 
+	// All Groups
+	allMyGroups += '<li><a href="?" ><span class="glyphicon glyphicon-stop" style="color:transparent;"></span>&nbsp;Show All Groups</a></li><hr />';
+		
 	for(var i = 0; i < numGroups; i ++) {
-		allMyGroups += '<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:' + 
+		allMyGroups += '<li><a href="?guid='+allGroups[i].group_id+'"><span class="glyphicon glyphicon-stop" style="color:' + 
 			allGroups[i].group_color +
 			';"></span>&nbsp;' +
 			allGroups[i].group_name +
