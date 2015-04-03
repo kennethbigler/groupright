@@ -10,7 +10,7 @@ function getAllUpdates($email){
 	// Generate Query
 	$sql = "
 		SELECT updates.group_uid, users.email, users.first_name, users.last_name, 
-			updates.description ,updates.timestamp
+			updates.description ,updates.timestamp, update_uid
 		FROM notifications,updates,active_users as users
 		WHERE notifications.email = ?
 			AND notifications.update_uid = updates.update_uid
@@ -26,6 +26,7 @@ function getAllUpdates($email){
 	// Run and fill object.
 	while($row = $stmt->fetch()){
 		$obj = array(
+			"update_uid"=>$row['update_uid'],
 			"email"=>$row['email'],
 			"description"=>$row['description'],
 			"group_id"=>$row['group_uid'],

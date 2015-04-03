@@ -1,5 +1,39 @@
 <?php
 
+	function _getUserInfo($email_address,$cookie,$complete){
+		// Enter DB.
+		$dbh = ConnectToDB();
+		
+		// Get user info.
+		$stmt = $dbh->prepare(
+			"SELECT * FROM active_users WHERE email=? and last_session_code=?"
+		);
+		$stmt->execute(array($email_address,$cookie));
+		
+		while($row = $stmt->fetch()){
+		
+			// Get namesl
+			$user_info['first_name'] = $row['first_name'];
+			$user_info['last_name'] = $row['last_name'];
+			$user_info['photo_url'] = $row['photo_url'];
+		
+			// Set memberships.
+			$user_info["memberships"] = getMemberships($email_address,$cookie,$complete);
+			if($complete){
+				$user_info["tasks"] = getAllTasks($email_address);
+				$user_info["events"] = getAllEvents($email_address);
+				$user_info["updates"] = getAllUpdates($email_address);
+			}
+			
+			http_response_code(200);
+			return $user_info;
+			
+		}
+		http_response_code(211);
+		return null;
+		
+	}
+
 	function getUserInfo($complete){
 
 
@@ -20,66 +54,16 @@
 		
 		// If valid, continue.
 		if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {
-		
-			// Enter DB.
-			$dbh = ConnectToDB();
-			
-			// Get user info.
-			$stmt = $dbh->prepare(
-				"SELECT * FROM active_users WHERE email=? and last_session_code=?"
-			);
-			$stmt->execute(array($email_address,$cookie));
-			
-			while($row = $stmt->fetch()){
-			
-				// Get namesl
-				$user_info['first_name'] = $row['first_name'];
-				$user_info['last_name'] = $row['last_name'];
-				$user_info['photo_url'] = $row['photo_url'];
-			
-				// Set memberships.
-				$user_info["memberships"] = getMemberships($email_address,$cookie,$complete);
-				if($complete){
-					$user_info["tasks"] = getAllTasks($email_address);
-					$user_info["events"] = getAllEvents($email_address);
-					$user_info["updates"] = getAllUpdates($email_address);
-				}
-				
-			
-			
-				echo json_encode($user_info);
-				http_response_code(200);
-				return;
-			}
-			
-			
-			http_response_code(211);
+			$user_info = _getUserInfo($email_address,$cookie,$complete);
+			if($user_info) echo json_encode($user_info);
 			return;
-			
 		}
 		else {
 			// maybe do something
 			http_response_code(206);
 			return;
 		}
-		/*
 		
-		// Safe code.
-		$gr = array("groupName"=>"Senior Design","groupColor"=>"#990000");
-		$groups[] = $gr;
-		$gr = array("groupName"=>"Web Dev","groupColor"=>"#FF6A00");
-		$groups[] = $gr;
-		$gr = array("groupName"=>"Family","groupColor"=>"#FFD800");
-		$groups[] = $gr;
-		$gr = array("groupName"=>"Fake Madrid","groupColor"=>"#007F0E");
-		$groups[] = $gr;
-		$gr = array("groupName"=>"Spiked Punch","groupColor"=>"#000099");
-		$groups[] = $gr;
-		$gr = array("groupName"=>"My Villa","groupColor"=>"#7F006E");
-		$groups[] = $gr;
-		*/
-		http_response_code(220);
-		return;	
 	}
 
 

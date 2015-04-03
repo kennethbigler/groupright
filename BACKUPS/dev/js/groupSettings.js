@@ -8,7 +8,7 @@ window.onload = function() {
 		var obj = {
 			"cookie":_cookies.accesscode,
 			"email":_cookies.user,
-			"function":"get_user_info"
+			"function":"get_user_groups"
 		};
 	
 		// Contact Server
@@ -46,6 +46,11 @@ window.onload = function() {
 	}
 
 };
+/*
+<button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+        Popover on left
+      </button>
+*/
 function loadGroups(allGroups){
 	var colorButtons="Hello";
 	document.getElementById("addNumber").innerText=allGroups.length;
@@ -70,10 +75,12 @@ function loadGroups(allGroups){
 		$(colorButton).attr( 'class', 'btn btn-default pull-right' );
 		$(colorButton).attr( 'type', 'button' );
 		$(colorButton).attr('data-toggle','popover');
+		$(colorButton).attr('data-container','body');
 		$(colorButton).attr('data-placement','top');
 		//$(colorButton).attr('onclick','alert("change color");');
 		$(colorButton).attr('id','popover'+i);
-		$(colorButton).attr('data-content',colorButtons);
+		$(colorButton).attr('data-content','Hello World');
+		//$(colorButton).attr('data-content',colorButtons);
 		colorButton.style.padding="4px";
 		colorButton.style.backgroundColor=allGroups[i].group_color;
 
@@ -129,7 +136,7 @@ function loadGroups(allGroups){
 		$(function() {
 		    $('#popover'+i).tooltip();
 		});
-		alert("hi");
+		//alert("hi");
 	}
 }
 
@@ -144,8 +151,6 @@ function addUserGroupInfo(data){
 	//Deal with Profile Pick
 	initials=obj.first_name[0] + obj.last_name[0];
 	dealwithProfilePic(obj.photo_url,initials);
-	//add all members to global store
-	addGRContacts(obj.memberships);
 	//populate the page with the users groups
 	loadGroups(obj.memberships);
 
