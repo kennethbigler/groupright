@@ -82,14 +82,14 @@
 	padding:0.5em;
 	border:solid 1pt;
 	
-	/*debug*/
-	right:-50px;
-	
+}
+.gr-pop-window.mobile-compliant{
+	width:100%;
 }
 
 .gr-pop-window .gr-pop-head{width:100%;overflow:hidden;}
 .gr-pop-head .gr-pop-color{width:1.2em;height:1.2em; float: left; border-radius:0.2em;}
-.gr-pop-head .gr-pop-title{font-size:1.2em;margin-left:1.4em;font-weight:bold;}
+.gr-pop-head .gr-pop-title{font-size:1.2em;margin-left:1.4em;margin-right:1.6em;font-weight:bold;}
 .gr-pop-head .gr-pop-time{
 	height:1.2em;
 	position:relative;

@@ -88,7 +88,8 @@
 			day.width(this.dim.day_width);
 			
 			// make the title
-			day.append( $("<div />",{class:"gr-day-title",text:daytitles[ind]}) );
+			if(!this.mobile)day.append( $("<div />",{class:"gr-day-title",text:daytitles[ind]}) );
+			else day.append( $("<div />",{class:"gr-day-title",text:daynames[ind]}) );
 			
 			// make the hour markers.
 			var contDiv = $("<div />").css("position","relative");
@@ -233,11 +234,11 @@
 		var div = $("<div />",{class:"gr-event-cont"});
 		var div2 = $("<div />",{class:"gr-event"});
 		
-		if(!opt.mobile){
+		//if(!opt.mobile){
 			div2.append( 
 				$("<p />",{class:"title",text:this.options.title})
 			);
-		}
+		//}
 					
 		div2.css("background-color",this.options.color);
 		div.append(div2);
@@ -257,7 +258,8 @@
 		div.on('click',function(){
 			var p = new GRCalendarPopWindow(this,windowSettings);
 			var div = p.render();
-			_positionRelativeTo(div,$(this));
+			if(opt.mobile){ div.addClass("mobile-compliant"); }
+			_positionRelativeTo(div,$(this));			
 			$(".gr-event").removeClass("active");
 			$(".gr-event-cont").addClass("inactive");
 			$(this).removeClass("inactive");
@@ -275,7 +277,7 @@
 		
 		var x = source;
 		while(!x.hasClass("gr-days")){
-			console.log(x[0].offsetLeft+","+x[0].offsetTop);
+			//console.log(x[0].offsetLeft+","+x[0].offsetTop);
 			ref.l += x[0].offsetLeft;
 			ref.t += x[0].offsetTop;
 			x = x.parent();
@@ -312,7 +314,8 @@
 		// below, to right.
 		//coords.l = ref.l;
 		//coords.t = ref.b;
-		
+		console.log(playarea.w+","+pop.w);
+		console.log(coords.l+","+coords.t);
 		popup.css("left",coords.l);
 		popup.css("top",coords.t);
 		console.log(ref);
