@@ -37,6 +37,8 @@
 		// Dimensions / Sizing
 		this.dim = {};
 		this.resize();
+		var self = this;
+		window.onresize = function(){self.resize();self.render()}
 		
 		// Events
 		this.events = {};
@@ -64,9 +66,11 @@
 		
 		// Days subdiv.
 		var days = $("<div />",{class:"gr-days"});
+		if(this.mobile) days.addClass("mobile-compliant");
 		
 		// Hour labels
 		var hours = $("<div />",{class:"gr-hours"});
+		if(this.mobile) hours.addClass("mobile-compliant");
 		
 		// Add each label.
 		for(var i = hournames.indexOf(this.options.start_hour);
@@ -76,7 +80,7 @@
 				$("<div />",{class:"gr-hour",text:hournames[i]}).height(this.dim.cell_height)
 				);
 		}
-		days.append(hours);
+		calendar.append(hours);
 		
 		// Add each day.
 		for(var i = 0; i < this.options.num_days; i++){
@@ -88,7 +92,8 @@
 			day.width(this.dim.day_width);
 			
 			// make the title
-			day.append( $("<div />",{class:"gr-day-title",text:daytitles[ind]}) );
+			if(!this.mobile)day.append( $("<div />",{class:"gr-day-title",text:daytitles[ind]}) );
+			else day.append( $("<div />",{class:"gr-day-title",text:daynames[ind]}) );
 			
 			// make the hour markers.
 			var contDiv = $("<div />").css("position","relative");
@@ -137,7 +142,7 @@
 		var width = this.element.width();
 		
 		// fix day width (assume 5% for hours labels)
-		this.dim.day_width = 94/this.options.num_days+"%";
+		this.dim.day_width = 100/this.options.num_days+"%";
 		
 		// fix height
 		var nHours = hournames.indexOf(this.options.end_hour) 
@@ -155,6 +160,20 @@
 		// incidentally, we can probably ignore the pass-in value.
 		for(var i = 0; i < arguments.length; i++){
 			var options = arguments[i];
+			if(!options.color){ 
+				options.color = standardColors[colorIndex]; 
+				colorIndex = (colorIndex + 1) % standardColors.length;
+			}
+			var ev = new GRCalendarEvent( options );
+			this.events[ ev.options.day ].push( ev );
+		}
+		this.render();
+	};
+	
+	GRCalendar.prototype.addEvents = function( arr ){
+		// incidentally, we can probably ignore the pass-in value.
+		for(var i = 0; i < arr.length; i++){
+			var options = arr[i];
 			if(!options.color){ 
 				options.color = standardColors[colorIndex]; 
 				colorIndex = (colorIndex + 1) % standardColors.length;
@@ -233,12 +252,11 @@
 		var div = $("<div />",{class:"gr-event-cont"});
 		var div2 = $("<div />",{class:"gr-event"});
 		
-		if(!opt.mobile){
+		//if(!opt.mobile){
 			div2.append( 
-				$("<p />",{class:"title",text:this.options.title}),
-				$("<p />",{class:"subtitle",text:this.options.start_time+" - "+this.options.end_time})
+				$("<p />",{class:"title",text:this.options.title})
 			);
-		}
+		//}
 					
 		div2.css("background-color",this.options.color);
 		div.append(div2);
@@ -246,7 +264,7 @@
 		// add popup window click event
 		var windowSettings = {
 			color:this.options.color,
-			description:"Something intelligent.",
+			description:(this.options.description)? this.options.description : "Something intelligent.",
 			title:this.options.title,
 			time:this.options.start_time+" - "+this.options.end_time,
 			attending:[],
@@ -257,7 +275,9 @@
 		};
 		div.on('click',function(){
 			var p = new GRCalendarPopWindow(this,windowSettings);
-			p.render();
+			var div = p.render();
+			if(opt.mobile){ div.addClass("mobile-compliant"); }
+			_positionRelativeTo(div,$(this));			
 			$(".gr-event").removeClass("active");
 			$(".gr-event-cont").addClass("inactive");
 			$(this).removeClass("inactive");
@@ -266,6 +286,58 @@
 		
 		return div;
 	};
+	
+	function _positionRelativeTo(popup,source){
+		console.log(popup);
+		console.log(source);
+		
+		var ref = {l:0,r:0,t:0,b:0};
+		
+		var x = source;
+		while(!x.hasClass("gr-days")){
+			//console.log(x[0].offsetLeft+","+x[0].offsetTop);
+			ref.l += x[0].offsetLeft;
+			ref.t += x[0].offsetTop;
+			x = x.parent();
+		}
+		
+		ref.b = ref.t + source[0].offsetHeight;
+		ref.r = ref.l + source[0].offsetWidth;
+		
+		
+		
+		var src = {w:0,h:0};
+		src.w = source[0].offsetWidth;
+		src.h = source[0].offsetHeight;
+		
+		var playarea = {w:0,h:0};
+		playarea.w = x[0].offsetWidth;
+		playarea.h = x[0].offsetHeight;
+		
+		var pop = {w:0,h:0};
+		pop.w = popup[0].offsetWidth;
+		pop.h = popup[0].offsetHeight;
+		
+		var coords = {l:0,t:0};
+		
+		// proportional response
+		coords.l = (ref.l / (playarea.w - src.w))*(playarea.w - pop.w);
+		
+		// fix vert.
+		coords.t = ref.b;
+		if(coords.t+pop.h > playarea.h){
+			coords.t = ref.t - pop.h - 10;
+		}
+		
+		// below, to right.
+		//coords.l = ref.l;
+		//coords.t = ref.b;
+		console.log(playarea.w+","+pop.w);
+		console.log(coords.l+","+coords.t);
+		popup.css("left",coords.l);
+		popup.css("top",coords.t);
+		console.log(ref);
+	}
 	
 	//---------------------------------------------------------------------
 	function GRCalendarPopWindow( elm, options ){
@@ -294,14 +366,13 @@
 	GRCalendarPopWindow.prototype.render = function(){
 		if(!this.el) return;
 		
-		var elm = this.el;
+		var elm = this.el.parent().parent().parent();
 		
 		$(".gr-calendar .gr-pop-window").remove();
 		
 		var cont = $("<div />",{class:"gr-pop-window"});
 		
 		var cont_head = $("<div />",{class:"gr-pop-head"});
-			{
 				// color box
 				var color_box = $("<div />",{class:"gr-pop-color"});
 				color_box.css("background-color",this.color);
@@ -331,8 +402,6 @@
 				cont_head.append(exit_div);
 				
 				
-				
-			}
 		cont.append(cont_head);
 		
 		// description
@@ -350,6 +419,8 @@
 		cont.append(attend_div);
 		
 		elm.append(cont);
+		
+		return cont;
 	}
 	
 	

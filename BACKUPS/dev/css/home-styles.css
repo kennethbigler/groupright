@@ -103,6 +103,10 @@ nav a.dropdown-toggle {
 	color: black !important;
 }
 
+.dropdown-menu>hr{
+	margin:0.25em 0.5em;
+}
+
 div.main3w {
 	border: 1px solid black;
 	-moz-box-shadow: .0625em .3125em .625em #888;

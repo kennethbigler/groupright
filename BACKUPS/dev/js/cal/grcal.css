@@ -1,7 +1,6 @@
 /* styles for Group Right Calendar (grcal) */
 
 .gr-calendar{overflow:hidden; margin:auto;}
-.gr-days{width:100%;height:100%;}
 
 /* hour labels */
 
@@ -11,6 +10,10 @@
 	margin-right:0.5%;
 	margin-top:11px;
 }
+.gr-hours.mobile-compliant{
+	width:9.5%;
+	font-size:0.9em;
+}
 
 .gr-hours .gr-hour{
 	text-align:right;
@@ -18,6 +21,9 @@
 }
 
 /* days */
+
+.gr-days{width:95%;height:100%;overflow:hidden;position:relative;}
+.gr-days.mobile-compliant{width:90%;}
 
 .gr-day{
 	float:left;
@@ -54,14 +60,21 @@
 	opacity:0.7;
 }
 
+.gr-event{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block;}
+
 .gr-event p{
 	margin:0;padding:0;
-	font-weight:bold;
 	margin:0 5px;
 }
 
-.gr-event p.title{ font-size:1.1em;}
-.gr-event p.subtitle{ font-size: 0.9em; }
+.gr-event p.title{ 
+	font-size:0.9em; 
+	font-weight:bold;
+	white-space:nowrap; 
+	overflow:hidden; 
+	text-overflow:ellipsis; 
+	display:block;
+}
 
 /* popup windows */
 .gr-pop-window{
@@ -69,23 +82,22 @@
 	border-radius:5px;
 	position:absolute;
 	z-index:10;
-	width:350%;
+	width:60%;
 	margin:0;
 	padding:0.5em;
 	border:solid 1pt;
 	
-	/*debug*/
-	right:-50px;
-	
+}
+.gr-pop-window.mobile-compliant{
+	width:100%;
 }
 
 .gr-pop-window .gr-pop-head{width:100%;overflow:hidden;}
-.gr-pop-head .gr-pop-color{width:1.5em;height:1.5em;float:left;border-radius:0.2em;}
-.gr-pop-head .gr-pop-title{font-size:1.5em;margin-left:0.4em;float:left;font-weight:bold;}
+.gr-pop-head .gr-pop-color{width:1.2em;height:1.2em; float: left; border-radius:0.2em;}
+.gr-pop-head .gr-pop-title{font-size:1.2em;margin-left:1.4em;margin-right:1.6em;font-weight:bold;}
 .gr-pop-head .gr-pop-time{
 	height:1.2em;
 	position:relative;
-	top:0.5em;
 	font-size:1em;
 	float:left;
 	margin-left:0.5em;
@@ -95,12 +107,14 @@
 	font-size:1.2em;
 	float:right; 
 	opacity:0.5; 
-	margin-left:1.2em;
 	height:1.1em;
 	width:1.1em;
 	overflow:hidden;
 	text-align:center;
 	cursor:pointer;
+	position:absolute;
+	right:0.5em;
+	top:0.5em;
 }
 .gr-pop-head .gr-pop-exit:hover{
 	opacity:0.9;
