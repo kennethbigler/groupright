@@ -121,6 +121,7 @@ GRMainModule.prototype.load = function(cookies,successFn,failureFn){
 			"email":cookies.user,
 			"function":"get_user_info"
 		};
+		var self = this;
 	
 		// Contact Server
 		$.ajax("https://www.groupright.net/dev/groupserve.php",{
@@ -128,7 +129,7 @@ GRMainModule.prototype.load = function(cookies,successFn,failureFn){
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
-					this._parse(data);
+					self._parse(data);
 					successFn();
 				},
 				220: function(data, status, jqXHR){
