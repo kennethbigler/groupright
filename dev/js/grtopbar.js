@@ -84,7 +84,7 @@ GRGroupsModule.prototype._parse = function(data){
 	// Groups
 	this._parseGroups(obj.memberships);
 	
-	console.log(this);
+	//console.log(this);
 }
 
 GRGroupsModule.prototype._parseGroups = function(groups){
@@ -103,10 +103,7 @@ GRGroupsModule.prototype._parseGroups = function(groups){
 
 var GRGROUPS;
 $(document).ready(function(){
-	console.log("winload");
 	GRGROUPS = new GRGroupsModule();
-	console.log("Here");
-	console.log(GRGROUPS);
 	GRGROUPS.load(genCookieDictionary(),
 		function(){
 			initTopBar();

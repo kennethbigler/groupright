@@ -176,7 +176,7 @@ GRMainModule.prototype._parse = function(data){
 	// Messages
 	//this._parseMessages(obj.messages);
 	
-	console.log(this);
+	//console.log(this);
 }
 
 GRMainModule.prototype._parseGroups = function(groups){
