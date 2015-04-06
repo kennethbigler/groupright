@@ -6,6 +6,26 @@
  *		Handles much of the logic pertaining to generic group tasks (creation, deletion, etc.)
  */
  
+	function _getRole($email,$group_uid){
+	
+		// Enter DB.
+		$dbh = ConnectToDB();
+			
+		// Prevent duplicate.
+		$stmt = $dbh->prepare(
+			"SELECT role FROM memberships where email = ? and group_uid = ?"
+		);				
+		$stmt->execute(array($email,$group_uid));
+
+		while($row = $stmt->fetch()){
+			return $row['role'];
+		}
+		
+		return false;
+		
+	
+	}
+ 
 	function makeGroup_Helper($name,$members,$leader){
 	
 	/*
@@ -224,6 +244,41 @@ function getMembers($group_uid){
 		
 		return $members;		
 	}
+	
+function getGroupMembers(){
+	// Get Data
+	$email = $_POST['email'];
+	$cookie = $_POST['cookie'];
+	
+	$guid = $_POST['group_uid'];
+	
+	// Fix cookie.
+	$cookie = grHash($cookie,$email);
+	
+	// Filter email address
+	$email_address = htmlspecialchars($email);
+	$email_address = trim($email_address);
+	$email_address = stripslashes($email_address);
+	
+	// If valid, continue.
+	if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {
+	
+		if(verifyUserGroup($email_address,$cookie,$guid)){
+			echo json_encode( getMembers($guid) );
+			return;
+		}
+		http_response_code(211);
+		return;
+		
+	}
+	else {
+		// maybe do something
+		http_response_code(206);
+		return;
+	}
+	
+	
+}
 	
 	
 // COLOR MANAGEMENT
