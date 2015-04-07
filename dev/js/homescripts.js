@@ -62,6 +62,9 @@ window.onload = function() {
 
 
 function addUsersInfo(){
+	
+	// Top Bar (Adjustment) --------------------------
+	fixGroupFilter();
 		
 	// Dashboard -------------------------------------
 	addCalendarInfo();		// init calendar
@@ -74,6 +77,45 @@ function addUsersInfo(){
 	initStartTask();		// 'Start a Task'
 	initSendMessage();	// 'Send Message'
 	
+}
+
+var __DeadUserGroupLink = false;
+function fixGroupFilter(){
+	var x = GRMAIN._filterGUID;
+	if(x){
+		var gname = GRMAIN.group(x).group_name;
+		$("#usergroups").text(gname).append( $("<span />",{class:"caret"}) );
+	}else{
+		$("#usergroups").text("All Groups").append( $("<span />",{class:"caret"}) );		
+	}
+	
+	if(!__DeadUserGroupLink){
+		$(".usergrouplinks").click(function(){
+			$(this).parent().parent().parent().removeClass('open');
+			
+			var guid_href = $(this).attr("href");
+			guid_href = guid_href.match(/guid=([0-9]*)/);
+			if(guid_href instanceof Array) guid_href = guid_href[1];
+			else guid_href = "";
+			
+			// Clear
+			$("#calendar").empty(); // calendar
+			$("#addTasks").empty(); // tasks
+			$("#addUpdates").empty(); // updates
+			
+			// Set Filter
+			if(guid_href.trim() != "")
+				GRMAIN.filterByGroupID(parseInt(guid_href));
+			else
+				GRMAIN.removeFilter();
+			
+			// Re-Populate
+			addUsersInfo();
+					
+			return false;
+		});
+		__DeadUserGroupLink = true;
+	}
 }
 
 
@@ -98,7 +140,7 @@ function addCalendarInfo(){
 		good.push(ent);
 	}
 	
-	console.log(good);
+	//console.log(good);
 	
 	var sh,eh,sd;	// start hour, end hour, start day
 	
@@ -142,8 +184,8 @@ function addCalendarInfo(){
 		if( ge.getHours()+1 > eh) eh = ge.getHours() + 1;
 	}
 	
-	console.log(sh+","+eh+","+sd);
-	console.log(prepped);
+	//console.log(sh+","+eh+","+sd);
+	//console.log(prepped);
 	
 	var cal = $("#calendar");
 		cal.grCalendar({
