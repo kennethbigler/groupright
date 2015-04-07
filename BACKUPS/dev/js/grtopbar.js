@@ -37,7 +37,7 @@ GRGroupsModule.prototype.load = function(cookies,successFn,failureFn){
 		this.user = cookies.user.trim();
 	
 		var obj = {
-			"cookie":cookies.accesscode,
+			"ac":cookies.accesscode,
 			"email":cookies.user,
 			"function":"get_user_groups"
 		};
@@ -150,10 +150,10 @@ function addUsersGroups(){
 	var allMyGroups = '';
 
 	// All Groups
-	allMyGroups += '<li><a href="?" ><span class="glyphicon glyphicon-stop" style="color:transparent;"></span>&nbsp;Show All Groups</a></li><hr />';
+	allMyGroups += '<li><a class="usergrouplinks" href="home.html?" ><span class="glyphicon glyphicon-stop" style="color:transparent;"></span>&nbsp;Show All Groups</a></li><hr />';
 		
 	for(var i = 0; i < numGroups; i ++) {
-		allMyGroups += '<li><a href="?guid='+allGroups[i].group_id+'"><span class="glyphicon glyphicon-stop" style="color:' + 
+		allMyGroups += '<li><a class="usergrouplinks" href="home.html?guid='+allGroups[i].group_id+'"><span class="glyphicon glyphicon-stop" style="color:' + 
 			allGroups[i].group_color +
 			';"></span>&nbsp;' +
 			allGroups[i].group_name +

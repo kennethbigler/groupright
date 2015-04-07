@@ -21,24 +21,6 @@
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
-</script>
-<script src="js/cookie.js">
-</script>
-<script src="js/createEvent.js">
-</script>
-<script src="js/createTask.js">
-</script>
-<script src="js/grdefaults.js">
-</script>
-<script src="js/grmainmodule.js">
-</script>
-<script src="js/grtopbar.js">
-</script>
-<script src="js/homescripts.js">
-</script>
-<script src="js/createGroup.js">
-</script>
 
 
 
@@ -61,7 +43,7 @@
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Groups<span class="caret"></span></a>
+						<a id="usergroups" class="dropdown-toggle" data-toggle="dropdown" href="#">All Groups<span class="caret"></span></a>
 						<ul class="dropdown-menu" id="myGroups">
 							<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:red;"></span> Senior Design</a></li>
 							<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:orange;"></span> Web Dev</a></li>
@@ -503,6 +485,7 @@
 		<h4 class="modal-title" id="myModalLabel">Messages</h4>
 	</div>
 	<div class="modal-body">
+		<p id="messageError" style="color:red"></p>
 		<div class="row">
 			<div class="col-sm-6">
 				<h5 class="header-center">Select Group:</h5>
@@ -523,7 +506,7 @@
 			</div>
 			<div class="col-sm-5">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-		        <button type="button" class="btn btn-danger" onclick="createTask()" >Send Message</button>
+		        <button type="button" class="btn btn-danger" onclick="createGRMessage()" >Send Message</button>
 	        </div>
         </div>
     </div>
@@ -577,6 +560,22 @@ END OF LIGHT BOX SECTION
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+</script>
+<script src="js/cookie.js">
+</script>
+<script src="js/createEvent.js">
+</script>
+<script src="js/createTask.js">
+</script>
+<script src="js/grdefaults.js">
+</script>
+<script src="js/grmainmodule.js">
+</script>
+<script src="js/grtopbar.js">
+</script>
+<script src="js/homescripts.js">
+</script>
+<script src="js/createGroup.js">
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.js">
 </script>

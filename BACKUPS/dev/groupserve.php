@@ -48,6 +48,7 @@
 	if($function == 'get_event_settings') getEventSettings();
 	if($function == 'create_task') createTask();
 	if($function == 'assign_task') assignTask();
+	if($function == 'mark_task_complete') completeTask();
 	if($function == 'send_message') sendMessage();
 	if($function == 'get_messages') getMessages();
 	if($function == 'submit_availability') submitAvailability();

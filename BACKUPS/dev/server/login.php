@@ -47,7 +47,7 @@
 		
 		$dbh = ConnectToDB();
 		
-		$stmt = $dbh->prepare("UPDATE active_users SET last_session_code=? WHERE email=?");
+		$stmt = $dbh->prepare("UPDATE active_users SET lockout_code=? WHERE email=?");
 		
 		$stmt->execute(array($vc,$user));
 		
@@ -76,7 +76,7 @@
 	
 	
 	function logIn(){
-	
+		
 		// Get username and password.
 		$email = $_POST['email'];
 		$password = $_POST['password'];
@@ -137,7 +137,7 @@
 			http_response_code(206);
 			return;
 		}
-	
+		
 	}
 	
 	//----------------------------------------------------------------
@@ -145,7 +145,7 @@
 	
 		// Get username and password.
 		$email = $_POST['email'];
-		$code = $_POST['code'];
+		$code = $_POST['ac'];
 		
 		// Filter email address
 		$email_address = htmlspecialchars($email);
@@ -176,14 +176,14 @@
 		
 		$dbh = ConnectToDB();
 		
-		$stmt = $dbh->prepare("SELECT * FROM active_users WHERE last_session_code=?");
+		$stmt = $dbh->prepare("SELECT * FROM active_users WHERE lockout_code=?");
 		
 		if($stmt->execute(array($vc))){
 			while($row = $stmt->fetch()){
 				$repl = generateCode(32,0);
 			
-				$stmt2 = $dbh->prepare("UPDATE active_users SET login_attempts=0, last_session_code=? WHERE last_session_code=?");
-				$stmt2->execute(array($repl,$vc));	
+				$stmt2 = $dbh->prepare("UPDATE active_users SET login_attempts=0 WHERE lockout_code=?");
+				$stmt2->execute(array($vc));	
 				http_response_code(200);
 				return;
 			}

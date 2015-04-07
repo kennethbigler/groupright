@@ -1,6 +1,6 @@
 var obj = {
-"first_name":"Zachary",
-"last_name":"Wilson",
+"first_name":"Test",
+"last_name":"McTestVille",
 "photo_url":null,
 "memberships":[{
 "group_name":"Villas 10210",
@@ -215,7 +215,7 @@ var obj = {
 "task_description":"",
 "group_id":"16",
 "creator":"zwilson7@gmail.com",
-"is_completed":"0",
+"is_completed":"1",
 "is_personal":"1"
 },
 {
@@ -224,7 +224,7 @@ var obj = {
 "task_description":"",
 "group_id":"10",
 "creator":"zwilson7@gmail.com",
-"is_completed":"0",
+"is_completed":"1",
 "is_personal":"1"
 },
 {
@@ -476,8 +476,8 @@ var obj = {
 "description":"",
 "group_id":"19",
 "creator":"zwilson7@gmail.com",
-"start_time":"2015-04-06 17:30:00",
-"end_time":"2015-04-06 18:30:00"
+"start_time":"2015-02-19 17:30:00",
+"end_time":"2015-02-19 18:30:00"
 }],
 "updates":[]
 };

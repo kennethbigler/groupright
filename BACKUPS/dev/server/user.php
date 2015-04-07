@@ -6,7 +6,7 @@
 		
 		// Get user info.
 		$stmt = $dbh->prepare(
-			"SELECT * FROM active_users WHERE email=? and last_session_code=?"
+			"SELECT * FROM active_users NATURAL JOIN sessions WHERE email=? and sc=?"
 		);
 		$stmt->execute(array($email_address,$cookie));
 		
@@ -39,7 +39,7 @@
 
 		// Get Data
 		$email = $_POST['email'];
-		$cookie = $_POST['cookie'];
+		$cookie = $_POST['ac'];
 		
 		// Initialize info obj.
 		$user_info = array();

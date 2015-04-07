@@ -6,7 +6,7 @@ window.onload = function() {
 	if(_cookies.accesscode && _cookies.user){
 	
 		var obj = {
-			"cookie":_cookies.accesscode,
+			"ac":_cookies.accesscode,
 			"email":_cookies.user,
 			"function":"get_user_groups"
 		};

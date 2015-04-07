@@ -49,9 +49,10 @@ function addTask($email,$title,$description,$group_uid,$event_uid,$is_personal,$
 	return $dbh->lastInsertId();
 }
 
-function addTaskAssignment($task_uid,$group_uid,$email){
+function addTaskAssignment($task_uid,$group_uid,$email,$update){
 	$dbh = ConnectToDB();
 	
+	if($update) addTaskUpdate($email,$group_uid," was assigned a task.",$task_uid);
 	$stmt = $dbh->prepare(
 		"INSERT INTO tasks_assignments(task_uid,group_uid,email) VALUES(?,?,?)"
 	);
@@ -102,7 +103,7 @@ function createTask(){
 			if($task_uid < 1){ http_response_code(299); return; } // failed task creation
 			
 			// Assign Task
-			if($is_personal){ addTaskAssignment($task_uid,$group_uid,$email); }
+			if($is_personal){ addTaskAssignment($task_uid,$group_uid,$email,true); }
 			else{ _assignToGroup($task_uid,$group_uid); }
 			
 			// output task
@@ -119,13 +120,61 @@ function assignTask(){
 		$group_uid = $_POST['group_uid'];
 		$task_uid = $_POST['task_uid'];
 		
-		if(!isset($task_uid)){ http_reponse_code(299); return; }
-		if(!isset($group_uid)){ http_reponse_code(299); return; }
+		if(!isset($task_uid)){ http_response_code(299); return; }
+		if(!isset($group_uid)){ http_response_code(299); return; }
 		
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
-			addTaskAssignment($task_uid,$group_uid,$email);
-			addTaskUpdate($email,$group_uid," was assigned a task.",$task_uid);
+			addTaskAssignment($task_uid,$group_uid,$email,true);
+		}else{
+			http_response_code(206);
+			return;
+		}
+	
+}
+
+function _completeTask($email,$task_uid){
+		// Get members.
+	$dbh = ConnectToDB();
+	
+	$stmt = $dbh->prepare(
+		"UPDATE tasks_assignments SET is_completed = 1
+		WHERE email = ? AND task_uid = ?"
+	);
+	$stmt->execute(array($email,$task_uid));
+	
+	
+	$stmt = $dbh->prepare(
+		"SELECT t.group_uid, t.task_uid, t.title, ta.is_completed 
+		FROM tasks_assignments AS ta
+		LEFT JOIN tasks AS t
+		ON ta.group_uid = t.group_uid
+		AND ta.task_uid = t.task_uid
+		INNER JOIN memberships AS m
+		ON m.email = ta.email
+		WHERE ta.email = ?
+		AND ta.task_uid = ?"
+	);
+	$stmt->execute(array($email,$task_uid));
+	while($row = $stmt->fetch()){
+		$group_uid = $row['group_uid'];
+		//echo $group_uid;
+		echo $row['is_completed'];
+		addTaskUpdate($email,$group_uid," completed \"".$row['title']."\"",$task_uid);
+		return;
+	}
+	http_response_code(280);
+}
+
+function completeTask(){
+		$email = sanitizeEmail( $_POST['email'] );
+		$cookie = grHash($_POST['ac'],$email);
+		$task_uid = $_POST['task_uid'];
+		
+		if(!isset($task_uid)){ http_response_code(299); return; }
+		
+		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+			_completeTask($email,$task_uid);
 		}else{
 			http_response_code(206);
 			return;

@@ -25,6 +25,14 @@ function getFullNameForEmail(email){
 	return "Unknown";
 }
 
+function getColorForGroup(groupid){
+	var color= GRMAIN.group(groupid).group_color;
+	return color;
+
+	console.warn("No color found in fx: getColorForGroup");
+	return "FFFFFF";	
+}
+
 
 
 //============================================================
@@ -54,6 +62,9 @@ window.onload = function() {
 
 
 function addUsersInfo(){
+	
+	// Top Bar (Adjustment) --------------------------
+	fixGroupFilter();
 		
 	// Dashboard -------------------------------------
 	addCalendarInfo();		// init calendar
@@ -64,7 +75,47 @@ function addUsersInfo(){
 	initCreateGroup();		// 'Create a Group'
 	initScheduleEvent();	// 'Schedule an Event'
 	initStartTask();		// 'Start a Task'
+	initSendMessage();	// 'Send Message'
 	
+}
+
+var __DeadUserGroupLink = false;
+function fixGroupFilter(){
+	var x = GRMAIN._filterGUID;
+	if(x){
+		var gname = GRMAIN.group(x).group_name;
+		$("#usergroups").text(gname).append( $("<span />",{class:"caret"}) );
+	}else{
+		$("#usergroups").text("All Groups").append( $("<span />",{class:"caret"}) );		
+	}
+	
+	if(!__DeadUserGroupLink){
+		$(".usergrouplinks").click(function(){
+			$(this).parent().parent().parent().removeClass('open');
+			
+			var guid_href = $(this).attr("href");
+			guid_href = guid_href.match(/guid=([0-9]*)/);
+			if(guid_href instanceof Array) guid_href = guid_href[1];
+			else guid_href = "";
+			
+			// Clear
+			$("#calendar").empty(); // calendar
+			$("#addTasks").empty(); // tasks
+			$("#addUpdates").empty(); // updates
+			
+			// Set Filter
+			if(guid_href.trim() != "")
+				GRMAIN.filterByGroupID(parseInt(guid_href));
+			else
+				GRMAIN.removeFilter();
+			
+			// Re-Populate
+			addUsersInfo();
+					
+			return false;
+		});
+		__DeadUserGroupLink = true;
+	}
 }
 
 
@@ -89,7 +140,7 @@ function addCalendarInfo(){
 		good.push(ent);
 	}
 	
-	console.log(good);
+	//console.log(good);
 	
 	var sh,eh,sd;	// start hour, end hour, start day
 	
@@ -133,8 +184,8 @@ function addCalendarInfo(){
 		if( ge.getHours()+1 > eh) eh = ge.getHours() + 1;
 	}
 	
-	console.log(sh+","+eh+","+sd);
-	console.log(prepped);
+	//console.log(sh+","+eh+","+sd);
+	//console.log(prepped);
 	
 	var cal = $("#calendar");
 		cal.grCalendar({
@@ -163,12 +214,15 @@ function addTasks(){
 		var containingDiv=document.createElement('div');
 		containingDiv.className="panel panel-default";
 		var headingDiv=document.createElement('div');
-		headingDiv.className="panel-heading";
+		headingDiv.className="panel-heading row";
 		$(headingDiv).attr( 'role', 'tab' );
 		$(headingDiv).attr( 'id', 'heading'+temp );
+		headingDiv.style.marginLeft="0px";
+		headingDiv.style.marginRight="0px";
 		var heading=document.createElement('h4');
 		heading.className="panel-title";
 		var link=document.createElement('a');
+		link.style.color="black";
 		$(link).attr( 'data-toggle', 'collapse' );
 		$(link).attr( 'data-parent', '#addTasks' );
 		$(link).attr( 'href', '#collapse'+temp);
@@ -194,8 +248,30 @@ function addTasks(){
 		else{
 			detailDiv.innerText=task_array[i].task_description;
 		}
+
+		var headingDivColLeft=document.createElement('div');
+		$(headingDivColLeft).attr( 'class', 'col-sm-10' );
+
+		var headingDivColRight=document.createElement('div');
+		$(headingDivColRight).attr( 'class', 'col-sm-2' );
+
+		var button=document.createElement('button');
+		$(button).attr('class','btn btn-default btn-circle pull-right vcenter');
+		if(task_array[i].is_completed=="1"){
+			button.style.backgroundColor=getColorForGroup(task_array[i].group_id);
+		}
+		else{
+			button.style.border="2px solid"+getColorForGroup(task_array[i].group_id);
+			$(button).attr('onclick','toggleTask(this,'+task_array[i].task_uid+','+i+')');
+		}
+		
+
+
 		collapseDiv.appendChild(detailDiv);
-		heading.appendChild(link);
+		heading.appendChild(headingDivColLeft);
+		heading.appendChild(headingDivColRight);
+		headingDivColLeft.appendChild(link);
+		headingDivColRight.appendChild(button);
 		headingDiv.appendChild(heading);
 		containingDiv.appendChild(headingDiv);
 		containingDiv.appendChild(collapseDiv);
@@ -203,7 +279,8 @@ function addTasks(){
 		//headingDiv.style.color="darkBlue";
 		//headingDiv.style.backgroundColor="#8AB5E3";
 		//headingDiv.style.backgroundColor=gr_colors[Math.floor(Math.random() * 12) ];
-		containingDiv.style.borderLeft="12px solid "+DEFAULT_GR_COLORS[Math.floor(Math.random() * 8) ];
+		//containingDiv.style.borderLeft="12px solid "+DEFAULT_GR_COLORS[Math.floor(Math.random() * 8) ];
+		containingDiv.style.borderLeft="12px solid "+getColorForGroup(task_array[i].group_id);
 		/*div.className="alert";
 		div.style.backgroundColor="lightBlue";
 		div.style.border="1px solid darkBlue";
@@ -238,8 +315,8 @@ function addUpdates(){
 		var p=document.createElement('p');
 		$(p).attr('class','list-group-item-text');
 		p.innerText=getFullNameForEmail(updates[i].email)+" "+updates[i].description;
-		a.style.backgroundColor=DEFAULT_GR_COLORS[Math.floor(Math.random() * 8) ];
-
+		//a.style.backgroundColor=DEFAULT_GR_COLORS[Math.floor(Math.random() * 8) ];
+		a.style.backgroundColor=getColorForGroup(updates[i].group_id);
 		a.appendChild(h4);
 		a.appendChild(p);
 		adder.appendChild(a);
@@ -298,7 +375,7 @@ function initScheduleEvent(){
 
 	for(var i = 0; i < numGroups; i ++) {
 		var item=document.createElement('option');
-		item.style.color=allGroups[i].group_color;
+		//item.style.color=allGroups[i].group_color;
 		item.value=allGroups[i].group_id;
 		item.innerHTML=allGroups[i].group_name;
 		groupMenu.appendChild(item);
@@ -323,7 +400,32 @@ function initStartTask(){
 
 	for(var i = 0; i < numGroups; i ++) {
 		var item=document.createElement('option');
-		item.style.color=allGroups[i].group_color;
+		//item.style.color=allGroups[i].group_color;
+		item.value=allGroups[i].group_id;
+		item.innerHTML=allGroups[i].group_name;
+		groupMenu.appendChild(item);
+	}
+}
+
+function initSendMessage(){
+
+	var allGroups = GRMAIN.groups();
+	var groupMenu = document.getElementById("messageGroups");
+	var numGroups = allGroups.length;
+
+	//If no groups
+	if(numGroups==0){
+		console.warn("You currently have no groups. Events will not work.");
+	}
+
+	//If only one group, make it default
+	if(numGroups==1){
+		groupMenu.innerHTML="";
+	}
+
+	for(var i = 0; i < numGroups; i ++) {
+		var item=document.createElement('option');
+		//item.style.color=allGroups[i].group_color;
 		item.value=allGroups[i].group_id;
 		item.innerHTML=allGroups[i].group_name;
 		groupMenu.appendChild(item);
@@ -332,7 +434,38 @@ function initStartTask(){
 
 
 
+function toggleTask(element, taskid, localIndex){
+	var task_array=GRMAIN.tasks();
+	var _cookies = genCookieDictionary();
 
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"code":_cookies.accesscode,
+			"email":_cookies.user,
+			"function":"mark_task_complete",
+			"task_id":taskid
+		};
+	
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+						element.style.backgroundColor=getColorForGroup(task_array[localIndex].group_id);
+						element.style.border="2px solid #666";
+						$(element).attr('onclick','return;');
+					},
+				211: function(data, status, jqXHR){
+						console.warn("Could Not Mark Task Completed fx: toggleTask")
+					}
+			}
+		
+		});
+	}
+	console.warn("Unauthorized User send to login fx: toggleTask");
+}
 
 
 //============================================================

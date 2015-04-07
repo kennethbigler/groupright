@@ -177,7 +177,9 @@
 			FROM memberships AS m 
 			LEFT JOIN groups AS g ON m.group_uid = g.group_uid 
 			LEFT JOIN active_users AS u ON m.email = u.email
-			WHERE m.email = ? AND u.last_session_code = ?"
+			LEFT JOIN sessions AS s
+			ON m.email = s.email
+			WHERE m.email = ? AND s.sc = ?"
 		);				
 		$stmt->execute(array($email_address,$cookie));	
 		

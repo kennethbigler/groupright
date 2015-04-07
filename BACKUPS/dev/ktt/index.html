@@ -106,8 +106,8 @@ $(document).ready(function(){
 		createTemplate("reset_password",["vc","password"],"blue"),
 		
 		//createTemplate("get_memberships",["email","cookie"],"red"),		
-		createTemplate("get_user_info",["email","cookie"],"red"),
-		createTemplate("get_user_groups",["email","cookie"],"red"),
+		createTemplate("get_user_info",["email","ac"],"red"),
+		createTemplate("get_user_groups",["email","ac"],"red"),
 		createTemplate("get_group_members",["email","cookie","group_uid"],"red"),
 		createTemplate("reset_membership_colors",["email","cookie"],"red"),
 		createTemplate("create_group",["group_name","member_array","email","ac"],"red"),
@@ -119,6 +119,7 @@ $(document).ready(function(){
 		
 		createTemplate("create_task",["email","cookie","group_uid","event_uid","task_title","task_description","is_personal","deadline"],"orange"),
 		createTemplate("assign_task",["email","cookie","group_uid","task_uid"],"orange"),
+		createTemplate("mark_task_complete",["email","ac","task_uid"],"orange"),
 		
 		createTemplate("send_message",["email","cookie","group_uid","message_content"],"white"),
 		createTemplate("get_messages",["email","cookie","group_uid"],"white")

@@ -33,7 +33,7 @@ function checkCookie(goodFn,badFn){
 	
 	if(_cookies.accesscode && _cookies.user){
 	
-		var obj = {"code":_cookies.accesscode,"email":_cookies.user,"function":"remember_user"};
+		var obj = {"ac":_cookies.accesscode,"email":_cookies.user,"function":"remember_user"};
 	
 		// Contact Server
 		$.ajax("https://www.groupright.net/dev/groupserve.php",{
@@ -64,7 +64,7 @@ function eatCookies()
         var name=cookiename;
         //alert(name);
         var value="";
-        document.cookie = name + "=" + value + expires;                    
+        document.cookie = name + "=" + value + expires + ";path=/;";                    
     }
     window.location = ""; // TO REFRESH THE PAGE
 }
