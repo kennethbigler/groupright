@@ -10,7 +10,7 @@ function getAllUpdates($email){
 	// Generate Query
 	$sql = "
 		SELECT updates.group_uid, users.email, users.first_name, users.last_name, 
-			updates.description ,updates.timestamp, update_uid
+			updates.description ,updates.timestamp, updates.update_uid
 		FROM notifications,updates,active_users as users
 		WHERE notifications.email = ?
 			AND notifications.update_uid = updates.update_uid
