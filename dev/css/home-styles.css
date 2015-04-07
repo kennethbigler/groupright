@@ -162,3 +162,23 @@ div.scrollable::-webkit-scrollbar {
 	background-color:yellow;
 	margin-top: 10px;
 }
+.btn-circle {
+  width: 25px;
+  height: 25px;
+  text-align: center;
+
+  background-color: blue;
+
+   border-radius: 50%;
+   behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+   padding:2px;
+
+    background: #fff;
+    border: 2px solid #666;
+}
+.vcenter {
+    float:none;
+    display:inline-block;
+    vertical-align:middle;
+    margin-right:-4px;
+}

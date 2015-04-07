@@ -1,6 +1,6 @@
 var obj = {
-"first_name":"ZacharyTest",
-"last_name":"Wilson",
+"first_name":"Test",
+"last_name":"McTestVille",
 "photo_url":null,
 "memberships":[{
 "group_name":"Villas 10210",

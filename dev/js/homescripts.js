@@ -172,12 +172,15 @@ function addTasks(){
 		var containingDiv=document.createElement('div');
 		containingDiv.className="panel panel-default";
 		var headingDiv=document.createElement('div');
-		headingDiv.className="panel-heading";
+		headingDiv.className="panel-heading row";
 		$(headingDiv).attr( 'role', 'tab' );
 		$(headingDiv).attr( 'id', 'heading'+temp );
+		headingDiv.style.marginLeft="0px";
+		headingDiv.style.marginRight="0px";
 		var heading=document.createElement('h4');
 		heading.className="panel-title";
 		var link=document.createElement('a');
+		link.style.color="black";
 		$(link).attr( 'data-toggle', 'collapse' );
 		$(link).attr( 'data-parent', '#addTasks' );
 		$(link).attr( 'href', '#collapse'+temp);
@@ -203,8 +206,29 @@ function addTasks(){
 		else{
 			detailDiv.innerText=task_array[i].task_description;
 		}
+
+		var headingDivColLeft=document.createElement('div');
+		$(headingDivColLeft).attr( 'class', 'col-sm-10' );
+
+		var headingDivColRight=document.createElement('div');
+		$(headingDivColRight).attr( 'class', 'col-sm-2' );
+
+		var button=document.createElement('button');
+		$(button).attr('class','btn btn-default btn-circle pull-right vcenter');
+		if(task_array[i].is_completed=="1"){
+			button.style.backgroundColor=getColorForGroup(task_array[i].group_id);
+		}
+		else{
+			button.style.border="2px solid"+getColorForGroup(task_array[i].group_id);
+		}
+		$(button).attr('onclick','toggleTask(this,'+task_array[i].task_uid+')');
+
+
 		collapseDiv.appendChild(detailDiv);
-		heading.appendChild(link);
+		heading.appendChild(headingDivColLeft);
+		heading.appendChild(headingDivColRight);
+		headingDivColLeft.appendChild(link);
+		headingDivColRight.appendChild(button);
 		headingDiv.appendChild(heading);
 		containingDiv.appendChild(headingDiv);
 		containingDiv.appendChild(collapseDiv);
@@ -367,7 +391,10 @@ function initSendMessage(){
 
 
 
+function toggleTask(element, taskid){
 
+	alert("Toggling Task");
+}
 
 
 //============================================================
