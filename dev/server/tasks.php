@@ -169,7 +169,7 @@ function _completeTask($email,$task_uid){
 function completeTask(){
 		$email = sanitizeEmail( $_POST['email'] );
 		$cookie = grHash($_POST['ac'],$email);
-		$task_uid = $_POST['task_uid'];
+		$task_uid = $_POST['task_id'];
 		
 		if(!isset($task_uid)){ http_response_code(299); return; }
 		
