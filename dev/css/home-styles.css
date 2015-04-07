@@ -183,11 +183,12 @@ div.scrollable::-webkit-scrollbar {
 	height: 300px;
 	background-color: #eee;
 	margin-top: 10px;
+	padding-top: 10px;
 }
 
 .userMessage {
 	background-color: #00A1D9;
-	margin-top: 10px;
+	margin-bottom: 10px;
 	color: white;
 	padding: 10px;
 	float: left;
@@ -208,6 +209,5 @@ div.scrollable::-webkit-scrollbar {
 	border-right:10px solid #00A1D9;
 	display: inline;
 	float: left;
-	margin-top: 10px;
 	clear: left;
 }
