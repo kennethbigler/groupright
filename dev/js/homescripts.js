@@ -441,7 +441,7 @@ function toggleTask(element, taskid, localIndex){
 	if(_cookies.accesscode && _cookies.user){
 	
 		var obj = {
-			"code":_cookies.accesscode,
+			"ac":_cookies.accesscode,
 			"email":_cookies.user,
 			"function":"mark_task_complete",
 			"task_id":taskid
