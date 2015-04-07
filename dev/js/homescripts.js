@@ -25,6 +25,14 @@ function getFullNameForEmail(email){
 	return "Unknown";
 }
 
+function getColorForGroup(groupid){
+	var color= GRMAIN.group(groupid).group_color;
+	return color;
+
+	console.warn("No color found in fx: getColorForGroup");
+	return "FFFFFF";	
+}
+
 
 
 //============================================================
@@ -64,7 +72,7 @@ function addUsersInfo(){
 	initCreateGroup();		// 'Create a Group'
 	initScheduleEvent();	// 'Schedule an Event'
 	initStartTask();		// 'Start a Task'
-	initCreateMessage();	// 'Send Message'
+	initSendMessage();	// 'Send Message'
 	
 }
 
@@ -204,7 +212,8 @@ function addTasks(){
 		//headingDiv.style.color="darkBlue";
 		//headingDiv.style.backgroundColor="#8AB5E3";
 		//headingDiv.style.backgroundColor=gr_colors[Math.floor(Math.random() * 12) ];
-		containingDiv.style.borderLeft="12px solid "+DEFAULT_GR_COLORS[Math.floor(Math.random() * 8) ];
+		//containingDiv.style.borderLeft="12px solid "+DEFAULT_GR_COLORS[Math.floor(Math.random() * 8) ];
+		containingDiv.style.borderLeft="12px solid "+getColorForGroup(task_array[i].group_id);
 		/*div.className="alert";
 		div.style.backgroundColor="lightBlue";
 		div.style.border="1px solid darkBlue";
@@ -239,8 +248,8 @@ function addUpdates(){
 		var p=document.createElement('p');
 		$(p).attr('class','list-group-item-text');
 		p.innerText=getFullNameForEmail(updates[i].email)+" "+updates[i].description;
-		a.style.backgroundColor=DEFAULT_GR_COLORS[Math.floor(Math.random() * 8) ];
-
+		//a.style.backgroundColor=DEFAULT_GR_COLORS[Math.floor(Math.random() * 8) ];
+		a.style.backgroundColor=getColorForGroup(updates[i].group_id);
 		a.appendChild(h4);
 		a.appendChild(p);
 		adder.appendChild(a);
