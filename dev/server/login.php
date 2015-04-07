@@ -145,7 +145,7 @@
 	
 		// Get username and password.
 		$email = $_POST['email'];
-		$code = $_POST['code'];
+		$code = $_POST['ac'];
 		
 		// Filter email address
 		$email_address = htmlspecialchars($email);
