@@ -116,7 +116,7 @@ function createTask(){
 		$is_personal = $_POST['is_personal'];
 		$deadline = $_POST['deadline'];
 		
-		
+		//echo $task_title;
 		if(!isset($task_title)){ http_response_code(299); return; }
 		if(!isset($task_descr)){ $task_descr = ""; }
 		if(!isset($is_personal)){ $is_personal = false; }
@@ -126,7 +126,7 @@ function createTask(){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
 			$task_uid = addTask($email,$task_title,$task_descr,$group_uid,$event_uid,$is_personal,$deadline);
 			
-			if($task_uid < 1){ http_response_code(299); return; } // failed task creation
+			if($task_uid < 1){ http_response_code(298); return; } // failed task creation
 			
 			// Assign Task
 			if($is_personal){ addTaskAssignment($task_uid,$group_uid,$email,true); }
@@ -146,8 +146,8 @@ function assignTask(){
 		$group_uid = $_POST['group_uid'];
 		$task_uid = $_POST['task_uid'];
 		
-		if(!isset($task_uid)){ http_response_code(299); return; }
-		if(!isset($group_uid)){ http_response_code(299); return; }
+		if(!isset($task_uid)){ http_response_code(297); return; }
+		if(!isset($group_uid)){ http_response_code(296); return; }
 		
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
@@ -197,7 +197,7 @@ function completeTask(){
 		$cookie = grHash($_POST['ac'],$email);
 		$task_uid = $_POST['task_id'];
 		
-		if(!isset($task_uid)){ http_response_code(299); return; }
+		if(!isset($task_uid)){ http_response_code(295); return; }
 		
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			_completeTask($email,$task_uid);

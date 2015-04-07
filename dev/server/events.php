@@ -67,8 +67,8 @@ function getAllEventsSince($email,$event_uid){
 		
 		$stmt = $dbh->prepare(
 			"SELECT * FROM active_users JOIN memberships USING (email)
-			WHERE email = ?
-			AND last_session_code = ?
+			NATURAL JOIN sessions WHERE email = ?
+			AND sc = ?
 			AND group_uid = ?"		
 		);
 		$stmt->execute(array($email,$cookie,$group_uid));
