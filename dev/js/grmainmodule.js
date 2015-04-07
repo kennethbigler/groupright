@@ -75,6 +75,9 @@ function GRMainModule(){
 		return obj_to_arr(this._contacts);
 	};
 	this.contact = function(email){ return this._contacts[email]; };
+	
+	// Update (Loading)
+	this.onupdate = function(){};
 }
 
 
@@ -117,7 +120,7 @@ GRMainModule.prototype.load = function(cookies,successFn,failureFn){
 		this.user = cookies.user.trim();
 	
 		var obj = {
-			"cookie":cookies.accesscode,
+			"ac":cookies.accesscode,
 			"email":cookies.user,
 			"function":"get_user_info"
 		};
@@ -145,6 +148,13 @@ GRMainModule.prototype.load = function(cookies,successFn,failureFn){
 		this.user = DEFAULT_USER;
 		successFn();
 	}
+};
+
+//=========================================================================
+// UPDATE LOADING
+
+GRMainModule.prototype._updateData = function(){
+	
 };
 
 //=========================================================================

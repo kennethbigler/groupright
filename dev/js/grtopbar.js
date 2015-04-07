@@ -37,7 +37,7 @@ GRGroupsModule.prototype.load = function(cookies,successFn,failureFn){
 		this.user = cookies.user.trim();
 	
 		var obj = {
-			"cookie":cookies.accesscode,
+			"ac":cookies.accesscode,
 			"email":cookies.user,
 			"function":"get_user_groups"
 		};
