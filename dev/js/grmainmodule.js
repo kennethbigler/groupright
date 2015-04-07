@@ -55,8 +55,10 @@ function GRMainModule(){
 	// Updates
 	this._updates = {};
 	this.updates = function(){
-		if(this._filterGUID) return this.updatesByGroupID(this._filterGUID);
-		return obj_to_arr(this._updates);
+		var x;
+		if(this._filterGUID) x = this.updatesByGroupID(this._filterGUID);
+		else x = obj_to_arr(this._updates);
+		return x.reverse();
 	};
 	this.update = function(id){ return this._updates[id]; };
 	
