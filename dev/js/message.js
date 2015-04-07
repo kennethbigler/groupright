@@ -75,7 +75,18 @@ function populateMessages(){
 				200:function(data,status,jqXHR) {
 					alert("Message Sent");
 					//window.location = "./home.html";
-									
+					var array = JSON.parse(data);
+					//console.log(obj);
+					
+					//Iterate through returned array
+					for (var i = 0; i < array.length; i++) {
+						name = getFullNameForEmail(array[i].email);
+						message = array[i].content;
+						timestamp = array[i].timestamp;
+
+						//change gui
+					}
+					
 				},
 				210:function() {
 					//access denied, redirect to login
