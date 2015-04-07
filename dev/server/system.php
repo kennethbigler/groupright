@@ -42,7 +42,7 @@
 		
 		$dbh = ConnectToDB();
 		
-		$stmt = $dbh->prepare("UPDATE active_users SET last_session_code=?,session_expiration=? WHERE email=?");
+		$stmt = $dbh->prepare("INSERT INTO sessions(sc,expiration,email) VALUES(?,?,?)");
 		$stmt->execute(array($code2,date("Y-m-d H:i:s",$monthLater),$user));
 		
 		return $code;	
@@ -58,12 +58,12 @@
 	
 		$dbh = ConnectToDB();
 		
-		$stmt = $dbh->prepare("SELECT * FROM active_users WHERE email=?");
-		if($stmt->execute(array($user))){
+		$stmt = $dbh->prepare("SELECT * FROM sessions WHERE email=? AND sc=?");
+		if($stmt->execute(array($user,$cookie))){
 			while($row = $stmt->fetch()){
-				$expDate = new DateTime($row['session_expiration']);
+				$expDate = new DateTime($row['expiration']);
 				if($expDate < $today) return false;
-				return ($row['last_session_code'] == $cookie);
+				return true;
 			
 			}
 		}
@@ -82,8 +82,8 @@
 	
 		$dbh = ConnectToDB();
 		
-		$stmt = $dbh->prepare("UPDATE active_users SET session_expiration=? WHERE email=? AND last_session_code=?");
-		$stmt->execute(array(date("Y-m-d H:i:s",$today),$user,$cookie));
+		$stmt = $dbh->prepare("DELETE FROM sessions WHERE sc=?");
+		$stmt->execute(array($cookie));
 		
 		//echo $user;
 		//echo $cookie;
