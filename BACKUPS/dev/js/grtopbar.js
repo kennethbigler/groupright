@@ -2,6 +2,117 @@
 //
 //		Scripts To Populate / Initialize the [Shared] Top Bar.
 
+//===========================================================================
+// GRGroupsModule
+/**
+**	GRGroupsModule
+**		Primary object for global storage.
+**/
+function GRGroupsModule(){
+	this.user = "";
+	this.first_name = "";
+	this.last_name = "";
+	this.photo = "";
+	
+	
+	// Raw
+	this._raw = "";
+	this.raw = function(){ return this._raw; };
+	
+	// Groups
+	this._groups = {};	
+	this.groups = function(){
+		return obj_to_arr(this._groups);
+	};
+	this.group = function(id){ return this._groups[id]; };
+	
+}
+
+
+//=======================================================================
+// LOADING / INITIALIZE
+GRGroupsModule.prototype.load = function(cookies,successFn,failureFn){
+	if(cookies.accesscode && cookies.user){
+		
+		this.user = cookies.user.trim();
+	
+		var obj = {
+			"cookie":cookies.accesscode,
+			"email":cookies.user,
+			"function":"get_user_groups"
+		};
+		var self = this;
+	
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					self._parse(data);
+					successFn();
+				},
+				220: function(data, status, jqXHR){
+					failureFn();
+				}
+			}
+		
+		});
+	}
+	else{
+		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
+		this._parse(DEFAULT_GROUPS);
+		this.user = DEFAULT_USER;
+		successFn();
+	}
+};
+
+//=========================================================================
+// PARSING
+
+GRGroupsModule.prototype._parse = function(data){
+	this._raw = data;
+	
+	var obj = JSON.parse(data);
+	//console.log(obj);
+	
+	// Basic Info
+	this.first_name = obj.first_name;
+	this.last_name = obj.last_name;
+	this.photo = obj.photo_url;
+	
+	// Groups
+	this._parseGroups(obj.memberships);
+	
+	//console.log(this);
+}
+
+GRGroupsModule.prototype._parseGroups = function(groups){
+	//console.log(groups);
+	
+	for(var i = 0; i < groups.length; i++){
+		var grp = groups[i];
+		this._groups[grp.group_id] = grp;
+	}
+	//console.log(this._groups);
+	//console.log(this._contacts);
+};
+
+//===========================================================================
+// TOP BAR INITIALIZATION
+
+var GRGROUPS;
+$(document).ready(function(){
+	GRGROUPS = new GRGroupsModule();
+	GRGROUPS.load(genCookieDictionary(),
+		function(){
+			initTopBar();
+		},
+		function(){
+			window.location="https://www.groupright.net/dev/login.html";
+		}
+	);
+});
 
 function initTopBar(){
 	addUsersName();			// set name
@@ -11,11 +122,11 @@ function initTopBar(){
 
 
 function addUsersName(){
-	document.getElementById("profileName").innerHTML=GRMAIN.first_name+'<span class="caret"></span>';
+	document.getElementById("profileName").innerHTML=GRGROUPS.first_name+'<span class="caret"></span>';
 }
 
 function dealwithProfilePic(){
-	var url = GRMAIN.photo;
+	var url = GRGROUPS.photo;
 	//alert(initials);
 	var profileImage=document.getElementById("profileImage");
 	if(url==null){
@@ -32,7 +143,7 @@ function dealwithProfilePic(){
 
 /* Populate the groups field on the homepage with the "groups" json object */
 function addUsersGroups(){
-	var allGroups = GRMAIN.groups();
+	var allGroups = GRGROUPS.groups();
 	
 	var groupMenu = document.getElementById("myGroups");
 	var numGroups = allGroups.length;

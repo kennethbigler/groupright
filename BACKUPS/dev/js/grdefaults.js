@@ -476,8 +476,8 @@ var obj = {
 "description":"",
 "group_id":"19",
 "creator":"zwilson7@gmail.com",
-"start_time":"2015-02-19 17:30:00",
-"end_time":"2015-02-19 18:30:00"
+"start_time":"2015-04-06 17:30:00",
+"end_time":"2015-04-06 18:30:00"
 }],
 "updates":[]
 };

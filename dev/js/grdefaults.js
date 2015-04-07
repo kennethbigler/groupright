@@ -215,7 +215,7 @@ var obj = {
 "task_description":"",
 "group_id":"16",
 "creator":"zwilson7@gmail.com",
-"is_completed":"0",
+"is_completed":"1",
 "is_personal":"1"
 },
 {
@@ -224,7 +224,7 @@ var obj = {
 "task_description":"",
 "group_id":"10",
 "creator":"zwilson7@gmail.com",
-"is_completed":"0",
+"is_completed":"1",
 "is_personal":"1"
 },
 {

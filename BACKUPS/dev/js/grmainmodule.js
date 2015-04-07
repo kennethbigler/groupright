@@ -121,6 +121,7 @@ GRMainModule.prototype.load = function(cookies,successFn,failureFn){
 			"email":cookies.user,
 			"function":"get_user_info"
 		};
+		var self = this;
 	
 		// Contact Server
 		$.ajax("https://www.groupright.net/dev/groupserve.php",{
@@ -128,7 +129,7 @@ GRMainModule.prototype.load = function(cookies,successFn,failureFn){
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
-					this._parse(data);
+					self._parse(data);
 					successFn();
 				},
 				220: function(data, status, jqXHR){
@@ -175,7 +176,7 @@ GRMainModule.prototype._parse = function(data){
 	// Messages
 	//this._parseMessages(obj.messages);
 	
-	console.log(this);
+	//console.log(this);
 }
 
 GRMainModule.prototype._parseGroups = function(groups){
@@ -204,6 +205,8 @@ GRMainModule.prototype._parseEvents = function(events){
 	
 	for(var i = 0; i < events.length; i++){
 		var evt = events[i];
+		if(evt.start_time) evt.start_time = evt.start_time.replace(/[-]/g,"/");
+		if(evt.end_time) evt.end_time = evt.end_time.replace(/[-]/g,"/");
 		this._events[evt.event_uid] = evt;
 	}
 	

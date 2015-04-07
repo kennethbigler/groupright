@@ -220,8 +220,9 @@ function addTasks(){
 		}
 		else{
 			button.style.border="2px solid"+getColorForGroup(task_array[i].group_id);
+			$(button).attr('onclick','toggleTask(this,'+task_array[i].task_uid+','+i+')');
 		}
-		$(button).attr('onclick','toggleTask(this,'+task_array[i].task_uid+')');
+		
 
 
 		collapseDiv.appendChild(detailDiv);
@@ -391,9 +392,37 @@ function initSendMessage(){
 
 
 
-function toggleTask(element, taskid){
+function toggleTask(element, taskid, localIndex){
+	var task_array=GRMAIN.tasks();
+	var _cookies = genCookieDictionary();
 
-	alert("Toggling Task");
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"code":_cookies.accesscode,
+			"email":_cookies.user,
+			"function":"mark_task_complete",
+			"task_id":taskid
+		};
+	
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+						element.style.backgroundColor=getColorForGroup(task_array[localIndex].group_id);
+						element.style.border="2px solid #666";
+						$(element).attr('onclick','return;');
+					},
+				211: function(data, status, jqXHR){
+						console.warn("Could Not Mark Task Completed fx: toggleTask")
+					}
+			}
+		
+		});
+	}
+	console.warn("Unauthorized User send to login fx: toggleTask");
 }
 
 

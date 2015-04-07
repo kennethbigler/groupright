@@ -21,8 +21,8 @@ function installCookie( user, data, extended, postFn ){
 		extra = "expires="+now.toGMTString()+';';
 	}
 	
-	document.cookie="accesscode="+data.trim()+";"+extra+'path=/';
-	document.cookie="user="+user+";"+extra+'path=/';
+	document.cookie="accesscode="+data.trim()+";"+extra+'path=/; secure';
+	document.cookie="user="+user+";"+extra+'path=/; secure';
 	
 	postFn();
 }

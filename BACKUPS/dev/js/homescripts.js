@@ -53,10 +53,7 @@ window.onload = function() {
 };
 
 
-function addUsersInfo(data){
-	
-	// Top Bar ---------------------------------------	
-	initTopBar(); 			// [defined in grtopbar.js]
+function addUsersInfo(){
 		
 	// Dashboard -------------------------------------
 	addCalendarInfo();		// init calendar
