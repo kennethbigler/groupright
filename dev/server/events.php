@@ -30,6 +30,38 @@ function getAllEvents($email){
 	return $arr;
 }
 
+function getAllEventsSince($email,$event_uid){
+	$dbh = ConnectToDB();
+	
+	$stmt = $dbh->prepare(
+		"SELECT name,description,group_uid,
+		events.email as creator_email, event_uid,
+		start_time,end_time FROM events 
+		JOIN groups USING (group_uid) 
+		JOIN memberships USING(group_uid)
+		WHERE memberships.email = ?
+		AND event_uid = ?"
+	);
+	$stmt->execute(array($email,$event_uid));
+	
+	$arr = array();
+	
+	while($row = $stmt->fetch()){
+		$obj = array(
+			"event_uid"=>$row['event_uid'],
+			"name"=>$row['name'],
+			"description"=>$row['description'],
+			"group_id"=>$row['group_uid'],
+			"creator"=>$row['creator_email'],
+			"start_time"=>$row['start_time'],
+			"end_time"=>$row['end_time']
+		);
+		//echo $obj;
+		$arr[] = $obj;
+	}
+	return $arr;
+}
+
 	function verifyUserGroup($email,$cookie,$group_uid){
 		$dbh = ConnectToDB();
 		

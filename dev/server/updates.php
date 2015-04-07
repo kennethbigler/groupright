@@ -16,9 +16,48 @@ function getAllUpdates($email){
 			AND notifications.update_uid = updates.update_uid
 			AND updates.email = users.email
 			AND notifications.read = false
+		ORDER BY updates.timestamp DESC
 	";
 	$stmt = $dbh->prepare($sql);
 	$stmt->execute(array($email));
+	
+	// Set up return object.
+	$updates = array();
+	
+	// Run and fill object.
+	while($row = $stmt->fetch()){
+		$obj = array(
+			"update_uid"=>$row['update_uid'],
+			"email"=>$row['email'],
+			"description"=>$row['description'],
+			"group_id"=>$row['group_uid'],
+			"timestamp"=>$row['timestamp']
+		);
+		//echo $obj;
+		$updates[] = $obj;
+	}
+	// Return object.
+	return $updates;
+}
+function getAllUpdatesSince($email,$update_uid){
+	
+	// Open up connection
+	$dbh = ConnectToDB();
+	
+	// Generate Query
+	$sql = "
+		SELECT updates.group_uid, users.email, users.first_name, users.last_name, 
+			updates.description ,updates.timestamp, updates.update_uid
+		FROM notifications,updates,active_users as users
+		WHERE notifications.email = ?
+			AND notifications.update_uid = updates.update_uid
+			AND updates.email = users.email
+			AND notifications.read = false
+			AND updates.update_uid > ?
+		ORDER BY updates.timestamp DESC
+	";
+	$stmt = $dbh->prepare($sql);
+	$stmt->execute(array($email,$update_uid));
 	
 	// Set up return object.
 	$updates = array();

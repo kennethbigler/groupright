@@ -26,6 +26,32 @@ function getAllTasks($email){
 	return $arr;
 }
 
+function getAllTasksSince($email,$task_uid){
+	$dbh = ConnectToDB();
+	
+	$stmt = $dbh->prepare(
+		"SELECT * FROM tasks_assignments JOIN tasks USING (task_uid) WHERE email = ? AND task_uid > ?"
+	);
+	$stmt->execute(array($email,$task_uid));
+	
+	$arr = array();
+	
+	while($row = $stmt->fetch()){
+		$obj = array(
+			"task_uid"=>$row['task_uid'],
+			"task_title"=>$row['title'],
+			"task_description"=>$row['description'],
+			"group_id"=>$row['group_uid'],
+			"creator"=>$row['creator_email'],
+			"is_completed"=>$row['is_completed'],
+			"is_personal"=>$row['is_personal']
+		);
+		//echo $obj;
+		$arr[] = $obj;
+	}
+	return $arr;
+}
+
 function addTask($email,$title,$description,$group_uid,$event_uid,$is_personal,$deadline){
 			
 	$dbh = ConnectToDB();

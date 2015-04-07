@@ -33,6 +33,17 @@
 		return null;
 		
 	}
+	
+	function _getUserInfoSince($email_address,$cookie,$last_event,$last_task,$last_update){
+		
+		$user_info = array();
+		$user_info["tasks"] = getAllTasksSince($email_address,$last_task);
+		$user_info["events"] = getAllEventsSince($email_address,$last_event);
+		$user_info["updates"] = getAllUpdatesSince($email_address,$last_update);
+		
+		return $user_info;
+		
+	}
 
 	function getUserInfo($complete){
 
@@ -64,6 +75,39 @@
 			return;
 		}
 		
+	}
+	
+	function getUpdatedInfo(){
+
+		// Get Data
+		$email = $_POST['email'];
+		$cookie = $_POST['ac'];
+		$leid = $_POST['event_id'];
+		$ltid = $_POST['task_id'];
+		$luid = $_POST['update_id'];
+		
+		// Initialize info obj.
+		$user_info = array();
+		
+		// Fix cookie.
+		$cookie = grHash($cookie,$email);
+		
+		// Filter email address
+		$email_address = htmlspecialchars($email);
+		$email_address = trim($email_address);
+		$email_address = stripslashes($email_address);
+		
+		// If valid, continue.
+		if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {
+			$user_info = _getUserInfoSince($email_address,$cookie,$leid,$ltid,$luid);
+			if($user_info) echo json_encode($user_info);
+			return;
+		}
+		else {
+			// maybe do something
+			http_response_code(206);
+			return;
+		}		
 	}
 
 
