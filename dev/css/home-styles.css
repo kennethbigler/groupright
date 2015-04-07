@@ -212,3 +212,12 @@ div.scrollable::-webkit-scrollbar {
 	float: left;
 	clear: left;
 }
+
+.timeStamp {
+	float: right;
+	color: #ccc;
+}
+
+.nameTag {
+	margin-top: 0;
+}
