@@ -64,6 +64,7 @@ function addUsersInfo(){
 	initCreateGroup();		// 'Create a Group'
 	initScheduleEvent();	// 'Schedule an Event'
 	initStartTask();		// 'Start a Task'
+	initCreateMessage();	// 'Send Message'
 	
 }
 
@@ -298,7 +299,7 @@ function initScheduleEvent(){
 
 	for(var i = 0; i < numGroups; i ++) {
 		var item=document.createElement('option');
-		item.style.color=allGroups[i].group_color;
+		//item.style.color=allGroups[i].group_color;
 		item.value=allGroups[i].group_id;
 		item.innerHTML=allGroups[i].group_name;
 		groupMenu.appendChild(item);
@@ -323,7 +324,32 @@ function initStartTask(){
 
 	for(var i = 0; i < numGroups; i ++) {
 		var item=document.createElement('option');
-		item.style.color=allGroups[i].group_color;
+		//item.style.color=allGroups[i].group_color;
+		item.value=allGroups[i].group_id;
+		item.innerHTML=allGroups[i].group_name;
+		groupMenu.appendChild(item);
+	}
+}
+
+function initSendMessage(){
+
+	var allGroups = GRMAIN.groups();
+	var groupMenu = document.getElementById("messageGroups");
+	var numGroups = allGroups.length;
+
+	//If no groups
+	if(numGroups==0){
+		console.warn("You currently have no groups. Events will not work.");
+	}
+
+	//If only one group, make it default
+	if(numGroups==1){
+		groupMenu.innerHTML="";
+	}
+
+	for(var i = 0; i < numGroups; i ++) {
+		var item=document.createElement('option');
+		//item.style.color=allGroups[i].group_color;
 		item.value=allGroups[i].group_id;
 		item.innerHTML=allGroups[i].group_name;
 		groupMenu.appendChild(item);
