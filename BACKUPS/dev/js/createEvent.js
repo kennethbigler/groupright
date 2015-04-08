@@ -283,7 +283,7 @@ function isValid(step){
 				return false;
 			}
 			if(startHour==endHour){
-				if(startMinute<endMinute){
+				if(startMinute>endMinute){
 					document.getElementById('eventError').innerHTML="The end date can't be before the start date.";
 					return false;
 				}
@@ -434,9 +434,11 @@ function createGREvent(){
 					alert("Event Created");
 					updateProgressBar(6);
 					resetEventParameters();
-					window.location = "./home.html";				
+					$('#createTaskBox').modal('hide');
+					//window.location = "./home.html";				
 				},
 				206:function(){
+					$('#createTaskBox').modal('hide');
 					//access denied, redirect to login
 					alert("Access Denied");	
 					//window.location = "./login.html";
