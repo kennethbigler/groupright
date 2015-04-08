@@ -48,6 +48,11 @@ window.onload = function() {
 	var filter_guid = getGETArguments()["guid"];
 	if(filter_guid) GRMAIN.filterByGroupID(filter_guid);
 	
+	// Updates
+	GRMAIN.oneventupdate = function(x){console.log(x);};
+	GRMAIN.ontaskupdate = function(x){console.log(x);};
+	GRMAIN.onupdateupdate = function(x){console.log(x);};
+	
 	GRMAIN.load(_cookies,
 		function(){
 			addUsersInfo();
@@ -60,6 +65,7 @@ window.onload = function() {
 
 };
 
+var __initialized = false;
 
 function addUsersInfo(){
 	
@@ -71,6 +77,8 @@ function addUsersInfo(){
 	addTasks();				// init tasks
 	addUpdates();			// init updates
 	
+	if(__initialized) return;
+	
 	// Lightbox Forms --------------------------------
 	initCreateGroup();		// 'Create a Group'
 	initScheduleEvent();	// 'Schedule an Event'
@@ -79,7 +87,6 @@ function addUsersInfo(){
 	
 }
 
-var __DeadUserGroupLink = false;
 function fixGroupFilter(){
 	var x = GRMAIN._filterGUID;
 	if(x){
@@ -89,7 +96,7 @@ function fixGroupFilter(){
 		$("#usergroups").text("All Groups").append( $("<span />",{class:"caret"}) );		
 	}
 	
-	if(!__DeadUserGroupLink){
+	if(!__initialized){
 		$(".usergrouplinks").click(function(){
 			$(this).parent().parent().parent().removeClass('open');
 			
@@ -114,7 +121,7 @@ function fixGroupFilter(){
 					
 			return false;
 		});
-		__DeadUserGroupLink = true;
+		__initialized = true;
 	}
 }
 

@@ -40,7 +40,7 @@ function getAllEventsSince($email,$event_uid){
 		JOIN groups USING (group_uid) 
 		JOIN memberships USING(group_uid)
 		WHERE memberships.email = ?
-		AND event_uid = ?"
+		AND event_uid > ?"
 	);
 	$stmt->execute(array($email,$event_uid));
 	

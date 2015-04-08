@@ -80,9 +80,11 @@ function GRMainModule(){
 	
 	// Update (Loading)
 	this._lastEventID = 0;
+	this.oneventupdate = function(){};
 	this._lastTaskID = 0;
+	this.ontaskupdate = function(){};
 	this._lastUpdateID = 0;
-	this.onupdate = function(){};
+	this.onupdateupdate = function(){};
 	
 	var self = this;
 	this._updater = window.setInterval(function(){console.log("hi"); self._updateData();},5000);
@@ -184,10 +186,15 @@ GRMainModule.prototype._updateData = function(){
 			statusCode:{
 				200: function(data, status, jqXHR){
 					var obj = JSON.parse(data);
+					console.log(obj);
 					self._parseEvents(obj.events);	
+					self.oneventupdate(obj.events);
+					
 					self._parseTasks(obj.tasks);	
+					self.ontaskupdate(obj.tasks);
+					
 					self._parseUpdates(obj.updates);
-					self.onupdate();
+					self.onupdateupdate(obj.updates);
 				},
 				220: function(data, status, jqXHR){
 					console.warn("Unable to perform update.");
