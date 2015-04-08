@@ -84,7 +84,21 @@ function populateMessages(){
 						message = array[i].content;
 						timestamp = array[i].timestamp;
 
-						//change gui
+						//remove placeholder message
+						var parent = document.getElementById("messageBox");
+						var child = document.getElementById("tempMessage");
+						parent.removeChild(child);
+						
+						//add messages
+						var element = document.getElementById("messageBox");
+						var htmlString	=	'<div class="convoTail"></div>'
+										+	'<div class="userMessage">'
+										+	'<h4 class="nameTag">'
+										+	name + '</h4>'
+										+	'<p>' + message + '</p>'
+										+	'<p class="timeStamp">- '
+										+	timestamp + '</p></div>'
+						element.insertAdjacentHTML(beforeend, htmlString);
 					}
 					
 				},
