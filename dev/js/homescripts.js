@@ -48,6 +48,23 @@ window.onload = function() {
 	var filter_guid = getGETArguments()["guid"];
 	if(filter_guid) GRMAIN.filterByGroupID(filter_guid);
 	
+	// Updates
+	GRMAIN.oneventupdate = function(x){
+		if(x.length){
+			__resetEvents();
+		}
+	};
+	GRMAIN.ontaskupdate = function(x){
+		if(x.length){
+			__resetTasks();
+		}
+	};
+	GRMAIN.onupdateupdate = function(x){
+		if(x.length){
+			__resetUpdates();
+		}
+	};
+	
 	GRMAIN.load(_cookies,
 		function(){
 			addUsersInfo();
@@ -60,8 +77,11 @@ window.onload = function() {
 
 };
 
+var __initialized = false;
 
 function addUsersInfo(){
+	
+	var initLightbox = !__initialized;
 	
 	// Top Bar (Adjustment) --------------------------
 	fixGroupFilter();
@@ -71,6 +91,8 @@ function addUsersInfo(){
 	addTasks();				// init tasks
 	addUpdates();			// init updates
 	
+	if(!initLightbox) return;
+	
 	// Lightbox Forms --------------------------------
 	initCreateGroup();		// 'Create a Group'
 	initScheduleEvent();	// 'Schedule an Event'
@@ -79,7 +101,31 @@ function addUsersInfo(){
 	
 }
 
-var __DeadUserGroupLink = false;
+function __resetDashboard(){
+	// Clear
+	$("#calendar").empty(); // calendar
+	$("#addTasks").empty(); // tasks
+	$("#addUpdates").empty(); // updates
+	
+	
+	// Re-Populate
+	addUsersInfo();
+	
+}
+
+function __resetEvents(){
+	$("#calendar").empty(); // calendar
+	addCalendarInfo();		// init calendar	
+}
+function __resetTasks(){
+	$("#addTasks").empty(); // calendar
+	addTasks();		// init calendar	
+}
+function __resetUpdates(){
+	$("#addUpdates").empty(); // calendar
+	addUpdates();		// init calendar	
+}
+
 function fixGroupFilter(){
 	var x = GRMAIN._filterGUID;
 	if(x){
@@ -89,7 +135,7 @@ function fixGroupFilter(){
 		$("#usergroups").text("All Groups").append( $("<span />",{class:"caret"}) );		
 	}
 	
-	if(!__DeadUserGroupLink){
+	if(!__initialized){
 		$(".usergrouplinks").click(function(){
 			$(this).parent().parent().parent().removeClass('open');
 			
@@ -98,69 +144,42 @@ function fixGroupFilter(){
 			if(guid_href instanceof Array) guid_href = guid_href[1];
 			else guid_href = "";
 			
-			// Clear
-			$("#calendar").empty(); // calendar
-			$("#addTasks").empty(); // tasks
-			$("#addUpdates").empty(); // updates
-			
 			// Set Filter
 			if(guid_href.trim() != "")
 				GRMAIN.filterByGroupID(parseInt(guid_href));
 			else
 				GRMAIN.removeFilter();
 			
-			// Re-Populate
-			addUsersInfo();
+			__resetDashboard();
 					
 			return false;
 		});
-		__DeadUserGroupLink = true;
+		__initialized = true;
 	}
 }
 
+function __checkEvent(ent){	
+	if(!ent.start_time || !ent.end_time) return false;	// not set.
+	
+	var start_date = new Date(ent.start_time);
+	if(isNaN(start_date.getTime())) return false;		// invalid date
+	
+	//console.log(start_date);
+	if((new Date()) - start_date > 24*60*60*1000) return false;			// event is older than a day.
+	
+	return true;
+}
 
-function addCalendarInfo(){
-	
-	// FILTERING
-	//	[may need to be moved to GRMainModule / Server]
-	var evnts = GRMAIN.events();
-	
-	var good = new Array();
-	for(var i = 0; i < evnts.length; i++){
-		var ent = evnts[i];
-		
-		if(!ent.start_time || !ent.end_time) continue;	// not set.
-		
-		var start_date = new Date(ent.start_time);
-		if(isNaN(start_date.getTime())) continue;		// invalid date
-		
-		//console.log(start_date);
-		if(new Date() > start_date) continue;			// event is past.
-		
-		good.push(ent);
-	}
-	
-	//console.log(good);
-	
-	var sh,eh,sd;	// start hour, end hour, start day
-	
-	var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-	sd = days[ (new Date()).getDay() ];
-	
-	var hours = ["12am","1am","2am","3am","4am","5am","6am","7am","8am","9am","10am","11am",
-					"12pm","1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm","9pm","10pm","11pm"];
-	sh = 9; eh = 18;
-	
-	var prepped = new Array();
-	
-	for(var i = 0; i < good.length; i++){
-		var gs = new Date(good[i].start_time);
-		var ge = new Date(good[i].end_time);
+function __formatEvent(raw){
+		var gs = new Date(raw.start_time);
+		var ge = new Date(raw.end_time);
 		
 		var obj = {};
-		obj.title = good[i].name;
-		obj.description = good[i].description;
-		obj.color = GRMAIN.group(good[i].group_id).group_color;
+		obj.title = raw.name;
+		obj.description = raw.description;
+		obj.color = GRMAIN.group(raw.group_id).group_color;
+		
+		var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 		obj.day = days[ gs.getDay() ];
 		
 		function formatAMPM(date) {
@@ -177,16 +196,45 @@ function addCalendarInfo(){
 		obj.start_time = formatAMPM(gs);
 		obj.end_time = formatAMPM(ge);
 		
+		obj.__startHour = gs.getHours();
+		obj.__endHour = ge.getHours();
+		
+		return obj;
+}
+
+function addCalendarInfo(){
+	
+	// FILTERING
+	//	[may need to be moved to GRMainModule / Server]
+	var evnts = GRMAIN.events();
+	
+	var good = new Array();
+	for(var i = 0; i < evnts.length; i++){		
+		if(__checkEvent(evnts[i])) good.push(evnts[i]);
+	}
+	
+	//console.log(good);
+	
+	var sh,eh,sd;	// start hour, end hour, start day
+	
+	var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+	sd = days[ (new Date()).getDay() ];
+	
+	var hours = ["12am","1am","2am","3am","4am","5am","6am","7am","8am","9am","10am","11am",
+					"12pm","1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm","9pm","10pm","11pm"];
+	sh = 9; eh = 18;
+	
+	var prepped = new Array();
+	
+	for(var i = 0; i < good.length; i++){
+		var obj = __formatEvent(good[i]);
 		prepped.push(obj);
 		
 		// update bounds
-		if( gs.getHours() < sh) sh = gs.getHours();
-		if( ge.getHours()+1 > eh) eh = ge.getHours() + 1;
+		if( obj.__startHour < sh) sh = obj.__startHour;
+		if( obj.__endHour+1 > eh) eh = obj.__endHour+1;
 	}
-	
-	//console.log(sh+","+eh+","+sd);
-	//console.log(prepped);
-	
+		
 	var cal = $("#calendar");
 		cal.grCalendar({
 			num_days:5,
@@ -318,7 +366,7 @@ function addUpdates(){
 		//a.style.backgroundColor=DEFAULT_GR_COLORS[Math.floor(Math.random() * 8) ];
 		a.style.backgroundColor=getColorForGroup(updates[i].group_id);
 		a.appendChild(h4);
-		a.appendChild(p);
+		//a.appendChild(p);
 		adder.appendChild(a);
 
 	}
@@ -435,6 +483,7 @@ function initSendMessage(){
 
 
 function toggleTask(element, taskid, localIndex){
+<<<<<<< HEAD
     var task_array=GRMAIN.tasks();
     var _cookies = genCookieDictionary();
         if(_cookies.accesscode && _cookies.user){
@@ -469,6 +518,40 @@ function toggleTask(element, taskid, localIndex){
         else{
                 console.warn("Unauthorized User send to login fx: toggleTask");
         }
+=======
+	var task_array=GRMAIN.tasks();
+	var _cookies = genCookieDictionary();
+
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"function":"mark_task_complete",
+			"task_id":taskid
+		};
+	
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+						element.style.backgroundColor=getColorForGroup(task_array[localIndex].group_id);
+						element.style.border="2px solid #666";
+						$(element).attr('onclick','return;');
+					},
+				211: function(data, status, jqXHR){
+						console.warn("Could Not Mark Task Completed fx: toggleTask")
+					}
+			}
+		
+		});
+	}
+	else{
+		console.warn("Unauthorized User send to login fx: toggleTask");
+	}
+>>>>>>> 8fa65c9dae0f5816b2228c6da2f969c7c9f4a907
 }
 
 

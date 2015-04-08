@@ -130,8 +130,14 @@ div.scrollable {
 	-ms-overflow-style: none;
 }
 
+/* scrollbar */
+
 div.scrollable::-webkit-scrollbar {
-		display:none;
+		/*display:none;*/
+		width:10px;
+}
+div.scrollable::-webkit-scrollbar-thumb{
+    background: rgba(0,0,0,0.1);
 }
 
 .alert-danger {
@@ -211,4 +217,13 @@ div.scrollable::-webkit-scrollbar {
 	display: inline;
 	float: left;
 	clear: left;
+}
+
+.timeStamp {
+	float: right;
+	color: #ccc;
+}
+
+.nameTag {
+	margin-top: 0;
 }

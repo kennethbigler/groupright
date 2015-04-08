@@ -26,6 +26,32 @@ function getAllTasks($email){
 	return $arr;
 }
 
+function getAllTasksSince($email,$task_uid){
+	$dbh = ConnectToDB();
+	
+	$stmt = $dbh->prepare(
+		"SELECT * FROM tasks_assignments JOIN tasks USING (task_uid) WHERE email = ? AND task_uid > ?"
+	);
+	$stmt->execute(array($email,$task_uid));
+	
+	$arr = array();
+	
+	while($row = $stmt->fetch()){
+		$obj = array(
+			"task_uid"=>$row['task_uid'],
+			"task_title"=>$row['title'],
+			"task_description"=>$row['description'],
+			"group_id"=>$row['group_uid'],
+			"creator"=>$row['creator_email'],
+			"is_completed"=>$row['is_completed'],
+			"is_personal"=>$row['is_personal']
+		);
+		//echo $obj;
+		$arr[] = $obj;
+	}
+	return $arr;
+}
+
 function addTask($email,$title,$description,$group_uid,$event_uid,$is_personal,$deadline){
 			
 	$dbh = ConnectToDB();
@@ -90,7 +116,7 @@ function createTask(){
 		$is_personal = $_POST['is_personal'];
 		$deadline = $_POST['deadline'];
 		
-		
+		//echo $task_title;
 		if(!isset($task_title)){ http_response_code(299); return; }
 		if(!isset($task_descr)){ $task_descr = ""; }
 		if(!isset($is_personal)){ $is_personal = false; }
@@ -100,11 +126,17 @@ function createTask(){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
 			$task_uid = addTask($email,$task_title,$task_descr,$group_uid,$event_uid,$is_personal,$deadline);
 			
-			if($task_uid < 1){ http_response_code(299); return; } // failed task creation
+			if($task_uid < 1){ http_response_code(298); return; } // failed task creation
 			
 			// Assign Task
-			if($is_personal){ addTaskAssignment($task_uid,$group_uid,$email,true); }
-			else{ _assignToGroup($task_uid,$group_uid); }
+			if($is_personal){ 
+				addTaskAssignment($task_uid,$group_uid,$email,true);
+				addTaskUpdate($email,$group_uid,"created task \"".$task_title."\"",$task_uid);
+			}
+			else{ 
+				_assignToGroup($task_uid,$group_uid);
+				addTaskUpdate($email,$group_uid,"created task \"".$task_title."\"",$task_uid);
+			}
 			
 			// output task
 			print_r($task_uid);
@@ -120,8 +152,8 @@ function assignTask(){
 		$group_uid = $_POST['group_uid'];
 		$task_uid = $_POST['task_uid'];
 		
-		if(!isset($task_uid)){ http_response_code(299); return; }
-		if(!isset($group_uid)){ http_response_code(299); return; }
+		if(!isset($task_uid)){ http_response_code(297); return; }
+		if(!isset($group_uid)){ http_response_code(296); return; }
 		
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
@@ -169,9 +201,9 @@ function _completeTask($email,$task_uid){
 function completeTask(){
 		$email = sanitizeEmail( $_POST['email'] );
 		$cookie = grHash($_POST['ac'],$email);
-		$task_uid = $_POST['task_uid'];
+		$task_uid = $_POST['task_id'];
 		
-		if(!isset($task_uid)){ http_response_code(299); return; }
+		if(!isset($task_uid)){ http_response_code(295); return; }
 		
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			_completeTask($email,$task_uid);

@@ -245,22 +245,37 @@
 						<input id="startdatefixed" type="text" type="text" class="form-control" placeholder="Start Date">
 					</div>
 					<div class="col-sm-3">
-						<div class="input-append bootstrap-timepicker">
-							<input class="timepicker form-control" id="timepicker1" type="text">
-	            			<span class="add-on"><i class="icon-time"></i></span>
-            			</div>
+						<div class="input-group">
+							<input type="text" class="form-control" id="startHourFixed" placeholder="9">
+							<span class="input-group-addon"><b>:</b></span>
+							<input type="text" class="form-control" id="startMinuteFixed" placeholder="30">
+						</div>
 					</div>
-				</div>
+					<div class="col-sm-2">
+						<select class="form-control" id="startAMPMFixed">
+							<option value="AM">AM</option>
+							<option value="PM">PM</option>
+						</select>
+					</div>
+            	</div>
+            	<br/>
 				<div class="row">
 					<label class="col-sm-4">End Date</label>
 					<div class="col-sm-3">
 						<input id="enddatefixed" type="text" type="text" class="form-control" placeholder="End Date">
 					</div>
 					<div class="col-sm-3">
-						<div class="input-append bootstrap-timepicker">
-							<input class="timepicker form-control" id="timepicker2" type="text">
-	            			<span class="add-on"><i class="icon-time"></i></span>
-            			</div>
+						<div class="input-group">
+							<input type="text" class="form-control" id="endHourFixed" placeholder="12">
+							<span class="input-group-addon"><b>:</b></span>
+							<input type="text" class="form-control" id="endMinuteFixed" placeholder="00">
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<select class="form-control" id="endAMPMFixed">
+							<option value="PM">PM</option>
+							<option value="AM">AM</option>
+						</select>
 					</div>
 				</div>
 			</div>
@@ -284,15 +299,15 @@
 				<label class="control-label col-sm-4"> Earliest Start Time:</label>
 					<div class="col-sm-3">
 						<div class="input-group">
-							<input type="text" class="form-control" id="number" >
+							<input type="text" class="form-control" id="startHourHelp" >
 							<span class="input-group-addon"><b>:</b></span>
-							<input type="text" class="form-control" id="number">
+							<input type="text" class="form-control" id="startMinuteHelp">
 						</div>
 					</div>
 					<div class="col-sm-2">
-						<select class="form-control">
-							<option>AM</option>
-							<option>PM</option>
+						<select class="form-control" id="startAMPMHelp">
+							<option value="AM">AM</option>
+							<option value="PM">PM</option>
 						</select>
 					</div>
 				</div>
@@ -301,15 +316,15 @@
 				<label class="control-label col-sm-4"> Latest End Time:</label>
 					<div class="col-sm-3">
 						<div class="input-group">
-							<input type="text" class="form-control" id="number" >
+							<input type="text" class="form-control" id="endHourHelp" >
 							<span class="input-group-addon"><b>:</b></span>
-							<input type="text" class="form-control" id="number">
+							<input type="text" class="form-control" id="endHourHelp">
 						</div>
 					</div>
 					<div class="col-sm-2">
-						<select class="form-control">
-							<option>PM</option>
-							<option>AM</option>
+						<select class="form-control" id="endAMPMHelp">
+							<option value="PM">PM</option>
+							<option value="AM">AM</option>
 						</select>
 					</div>
 				</div>
@@ -496,33 +511,13 @@
 				</select>
 			</div>
 			<div class="col-sm-12 scrollable" id="messageBox">
-				<div class="convoTail"></div>
-				<div class="userMessage">
-					<p>This is a message</p>
-				</div>
-				<div class="convoTail"></div>
-				<div class="userMessage">
-					<p>This is a message that is beginning to grow really long to show what happens to the long typed messages.  At the beginning we will not support the return character.</p>
-				</div>
-				<div class="convoTail"></div>
-				<div class="userMessage">
-					<p>This is a message that is beginning to grow really long to show what happens to the long typed messages.  At the beginning we will not support the return character.</p>
-				</div>
-				<div class="convoTail"></div>
-				<div class="userMessage">
-					<p>This is a message that is beginning to grow really long to show what happens to the long typed messages.  At the beginning we will not support the return character.</p>
-				</div>
-				<div class="convoTail"></div>
-				<div class="userMessage">
-					<p>This is a message that is beginning to grow really long to show what happens to the long typed messages.  At the beginning we will not support the return character.</p>
-				</div>
-				<div class="convoTail"></div>
-				<div class="userMessage">
-					<p>This is a message that is beginning to grow really long to show what happens to the long typed messages.  At the beginning we will not support the return character.</p>
-				</div>
-				<div class="convoTail"></div>
-				<div class="userMessage">
-					<p>This is a message</p>
+				<div id="tempMessage">
+					<div class="convoTail"></div>
+					<div class="userMessage">
+						<h4 class="nameTag">Ken</h4>
+						<p>Welcome to GroupRight!</p>
+						<p class="timeStamp">- 4:13pm</p>
+					</div>
 				</div>
 			</div>
 		</div>

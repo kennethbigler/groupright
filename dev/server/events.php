@@ -30,13 +30,45 @@ function getAllEvents($email){
 	return $arr;
 }
 
+function getAllEventsSince($email,$event_uid){
+	$dbh = ConnectToDB();
+	
+	$stmt = $dbh->prepare(
+		"SELECT name,description,group_uid,
+		events.email as creator_email, event_uid,
+		start_time,end_time FROM events 
+		JOIN groups USING (group_uid) 
+		JOIN memberships USING(group_uid)
+		WHERE memberships.email = ?
+		AND event_uid > ?"
+	);
+	$stmt->execute(array($email,$event_uid));
+	
+	$arr = array();
+	
+	while($row = $stmt->fetch()){
+		$obj = array(
+			"event_uid"=>$row['event_uid'],
+			"name"=>$row['name'],
+			"description"=>$row['description'],
+			"group_id"=>$row['group_uid'],
+			"creator"=>$row['creator_email'],
+			"start_time"=>$row['start_time'],
+			"end_time"=>$row['end_time']
+		);
+		//echo $obj;
+		$arr[] = $obj;
+	}
+	return $arr;
+}
+
 	function verifyUserGroup($email,$cookie,$group_uid){
 		$dbh = ConnectToDB();
 		
 		$stmt = $dbh->prepare(
 			"SELECT * FROM active_users JOIN memberships USING (email)
-			WHERE email = ?
-			AND last_session_code = ?
+			NATURAL JOIN sessions WHERE email = ?
+			AND sc = ?
 			AND group_uid = ?"		
 		);
 		$stmt->execute(array($email,$cookie,$group_uid));
@@ -153,6 +185,9 @@ function getAllEvents($email){
 			}
 			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,$start_time,$end_time,$location);
 			echo $event_uid;
+			
+			addEventUpdate($email,$group_uid,"created event \"".$event_title."\"",$event_uid);
+			
 			http_response_code(200);
 		}else{
 			http_response_code(206);
@@ -183,6 +218,10 @@ function getAllEvents($email){
 			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,NULL,NULL,$location);
 			addEventVoteSettings($event_uid,$start_date,$end_date,$start_time,$end_time,$duration);
 			addEventVotingTask($email,$group_uid,$event_title,$event_uid);
+			
+			
+			addEventUpdate($email,$group_uid,"created event \"".$event_title."\"",$event_uid);
+			
 		}else{
 			http_response_code(206);
 			return;
