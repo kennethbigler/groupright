@@ -42,6 +42,7 @@
 	if($function == 'get_user_info') getUserInfo(true);
 	if($function == 'get_user_groups') getUserInfo(false);
 	if($function == 'get_group_members') getGroupMembers();
+	if($function == 'get_updated_info') getUpdatedInfo();
 	if($function == 'create_group') makeGroup();
 	if($function == 'create_fixed_event') createFixedEvent();
 	if($function == 'create_votable_event') createVotableEvent();
@@ -53,5 +54,8 @@
 	if($function == 'get_messages') getMessages();
 	if($function == 'submit_availability') submitAvailability();
 	if($function == 'reset_membership_colors') resetMembershipColors();
+	if($function == 'change_name') changeName();
+	if($function == 'change_password') changePassword();
+	if($function == 'change_phone_number') changePhoneNumber();
 	
 ?> 

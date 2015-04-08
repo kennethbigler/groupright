@@ -13,6 +13,12 @@ var fixedStartTime="Not Added";
 var fixedEndTime="Not Added";
 var fixedStartDate="Not Added";
 var fixedEndDate="Not Added";
+var startHourFixed="Not Added";
+var	startMinuteFixed="Not Added";
+var startAMPMFixed="Not Added";
+var endHourFixed="Not Added";
+var endMinuteFixed="Not Added";
+var endAMPMFixed="Not Added";
 
 var helpEndTime="Not Added";
 var helpStartTime="Not Added";
@@ -36,6 +42,12 @@ function resetEventParameters(){
 	helpEndTime="Not Added";
 	helpStartTime="Not Added";
 	fixedEndTime="Not Added";
+	startHourFixed="Not Added";
+	startMinuteFixed="Not Added";
+	startAMPMFixed="Not Added";
+	endHourFixed="Not Added";
+	endMinuteFixed="Not Added";
+	endAMPMFixed="Not Added";
 	event_descripton="";
 	updateProgressBar(1);
 	//close the modal view
@@ -124,7 +136,7 @@ function writeStep5(){
 	var line1="Your Event: <b>"+eventName+"</b> for group <b>"+eventGroup+"</b>.";
 
 	if(eventIsFixed){
-		var line2="is fixed from <b>"+fixedStartDate+"</b> at <b>"+fixedStartTime+" </b>to<b> "+fixedEndDate+" </b>at<b> "+fixedEndTime+"</b>.";
+		var line2="is fixed from <b>"+fixedStartDate+"</b> at <b>"+(startHourFixed%12)+":"+startMinuteFixed+" "+startAMPMFixed+" </b>to<b> "+fixedEndDate+" </b>at<b> "+(endHourFixed%12)+":"+endMinuteFixed+" "+endAMPMFixed+"</b>.";
 	}
 	else{
 		var line2="will be group scheduled sometime between <b>"+helpStartDate+"</b> at <b>"+helpStartTime+" </b>to<b> "+helpEndDate+" </b>at<b> "+helpEndTime+"</b>.";
@@ -245,6 +257,44 @@ function isValid(step){
 			document.getElementById('eventError').innerHTML="The end date can't be before the start date.";
 			return false;
 		}
+		var startHour=document.getElementById("startHourFixed").value;
+		var startMinute=document.getElementById("startMinuteFixed").value;
+		if(startHour<1 || startHour>12 || startMinute<0 || startMinute>59){
+			document.getElementById('eventError').innerHTML="Invalid Start time entered";
+			return false;
+		}
+		var endHour=document.getElementById("endHourFixed").value;
+		var endMinute=document.getElementById("endMinuteFixed").value;
+		if(endHour<1 || endHour>12 || endMinute<0 || endMinute>59){
+			document.getElementById('eventError').innerHTML="Invalid End time entered";
+			return false;
+		}
+		var startAMPM=document.getElementById("startAMPMFixed").value;
+		var endAMPM=document.getElementById("endAMPMFixed").value;
+		if(startAMPM=="PM"){
+			startHour+=12;
+		}
+		if(endAMPM=="PM"){
+			endHour+=12;
+		}
+		if(fixedStartDate==fixedEndDate){
+			if(startHour<endHour){
+				document.getElementById('eventError').innerHTML="The end date can't be before the start date.";
+				return false;
+			}
+			if(startHour==endHour){
+				if(startMinute<endMinute){
+					document.getElementById('eventError').innerHTML="The end date can't be before the start date.";
+					return false;
+				}
+			}
+		}
+		startHourFixed=startHour;
+		startMinuteFixed=startMinute;
+		startAMPMFixed=startAMPM;
+		endHourFixed=endHour;
+		endMinuteFixed=endMinute;
+		endAMPMFixed=endAMPM;
 		fixedStartDate=startdate;
 		fixedEndDate=enddate;
 		return true;
@@ -332,6 +382,9 @@ function createGREvent(){
 	var _cookies = genCookieDictionary();
 
 	if(eventIsFixed){
+		time=startHourFixed+":"+startMinuteFixed;
+		time2=endHourFixed+":"+endMinuteFixed;
+
 		var start_time=makeDateAndTimeObject(fixedStartDate,time);
 		var end_time=makeDateAndTimeObject(fixedEndDate,time2);
 
@@ -350,6 +403,7 @@ function createGREvent(){
 		console.log(obj);
 	}
 	else{
+
 		var start_date=makeDateAndTimeObject(helpStartDate,null);
 		var end_date=makeDateAndTimeObject(helpEndDate,null);
 		var start_time=time;
@@ -385,7 +439,7 @@ function createGREvent(){
 				206:function(){
 					//access denied, redirect to login
 					alert("Access Denied");	
-					window.location = "./login.html";
+					//window.location = "./login.html";
 				},
 				220:function(){
 					//something else happened

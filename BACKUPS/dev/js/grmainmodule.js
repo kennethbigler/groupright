@@ -55,8 +55,10 @@ function GRMainModule(){
 	// Updates
 	this._updates = {};
 	this.updates = function(){
-		if(this._filterGUID) return this.updatesByGroupID(this._filterGUID);
-		return obj_to_arr(this._updates);
+		var x;
+		if(this._filterGUID) x = this.updatesByGroupID(this._filterGUID);
+		else x = obj_to_arr(this._updates);
+		return x.reverse();
 	};
 	this.update = function(id){ return this._updates[id]; };
 	
@@ -77,7 +79,15 @@ function GRMainModule(){
 	this.contact = function(email){ return this._contacts[email]; };
 	
 	// Update (Loading)
-	this.onupdate = function(){};
+	this._lastEventID = 0;
+	this.oneventupdate = function(){};
+	this._lastTaskID = 0;
+	this.ontaskupdate = function(){};
+	this._lastUpdateID = 0;
+	this.onupdateupdate = function(){};
+	
+	var self = this;
+	this._updater = window.setInterval(function(){self._updateData();},5000);
 }
 
 
@@ -154,7 +164,48 @@ GRMainModule.prototype.load = function(cookies,successFn,failureFn){
 // UPDATE LOADING
 
 GRMainModule.prototype._updateData = function(){
+	var cookies = genCookieDictionary();
+	if(cookies.accesscode && cookies.user){
+		
+		this.user = cookies.user.trim();
 	
+		var obj = {
+			"ac":cookies.accesscode,
+			"email":cookies.user,
+			"event_id":this._lastEventID,
+			"task_id":this._lastTaskID,
+			"update_id":this._lastUpdateID,
+			"function":"get_updated_info"
+		};
+		var self = this;
+	
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					var obj = JSON.parse(data);
+					//console.log(obj);
+					self._parseEvents(obj.events);	
+					self.oneventupdate(obj.events);
+					
+					self._parseTasks(obj.tasks);	
+					self.ontaskupdate(obj.tasks);
+					
+					self._parseUpdates(obj.updates);
+					self.onupdateupdate(obj.updates);
+				},
+				220: function(data, status, jqXHR){
+					console.warn("Unable to perform update.");
+				}
+			}
+		
+		});
+	}
+	else{
+		console.warn("No cookies saved.");
+	}
 };
 
 //=========================================================================
@@ -212,25 +263,25 @@ GRMainModule.prototype._parseContacts = function(contacts){
 
 GRMainModule.prototype._parseEvents = function(events){
 	//console.log(events);
-	
+	var evt;
 	for(var i = 0; i < events.length; i++){
-		var evt = events[i];
+		evt = events[i];
 		if(evt.start_time) evt.start_time = evt.start_time.replace(/[-]/g,"/");
 		if(evt.end_time) evt.end_time = evt.end_time.replace(/[-]/g,"/");
 		this._events[evt.event_uid] = evt;
 	}
-	
+	if(evt) this._lastEventID = parseInt(evt.event_uid);
 	//console.log(this._events);
 };
 
 GRMainModule.prototype._parseTasks = function(tasks){
 	//console.log(tasks);
-	
+	var tsk;
 	for(var i = 0; i < tasks.length; i++){
-		var tsk = tasks[i];
+		tsk = tasks[i];
 		this._tasks[tsk.task_uid] = tsk;
 	}
-	
+	if(tsk) this._lastTaskID = parseInt(tsk.task_uid);
 	//console.log(this._tasks);
 };
 
@@ -241,7 +292,7 @@ GRMainModule.prototype._parseUpdates = function(updates){
 		var upd = updates[i];
 		this._updates[upd.update_uid] = upd;
 	}
-	
+	if(updates.length) this._lastUpdateID = parseInt(updates[0].update_uid);
 	//console.log(this._updates);
 };
 
