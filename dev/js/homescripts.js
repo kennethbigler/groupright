@@ -366,7 +366,7 @@ function addUpdates(){
 		//a.style.backgroundColor=DEFAULT_GR_COLORS[Math.floor(Math.random() * 8) ];
 		a.style.backgroundColor=getColorForGroup(updates[i].group_id);
 		a.appendChild(h4);
-		a.appendChild(p);
+		//a.appendChild(p);
 		adder.appendChild(a);
 
 	}

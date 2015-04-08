@@ -53,11 +53,13 @@ function createGRTask(){
 			statusCode:{
 				200:function(data,status,jqXHR) {
 					alert("Task Created");
+					$('#createTaskBox').modal('hide');
 					//window.location = "./home.html";				
 				},
 				210:function() {
 					//access denied, redirect to login
-					alert("Access Denied");	
+					alert("Access Denied");
+					$('#createTaskBox').modal('hide');
 					window.location = "./login.html";
 				},
 				220:function() {
