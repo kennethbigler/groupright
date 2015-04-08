@@ -21,12 +21,39 @@
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.js"></script>
-<!--<script src="js/homescripts.js"></script>-->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.js"></script>
 <script src="js/cookie.js"></script>
 <script src="js/grtopbar.js"></script>
 <script src="js/grmainmodule.js"></script>
+<script src="js/accountSettings.js"></script>
+<script>
+$(document).ready(function() {
+    $('#phoneForm')
+        .formValidation({
+            framework: 'bootstrap',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                phoneNumber: {
+                    validators: {
+                        phone: {
+                            country: 'countrySelectBox',
+                            message: 'The value is not valid %s phone number'
+                        }
+                    }
+                }
+            }
+        })
+        // Revalidate phone number when changing the country
+        .on('change', '[name="countrySelectBox"]', function(e) {
+            $('#phoneForm').formValidation('revalidateField', 'phoneNumber');
+        });
+});
+</script>
 
 </head>
 <body>
@@ -111,27 +138,75 @@
     <div class="row">     
       <div class="col-md-12">
         <div class="panel panel-default">
+           <div class="panel-heading">
+              <h4>Current Information</h4>
+           </div>
+           <div class="panel-body">
+              <div class="row">
+                <div class="col-xs-4">
+                    <h4> First Name: </h4>
+                </div>
+                <div class="col-xs-4">
+                    <h4 id="firstName"> Joe </h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4">
+                    <h4> Last Name: </h4>
+                </div>
+                <div class="col-xs-4">
+                    <h4 id="lastName"> Joe </h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4">
+                    <h4> Email: </h4>
+                </div>
+                <div class="col-xs-4">
+                    <h4 id="email"> Joe </h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4">
+                    <h4> Phone Number: </h4>
+                </div>
+                <div class="col-xs-4">
+                    <h4 id="phoneNumber"> Not Provided </h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4">
+                    <h4> Date Joined: </h4>
+                </div>
+                <div class="col-xs-4">
+                    <h4 id="dateJoined"> Not Available </h4>
+                </div>
+              </div>
+           </div>
+        </div>
+        <div class="panel panel-default">
            <div class="panel-heading"><h4>My Account</h4></div>
             <div class="panel-body">
-              <div class="container signup-box back" id="createGroupBox">
+              <div class="signup-box back" id="createGroupBox">
 
-                <form class="createGroupForm" role="form" >
+                
                     
                   <h5 class="header-center">Change Your Name</h5>  
                     <div class="row">
+                      <p id="nameError" style="color:red;margin-left:15px;"></p>
                       <div class="col-xs-4">
-                        <label for="groupNameField" class="sr-only">First Name</label>  
-                        <input type="text" id="groupnameField" class="form-control" placeholder="First Name" required >
+                        <label for="newFirstName" class="sr-only">First Name</label>  
+                        <input type="text" id="newFirstName" class="form-control" placeholder="First Name" required >
                       </div>
                       <div class="col-xs-4">
-                        <label for="groupNameField" class="sr-only">First Name</label>  
-                        <input type="text" id="groupnameField" class="form-control" placeholder="Last Name" required >
+                        <label for="newLastName" class="sr-only">Last Name</label>  
+                        <input type="text" id="newLastName" class="form-control" placeholder="Last Name" required >
                       </div>
                     </div>
                     
                     <div class="row" style="margin-top:10px;">
                       <div class="col-xs-3">
-                      <button class="btn btn-primary" type="button" onclick="changeName()">Update</button>
+                      <button class="btn btn-primary" type="button" onclick="changeName();">Update</button>
                     </div>
                     </div>
 
@@ -139,53 +214,59 @@
 
                   <h5 class="header-center">Change Your Password</h5>  
                     <div class="row">
+                      <p id="passwordError" style="color:red;margin-left:15px;"></p>
                       <div class="col-xs-4">
-                        <label for="groupNameField" class="sr-only">Current Password</label>  
-                        <input type="text" id="groupnameField" class="form-control" placeholder="Current Password" required >
+                        <label for="oldPassword" class="sr-only">Current Password</label>  
+                        <input type="password" id="oldPassword" class="form-control" placeholder="Current Password" required >
                       </div>
                     </div>
                     <div class="row" style="margin-top:10px;">
                       <div class="col-xs-4">
-                        <label for="groupNameField" class="sr-only">Current Password</label>  
-                        <input type="text" id="groupnameField" class="form-control" placeholder="New Password" required >
+                        <label for="newPassword1" class="sr-only">New Password</label>  
+                        <input type="password" id="newPassword1" class="form-control" placeholder="New Password" required >
                       </div>
                         <div class="col-xs-4">
-                        <label for="groupNameField" class="sr-only">Current Password</label>  
-                        <input type="text" id="groupnameField" class="form-control" placeholder="Confirm New Password" required >
+                        <label for="newPassword2" class="sr-only">Confirm New Password</label>  
+                        <input type="password" id="newPassword2" class="form-control" placeholder="Confirm New Password" required >
                       </div>
                       </div>
                     <div class="row" style="margin-top:10px;">
                       <div class="col-xs-3">
-                      <button class="btn btn-primary" type="button" onclick="changeName()">Update</button>
+                      <button class="btn btn-primary" type="button" onclick="changePassword()">Update</button>
                       </div>
                     </div>
 
                     <hr>
-
+                    <form id="phoneForm">
                      <h5 class="header-center">Add a Phone Number</h5>  
                     <div class="row">
+                      <p id="phoneNumberError" style="color:red;margin-left:15px;"></p>
                       <div class="col-xs-4">
-                        <label for="groupNameField" class="sr-only">First Name</label>  
-                        <input type="text" id="groupnameField" class="form-control" placeholder="Phone Number" required >
+                        
+
+                        <label for="newPhoneNumber" class="sr-only">Phone Number</label>  
+                        <input type="phone"  id="newPhoneNumber" class="form-control" name="phoneNumber" placeholder="Phone Number" required />
+                      </div>
+                      <div class="col-xs-4">
+                         <select class="form-control" name="countrySelectBox">
+                            <option value="US">United States</option>
+                         </select>
                       </div>
                     </div>
                     
                     <div class="row" style="margin-top:10px;">
                       <div class="col-xs-3">
-                      <button class="btn btn-primary" type="button" onclick="changeName()">Update</button>
+                      <button class="btn btn-primary" type="button" onclick="changePhone()">Update</button>
                     </div>
                     </div>
+                  </form>
 
-                </form>
+                
               </div>
                 
             </div>
             </div>
-            <div class="panel panel-default">
-           <div class="panel-heading"><h4>Current</h4></div>
-            <div class="panel-body">
-            </div>
-        </div>
+
       </div><!--/col-span-6-->
      
       </div><!--/row-->

@@ -483,7 +483,6 @@ function initSendMessage(){
 
 
 function toggleTask(element, taskid, localIndex){
-<<<<<<< HEAD
     var task_array=GRMAIN.tasks();
     var _cookies = genCookieDictionary();
         if(_cookies.accesscode && _cookies.user){
@@ -518,7 +517,6 @@ function toggleTask(element, taskid, localIndex){
         else{
                 console.warn("Unauthorized User send to login fx: toggleTask");
         }
-=======
 	var task_array=GRMAIN.tasks();
 	var _cookies = genCookieDictionary();
 
@@ -551,7 +549,6 @@ function toggleTask(element, taskid, localIndex){
 	else{
 		console.warn("Unauthorized User send to login fx: toggleTask");
 	}
->>>>>>> 8fa65c9dae0f5816b2228c6da2f969c7c9f4a907
 }
 
 
