@@ -37,11 +37,11 @@
 	Status Code: (code)
 	</div>
 	<hr style="margin:2px 0;padding:0;width:600px;"/>
-	<div id="output" style="width:600px; height:300px; font-family:Courier;overflow:auto;">
+	<div id="output" style="width:600px; height:200px; font-family:Courier;overflow:auto;">
 	(output)
 	</div>
 </div>
-<div id="templates" style="background-color:#666;position:absolute;left:630px;height:100%;right:0px;">
+<div id="templates" style="background-color:#666;position:absolute;left:630px;height:100%;overflow:scroll;right:0px;">
 
 </div>
 
@@ -123,7 +123,12 @@ $(document).ready(function(){
 		createTemplate("mark_task_complete",["email","ac","task_id"],"orange"),
 		
 		createTemplate("send_message",["email","cookie","group_uid","message_content"],"white"),
-		createTemplate("get_messages",["email","cookie","group_uid"],"white")
+		createTemplate("get_messages",["email","cookie","group_uid"],"white"),
+		
+		
+		createTemplate("change_name",["email","ac","first_name","last_name"],"#999"),
+		createTemplate("change_password",["email","ac","old_password","new_password"],"#999"),
+		createTemplate("change_phone_number",["email","ac","phone_number"],"#999")
 	);
 	
 	var str = document.cookie;

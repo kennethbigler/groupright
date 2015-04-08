@@ -53,6 +53,11 @@
 	
 		$cookie = grHash($cookie,$user);
 	
+		return checkHashedCookie($user,$cookie);
+	}
+	
+	function checkHashedCookie($user,$cookie){
+	
 		$today = new DateTime("now");
 		//echo $cookie;
 	
@@ -69,7 +74,7 @@
 		}
 		
 	
-		return false;
+		return false;	
 	}
 	
 	// Check cookie.
