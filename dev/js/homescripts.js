@@ -49,9 +49,21 @@ window.onload = function() {
 	if(filter_guid) GRMAIN.filterByGroupID(filter_guid);
 	
 	// Updates
-	GRMAIN.oneventupdate = function(x){console.log(x);};
-	GRMAIN.ontaskupdate = function(x){console.log(x);};
-	GRMAIN.onupdateupdate = function(x){console.log(x);};
+	GRMAIN.oneventupdate = function(x){
+		if(x.length){
+			__resetEvents();
+		}
+	};
+	GRMAIN.ontaskupdate = function(x){
+		if(x.length){
+			__resetTasks();
+		}
+	};
+	GRMAIN.onupdateupdate = function(x){
+		if(x.length){
+			__resetUpdates();
+		}
+	};
 	
 	GRMAIN.load(_cookies,
 		function(){
@@ -87,6 +99,31 @@ function addUsersInfo(){
 	
 }
 
+function __resetDashboard(){
+	// Clear
+	$("#calendar").empty(); // calendar
+	$("#addTasks").empty(); // tasks
+	$("#addUpdates").empty(); // updates
+	
+	
+	// Re-Populate
+	addUsersInfo();
+	
+}
+
+function __resetEvents(){
+	$("#calendar").empty(); // calendar
+	addCalendarInfo();		// init calendar	
+}
+function __resetTasks(){
+	$("#addTasks").empty(); // calendar
+	addTasks();		// init calendar	
+}
+function __resetUpdates(){
+	$("#addUpdates").empty(); // calendar
+	addUpdates();		// init calendar	
+}
+
 function fixGroupFilter(){
 	var x = GRMAIN._filterGUID;
 	if(x){
@@ -105,19 +142,13 @@ function fixGroupFilter(){
 			if(guid_href instanceof Array) guid_href = guid_href[1];
 			else guid_href = "";
 			
-			// Clear
-			$("#calendar").empty(); // calendar
-			$("#addTasks").empty(); // tasks
-			$("#addUpdates").empty(); // updates
-			
 			// Set Filter
 			if(guid_href.trim() != "")
 				GRMAIN.filterByGroupID(parseInt(guid_href));
 			else
 				GRMAIN.removeFilter();
 			
-			// Re-Populate
-			addUsersInfo();
+			__resetDashboard();
 					
 			return false;
 		});
@@ -125,49 +156,28 @@ function fixGroupFilter(){
 	}
 }
 
+function __checkEvent(ent){	
+	if(!ent.start_time || !ent.end_time) return false;	// not set.
+	
+	var start_date = new Date(ent.start_time);
+	if(isNaN(start_date.getTime())) return false;		// invalid date
+	
+	//console.log(start_date);
+	if(new Date() > start_date) return false;			// event is past.
+	
+	return true;
+}
 
-function addCalendarInfo(){
-	
-	// FILTERING
-	//	[may need to be moved to GRMainModule / Server]
-	var evnts = GRMAIN.events();
-	
-	var good = new Array();
-	for(var i = 0; i < evnts.length; i++){
-		var ent = evnts[i];
-		
-		if(!ent.start_time || !ent.end_time) continue;	// not set.
-		
-		var start_date = new Date(ent.start_time);
-		if(isNaN(start_date.getTime())) continue;		// invalid date
-		
-		//console.log(start_date);
-		if(new Date() > start_date) continue;			// event is past.
-		
-		good.push(ent);
-	}
-	
-	//console.log(good);
-	
-	var sh,eh,sd;	// start hour, end hour, start day
-	
-	var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-	sd = days[ (new Date()).getDay() ];
-	
-	var hours = ["12am","1am","2am","3am","4am","5am","6am","7am","8am","9am","10am","11am",
-					"12pm","1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm","9pm","10pm","11pm"];
-	sh = 9; eh = 18;
-	
-	var prepped = new Array();
-	
-	for(var i = 0; i < good.length; i++){
-		var gs = new Date(good[i].start_time);
-		var ge = new Date(good[i].end_time);
+function __formatEvent(raw){
+		var gs = new Date(raw.start_time);
+		var ge = new Date(raw.end_time);
 		
 		var obj = {};
-		obj.title = good[i].name;
-		obj.description = good[i].description;
-		obj.color = GRMAIN.group(good[i].group_id).group_color;
+		obj.title = raw.name;
+		obj.description = raw.description;
+		obj.color = GRMAIN.group(raw.group_id).group_color;
+		
+		var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 		obj.day = days[ gs.getDay() ];
 		
 		function formatAMPM(date) {
@@ -184,16 +194,45 @@ function addCalendarInfo(){
 		obj.start_time = formatAMPM(gs);
 		obj.end_time = formatAMPM(ge);
 		
+		obj.__startHour = gs.getHours();
+		obj.__endHour = ge.getHours();
+		
+		return obj;
+}
+
+function addCalendarInfo(){
+	
+	// FILTERING
+	//	[may need to be moved to GRMainModule / Server]
+	var evnts = GRMAIN.events();
+	
+	var good = new Array();
+	for(var i = 0; i < evnts.length; i++){		
+		if(__checkEvent(evnts[i])) good.push(evnts[i]);
+	}
+	
+	//console.log(good);
+	
+	var sh,eh,sd;	// start hour, end hour, start day
+	
+	var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+	sd = days[ (new Date()).getDay() ];
+	
+	var hours = ["12am","1am","2am","3am","4am","5am","6am","7am","8am","9am","10am","11am",
+					"12pm","1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm","9pm","10pm","11pm"];
+	sh = 9; eh = 18;
+	
+	var prepped = new Array();
+	
+	for(var i = 0; i < good.length; i++){
+		var obj = __formatEvent(good[i]);
 		prepped.push(obj);
 		
 		// update bounds
-		if( gs.getHours() < sh) sh = gs.getHours();
-		if( ge.getHours()+1 > eh) eh = ge.getHours() + 1;
+		if( obj.__startHour < sh) sh = obj.__startHour;
+		if( obj.__endHour+1 > eh) eh = obj.__endHour+1;
 	}
-	
-	//console.log(sh+","+eh+","+sd);
-	//console.log(prepped);
-	
+		
 	var cal = $("#calendar");
 		cal.grCalendar({
 			num_days:5,
@@ -471,7 +510,9 @@ function toggleTask(element, taskid, localIndex){
 		
 		});
 	}
-	console.warn("Unauthorized User send to login fx: toggleTask");
+	else{
+		console.warn("Unauthorized User send to login fx: toggleTask");
+	}
 }
 
 

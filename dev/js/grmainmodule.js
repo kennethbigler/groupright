@@ -87,7 +87,7 @@ function GRMainModule(){
 	this.onupdateupdate = function(){};
 	
 	var self = this;
-	this._updater = window.setInterval(function(){console.log("hi"); self._updateData();},5000);
+	this._updater = window.setInterval(function(){self._updateData();},5000);
 }
 
 
@@ -186,7 +186,7 @@ GRMainModule.prototype._updateData = function(){
 			statusCode:{
 				200: function(data, status, jqXHR){
 					var obj = JSON.parse(data);
-					console.log(obj);
+					//console.log(obj);
 					self._parseEvents(obj.events);	
 					self.oneventupdate(obj.events);
 					
