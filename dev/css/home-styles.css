@@ -132,13 +132,9 @@ div.scrollable {
 
 /* scrollbar */
 
-div.scrollable::-webkit-scrollbar {
-		/*display:none;*/
-		width:10px;
-}
-div.scrollable::-webkit-scrollbar-thumb{
-    background: rgba(0,0,0,0.1);
-}
+/*div.scrollable::-webkit-scrollbar {
+		display:none;
+}*/
 
 .alert-danger {
 	color: #a94442;
