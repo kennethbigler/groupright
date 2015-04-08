@@ -17,6 +17,7 @@ function getAllUpdates($email){
 			AND updates.email = users.email
 			AND notifications.read = false
 		ORDER BY updates.timestamp DESC
+		LIMIT 5
 	";
 	$stmt = $dbh->prepare($sql);
 	$stmt->execute(array($email));

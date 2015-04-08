@@ -185,6 +185,9 @@ function getAllEventsSince($email,$event_uid){
 			}
 			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,$start_time,$end_time,$location);
 			echo $event_uid;
+			
+			addEventUpdate($email,$group_uid,"created event \"".$event_title."\"",$event_uid);
+			
 			http_response_code(200);
 		}else{
 			http_response_code(206);
@@ -215,6 +218,10 @@ function getAllEventsSince($email,$event_uid){
 			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,NULL,NULL,$location);
 			addEventVoteSettings($event_uid,$start_date,$end_date,$start_time,$end_time,$duration);
 			addEventVotingTask($email,$group_uid,$event_title,$event_uid);
+			
+			
+			addEventUpdate($email,$group_uid,"created event \"".$event_title."\"",$event_uid);
+			
 		}else{
 			http_response_code(206);
 			return;

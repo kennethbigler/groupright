@@ -129,8 +129,14 @@ function createTask(){
 			if($task_uid < 1){ http_response_code(298); return; } // failed task creation
 			
 			// Assign Task
-			if($is_personal){ addTaskAssignment($task_uid,$group_uid,$email,true); }
-			else{ _assignToGroup($task_uid,$group_uid); }
+			if($is_personal){ 
+				addTaskAssignment($task_uid,$group_uid,$email,true);
+				addTaskUpdate($email,$group_uid,"created task \"".$task_title."\"",$task_uid);
+			}
+			else{ 
+				_assignToGroup($task_uid,$group_uid);
+				addTaskUpdate($email,$group_uid,"created task \"".$task_title."\"",$task_uid);
+			}
 			
 			// output task
 			print_r($task_uid);

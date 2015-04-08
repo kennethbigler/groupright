@@ -81,6 +81,8 @@ var __initialized = false;
 
 function addUsersInfo(){
 	
+	var initLightbox = !__initialized;
+	
 	// Top Bar (Adjustment) --------------------------
 	fixGroupFilter();
 		
@@ -89,7 +91,7 @@ function addUsersInfo(){
 	addTasks();				// init tasks
 	addUpdates();			// init updates
 	
-	if(__initialized) return;
+	if(!initLightbox) return;
 	
 	// Lightbox Forms --------------------------------
 	initCreateGroup();		// 'Create a Group'
@@ -163,7 +165,7 @@ function __checkEvent(ent){
 	if(isNaN(start_date.getTime())) return false;		// invalid date
 	
 	//console.log(start_date);
-	if(new Date() > start_date) return false;			// event is past.
+	if((new Date()) - start_date > 24*60*60*1000) return false;			// event is older than a day.
 	
 	return true;
 }
