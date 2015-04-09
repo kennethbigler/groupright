@@ -31,9 +31,15 @@ function createGRMessage(){
 
 	//add messages
 	name = getFullNameForEmail(email)
-	if (!Date.now) {
-    	Date.now = function() { return new Date().getTime(); }
-	}
+
+    function checkTime(i) {
+        return (i < 10) ? "0" + i : i;
+    }
+    var today = new Date(),
+        h = checkTime(today.getHours()),
+        m = checkTime(today.getMinutes()),
+        s = checkTime(today.getSeconds());
+
 	var element = document.getElementById("messageBox");
 	var htmlString	=	'<div class="convoTail"></div>'
 					+	'<div class="userMessage">'
@@ -41,7 +47,7 @@ function createGRMessage(){
 					+	name + '</h4>'
 					+	'<p>' + message_content + '</p>'
 					+	'<p class="timeStamp">'
-					+	Date.now + '</p></div>'
+					+	h + ":" + m + ":" + s + '</p></div>'
 	element.insertAdjacentHTML('beforeend', htmlString);
 
 	document.getElementById("myMessage").value = '';
