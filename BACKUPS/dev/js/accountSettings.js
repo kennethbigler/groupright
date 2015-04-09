@@ -43,13 +43,13 @@ function loadAccountInfo(accountInfo){
 	document.getElementById("lastName").innerHTML=accountInfo.last_name;
 	document.getElementById("email").innerHTML=_cookies.user;
 
-	if(phoneNumber!=null){
+	if(accountInfo.phoneNumber!=null){
 		var areaCode=accountInfo.phone_number.substring(0, 3);
 		var first_three=accountInfo.phone_number.substring(3, 6);
 		var last_four=accountInfo.phone_number.substring(6, 10);
 		document.getElementById("phoneNumber").innerHTML="("+areaCode+") "+first_three+"-"+last_four;
 	}
-	if(dateStr!=null){
+	if(loadAccountInfo.date_joined!=null){
 		var dateStr = accountInfo.date_joined;
 		var months=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 		document.getElementById("dateJoined").innerHTML= months[parseInt(dateStr.substring(5,7))-1] +" "+parseInt(dateStr.substring(8,10))+", "+dateStr.substring(0,4);
@@ -125,7 +125,7 @@ function changePassword(){
 		document.getElementById("passwordError").innerHTML="Your password confirmation does not match the original.";
 		return false;
 	}
-
+	var errorField=document.getElementById("passwordError");
 	//get the cookies and get all of the data from the server
 	var _cookies = genCookieDictionary();
 	if(_cookies.accesscode && _cookies.user){
@@ -148,7 +148,7 @@ function changePassword(){
 					window.location="";
 				},
 				206: function(data, status, jqXHR){
-					document.getElementById("passwordError").innerHTML="Your old password was invalid. Password not changed.";
+					errorField.innerHTML="Your old password was invalid. Password was not changed.";
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
