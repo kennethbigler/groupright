@@ -112,7 +112,7 @@
         This is a successful alert.
       </div>
     <div class="row">     
-      <div class="col-md-12">
+      <div class="col-md-7">
         <div class="panel panel-default">
            <div class="panel-heading">
               <h4>Current Information</h4>
@@ -160,6 +160,28 @@
               </div>
            </div>
         </div>
+      </div>
+      <div class="col-md-5">
+        <div class="panel panel-default">
+           <div class="panel-heading">
+              <h4>Profile Picture</h4>
+           </div>
+           <div class="panel-body" style="height:225px;">
+                  <h4>Select photo from your computer</h4>
+                  <br/>
+                <form action="" method="post" enctype="multipart/form-data" id="js-upload-form">
+                  <div class="form-inline">
+                    <div class="form-group">
+                      <input type="file" name="files[]" id="js-upload-files">
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload</button>
+                  </div>
+                </form>
+         </div>
+      </div>
+    </div>
+    <div class="row">     
+      <div class="col-md-12">
         <div class="panel panel-default">
            <div class="panel-heading"><h4>My Account</h4></div>
             <div class="panel-body">
@@ -242,6 +264,8 @@
                 
             </div>
             </div>
+          </div>
+        </div>
 
       </div><!--/col-span-6-->
      
