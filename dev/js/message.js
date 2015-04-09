@@ -96,22 +96,28 @@ function populateMessages(){
 			data:obj,
 			statusCode:{
 				200:function(data,status,jqXHR) {
-					alert("Message Sent");
+					alert("Load Group Messages");
 					//window.location = "./home.html";
 					var array = JSON.parse(data);
 					//console.log(obj);
+
+    					function checkTime(i) {
+    					    return (i < 10) ? "0" + i : i;
+    					}
 
 					//remove placeholder message
 					//var parent = document.getElementById("messageBox");
 					//var child = document.getElementById("tempMessage");
 					//parent.removeChild(child);
-					document.getElementById(messageBox).innerHTML = "";
+					document.getElementById("messageBox").innerHTML = "";
 					console.log("Cleared MessageBox");
 					
 					//Iterate through returned array
 					for (var i = 0; i < array.length; i++) {
 						name = getFullNameForEmail(array[i].email);
 						message = array[i].content;
+						console.log(array[i]);
+						var time=array[i].timestamp.substr(11,12);
 						// timestamp = array[i].timestamp;
 
 						// create a javascript Date object based on the timestamp
@@ -122,7 +128,7 @@ function populateMessages(){
 						// minutes part from the timestamp
 						var m = checkTime(date.getMinutes());
 						// seconds part from the timestamp
-						var m = checkTime(date.getSeconds());
+						var s = checkTime(date.getSeconds());
 						
 						//add messages
 						var element = document.getElementById("messageBox");
@@ -132,7 +138,7 @@ function populateMessages(){
 										+	name + '</h4>'
 										+	'<p>' + message + '</p>'
 										+	'<p class="timeStamp">'
-										+	h + ":" + m + ":" + s + '</p></div>'
+										+	time  + '</p></div>'
 						element.insertAdjacentHTML('beforeend', htmlString);
 					}
 					
