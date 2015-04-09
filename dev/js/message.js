@@ -105,7 +105,17 @@ function populateMessages(){
 					for (var i = 0; i < array.length; i++) {
 						name = getFullNameForEmail(array[i].email);
 						message = array[i].content;
-						timestamp = array[i].timestamp;
+						// timestamp = array[i].timestamp;
+
+						// create a javascript Date object based on the timestamp
+						// multiplied by 1000 to get arg in milliseconds, not seconds
+						var date = new Date(array[i].timestamp * 1000);
+						// hours part from the timestamp
+						var h = checkTime(date.getHours());
+						// minutes part from the timestamp
+						var m = checkTime(date.getMinutes());
+						// seconds part from the timestamp
+						var m = checkTime(date.getSeconds());
 
 						//remove placeholder message
 						var parent = document.getElementById("messageBox");
@@ -120,7 +130,7 @@ function populateMessages(){
 										+	name + '</h4>'
 										+	'<p>' + message + '</p>'
 										+	'<p class="timeStamp">'
-										+	timestamp + '</p></div>'
+										+	h + ":" + m + ":" + s + '</p></div>'
 						element.insertAdjacentHTML('beforeend', htmlString);
 					}
 					
