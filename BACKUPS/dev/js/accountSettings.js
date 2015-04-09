@@ -29,7 +29,7 @@ window.onload = function() {
 		var obj = {
 			"ac":_cookies.accesscode,
 			"email":_cookies.user,
-			"function":"get_account_info"
+			"function":"get_user_groups"
 		};
 	
 		// Contact Server
@@ -38,7 +38,7 @@ window.onload = function() {
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
-					loadAccountInfo(JSON.parse(data));
+					loadAccountInfo(data);
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
@@ -60,13 +60,12 @@ window.onload = function() {
 };
 
 function loadAccountInfo(accountInfo){
-	console.log(accountInfo);
 	var _cookies = genCookieDictionary();
 	document.getElementById("firstName").innerHTML=accountInfo.first_name;
 	document.getElementById("lastName").innerHTML=accountInfo.last_name;
 	document.getElementById("email").innerHTML=_cookies.user;
 
-	if(accountInfo.phone_number!=null){
+	if(accountInfo.phoneNumber!=null){
 		var areaCode=accountInfo.phone_number.substring(0, 3);
 		var first_three=accountInfo.phone_number.substring(3, 6);
 		var last_four=accountInfo.phone_number.substring(6, 10);
