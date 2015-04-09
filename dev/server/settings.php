@@ -61,6 +61,8 @@
 		$old = grHash($old,$email);
 		$new = grHash($new,$email);
 		
+		if(!checkEmailPassword($email,$old)){http_response_code(206); return;}
+		
 		$stmt = $dbh->prepare(
 			"UPDATE active_users SET password = ? WHERE email = ? AND password = ?"
 		);
@@ -131,6 +133,44 @@
 		
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			_changePhoneNumber($email,$cookie,$pn);
+		}else{
+			http_response_code(206);
+			return;
+		}			
+	}
+	
+//========================================================
+	function _getAccountInfo($email_address,$cookie){
+		// Enter DB.
+		$dbh = ConnectToDB();
+		
+		// Get user info.
+		$stmt = $dbh->prepare(
+			"SELECT * FROM active_users NATURAL JOIN sessions WHERE email=? and sc=?"
+		);
+		$stmt->execute(array($email_address,$cookie));
+		
+		while($row = $stmt->fetch()){
+		
+			// Get namesl
+			$user_info['first_name'] = $row['first_name'];
+			$user_info['last_name'] = $row['last_name'];
+			$user_info['phone_number'] = $row['phone_number'];
+			http_response_code(200);
+			return $user_info;
+			
+		}
+		http_response_code(211);
+		return null;
+		
+	}
+	function getAccountInfo(){
+		$email = sanitizeEmail( $_POST['email'] );
+		$cookie = grHash($_POST['ac'],$email);
+		
+		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+			$info = _getAccountInfo($email,$cookie);
+			if($info) echo json_encode($info);
 		}else{
 			http_response_code(206);
 			return;
