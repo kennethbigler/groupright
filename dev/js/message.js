@@ -100,6 +100,13 @@ function populateMessages(){
 					//window.location = "./home.html";
 					var array = JSON.parse(data);
 					//console.log(obj);
+
+					//remove placeholder message
+					//var parent = document.getElementById("messageBox");
+					//var child = document.getElementById("tempMessage");
+					//parent.removeChild(child);
+					document.getElementById(messageBox).innerHTML = "";
+					console.log("Cleared MessageBox");
 					
 					//Iterate through returned array
 					for (var i = 0; i < array.length; i++) {
@@ -116,11 +123,6 @@ function populateMessages(){
 						var m = checkTime(date.getMinutes());
 						// seconds part from the timestamp
 						var m = checkTime(date.getSeconds());
-
-						//remove placeholder message
-						var parent = document.getElementById("messageBox");
-						var child = document.getElementById("tempMessage");
-						parent.removeChild(child);
 						
 						//add messages
 						var element = document.getElementById("messageBox");
