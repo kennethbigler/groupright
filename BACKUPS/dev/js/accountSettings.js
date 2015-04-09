@@ -43,21 +43,19 @@ function loadAccountInfo(accountInfo){
 	document.getElementById("lastName").innerHTML=accountInfo.last_name;
 	document.getElementById("email").innerHTML=_cookies.user;
 
-	if(accountInfo.phoneNumber!=null){
+	if(phoneNumber!=null){
 		var areaCode=accountInfo.phone_number.substring(0, 3);
 		var first_three=accountInfo.phone_number.substring(3, 6);
 		var last_four=accountInfo.phone_number.substring(6, 10);
 		document.getElementById("phoneNumber").innerHTML="("+areaCode+") "+first_three+"-"+last_four;
 	}
-	if(loadAccountInfo.date_joined!=null){
-		var dateStr = accountInfo.date_joined;
-		var months=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-		document.getElementById("dateJoined").innerHTML= months[parseInt(dateStr.substring(5,7))-1] +" "+parseInt(dateStr.substring(8,10))+", "+dateStr.substring(0,4);
-	}
+	var dateStr = accountInfo.date_joined;
+	var months=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	document.getElementById("dateJoined").innerHTML= months[parseInt(dateStr.substring(5,7))-1] +" "+parseInt(dateStr.substring(8,10))+", "+dateStr.substring(0,4);
+
 }
 
 function changeName(){
-	document.getElementById("nameError").innerHTML="";
 	var firstName=document.getElementById("newFirstName").value;
 	var lastName=document.getElementById("newLastName").value;
 	if(firstName.length<2){
@@ -105,7 +103,6 @@ function changeName(){
 	}
 }
 function changePassword(){
-	document.getElementById("passwordError").innerHTML="";
 	var oldPassword=document.getElementById("oldPassword").value;
 	var newPassword1=document.getElementById("newPassword1").value;
 	var newPassword2=document.getElementById("newPassword2").value;
@@ -125,7 +122,7 @@ function changePassword(){
 		document.getElementById("passwordError").innerHTML="Your password confirmation does not match the original.";
 		return false;
 	}
-	var errorField=document.getElementById("passwordError");
+
 	//get the cookies and get all of the data from the server
 	var _cookies = genCookieDictionary();
 	if(_cookies.accesscode && _cookies.user){
@@ -148,7 +145,7 @@ function changePassword(){
 					window.location="";
 				},
 				206: function(data, status, jqXHR){
-					errorField.innerHTML="Your old password was invalid. Password was not changed.";
+					document.getElementById("passwordError").innerHTML="Your old password was invalid. Password not changed.";
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
@@ -165,7 +162,6 @@ function changePassword(){
 	}
 }
 function changePhone(){
-	document.getElementById("phoneError").innerHTML="";
 	var phoneNumber=document.getElementById("newPhoneNumber").value;
 	if(phoneNumber.length<1){
 		document.getElementById("phoneNumberError").innerHTML="Please enter a phone number.";
