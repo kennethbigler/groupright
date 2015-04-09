@@ -134,10 +134,11 @@ div.scrollable {
 
 div.scrollable::-webkit-scrollbar {
 		/*display:none;*/
-		width:10px;
+		width:8px;
 }
 div.scrollable::-webkit-scrollbar-thumb{
     background: rgba(0,0,0,0.1);
+    border-radius: 20px;
 }
 
 .alert-danger {
