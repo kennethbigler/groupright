@@ -23,7 +23,6 @@
 	<textarea id="inputText" style="width:600px; height:150px;"></textarea>
 	<br />
 	<button onclick="postToGroupServe()" style="width:600px; height:30px">Go</button>
-	<input type="file" id="file_upload" />
 	<br />
 	<br />
 	<div style="width:600px; height:25px; font-family:Courier; font-weight:bold">
@@ -130,7 +129,6 @@ $(document).ready(function(){
 		createTemplate("change_name",["email","ac","first_name","last_name"],"#999"),
 		createTemplate("change_password",["email","ac","old_password","new_password"],"#999"),
 		createTemplate("change_phone_number",["email","ac","phone_number"],"#999"),
-		createTemplate("add_profile_pic",["email","ac"],"#999"),
 		createTemplate("get_account_info",["email","ac"],"#999")
 	);
 	
@@ -184,14 +182,7 @@ function postToGroupServe(){
 		if(obj.function=="login"){
 			lastUser = obj.email;
 		}
-		if(obj.function=="add_profile_pic"){
-			var ppic = document.getElementById("file_upload");
-			var pics = ppic.files;
-			if(!pics.length){ alert("no photo"); return;}
-			var pic = pics[0];
-			obj.photo = JSON.stringify(pic);
-		}
-		console.log(obj);
+
 		// Contact Server
 		$.ajax("https://www.groupright.net/dev/groupserve.php",{
 			type:"POST",

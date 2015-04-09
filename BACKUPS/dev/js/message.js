@@ -29,6 +29,23 @@ function createGRMessage(){
 	};
 	console.log(obj);
 
+	//add messages
+	name = getFullNameForEmail(email)
+	if (!Date.now) {
+    	Date.now = function() { return new Date().getTime(); }
+	}
+	var element = document.getElementById("messageBox");
+	var htmlString	=	'<div class="convoTail"></div>'
+					+	'<div class="userMessage">'
+					+	'<h4 class="nameTag">'
+					+	name + '</h4>'
+					+	'<p>' + message_content + '</p>'
+					+	'<p class="timeStamp">'
+					+	Date.now + '</p></div>'
+	element.insertAdjacentHTML('beforeend', htmlString);
+
+	document.getElementById("myMessage").value = '';
+
 	// Contact Server
 	$.ajax("https://www.groupright.net/dev/groupserve.php",{
 			type:'POST',
@@ -96,9 +113,9 @@ function populateMessages(){
 										+	'<h4 class="nameTag">'
 										+	name + '</h4>'
 										+	'<p>' + message + '</p>'
-										+	'<p class="timeStamp">- '
+										+	'<p class="timeStamp">'
 										+	timestamp + '</p></div>'
-						element.insertAdjacentHTML(beforeend, htmlString);
+						element.insertAdjacentHTML('beforeend', htmlString);
 					}
 					
 				},

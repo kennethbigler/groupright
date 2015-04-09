@@ -176,24 +176,4 @@
 			return;
 		}			
 	}
-	
-	function _addProfilePic($email,$cookie,$photo){
-		echo "test";
-		print_r($photo);
-	}
-	
-	function addProfilePic(){
-		echo "test";
-		$email = sanitizeEmail( $_POST['email'] );
-		$cookie = grHash($_POST['ac'],$email);
-		$photo = $_POST['photo'];
-		
-		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
-			$info = _addProfilePic($email,$cookie,$photo);
-		}else{
-			http_response_code(206);
-			return;
-		}			
-		
-	}
 ?>
