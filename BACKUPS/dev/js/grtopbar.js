@@ -153,7 +153,7 @@ function addUsersGroups(){
 	allMyGroups += '<li><a class="usergrouplinks" href="home.html?" ><span class="glyphicon glyphicon-stop" style="color:transparent;"></span>&nbsp;Show All Groups</a></li><hr />';
 		
 	for(var i = 0; i < numGroups; i ++) {
-		allMyGroups += '<li><a class="usergrouplinks" href="home.html?guid='+allGroups[i].group_id+'"><span class="glyphicon glyphicon-stop" style="color:' + 
+		allMyGroups += '<li><a class="usergrouplinks" href="home.html?guid='+allGroups[i].group_id+'"><span class="glyphicon glyphicon-stop" style="border:1px solid white;color:' + 
 			allGroups[i].group_color +
 			';"></span>&nbsp;' +
 			allGroups[i].group_name +

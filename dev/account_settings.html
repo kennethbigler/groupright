@@ -27,33 +27,7 @@
 <script src="js/grtopbar.js"></script>
 <script src="js/grmainmodule.js"></script>
 <script src="js/accountSettings.js"></script>
-<script>
-$(document).ready(function() {
-    $('#phoneForm')
-        .formValidation({
-            framework: 'bootstrap',
-            icon: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                phoneNumber: {
-                    validators: {
-                        phone: {
-                            country: 'countrySelectBox',
-                            message: 'The value is not valid %s phone number'
-                        }
-                    }
-                }
-            }
-        })
-        // Revalidate phone number when changing the country
-        .on('change', '[name="countrySelectBox"]', function(e) {
-            $('#phoneForm').formValidation('revalidateField', 'phoneNumber');
-        });
-});
-</script>
+
 
 </head>
 <body>

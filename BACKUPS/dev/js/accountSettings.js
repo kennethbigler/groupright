@@ -49,13 +49,15 @@ function loadAccountInfo(accountInfo){
 		var last_four=accountInfo.phone_number.substring(6, 10);
 		document.getElementById("phoneNumber").innerHTML="("+areaCode+") "+first_three+"-"+last_four;
 	}
-	var dateStr = accountInfo.date_joined;
-	var months=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-	document.getElementById("dateJoined").innerHTML= months[parseInt(dateStr.substring(5,7))-1] +" "+parseInt(dateStr.substring(8,10))+", "+dateStr.substring(0,4);
-
+	if(dateStr!=null){
+		var dateStr = accountInfo.date_joined;
+		var months=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+		document.getElementById("dateJoined").innerHTML= months[parseInt(dateStr.substring(5,7))-1] +" "+parseInt(dateStr.substring(8,10))+", "+dateStr.substring(0,4);
+	}
 }
 
 function changeName(){
+	document.getElementById("nameError").innerHTML="";
 	var firstName=document.getElementById("newFirstName").value;
 	var lastName=document.getElementById("newLastName").value;
 	if(firstName.length<2){
@@ -103,6 +105,7 @@ function changeName(){
 	}
 }
 function changePassword(){
+	document.getElementById("passwordError").innerHTML="";
 	var oldPassword=document.getElementById("oldPassword").value;
 	var newPassword1=document.getElementById("newPassword1").value;
 	var newPassword2=document.getElementById("newPassword2").value;
@@ -162,6 +165,7 @@ function changePassword(){
 	}
 }
 function changePhone(){
+	document.getElementById("phoneError").innerHTML="";
 	var phoneNumber=document.getElementById("newPhoneNumber").value;
 	if(phoneNumber.length<1){
 		document.getElementById("phoneNumberError").innerHTML="Please enter a phone number.";
