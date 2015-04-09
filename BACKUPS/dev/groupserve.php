@@ -57,5 +57,7 @@
 	if($function == 'change_name') changeName();
 	if($function == 'change_password') changePassword();
 	if($function == 'change_phone_number') changePhoneNumber();
+	if($function == 'add_profile_pic') addProfilePic();
+	if($function == 'get_account_info') getAccountInfo();
 	
 ?> 

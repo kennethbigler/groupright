@@ -37,19 +37,20 @@
 		    </div>
       </div>
     </nav>
-    <div class="alert alert-danger" id="alertDangerBanner" style="display:none" role="alert">
-	  This is an invalid login attempt alert.
-	</div>
-	<div class="alert alert-success" id="alertSuccessBanner" style="display:none" role="alert">
-	  This is a successful alert.
-	</div>
+    
 	
 	<div class="flip-container" >
 	<div class="flipper" style="height:200px;">
-		<div class="container-fluid login-box front" style="height:200px">
+		<div class="container-fluid login-box front" style="height:300px">
 		  <form class="" role="form">
 			<h2 class="header-center">Forgot Password</h2>
 			<h5 class="header-center">Enter your email and a reset link will be sent to you.</h5>
+			<div class="alert alert-danger" id="alertDangerBanner" style="display:none" role="alert">
+			  This is an invalid login attempt alert.
+			</div>
+			<div class="alert alert-success" id="alertSuccessBanner" style="display:none" role="alert">
+			  This is a successful alert.
+			</div>
 			<label for="forgotEmail" class="sr-only">Password</label>
 			<input type="email" id="forgotEmail" class="form-control" placeholder="Account Email" required autofocus>
 			

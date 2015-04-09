@@ -1,5 +1,27 @@
 window.onload = function() {
 
+	var _GET =getSearchParameters();
+
+	if (_GET["update"] == null || _GET["update"] == "") {
+		document.getElementById("successBanner").style.display="none";
+	}
+	else{
+		document.getElementById("successBanner").style.display="block";
+		if(_GET["update"]==0){
+			//name
+			document.getElementById("successBanner").innerHTML="Your name was successfully updated.";
+		}
+		else if(_GET["update"]==1){
+			//password
+			document.getElementById("successBanner").innerHTML="Your password was successfully updated.";
+		}
+		else if(_GET["update"]==2){
+			//phone
+			document.getElementById("successBanner").innerHTML="Your phone number was successfully updated.";
+		}
+	}
+
+
 	//get the cookies and get all of the data from the server
 	var _cookies = genCookieDictionary();
 	if(_cookies.accesscode && _cookies.user){
@@ -7,7 +29,7 @@ window.onload = function() {
 		var obj = {
 			"ac":_cookies.accesscode,
 			"email":_cookies.user,
-			"function":"get_user_groups"
+			"function":"get_account_info"
 		};
 	
 		// Contact Server
@@ -16,7 +38,7 @@ window.onload = function() {
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
-					loadAccountInfo(data);
+					loadAccountInfo(JSON.parse(data));
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
@@ -38,12 +60,13 @@ window.onload = function() {
 };
 
 function loadAccountInfo(accountInfo){
+	console.log(accountInfo);
 	var _cookies = genCookieDictionary();
 	document.getElementById("firstName").innerHTML=accountInfo.first_name;
 	document.getElementById("lastName").innerHTML=accountInfo.last_name;
 	document.getElementById("email").innerHTML=_cookies.user;
 
-	if(accountInfo.phoneNumber!=null){
+	if(accountInfo.phone_number!=null){
 		var areaCode=accountInfo.phone_number.substring(0, 3);
 		var first_three=accountInfo.phone_number.substring(3, 6);
 		var last_four=accountInfo.phone_number.substring(6, 10);
@@ -88,7 +111,7 @@ function changeName(){
 			statusCode:{
 				200: function(data, status, jqXHR){
 					//Redirect for Confirmation
-					window.location="";
+					window.location="https://www.groupright.net/dev/account_settings.html?update=0";
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
@@ -104,7 +127,7 @@ function changeName(){
 
 	}
 }
-function changePassword(){
+function changeGRPassword(){
 	document.getElementById("passwordError").innerHTML="";
 	var oldPassword=document.getElementById("oldPassword").value;
 	var newPassword1=document.getElementById("newPassword1").value;
@@ -125,7 +148,7 @@ function changePassword(){
 		document.getElementById("passwordError").innerHTML="Your password confirmation does not match the original.";
 		return false;
 	}
-	var errorField=document.getElementById("passwordError");
+	
 	//get the cookies and get all of the data from the server
 	var _cookies = genCookieDictionary();
 	if(_cookies.accesscode && _cookies.user){
@@ -133,11 +156,10 @@ function changePassword(){
 		var obj = {
 			"ac":_cookies.accesscode,
 			"email":_cookies.user,
-			"first_name":firstName,
-			"last_name":lastName,
+			"old_password":oldPassword,
+			"new_password":newPassword1,
 			"function":"change_password"
 		};
-	
 		// Contact Server
 		$.ajax("https://www.groupright.net/dev/groupserve.php",{
 			type:"POST",
@@ -145,10 +167,10 @@ function changePassword(){
 			statusCode:{
 				200: function(data, status, jqXHR){
 					//Redirect for Confirmation
-					window.location="";
+					window.location="https://www.groupright.net/dev/account_settings.html?update=1";
 				},
 				206: function(data, status, jqXHR){
-					errorField.innerHTML="Your old password was invalid. Password was not changed.";
+					var errorField=document.getElementById("passwordError").innerHTML="Your old password was invalid. Password was not changed.";
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
@@ -165,7 +187,7 @@ function changePassword(){
 	}
 }
 function changePhone(){
-	document.getElementById("phoneError").innerHTML="";
+	document.getElementById("phoneNumberError").innerHTML="";
 	var phoneNumber=document.getElementById("newPhoneNumber").value;
 	if(phoneNumber.length<1){
 		document.getElementById("phoneNumberError").innerHTML="Please enter a phone number.";
@@ -196,7 +218,7 @@ function changePhone(){
 			statusCode:{
 				200: function(data, status, jqXHR){
 					//Redirect for Confirmation
-					window.location="";
+					window.location="https://www.groupright.net/dev/account_settings.html?update=2";
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
@@ -211,4 +233,11 @@ function changePhone(){
 		//window.location="https://www.groupright.net/dev/login.html";
 
 	}
+}
+//==================================================
+// URL PARAMETER PARSING
+//==================================================
+function getSearchParameters(){
+	var prmstr = window.location.search.substr(1);
+	return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
 }
