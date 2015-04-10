@@ -1,12 +1,16 @@
 <?php
 
-function getGroupMessages($group_uid){
+function getGroupMessages($group_uid,$date_string){
 	
 	$dbh = ConnectToDB();
 	
-	$sql = "SELECT * FROM messages WHERE group_uid = ? ORDER BY timestamp DESC";
+	$sql = "
+		SELECT * FROM messages 
+		WHERE group_uid = ?
+		AND timestamp > ?
+	";
 	
-	$arr = array($group_uid);
+	$arr = array($group_uid,$date_string);
 	$stmt = $dbh->prepare($sql);
 	$stmt->execute($arr);
 	
@@ -81,7 +85,7 @@ function getNumUnread(){
 	// IF valid, continue.
 	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 		if(!checkHashedCookie($email,$cookie)) return;
-		echo json_encode( _getAllNumberUnreadMsgs($email) );
+		echo _getAllNumberUnreadMsgs($email);
 	}else{
 		http_response_code(206);
 		return;
@@ -94,7 +98,6 @@ function getMessages(){
 	$email = sanitizeEmail( $_POST['email'] );
 	$cookie = grHash($_POST['ac'],$email);
 	$group_uid = $_POST['group_uid'];
-	//echo $content;
 	
 	if(!isset($group_uid)){ http_response_code(299); return; }
 	
@@ -102,7 +105,30 @@ function getMessages(){
 	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 		if(!verifyUserGroup($email,$cookie,$group_uid)) return;
 		$msgObj = array();
-		$msgs["messages"] = getGroupMessages($group_uid);
+		$msgs["messages"] = getGroupMessages($group_uid,"2000-01-01 00:00:00");
+		$msgs["num_unread"] = _getNumberUnreadMsgs($email,$group_uid);
+		echo json_encode($msgs);
+	}else{
+		http_response_code(206);
+		return;
+	}
+	
+}
+
+function getNewMessages(){
+	// Get information.
+	$email = sanitizeEmail( $_POST['email'] );
+	$cookie = grHash($_POST['ac'],$email);
+	$group_uid = $_POST['group_uid'];
+	$last_timestamp = $_POST['last_timestamp'];
+	
+	if(!isset($group_uid)){ http_response_code(299); return; }
+	
+	// IF valid, continue.
+	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+		if(!verifyUserGroup($email,$cookie,$group_uid)) return;
+		$msgObj = array();
+		$msgs["messages"] = getGroupMessages($group_uid,$last_timestamp);
 		$msgs["num_unread"] = _getNumberUnreadMsgs($email,$group_uid);
 		echo json_encode($msgs);
 	}else{
