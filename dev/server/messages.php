@@ -143,7 +143,7 @@ function _markMessagesRead($email,$group_uid)
 	$dbh = ConnectToDB();
 	
 	$sql = "
-		UPDATE memberships SET last_message_read = NOW()
+		UPDATE memberships SET last_message_read = UTC_TIMESTAMP()
 		WHERE email = ? AND group_uid = ?
 	";
 	

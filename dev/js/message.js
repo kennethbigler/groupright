@@ -5,10 +5,128 @@
 */
 
 function GRMessageModule(){
-	this.groups = {};
+	this.groupMsgs = {};
 	this.groupID = 0;		// current group id
+	this.lastMessage = new Date();
+	
+		
+	this.listeners = new Array();
+	this.newMsgs = [];
+	
+	var self = this;
+	this.updater = window.setInterval(function(){
+		self.update();
+	},5000);
 	
 }
+
+GRMessageModule.prototype.addUpdateListener = function(fn){
+	if(!(fn instanceof Function)) return;
+	else this.listeners.push(fn);
+}
+
+
+GRMessageModule.prototype.getMessages = function(guid){
+	if(guid) this.groupID = guid;
+	else guid = this.groupID;
+	return this.groupMsgs[ guid ].messages;
+};
+
+GRMessageModule.prototype.getNewMessages = function(){
+	return this.newMsgs;
+};
+
+GRMessageModule.prototype.getNumUnread = function(guid){
+	if(guid) this.groupID = guid;
+	else guid = this.groupID;
+	return this.groupMsgs[ guid ].num_unread;
+};
+
+GRMessageModule.prototype.update = function(){
+	//get user access code
+	var _cookies = genCookieDictionary();
+	var email = _cookies.user; 
+	var ac = _cookies.accesscode;
+	var obj = {
+				"function":"get_new_messages",
+				"email":email,
+				"ac":ac,
+				"group_uid":this.groupID,
+				"last_timestamp":this.lastMessage.toJSON()
+	};
+	//console.log(obj);
+
+	var self = this;
+	if(email && ac){
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+				type:'POST',
+				data:obj,
+				statusCode:{
+					200:function(data,status,jqXHR) {
+						// cleared.
+						var obj = JSON.parse(data);
+						self.newMsgs = obj.messages;
+						if(obj.messages.length){
+							var ts = obj.messages[ obj.messages.length - 1 ].timestamp;
+							ts = ts.replace(/[-]/g,"/");
+							self.lastMessage = new Date(ts);
+						}
+						for(var i = 0; i < self.listeners.length; i++){
+							self.listeners[i]();
+						}
+					},
+					210:function() {
+						//access denied, redirect to login
+						console.warn("Access Denied -- get_new_messages");	
+						//window.location = "./login.html";
+					},
+					220:function() {
+						//something else happened
+						//alert("We have literally no idea what happened.")
+						failureFn();
+					}
+				}
+		});
+	}
+};
+
+GRMessageModule.prototype.markMessagesRead = function(group_id){
+	//get user access code
+	var _cookies = genCookieDictionary();
+	var email = _cookies.user; 
+	var ac = _cookies.accesscode;
+	var obj = {
+				"function":"mark_messages_read",
+				"email":email,
+				"ac":ac,
+				"group_uid":group_id
+	};
+	//console.log(obj);
+
+	if(email && ac){
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+				type:'POST',
+				data:obj,
+				statusCode:{
+					200:function(data,status,jqXHR) {
+						// cleared.
+					},
+					210:function() {
+						//access denied, redirect to login
+						console.warn("Access Denied -- mark messages read");	
+						//window.location = "./login.html";
+					},
+					220:function() {
+						//something else happened
+						//alert("We have literally no idea what happened.")
+						failureFn();
+					}
+				}
+		});
+	}
+};
 
 GRMessageModule.prototype.sendMessage = function(content,group_id,successFn,failureFn){
 	//get user access code
@@ -24,6 +142,7 @@ GRMessageModule.prototype.sendMessage = function(content,group_id,successFn,fail
 	};
 	//console.log(obj);
 
+	var self = this;
 
 	// Contact Server
 	$.ajax("https://www.groupright.net/dev/groupserve.php",{
@@ -32,6 +151,7 @@ GRMessageModule.prototype.sendMessage = function(content,group_id,successFn,fail
 			statusCode:{
 				200:function(data,status,jqXHR) {
 					//alert("Message Sent");
+					self.update();
 					successFn();
 					//window.location = "./home.html";				
 				},
@@ -50,14 +170,139 @@ GRMessageModule.prototype.sendMessage = function(content,group_id,successFn,fail
 	});
 };
 
+GRMessageModule.prototype.loadMessages = function(group_id,successFn,failureFn){
+//get user access code
+	var _cookies = genCookieDictionary();
+	var email = _cookies.user; 
+	var ac = _cookies.accesscode;
+	var obj = {
+				"function":"get_messages",
+				"email":email,
+				"ac":ac,
+				"group_uid":group_id,
+	};
+	//console.log(obj);
+	
+	var self = this;
 
+	if(email && ac){
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+				type:'POST',
+				data:obj,
+				statusCode:{
+					200:function(data,status,jqXHR) {
+						
+						//alert("Load Group Messages");
+						self._parse(group_id,data);
+						
+						successFn();
+					},
+					210:function() {
+						//access denied, redirect to login
+						alert("Access Denied");	
+						failureFn();
+					},
+					220:function() {
+						//something else happened
+						alert("We have literally no idea what happened.")
+						failureFn();
+					}
+				}
+		});
+	}else{
+		self._parse(group_id,DEFAULT_MESSAGES);
+		successFn();
+	}
+};
+
+GRMessageModule.prototype._parse = function(guid,data){
+	var obj = JSON.parse(data);
+	this.groupMsgs[ guid ] = obj;
+	
+	var msg;
+	for(var i = 0; i < this.groupMsgs[ guid ].messages.length; i++)
+	{
+		msg = this.groupMsgs[guid].messages[i];
+		msg.timestamp = msg.timestamp.replace(/[-]/g,"/");
+		//console.log(msg.timestamp);
+	}
+	if(msg) this.lastMessage = new Date(msg.timestamp);
+	console.log(this);
+};
+
+// ============================================================
 
 var GRMSG;
 $(document).ready(function(){
 	GRMSG = new GRMessageModule();
+	
+	function addNewMsgs(){
+		var array = GRMSG.getNewMessages();
+		
+		//Iterate through returned array
+		for (var i = 0; i < array.length; i++) {
+			
+			if(array[i].email == GRMAIN.user) continue;
+			
+			// get elements from message.
+			name = getFullNameForEmail(array[i].email);
+			message = array[i].content;
+							
+			// get time string.
+			var date = new Date(array[i].timestamp);
+			var time = date.toLocaleTimeString();
+			
+			// determine if user or other member
+			var msgclass, ctailclass;
+			if(GRMAIN.user == array[i].email){
+				msgclass = "userMessageUser";
+				ctailclass = "convoTailUser";
+			}else{
+				msgclass = "userMessage";
+				ctailclass = "convoTail";
+			}
+			
+			//add message
+			var element = document.getElementById("messageBox");
+			var htmlString	=	'<div class="row"><div class="'+ctailclass+'"></div>'
+							+	'<div class="'+msgclass+'">'
+							+	'<h4 class="nameTag">'
+							+	name + '</h4>'
+							+	'<p>' + message + '</p>'
+							+	'<p class="timeStamp">'
+							+	time  + '</p></div></div>'
+			element.insertAdjacentHTML('beforeend', htmlString);
+		}
+		
+		var element = document.getElementById("messageBox");
+		
+		// mark messages read
+		GRMSG.markMessagesRead(GRMSG.groupID);
+		
+		// scrolling stuff
+		if((element.scrollHeight - element.scrollTop) > element.offsetHeight + 150) return;
+		element.scrollTop = element.scrollHeight; // zoom to bottom
+	};
+	
+	GRMSG.addUpdateListener(addNewMsgs);
+	
+	function returnListener(e){
+		var key = e.keyCode ? e.keyCode : e.which;
+		
+		if(key == 13){
+			createGRMessage();
+			return false;
+		}
+		return true;
+	}
+	
+	$("#myMessage").on('keydown',returnListener);
+		
 });
 
 
+// ============================================================
 
 function createGRMessage(){
 	document.getElementById('messageError').innerHTML="";
@@ -87,18 +332,15 @@ function createGRMessage(){
 	);
 	
 	
-	//add messages
+	// get name
 	var email = genCookieDictionary().user;
 	name = getFullNameForEmail(email)
 
-    function checkTime(i) {
-        return (i < 10) ? "0" + i : i;
-    }
-    var today = new Date(),
-        h = checkTime(today.getHours()),
-        m = checkTime(today.getMinutes()),
-        s = checkTime(today.getSeconds());
-
+	// get timestamp
+    var today = new Date();
+	var time = today.toLocaleTimeString();
+	
+	// add message
 	var element = document.getElementById("messageBox");
 	var htmlString	=	'<div class="row"><div class="convoTailUser"></div>'
 					+	'<div class="userMessageUser">'
@@ -106,9 +348,12 @@ function createGRMessage(){
 					+	name + '</h4>'
 					+	'<p>' + message_content + '</p>'
 					+	'<p class="timeStamp">'
-					+	h + ":" + m + ":" + s + '</p></div></div>'
+					+	time + '</p></div></div>'
 	element.insertAdjacentHTML('beforeend', htmlString);
+	
+	element.scrollTop = element.scrollHeight; // zoom to bottom
 
+	// clear 'Enter Message' field
 	document.getElementById("myMessage").value = '';
 	
 	return false;
@@ -117,93 +362,59 @@ function createGRMessage(){
 function populateMessages(){
 	var messageGroup = $( "#messageGroups option:selected" ).text();
 	var messageGroupID = $( "#messageGroups" ).val();
-	//get user access code
-	var _cookies = genCookieDictionary();
-	var email = _cookies.user; 
-	var ac = _cookies.accesscode;
-	var obj = {
-				"function":"get_messages",
-				"email":email,
-				"ac":ac,
-				"group_uid":messageGroupID,
-	};
-	console.log(obj);
-
-	// Contact Server
-	$.ajax("https://www.groupright.net/dev/groupserve.php",{
-			type:'POST',
-			data:obj,
-			statusCode:{
-				200:function(data,status,jqXHR) {
-					alert("Load Group Messages");
-					//window.location = "./home.html";
-					var obj = JSON.parse(data);
-					var array = obj.messages;
-					//console.log(obj);
-
-    					function checkTime(i) {
-    					    return (i < 10) ? "0" + i : i;
-    					}
-
-					//remove placeholder message
-					//var parent = document.getElementById("messageBox");
-					//var child = document.getElementById("tempMessage");
-					//parent.removeChild(child);
-					document.getElementById("messageBox").innerHTML = "";
-					console.log("Cleared MessageBox");
-					
-					//Iterate through returned array
-					for (var i = 0; i < array.length; i++) {
-						name = getFullNameForEmail(array[i].email);
-						message = array[i].content;
-						console.log(array[i]);
-						var time=array[i].timestamp.substr(11,12);
-						// timestamp = array[i].timestamp;
-
-						// create a javascript Date object based on the timestamp
-						// multiplied by 1000 to get arg in milliseconds, not seconds
-						var date = new Date(array[i].timestamp * 1000);
-						// hours part from the timestamp
-						var h = checkTime(date.getHours());
-						// minutes part from the timestamp
-						var m = checkTime(date.getMinutes());
-						// seconds part from the timestamp
-						var s = checkTime(date.getSeconds());
-						
-						var msgclass, ctailclass;
-						if(GRMAIN.user == array[i].email){
-							msgclass = "userMessageUser";
-							ctailclass = "convoTailUser";
-						}else{
-							msgclass = "userMessage";
-							ctailclass = "convoTail";
-						}
-						
-						//add messages
-						var element = document.getElementById("messageBox");
-						var htmlString	=	'<div class="row"><div class="'+ctailclass+'"></div>'
-										+	'<div class="'+msgclass+'">'
-										+	'<h4 class="nameTag">'
-										+	name + '</h4>'
-										+	'<p>' + message + '</p>'
-										+	'<p class="timeStamp">'
-										+	time  + '</p></div></div>'
-						element.insertAdjacentHTML('beforeend', htmlString);
-					}
-					
-					var element = document.getElementById("messageBox");
-					element.scrollTop = element.scrollHeight; // zoom to bottom
-				},
-				210:function() {
-					//access denied, redirect to login
-					alert("Access Denied");	
-					window.location = "./login.html";
-				},
-				220:function() {
-					//something else happened
-					alert("We have literally no idea what happened.")
+	
+	GRMSG.loadMessages(
+		messageGroupID,
+		function(){
+			var array = GRMSG.getMessages(messageGroupID);
+			
+			// clear message box
+			document.getElementById("messageBox").innerHTML = "";
+			
+			//Iterate through returned array
+			for (var i = 0; i < array.length; i++) {
+				
+				// get elements from message.
+				name = getFullNameForEmail(array[i].email);
+				message = array[i].content;
+								
+				// get time string.
+				var date = new Date(array[i].timestamp);
+				var time = date.toLocaleTimeString();
+				
+				// determine if user or other member
+				var msgclass, ctailclass;
+				if(GRMAIN.user == array[i].email){
+					msgclass = "userMessageUser";
+					ctailclass = "convoTailUser";
+				}else{
+					msgclass = "userMessage";
+					ctailclass = "convoTail";
 				}
+				
+				//add message
+				var element = document.getElementById("messageBox");
+				var htmlString	=	'<div class="row"><div class="'+ctailclass+'"></div>'
+								+	'<div class="'+msgclass+'">'
+								+	'<h4 class="nameTag">'
+								+	name + '</h4>'
+								+	'<p>' + message + '</p>'
+								+	'<p class="timeStamp">'
+								+	time  + '</p></div></div>'
+				element.insertAdjacentHTML('beforeend', htmlString);
 			}
-	});
+			
+			var element = document.getElementById("messageBox");
+			
+			element.scrollTop = element.scrollHeight; // zoom to bottom
+			
+			// mark messages read
+			GRMSG.markMessagesRead(messageGroupID);
+		},
+		function(){
+			window.location = "./login.html";
+		}
+	);
+	
 	return false;
 }
