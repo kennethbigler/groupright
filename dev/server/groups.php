@@ -107,6 +107,14 @@
 			// Verify User.	
 			if(!checkHashedCookie($email_address,$cookie)){ http_response_code(211); return; }
 			
+			for($i = 0; $i < count($members); $i++){
+				if(!(strpos($mystring,"&") === false)){http_response_code(480); return;}
+				$members[$i] = sanitizeEmail($members[$i]);
+				if(!filter_var($email_address, FILTER_VALIDATE_EMAIL)){
+					http_response_code(480); return; 
+				}
+			}
+			
 			makeGroup_Helper($gname,$members,$email_address);
 			return;
 			
