@@ -72,7 +72,7 @@ function loadAccountInfo(accountInfo){
 		var last_four=accountInfo.phone_number.substring(6, 10);
 		document.getElementById("phoneNumber").innerHTML="("+areaCode+") "+first_three+"-"+last_four;
 	}
-	if(loadAccountInfo.date_joined!=null){
+	if(accountInfo.date_joined!=null){
 		var dateStr = accountInfo.date_joined;
 		var months=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 		document.getElementById("dateJoined").innerHTML= months[parseInt(dateStr.substring(5,7))-1] +" "+parseInt(dateStr.substring(8,10))+", "+dateStr.substring(0,4);
