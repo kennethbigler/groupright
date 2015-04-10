@@ -1,3 +1,20 @@
+/* message.js
+*
+*	Handles all parts crucial to message handling between groups.
+*	
+*/
+
+function GRMessageModule(){
+	this.groups = {};
+	this.groupID = 0;		// current group id
+	
+}
+
+
+
+
+
+
 function createGRMessage(){
 	document.getElementById('messageError').innerHTML="";
 	//get group

@@ -250,7 +250,7 @@ function getMembers($group_uid){
 function getGroupMembers(){
 	// Get Data
 	$email = $_POST['email'];
-	$cookie = $_POST['cookie'];
+	$cookie = $_POST['ac'];
 	
 	$guid = $_POST['group_uid'];
 	
