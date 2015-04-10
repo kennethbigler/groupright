@@ -86,7 +86,8 @@
 		$email = $_POST['email'];
 		$cookie = $_POST['ac'];
 		
-		$members = json_decode($_POST['member_array']);
+		$members = $_POST['member_array'];
+		
 		$gname = $_POST['group_name'];
 		
 		// Fix cookie.
@@ -104,18 +105,17 @@
 			$dbh = ConnectToDB();
 		
 			// Verify User.	
-			$stmt = $dbh->prepare(
-				"SELECT * FROM active_users
-				WHERE email = ? AND last_session_code = ?"
-			);				
-			$stmt->execute(array($email_address,$cookie));	
+			if(!checkHashedCookie($email_address,$cookie)){ http_response_code(211); return; }
 			
-			
-			while($row = $stmt->fetch()){ 
-				makeGroup_Helper($gname,$members,$email_address);
-				return;
+			for($i = 0; $i < count($members); $i++){
+				if(!(strpos($mystring,"&") === false)){http_response_code(480); return;}
+				$members[$i] = sanitizeEmail($members[$i]);
+				if(!filter_var($email_address, FILTER_VALIDATE_EMAIL)){
+					http_response_code(480); return; 
+				}
 			}
-			http_response_code(211);
+			
+			makeGroup_Helper($gname,$members,$email_address);
 			return;
 			
 		}
@@ -149,21 +149,6 @@
 	}
 	
 	
-		/*
-		// basic
-		SELECT m.email, u.first_name, u.last_name, g.group_name, m.properties, u.last_session_code
-		FROM memberships AS m 
-		LEFT JOIN groups AS g ON m.group_uid = g.group_uid 
-		LEFT JOIN active_users AS u ON m.email = u.email
-
-		// refined
-		SELECT g.group_name, m.properties
-		FROM memberships AS m 
-		LEFT JOIN groups AS g ON m.group_uid = g.group_uid 
-		LEFT JOIN active_users AS u ON m.email = u.email
-		WHERE m.email = 'scomatbarsar@gmail.com' AND u.last_session_code = 'dd4c3357c8d031bd8119a326c006a6fd66ed029a'
-				
-		*/
 
 	function getMemberships($email_address,$cookie,$complete){
 		
@@ -250,7 +235,7 @@ function getMembers($group_uid){
 function getGroupMembers(){
 	// Get Data
 	$email = $_POST['email'];
-	$cookie = $_POST['cookie'];
+	$cookie = $_POST['ac'];
 	
 	$guid = $_POST['group_uid'];
 	

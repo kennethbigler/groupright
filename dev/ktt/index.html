@@ -109,7 +109,7 @@ $(document).ready(function(){
 		createTemplate("get_user_info",["email","ac"],"red"),
 		createTemplate("get_user_groups",["email","ac"],"red"),
 		createTemplate("get_updated_info",["email","ac","event_id","task_id","update_id"],"red"),
-		createTemplate("get_group_members",["email","cookie","group_uid"],"red"),
+		createTemplate("get_group_members",["email","ac","group_uid"],"red"),
 		createTemplate("reset_membership_colors",["email","cookie"],"red"),
 		createTemplate("create_group",["group_name","member_array","email","ac"],"red"),
 	
@@ -122,9 +122,11 @@ $(document).ready(function(){
 		createTemplate("assign_task",["email","cookie","group_uid","task_uid"],"orange"),
 		createTemplate("mark_task_complete",["email","ac","task_id"],"orange"),
 		
-		createTemplate("send_message",["email","cookie","group_uid","message_content"],"white"),
-		createTemplate("get_messages",["email","cookie","group_uid"],"white"),
-		createTemplate("mark_messages_read",["email","cookie","group_uid"],"white"),
+		createTemplate("send_message",["email","ac","group_uid","message_content"],"white"),
+		createTemplate("get_messages",["email","ac","group_uid"],"white"),
+		createTemplate("mark_messages_read",["email","ac","group_uid"],"white"),
+		createTemplate("get_num_unread",["email","ac"],"white"),
+		createTemplate("get_new_messages",["email","ac","group_uid","last_timestamp"],"white"),
 		
 		
 		createTemplate("change_name",["email","ac","first_name","last_name"],"#999"),

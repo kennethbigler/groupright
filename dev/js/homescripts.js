@@ -97,7 +97,7 @@ function addUsersInfo(){
 	initCreateGroup();		// 'Create a Group'
 	initScheduleEvent();	// 'Schedule an Event'
 	initStartTask();		// 'Start a Task'
-	initSendMessage();	// 'Send Message'
+	initSendMessage();		// 'Send Message'
 	
 }
 
@@ -477,6 +477,37 @@ function initSendMessage(){
 		item.value=allGroups[i].group_id;
 		item.innerHTML=allGroups[i].group_name;
 		groupMenu.appendChild(item);
+	}
+	var _cookies = genCookieDictionary();
+	if(_cookies.accesscode && _cookies.user){
+			var obj = {
+					"ac":_cookies.accesscode,
+					"email":_cookies.user,
+					"function":"get_num_unread"
+			};
+
+			// Contact Server
+			$.ajax("https://www.groupright.net/dev/groupserve.php",{
+					type:"POST",
+					data:obj,
+					statusCode:{
+							200: function(data, status, jqXHR){
+								try{
+									var num_unread = parseInt(data);
+									$("#messageCount").show().text(num_unread);
+								}catch(e){
+									$("#messageCount").hide().text("?");
+								}
+							},
+							211: function(data, status, jqXHR){
+								console.warn("Could Not Get # Unread fx: initSendMessage")
+							}
+					}
+
+			});
+	}
+	else{
+			console.warn("Unauthorized User send to login fx: toggleTask");
 	}
 }
 

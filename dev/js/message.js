@@ -1,3 +1,20 @@
+/* message.js
+*
+*	Handles all parts crucial to message handling between groups.
+*	
+*/
+
+function GRMessageModule(){
+	this.groups = {};
+	this.groupID = 0;		// current group id
+	
+}
+
+
+
+
+
+
 function createGRMessage(){
 	document.getElementById('messageError').innerHTML="";
 	//get group
@@ -23,7 +40,7 @@ function createGRMessage(){
 	var obj = {
 				"function":"send_message",
 				"email":email,
-				"cookie":ac,
+				"ac":ac,
 				"group_uid":messageGroupID,
 				"message_content":message_content,
 	};
@@ -85,7 +102,7 @@ function populateMessages(){
 	var obj = {
 				"function":"get_messages",
 				"email":email,
-				"cookie":ac,
+				"ac":ac,
 				"group_uid":messageGroupID,
 	};
 	console.log(obj);
