@@ -98,7 +98,8 @@ function populateMessages(){
 				200:function(data,status,jqXHR) {
 					alert("Load Group Messages");
 					//window.location = "./home.html";
-					var array = JSON.parse(data);
+					var obj = JSON.parse(data);
+					var array = obj.messages;
 					//console.log(obj);
 
     					function checkTime(i) {
@@ -113,7 +114,7 @@ function populateMessages(){
 					console.log("Cleared MessageBox");
 					
 					//Iterate through returned array
-					for (var i = 0; i < array.length; i++) {
+					for (var i = array.length-1; i >= 0; i--) {
 						name = getFullNameForEmail(array[i].email);
 						message = array[i].content;
 						console.log(array[i]);
@@ -130,18 +131,29 @@ function populateMessages(){
 						// seconds part from the timestamp
 						var s = checkTime(date.getSeconds());
 						
+						var msgclass, ctailclass;
+						if(GRMAIN.user == array[i].email){
+							msgclass = "userMessageUser";
+							ctailclass = "convoTailUser";
+						}else{
+							msgclass = "userMessage";
+							ctailclass = "convoTail";
+						}
+						
 						//add messages
 						var element = document.getElementById("messageBox");
-						var htmlString	=	'<div class="convoTail"></div>'
-										+	'<div class="userMessage">'
+						var htmlString	=	'<div class="row"><div class="'+ctailclass+'"></div>'
+										+	'<div class="'+msgclass+'">'
 										+	'<h4 class="nameTag">'
 										+	name + '</h4>'
 										+	'<p>' + message + '</p>'
 										+	'<p class="timeStamp">'
-										+	time  + '</p></div>'
+										+	time  + '</p></div></div>'
 						element.insertAdjacentHTML('beforeend', htmlString);
 					}
 					
+					var element = document.getElementById("messageBox");
+					element.scrollTop = element.scrollHeight; // zoom to bottom
 				},
 				210:function() {
 					//access denied, redirect to login
