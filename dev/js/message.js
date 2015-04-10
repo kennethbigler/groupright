@@ -100,13 +100,13 @@ function createGRMessage(){
         s = checkTime(today.getSeconds());
 
 	var element = document.getElementById("messageBox");
-	var htmlString	=	'<div class="convoTailUser"></div>'
+	var htmlString	=	'<div class="row"><div class="convoTailUser"></div>'
 					+	'<div class="userMessageUser">'
 					+	'<h4 class="nameTag">'
 					+	name + '</h4>'
 					+	'<p>' + message_content + '</p>'
 					+	'<p class="timeStamp">'
-					+	h + ":" + m + ":" + s + '</p></div>'
+					+	h + ":" + m + ":" + s + '</p></div></div>'
 	element.insertAdjacentHTML('beforeend', htmlString);
 
 	document.getElementById("myMessage").value = '';
