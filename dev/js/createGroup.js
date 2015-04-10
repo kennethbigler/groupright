@@ -4,6 +4,7 @@ function addField(fieldnumber){
 		return;
 	}
 	numberOfFields++;
+	console.log(numberOfFields);
 	var members="";
 	
 	var rowDiv = document.createElement('div');
@@ -30,7 +31,7 @@ function addField(fieldnumber){
 	var inputBox=document.createElement('input');
 	inputBox.type="text";
 	inputBox.className="form-control";
-	inputBox.id="member "+numberOfFields;
+	inputBox.id="member"+numberOfFields;
 	inputBox.placeholder="Member "+numberOfFields;
 	//inputBox.onkeydown= function(){addField(numberOfFields);};
 	inputBox.onkeydown=function(x){ return function(){addField(x);};}(numberOfFields);
@@ -44,10 +45,12 @@ function addField(fieldnumber){
 }
 
 function createGroup(){
+	//clear errors
+	document.getElementById("createGroupError").innerHTML="";
 	//get the groupname
 	var group_name=document.getElementById("groupnameField").value;
 	if(group_name=="" || group_name.length<=0){
-		alert("Your Group Name is invalid");
+		document.getElementById("createGroupError").innerHTML="Your Group Name is invalid";
 		return false;
 	}
 	var allEmails=[];
@@ -59,24 +62,30 @@ function createGroup(){
 	for(var i=2; i<numberOfFields; i++){
 		if(document.getElementById("member"+i)){
 			tempEmail=document.getElementById("member"+i).value;
+			console.log(tempEmail);
 			//validate the email
 			var atpos = tempEmail.indexOf("@");
 			var dotpos = tempEmail.lastIndexOf(".");
-			if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=tempEmail.length) {
-			    alert("Invalid Email Address was entered.");
+			if(tempEmail==""){
+				//do nothing
+			}
+			else if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=tempEmail.length) {
+			    document.getElementById("createGroupError").innerHTML="An invalid email was entered.";
 			    return false;
 			}
-			//add it to the email array if its good
-			allEmails.push(tempEmail);
+			else{
+				console.log("added 1");
+				allEmails.push(tempEmail);
+			}
 		}
 	}
 	//json stringify
-	var members=JSON.stringify(allEmails);
+	var members=allEmails;
 	console.log(members);
 
 	//get user access code
 	var ac=_cookies.accesscode;
-	var email=leader;
+	var email=_cookies.user;
 	var obj = {
 				"function":"create_group",
 				"group_name":group_name,
@@ -85,23 +94,26 @@ function createGroup(){
 				"ac":ac
 	};
 	console.log(obj);
+	//alert("Contacting Server");
 	// Contact Server
 	$.ajax("https://www.groupright.net/dev/groupserve.php",{
 			type:'POST',
 			data:obj,
 			statusCode:{
 				200:function(data,status,jqXHR){
-					alert("Group Created");
-					window.location = "./home.html";				
+					//alert("Group Created");
+					//window.location = "./home.html";
+					$('#createGroupBox').modal('toggle');				
 				},
-				210:function(){
+				211:function(){
 					//access denied, redirect to login
-					alert("Access Denied");	
+					//alert("Access Denied");	
 					window.location = "./login.html";
 				},
 				220:function(){
-					//something else happened
-					alert("We have literally no idea what happened.")
+					//something else happened, redirect anyway
+					window.location = "./login.html";
+					//alert("We have literally no idea what happened.");
 				}
 			}
 	});
