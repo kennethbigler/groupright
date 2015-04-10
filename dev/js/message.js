@@ -10,8 +10,52 @@ function GRMessageModule(){
 	
 }
 
+GRMessageModule.prototype.sendMessage = function(content,group_id,successFn,failureFn){
+	//get user access code
+	var _cookies = genCookieDictionary();
+	var email = _cookies.user; 
+	var ac = _cookies.accesscode;
+	var obj = {
+				"function":"send_message",
+				"email":email,
+				"ac":ac,
+				"group_uid":group_id,
+				"message_content":content,
+	};
+	//console.log(obj);
 
 
+	// Contact Server
+	$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:'POST',
+			data:obj,
+			statusCode:{
+				200:function(data,status,jqXHR) {
+					//alert("Message Sent");
+					successFn();
+					//window.location = "./home.html";				
+				},
+				210:function() {
+					//access denied, redirect to login
+					alert("Access Denied");	
+					failureFn();
+					//window.location = "./login.html";
+				},
+				220:function() {
+					//something else happened
+					//alert("We have literally no idea what happened.")
+					failureFn();
+				}
+			}
+	});
+};
+
+
+
+var GRMSG;
+$(document).ready(function(){
+	GRMSG = new GRMessageModule();
+});
 
 
 
@@ -33,20 +77,18 @@ function createGRMessage(){
 	var messageGroup = $( "#messageGroups option:selected" ).text();
 	var messageGroupID = $( "#messageGroups" ).val();
 
-	//get user access code
-	var _cookies = genCookieDictionary();
-	var email = _cookies.user; 
-	var ac = _cookies.accesscode;
-	var obj = {
-				"function":"send_message",
-				"email":email,
-				"ac":ac,
-				"group_uid":messageGroupID,
-				"message_content":message_content,
-	};
-	console.log(obj);
-
+	GRMSG.sendMessage(
+		message_content,
+		messageGroupID,
+		function(){},
+		function(){
+			window.location = "index.html";
+		}
+	);
+	
+	
 	//add messages
+	var email = genCookieDictionary().user;
 	name = getFullNameForEmail(email)
 
     function checkTime(i) {
@@ -58,8 +100,8 @@ function createGRMessage(){
         s = checkTime(today.getSeconds());
 
 	var element = document.getElementById("messageBox");
-	var htmlString	=	'<div class="convoTail"></div>'
-					+	'<div class="userMessage">'
+	var htmlString	=	'<div class="convoTailUser"></div>'
+					+	'<div class="userMessageUser">'
 					+	'<h4 class="nameTag">'
 					+	name + '</h4>'
 					+	'<p>' + message_content + '</p>'
@@ -68,27 +110,7 @@ function createGRMessage(){
 	element.insertAdjacentHTML('beforeend', htmlString);
 
 	document.getElementById("myMessage").value = '';
-
-	// Contact Server
-	$.ajax("https://www.groupright.net/dev/groupserve.php",{
-			type:'POST',
-			data:obj,
-			statusCode:{
-				200:function(data,status,jqXHR) {
-					alert("Message Sent");
-					//window.location = "./home.html";				
-				},
-				210:function() {
-					//access denied, redirect to login
-					alert("Access Denied");	
-					window.location = "./login.html";
-				},
-				220:function() {
-					//something else happened
-					alert("We have literally no idea what happened.")
-				}
-			}
-	});
+	
 	return false;
 }
 
@@ -131,7 +153,7 @@ function populateMessages(){
 					console.log("Cleared MessageBox");
 					
 					//Iterate through returned array
-					for (var i = array.length-1; i >= 0; i--) {
+					for (var i = 0; i < array.length; i++) {
 						name = getFullNameForEmail(array[i].email);
 						message = array[i].content;
 						console.log(array[i]);
