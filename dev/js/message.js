@@ -23,7 +23,7 @@ function createGRMessage(){
 	var obj = {
 				"function":"send_message",
 				"email":email,
-				"cookie":ac,
+				"ac":ac,
 				"group_uid":messageGroupID,
 				"message_content":message_content,
 	};
@@ -85,7 +85,7 @@ function populateMessages(){
 	var obj = {
 				"function":"get_messages",
 				"email":email,
-				"cookie":ac,
+				"ac":ac,
 				"group_uid":messageGroupID,
 	};
 	console.log(obj);

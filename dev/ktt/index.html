@@ -122,9 +122,10 @@ $(document).ready(function(){
 		createTemplate("assign_task",["email","cookie","group_uid","task_uid"],"orange"),
 		createTemplate("mark_task_complete",["email","ac","task_id"],"orange"),
 		
-		createTemplate("send_message",["email","cookie","group_uid","message_content"],"white"),
-		createTemplate("get_messages",["email","cookie","group_uid"],"white"),
-		createTemplate("mark_messages_read",["email","cookie","group_uid"],"white"),
+		createTemplate("send_message",["email","ac","group_uid","message_content"],"white"),
+		createTemplate("get_messages",["email","ac","group_uid"],"white"),
+		createTemplate("mark_messages_read",["email","ac","group_uid"],"white"),
+		createTemplate("get_num_unread",["email","ac"],"white"),
 		
 		
 		createTemplate("change_name",["email","ac","first_name","last_name"],"#999"),
