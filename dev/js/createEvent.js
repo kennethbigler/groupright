@@ -25,6 +25,33 @@ var helpStartTime="Not Added";
 var helpEndDate="Not Added";
 var helpStartDate="Not Added";
 
+var GRNewEventModule = {
+	// macro
+	step = 1,
+	
+	// event descriptors
+	name:"Not Added",
+	description:"Not Added",
+	
+	// group descriptors
+	groupname:"Not Added",
+	groupid:"",
+	
+	// time
+	start_time:"Not Added",
+	end_time:"Not Added",
+	start_day:"Not Added",
+	end_day:"Not Added",
+	
+	// misc properties
+	fixed:false,
+	attendence:false,
+	grouprightDecides:false,
+	
+};
+
+var GRNewEventSteps = {};
+
 
 function resetEventParameters(){
 	eventstep=1;
@@ -49,32 +76,185 @@ function resetEventParameters(){
 	endMinuteFixed="Not Added";
 	endAMPMFixed="Not Added";
 	event_descripton="";
+	
+	GRNewEventModule = {
+	fixed:false,
+	attendence:false,
+	grouprightDecides:false,
+	
+	// event descriptors
+	groupname:"Not Added",
+	groupid:"",
+	
+	// time
+	start_time:"Not Added",
+	end_time:"Not Added",
+	start_day:"Not Added",
+	end_day:"Not Added"
+}
+	
 	updateProgressBar(1);
 	//close the modal view
 	$('#createEventBox').modal('hide');
 	//Hide all but the initial steps
 
 }
+
+// ============================================================
+// Utility Functions
+
+function makeDateAndTimeObject(_date,_time){
+	var dateAndTime= new Date(_date);
+	if(_time!=null){
+		_time=_time.split(":");
+		var hours=_time[0];
+		var minutes=_time[1];
+		dateAndTime.setHours(hours);
+		dateAndTime.setMinutes(minutes);
+	}
+	dateAndTime=dateAndTime.toJSON();
+	return dateAndTime;
+}
+function isValidDate(dateString){
+    // First check for the pattern
+    if(!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
+        return false;
+
+    // Parse the date parts to integers
+    var parts = dateString.split("/");
+    var day = parseInt(parts[1], 10);
+    var month = parseInt(parts[0], 10);
+    var year = parseInt(parts[2], 10);
+
+    // Check the ranges of month and year
+    if(year < 1000 || year > 3000 || month == 0 || month > 12)
+        return false;
+
+    var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+    // Adjust for leap years
+    if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+        monthLength[1] = 29;
+
+    // Check the range of the day
+    return day > 0 && day <= monthLength[month - 1];
+}
+
+// ============================================================
+// System Functions
+
 function previous(){
-	if(eventstep==1){
+	if(GRNewEventModule.step==1){
 		return;
 	}
 	else{
-		eventstep--;
-		displayPreviousEvent(eventstep);
+		GRNewEventModule.step--;
+		displayPreviousEvent(GRNewEventModule.step);
 	}
 }
 function next(){
-	if(eventstep==5){
+	if(GRNewEventModule.step==5){
 		return;
 	}
 	else{
-		if(isValid(eventstep)){
-			eventstep++;
-			displayNextEvent(eventstep);
+		if(isValid(GRNewEventModule.step)){
+			GRNewEventModule.step++;
+			displayNextEvent(GRNewEventModule.step);
 		}
 	}
 }
+function createGREvent(){
+	//get the event parameters
+	var group_id=eventGroupID;
+	var event_name=eventName;
+	var description=eventDescription;
+	var location="Location";
+
+	//Times 24 hour format
+	var time="9:30";
+	var time2="10:30";
+
+	var obj;
+
+	//get user email and get user access code
+	var _cookies = genCookieDictionary();
+
+	if(eventIsFixed){
+		time=startHourFixed+":"+startMinuteFixed;
+		time2=endHourFixed+":"+endMinuteFixed;
+
+		var start_time=makeDateAndTimeObject(fixedStartDate,time);
+		var end_time=makeDateAndTimeObject(fixedEndDate,time2);
+
+		obj = {
+			"function":"create_fixed_event",
+			"email":_cookies.user,
+			"cookie":_cookies.accesscode,
+			"event_title":event_name,
+			"event_descripton":description,
+			"group_uid":group_id,
+			"start_time":start_time,
+			"location":location,
+			"end_time":end_time
+			
+		};
+		console.log(obj);
+	}
+	else{
+
+		/*
+		var start_date=makeDateAndTimeObject(helpStartDate,null);
+		var end_date=makeDateAndTimeObject(helpEndDate,null);
+		var start_time=time;
+		var end_time=time2;
+		*/
+		var start_time=makeDateAndTimeObject(helpStartDate,time);
+		var end_time=makeDateAndTimeObject(helpEndDate,time2);
+		var duration=30;
+		obj = {
+			"function":"create_votable_event",
+			"email":_cookies.user,
+			"cookie":_cookies.accesscode,
+			"event_title":event_name,
+			"event_descripton":description,
+			"group_uid":group_id,
+			"start_time":start_time,
+			"end_time":end_time,
+			"duration":duration,
+			"location":location
+		};
+	}
+
+	// Contact Server
+	$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:'POST',
+			data:obj,
+			statusCode:{
+				200:function(data,status,jqXHR){
+					alert("Event Created");
+					updateProgressBar(6);
+					resetEventParameters();
+					$('#createTaskBox').modal('hide');
+					//window.location = "./home.html";				
+				},
+				206:function(){
+					$('#createTaskBox').modal('hide');
+					//access denied, redirect to login
+					alert("Access Denied");	
+					//window.location = "./login.html";
+				},
+				220:function(){
+					//something else happened
+					alert("We have literally no idea what happened.")
+				}
+			}
+	});
+	return false;
+}
+
+// ============================================================
+// Step Functions
+
 function updateProgressBar(step){
 	if(step==5){
 		var percent=step*20 -3;
@@ -136,10 +316,15 @@ function writeStep5(){
 	var line1="Your Event: <b>"+eventName+"</b> for group <b>"+eventGroup+"</b>.";
 
 	if(eventIsFixed){
-		var line2="is fixed from <b>"+fixedStartDate+"</b> at <b>"+(startHourFixed%12)+":"+startMinuteFixed+" "+startAMPMFixed+" </b>to<b> "+fixedEndDate+" </b>at<b> "+(endHourFixed%12)+":"+endMinuteFixed+" "+endAMPMFixed+"</b>.";
+		var line2="is fixed from <b>"
+					+fixedStartDate
+					+"</b> at <b>"+(startHourFixed%12)+":"+startMinuteFixed+" "+startAMPMFixed
+					+" </b>to<b> "+fixedEndDate+" </b>at<b> "+(endHourFixed%12)+":"+endMinuteFixed+" "+endAMPMFixed+"</b>.";
 	}
 	else{
-		var line2="will be group scheduled sometime between <b>"+helpStartDate+"</b> at <b>"+helpStartTime+" </b>to<b> "+helpEndDate+" </b>at<b> "+helpEndTime+"</b>.";
+		var line2="will be group scheduled sometime between <b>"
+					+helpStartDate+"</b> at <b>"+helpStartTime+" </b>to<b> "
+					+helpEndDate+" </b>at<b> "+helpEndTime+"</b>.";
 	}
 	if(attendance && eventIsFixed){
 		var line3="Your group members <b>will</b> be asked if they can make it.";
@@ -322,6 +507,8 @@ function isValid(step){
 			document.getElementById('eventError').innerHTML="The end date can't be before the start date.";
 			return false;
 		}
+		
+		
 		helpStartDate=startdate;
 		helpEndDate=enddate;
 		return true;
@@ -365,126 +552,4 @@ function isValid(step){
 
 }
 
-function createGREvent(){
-	//get the event parameters
-	var group_id=eventGroupID;
-	var event_name=eventName;
-	var description=eventDescription;
-	var location="Location";
 
-	//Times 24 hour format
-	var time="9:30";
-	var time2="10:30";
-
-	var obj;
-
-	//get user email and get user access code
-	var _cookies = genCookieDictionary();
-
-	if(eventIsFixed){
-		time=startHourFixed+":"+startMinuteFixed;
-		time2=endHourFixed+":"+endMinuteFixed;
-
-		var start_time=makeDateAndTimeObject(fixedStartDate,time);
-		var end_time=makeDateAndTimeObject(fixedEndDate,time2);
-
-		obj = {
-			"function":"create_fixed_event",
-			"email":_cookies.user,
-			"cookie":_cookies.accesscode,
-			"event_title":event_name,
-			"event_descripton":description,
-			"group_uid":group_id,
-			"start_time":start_time,
-			"location":location,
-			"end_time":end_time
-			
-		};
-		console.log(obj);
-	}
-	else{
-
-		var start_date=makeDateAndTimeObject(helpStartDate,null);
-		var end_date=makeDateAndTimeObject(helpEndDate,null);
-		var start_time=time;
-		var end_time=time2;
-		var duration=30;
-		obj = {
-			"function":"create_votable_event",
-			"email":_cookies.user,
-			"cookie":_cookies.accesscode,
-			"event_title":event_name,
-			"event_descripton":description,
-			"group_uid":group_id,
-			"start_time":start_time,
-			"end_time":end_time,
-			"start_date":start_date,
-			"end_date":end_date,
-			"duration":duration,
-			"location":location
-		};
-	}
-
-	// Contact Server
-	$.ajax("https://www.groupright.net/dev/groupserve.php",{
-			type:'POST',
-			data:obj,
-			statusCode:{
-				200:function(data,status,jqXHR){
-					alert("Event Created");
-					updateProgressBar(6);
-					resetEventParameters();
-					$('#createTaskBox').modal('hide');
-					//window.location = "./home.html";				
-				},
-				206:function(){
-					$('#createTaskBox').modal('hide');
-					//access denied, redirect to login
-					alert("Access Denied");	
-					//window.location = "./login.html";
-				},
-				220:function(){
-					//something else happened
-					alert("We have literally no idea what happened.")
-				}
-			}
-	});
-	return false;
-}
-function makeDateAndTimeObject(_date,_time){
-	var dateAndTime= new Date(_date);
-	if(_time!=null){
-		_time=_time.split(":");
-		var hours=_time[0];
-		var minutes=_time[1];
-		dateAndTime.setHours(hours);
-		dateAndTime.setMinutes(minutes);
-	}
-	dateAndTime=dateAndTime.toJSON();
-	return dateAndTime;
-}
-function isValidDate(dateString)
-{
-    // First check for the pattern
-    if(!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
-        return false;
-
-    // Parse the date parts to integers
-    var parts = dateString.split("/");
-    var day = parseInt(parts[1], 10);
-    var month = parseInt(parts[0], 10);
-    var year = parseInt(parts[2], 10);
-
-    // Check the ranges of month and year
-    if(year < 1000 || year > 3000 || month == 0 || month > 12)
-        return false;
-
-    var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
-
-    // Adjust for leap years
-    if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
-        monthLength[1] = 29;
-
-    // Check the range of the day
-    return day > 0 && day <= monthLength[month - 1];
-}
