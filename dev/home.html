@@ -5,28 +5,43 @@
 <title>GroupRight, Groups Done Right</title>
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet" />
+<!-- Core CSS File, many styles used throughout GroupRight -->
 <link href="css/home-styles.css" rel="stylesheet" />
+<!-- Calendar Styles -->
 <link href="js/cal/grcal.css" rel="stylesheet"/>
+<!-- GroupRight Fonts -->
 <link href="css/font.css" rel="stylesheet">
+<!-- External Libraries for selecting Date and Time -->
 <link href="css/datepicker.css" rel="stylesheet">
 <link href="css/timepicker.css" rel="stylesheet">
+<!-- 
+    Check width of page dynamically.
+    This is really just to assist/improve upon the Bootstrap styles
+    We have a Computer/Tablet/Phone view
+-->
 <link rel='stylesheet' media='screen and (max-width: 767px)' href='css/home-styles-phone.css' />
 <link rel='stylesheet' media='screen and (min-width: 768px) and (max-width: 1199px)' href='css/home-styles-tablet.css' />
 <link rel='stylesheet' media='screen and (min-width: 1200px)' href='css/home-styles-computer.css' />
+<!-- link to favicon -->
 <link rel="icon" href="images/favicon.png" />
 
+<!-- These are keywords for Search Engine Optimization -->
 <meta name="keywords" content="GroupRight, Group Right, Groups done right, Group, Right, GroupWright, Group Wright, Group, Wright, groups, collaboration, collaborative group management, management, tasks, assignment, teamwork, scheduler, scheduling, planning, coordination, team building, Santa Clara University, SCU, Santa Clara, Kenneth Bigler, Kenneth, Bigler, Kenneth William Lidgate Bigler, Zachary Wilson, Zachary, Wilson, Scott Sarsfield, Scott, Sarsfield, Senior Design Project, Senior, Design, Project">
+<!-- Description for Google, hopefully to help get us on the front page -->
 <meta name="description" content="GroupRight is a collaborative group management system.  It is the Senior Design Project for Kenneth Bigler, Zachary Wilson, and Scott Sarsfield, students from Santa Clara University.">
+<!-- Ken Bigler, Zach Wilson, and Scott Sarsfield Wrote this site -->
 <meta name="author" content="GroupRight">
-
-
+<!--
+	This enables the bootstrap mobile view,
+	why this is not done by default I DO NOT KNOW,
+	BUT THIS IS NEEDED
+-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-
 </head>
-<body>
 
+<body>
+<!-- Begin Code for our top navigation bar -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid page-container">
 			<a href="https://www.groupright.net/" >
@@ -68,9 +83,11 @@
 		</div>
 	</div>
 </nav>
-
+<!-- End Navigation Bar Code -->
+<!-- False footer, I think it is there to keep our content from out behind the header, but I do not remember for sure... -->
 <div class="foofooter">&nbsp;</div>
 
+<!--Begin Code for our top Main Action Buttons -->
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3">
@@ -87,11 +104,15 @@
 		</div>
 	</div>
 </div>
+<!-- End Code for our top Main Action Buttons -->
 
+<!-- This is a wrapping container, we needed it to make the styling work at some point -->
 <div class="wrapstuff">
 
+<!-- FINALLY! We can begin the main content -->
 <div id="mainview" class="container-fluid">
 	<div id="row">
+		<!-- Updates -->
 		<div id="updates" class="col-lg-3 col-sm-6">
 			<div class="main3w">
 				<h2>Updates</h2>
@@ -106,6 +127,7 @@
 				</div>
 			</div>
 		</div>
+		<!-- Tasks -->
 		<div id="tasks" class="col-lg-3 col-sm-6">
 			<div class="main3w">
 				<h2>Tasks <span class='badge' id='taskNumber'></span></h2>
@@ -117,6 +139,7 @@
 				</div>
 			</div>
 		</div>
+		<!-- Calendar -->
 		<div id="comingup" class="col-lg-6 col-sm-12">
 			<div class="main6w" style="position:relative;">
 				<h2>Coming Up</h2>
@@ -580,6 +603,7 @@ END OF LIGHT BOX SECTION
 	</div>
 </footer>
 
+<!-- We include all our scripts at the end of the page so that the page will get better load times -->
 <script src="js/jquery.min.js">
 </script>
 <script src="js/cookie.js">
