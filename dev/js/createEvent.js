@@ -257,14 +257,14 @@ function isValid(step){
 			document.getElementById('eventError').innerHTML="The end date can't be before the start date.";
 			return false;
 		}
-		var startHour=document.getElementById("startHourFixed").value;
-		var startMinute=document.getElementById("startMinuteFixed").value;
+		var startHour=parseInt( document.getElementById("startHourFixed").value );
+		var startMinute=parseInt( document.getElementById("startMinuteFixed").value );
 		if(startHour<1 || startHour>12 || startMinute<0 || startMinute>59){
 			document.getElementById('eventError').innerHTML="Invalid Start time entered";
 			return false;
 		}
-		var endHour=document.getElementById("endHourFixed").value;
-		var endMinute=document.getElementById("endMinuteFixed").value;
+		var endHour=parseInt( document.getElementById("endHourFixed").value );
+		var endMinute=parseInt( document.getElementById("endMinuteFixed").value );
 		if(endHour<1 || endHour>12 || endMinute<0 || endMinute>59){
 			document.getElementById('eventError').innerHTML="Invalid End time entered";
 			return false;
@@ -278,12 +278,12 @@ function isValid(step){
 			endHour+=12;
 		}
 		if(fixedStartDate==fixedEndDate){
-			if(startHour<endHour){
+			if(startHour > endHour){
 				document.getElementById('eventError').innerHTML="The end date can't be before the start date.";
 				return false;
 			}
 			if(startHour==endHour){
-				if(startMinute>endMinute){
+				if(startMinute > endMinute){
 					document.getElementById('eventError').innerHTML="The end date can't be before the start date.";
 					return false;
 				}
