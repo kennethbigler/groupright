@@ -12,6 +12,8 @@
 <link rel='stylesheet' media='screen and (min-width: 768px) and (max-width: 1199px)' href='css/home-styles-tablet.css' />
 <link rel='stylesheet' media='screen and (min-width: 1200px)' href='css/home-styles-computer.css' />
 <link rel="icon" href="images/favicon.png" />
+<!-- Settings Style Sheet -->
+<link href="css/settings-styles.css" rel="stylesheet">
 
 <meta name="keywords" content="GroupRight, Group Right, Groups done right, Group, Right, GroupWright, Group Wright, Group, Wright, groups, collaboration, collaborative group management, management, tasks, assignment, teamwork, scheduler, scheduling, planning, coordination, team building, Santa Clara University, SCU, Santa Clara, Kenneth Bigler, Kenneth, Bigler, Kenneth William Lidgate Bigler, Zachary Wilson, Zachary, Wilson, Scott Sarsfield, Scott, Sarsfield, Senior Design Project, Senior, Design, Project">
 <meta name="description" content="GroupRight is a collaborative group management system.  It is the Senior Design Project for Kenneth Bigler, Zachary Wilson, and Scott Sarsfield, students from Santa Clara University.">
@@ -53,10 +55,10 @@
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="profileName">Name<span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li onclick="logoutAndRedirect()"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+              <li onclick="logoutAndRedirect()"><a href=""><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
               <li><a href="account_settings.html"><span class="glyphicon glyphicon-th-list"></span> My Account</a></li>
-              <li><a href="group_settings.html"><span class="glyphicon glyphicon-cog"></span>  Group Settings</a></li>
-              <li><a href="notification_settings"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>
+              <li><a href="group_settings.html"><span class="glyphicon glyphicon-cog"></span> Group Settings</a></li>
+              <li><a href="notification_settings.html"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>
               <li><a href="error_settings.html"><span class="glyphicon glyphicon-wrench"></span> Report Error</a></li>
               <li><a href="contact.html"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
             </ul>
@@ -69,97 +71,99 @@
 
 <div class="foofooter">&nbsp;</div>
 
-<div class="container-fluid">
-<div class="row">
-  <div class="col-sm-2" style="height:100%;overflow-y:auto;">
-      <!-- Left column -->
-      <div class="panel panel-primary">
-      <div class="panel-heading"><h4>Menu</h4></div>
-      <div class="panel-body">
+<div class="myMainContent scrollable">
 
-      <ul class="list-unstyled">
-        <li class="nav-header">
-          <a href="account_settings.html"><h5>My Account</h5> </a>
-        </li>
-        <li class="nav-header"> 
-          <a href="group_settings.html"><h5>My Groups</h5></a>
-        </li>
-        <li class="nav-header">
-          <a href="notification_settings.html"><h5>Notifications</h5></a>
-        </li>
-        <li class="nav-header">
-          <a href="security_settings.html"><h5>Security</h5></a>
-        </li>
-        <li class="nav-header">
-          <a href="error_settings.html"><h5>Report Error</h5></a>
-        </li>
-      </ul>
-      <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-        Popover on left
-      </button>
-
-    </div>
-  </div>
-   
-      
-      
-    </div><!-- /col-3 -->
-<div class="col-sm-10">
+    <div class="container-fluid">
     <div class="row">
-      <div class="well" style="margin:15px;margin-top:0px;"><h3> My Groups <span id="addNumber" class="badge pull-right">3</span></h3></div>
-  </div>
-    <div class="row">     
-      <div class="col-md-12" id="groupAdder">
-      
+      <div class="col-sm-2" style="height:100%;overflow-y:auto;">
+          <!-- Left column -->
+          <div class="panel panel-primary">
+          <div class="panel-heading"><h4>Menu</h4></div>
+          <div class="panel-body">
+
+          <ul class="list-unstyled">
+            <li class="nav-header">
+              <a href="account_settings.html"><h5>My Account</h5> </a>
+            </li>
+            <li class="nav-header"> 
+              <a href="group_settings.html"><h5>My Groups</h5></a>
+            </li>
+            <li class="nav-header">
+              <a href="notification_settings.html"><h5>Notifications</h5></a>
+            </li>
+            <li class="nav-header">
+              <a href="security_settings.html"><h5>Security</h5></a>
+            </li>
+            <li class="nav-header">
+              <a href="error_settings.html"><h5>Report Error</h5></a>
+            </li>
+          </ul>
+          <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+            Popover on left
+          </button>
+
+        </div>
       </div>
-     
-</div><!--/row-->
-      
-
-</div><!--/col-span-10-->
-</div>
-</div>
-<!-- /Main -->
-<!--*******************************************************************************************-->
-<!---BEGIN MODAL DECLARATIONS -->
-<!--*******************************************************************************************-->
-<button href="#myModal" id="openBtn" data-toggle="modal" class="btn btn-default">Modal</button>
-
-<div class="modal fade" id="myModal">
-<div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3 class="modal-title" id="modalGroupName">Group Name</h3>
-        </div>
-        <div class="modal-body">
-          <table class="table table-striped" id="tblGrid">
-            <thead id="tblHead">
-              <tr id="addModalTableHeadings">
-                <th>Member</th><!--
-                <th>Points</th>
-                <th class="text-right">Mean</th>-->
-              </tr>
-            </thead>
-            <tbody id="addMembers">
-              <tr><td>Long Island, NY, USA</td>
-                <!--<td>3</td>
-                <td class="text-right">45001</td>-->
-              </tr>
-            </tbody>
-          </table>
-          <div class="form-group">
-            <input type="button" class="btn btn-warning btn-sm pull-right" value="Reset">
-            <div class="clearfix"></div>
+       
+          
+          
+        </div><!-- /col-3 -->
+    <div class="col-sm-10">
+        <div class="row">
+          <div class="well" style="margin:15px;margin-top:0px;"><h3> My Groups <span id="addNumber" class="badge pull-right">3</span></h3></div>
+      </div>
+        <div class="row">     
+          <div class="col-md-12" id="groupAdder">
+          
           </div>
+         
+    </div><!--/row-->
+          
+
+    </div><!--/col-span-10-->
     </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+    </div>
+    <!-- /Main -->
+    <!--*******************************************************************************************-->
+    <!---BEGIN MODAL DECLARATIONS -->
+    <!--*******************************************************************************************-->
+    <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h3 class="modal-title" id="modalGroupName">Group Name</h3>
+            </div>
+            <div class="modal-body">
+              <table class="table table-striped" id="tblGrid">
+                <thead id="tblHead">
+                  <tr id="addModalTableHeadings">
+                    <th>Member</th><!--
+                    <th>Points</th>
+                    <th class="text-right">Mean</th>-->
+                  </tr>
+                </thead>
+                <tbody id="addMembers">
+                  <tr><td>Long Island, NY, USA</td>
+                    <!--<td>3</td>
+                    <td class="text-right">45001</td>-->
+                  </tr>
+                </tbody>
+              </table>
+              <div class="form-group">
+                <input type="button" class="btn btn-warning btn-sm pull-right" value="Reset">
+                <div class="clearfix"></div>
+              </div>
         </div>
-        
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+            </div>
+            
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+<!-- /main content -->
+</div>
 <!--*******************************************************************************************-->
 <!---END MODAL DECLARATIONS -->
 <!--*******************************************************************************************-->
@@ -204,7 +208,16 @@
   </div>
 </footer>
 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-61784938-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 
 </body>
 </html>

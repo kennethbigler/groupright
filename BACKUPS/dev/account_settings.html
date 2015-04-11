@@ -10,10 +10,13 @@
 <link href="css/font.css" rel="stylesheet">
 <link href="css/datepicker.css" rel="stylesheet">
 <link href="css/timepicker.css" rel="stylesheet">
+<!-- Changing Screen Size Stylesheets -->
 <link rel='stylesheet' media='screen and (max-width: 767px)' href='css/home-styles-phone.css' />
 <link rel='stylesheet' media='screen and (min-width: 768px) and (max-width: 1199px)' href='css/home-styles-tablet.css' />
 <link rel='stylesheet' media='screen and (min-width: 1200px)' href='css/home-styles-computer.css' />
 <link rel="icon" href="images/favicon.png" />
+<!-- Settings Style Sheet -->
+<link href="css/settings-styles.css" rel="stylesheet">
 
 <meta name="keywords" content="GroupRight, Group Right, Groups done right, Group, Right, GroupWright, Group Wright, Group, Wright, groups, collaboration, collaborative group management, management, tasks, assignment, teamwork, scheduler, scheduling, planning, coordination, team building, Santa Clara University, SCU, Santa Clara, Kenneth Bigler, Kenneth, Bigler, Kenneth William Lidgate Bigler, Zachary Wilson, Zachary, Wilson, Scott Sarsfield, Scott, Sarsfield, Senior Design Project, Senior, Design, Project">
 <meta name="description" content="GroupRight is a collaborative group management system.  It is the Senior Design Project for Kenneth Bigler, Zachary Wilson, and Scott Sarsfield, students from Santa Clara University.">
@@ -60,10 +63,10 @@
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="profileName">Name<span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li onclick="logoutAndRedirect()"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+              <li onclick="logoutAndRedirect()"><a href=""><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
               <li><a href="account_settings.html"><span class="glyphicon glyphicon-th-list"></span> My Account</a></li>
               <li><a href="group_settings.html"><span class="glyphicon glyphicon-cog"></span> Group Settings</a></li>
-              <li><a href="notification_settings"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>
+              <li><a href="notification_settings.html"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>
               <li><a href="error_settings.html"><span class="glyphicon glyphicon-wrench"></span> Report Error</a></li>
               <li><a href="contact.html"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
             </ul>
@@ -76,207 +79,208 @@
 
 <div class="foofooter">&nbsp;</div>
 
-<div class="container-fluid">
-<div class="row">
-  <div class="col-sm-2" style="height:100%;">
-      <!-- Left column -->
-      <div class="panel panel-primary">
-      <div class="panel-heading"><h4>Menu</h4></div>
-      <div class="panel-body">
+<div class="myMainContent scrollable">
 
-      <ul class="list-unstyled">
-        <li class="nav-header">
-          <a href="account_settings.html"><h5>My Account</h5> </a>
-        </li>
-        <li class="nav-header"> 
-          <a href="group_settings.html"><h5>My Groups</h5></a>
-        </li>
-        <li class="nav-header">
-          <a href="notification_settings.html"><h5>Notifications</h5></a>
-        </li>
-        <li class="nav-header">
-          <a href="security_settings.html"><h5>Security</h5></a>
-        </li>
-        <li class="nav-header">
-          <a href="error_settings.html"><h5>Report Error</h5></a>
-        </li>
-      </ul>
-    </div>
-  </div>
-   
-      
-      
-    </div><!-- /col-3 -->
-    <div class="col-sm-10">
-    <div class="alert alert-success" id="successBanner" style="display:none" role="alert">
-        This is a successful alert.
-      </div>
-    <div class="row">     
-      <div class="col-md-7">
-        <div class="panel panel-default">
-           <div class="panel-heading">
-              <h4>Current Information</h4>
-           </div>
-           <div class="panel-body">
-              <div class="row">
-                <div class="col-xs-4">
-                    <h4> First Name: </h4>
-                </div>
-                <div class="col-xs-4">
-                    <h4 id="firstName"> Joe </h4>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xs-4">
-                    <h4> Last Name: </h4>
-                </div>
-                <div class="col-xs-4">
-                    <h4 id="lastName"> Joe </h4>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xs-4">
-                    <h4> Email: </h4>
-                </div>
-                <div class="col-xs-4">
-                    <h4 id="email"> Joe </h4>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xs-4">
-                    <h4> Phone Number: </h4>
-                </div>
-                <div class="col-xs-4">
-                    <h4 id="phoneNumber"> Not Provided </h4>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xs-4">
-                    <h4> Date Joined: </h4>
-                </div>
-                <div class="col-xs-4">
-                    <h4 id="dateJoined"> Not Available </h4>
-                </div>
-              </div>
-           </div>
+    <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-2" style="height:100%;">
+          <!-- Left column -->
+          <div class="panel panel-primary">
+          <div class="panel-heading"><h4>Menu</h4></div>
+          <div class="panel-body">
+
+          <ul class="list-unstyled">
+            <li class="nav-header">
+              <a href="account_settings.html"><h5>My Account</h5> </a>
+            </li>
+            <li class="nav-header"> 
+              <a href="group_settings.html"><h5>My Groups</h5></a>
+            </li>
+            <li class="nav-header">
+              <a href="notification_settings.html"><h5>Notifications</h5></a>
+            </li>
+            <li class="nav-header">
+              <a href="security_settings.html"><h5>Security</h5></a>
+            </li>
+            <li class="nav-header">
+              <a href="error_settings.html"><h5>Report Error</h5></a>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="col-md-5">
-        <div class="panel panel-default">
-           <div class="panel-heading">
-              <h4>Profile Picture</h4>
-           </div>
-           <div class="panel-body" style="height:225px;">
-                  <h4>Select photo from your computer</h4>
-                  <br/>
-                <form action="" method="post" enctype="multipart/form-data" id="js-upload-form">
-                  <div class="form-inline">
-                    <div class="form-group">
-                      <input type="file" name="files[]" id="js-upload-files">
+       
+          
+          
+        </div><!-- /col-3 -->
+        <div class="col-sm-10">
+        <div class="alert alert-success" id="successBanner" style="display:none" role="alert">
+            This is a successful alert.
+          </div>
+        <div class="row">     
+          <div class="col-md-7">
+            <div class="panel panel-default">
+               <div class="panel-heading">
+                  <h4>Current Information</h4>
+               </div>
+               <div class="panel-body">
+                  <div class="row">
+                    <div class="col-xs-4">
+                        <h4> First Name: </h4>
                     </div>
-                    <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload</button>
+                    <div class="col-xs-4">
+                        <h4 id="firstName"> Joe </h4>
+                    </div>
                   </div>
-                </form>
-         </div>
-      </div>
-    </div>
-    <div class="row">     
-      <div class="col-md-12">
-        <div class="panel panel-default">
-           <div class="panel-heading"><h4>My Account</h4></div>
-            <div class="panel-body">
-              <div class="signup-box back" id="createGroupBox">
-
-                
-                    
-                  <h5 class="header-center">Change Your Name</h5>  
-                    <div class="row">
-                      <p id="nameError" style="color:red;margin-left:15px;"></p>
-                      <div class="col-xs-4">
-                        <label for="newFirstName" class="sr-only">First Name</label>  
-                        <input type="text" id="newFirstName" class="form-control" placeholder="First Name" required >
-                      </div>
-                      <div class="col-xs-4">
-                        <label for="newLastName" class="sr-only">Last Name</label>  
-                        <input type="text" id="newLastName" class="form-control" placeholder="Last Name" required >
-                      </div>
+                  <div class="row">
+                    <div class="col-xs-4">
+                        <h4> Last Name: </h4>
                     </div>
-                    
-                    <div class="row" style="margin-top:10px;">
-                      <div class="col-xs-3">
-                      <button class="btn btn-primary" type="button" onclick="changeName();">Update</button>
+                    <div class="col-xs-4">
+                        <h4 id="lastName"> Joe </h4>
                     </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-4">
+                        <h4> Email: </h4>
                     </div>
-
-                  <hr>
-
-                  <h5 class="header-center">Change Your Password</h5>  
-                    <div class="row">
-                      <p id="passwordError" style="color:red;margin-left:15px;"></p>
-                      <div class="col-xs-4">
-                        <label for="oldPassword" class="sr-only">Current Password</label>  
-                        <input type="password" id="oldPassword" class="form-control" placeholder="Current Password" required >
-                      </div>
+                    <div class="col-xs-4">
+                        <h4 id="email"> Joe </h4>
                     </div>
-                    <div class="row" style="margin-top:10px;">
-                      <div class="col-xs-4">
-                        <label for="newPassword1" class="sr-only">New Password</label>  
-                        <input type="password" id="newPassword1" class="form-control" placeholder="New Password" required >
-                      </div>
-                        <div class="col-xs-4">
-                        <label for="newPassword2" class="sr-only">Confirm New Password</label>  
-                        <input type="password" id="newPassword2" class="form-control" placeholder="Confirm New Password" required >
-                      </div>
-                      </div>
-                    <div class="row" style="margin-top:10px;">
-                      <div class="col-xs-3">
-                      <button class="btn btn-primary" type="button" onclick="changeGRPassword()">Update</button>
-                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-4">
+                        <h4> Phone Number: </h4>
                     </div>
-
-                    <hr>
-                    <form id="phoneForm">
-                     <h5 class="header-center">Add a Phone Number</h5>  
-                    <div class="row">
-                      <p id="phoneNumberError" style="color:red;margin-left:15px;"></p>
-                      <div class="col-xs-4">
-                        
-
-                        <label for="newPhoneNumber" class="sr-only">Phone Number</label>  
-                        <input type="phone"  id="newPhoneNumber" class="form-control" name="phoneNumber" placeholder="Phone Number" required />
-                      </div>
-                      <div class="col-xs-4">
-                         <select class="form-control" name="countrySelectBox">
-                            <option value="US">United States</option>
-                         </select>
-                      </div>
+                    <div class="col-xs-4">
+                        <h4 id="phoneNumber"> Not Provided </h4>
                     </div>
-                    
-                    <div class="row" style="margin-top:10px;">
-                      <div class="col-xs-3">
-                      <button class="btn btn-primary" type="button" onclick="changePhone()">Update</button>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-4">
+                        <h4> Date Joined: </h4>
                     </div>
+                    <div class="col-xs-4">
+                        <h4 id="dateJoined"> Not Available </h4>
                     </div>
-                  </form>
-
-                
-              </div>
-                
-            </div>
+                  </div>
+               </div>
             </div>
           </div>
+          <div class="col-md-5">
+            <div class="panel panel-default">
+               <div class="panel-heading">
+                  <h4>Profile Picture</h4>
+               </div>
+               <div class="panel-body" style="height:225px;">
+                      <h4>Select photo from your computer</h4>
+                      <br/>
+                    <form action="" method="post" enctype="multipart/form-data" id="js-upload-form">
+                      <div class="form-inline">
+                        <div class="form-group">
+                          <input type="file" name="files[]" id="js-upload-files">
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload</button>
+                      </div>
+                    </form>
+             </div>
+          </div>
         </div>
+        <!--<div class="row">-->
+          <div class="col-md-12">
+            <div class="panel panel-default">
+               <div class="panel-heading"><h4>My Account</h4></div>
+                <div class="panel-body">
+                  <div class="signup-box back" id="createGroupBox">
 
-      </div><!--/col-span-6-->
-     
-      </div><!--/row-->
-      
+                    
+                        
+                      <h5 class="header-center">Change Your Name</h5>  
+                        <div class="row">
+                          <p id="nameError" style="color:red;margin-left:15px;"></p>
+                          <div class="col-xs-4">
+                            <label for="newFirstName" class="sr-only">First Name</label>  
+                            <input type="text" id="newFirstName" class="form-control" placeholder="First Name" required >
+                          </div>
+                          <div class="col-xs-4">
+                            <label for="newLastName" class="sr-only">Last Name</label>  
+                            <input type="text" id="newLastName" class="form-control" placeholder="Last Name" required >
+                          </div>
+                        </div>
+                        
+                        <div class="row" style="margin-top:10px;">
+                          <div class="col-xs-3">
+                          <button class="btn btn-primary" type="button" onclick="changeName();">Update</button>
+                        </div>
+                        </div>
 
-    </div><!--/col-span-10-->
-</div>
+                      <hr>
+
+                      <h5 class="header-center">Change Your Password</h5>  
+                        <div class="row">
+                          <p id="passwordError" style="color:red;margin-left:15px;"></p>
+                          <div class="col-xs-4">
+                            <label for="oldPassword" class="sr-only">Current Password</label>  
+                            <input type="password" id="oldPassword" class="form-control" placeholder="Current Password" required >
+                          </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                          <div class="col-xs-4">
+                            <label for="newPassword1" class="sr-only">New Password</label>  
+                            <input type="password" id="newPassword1" class="form-control" placeholder="New Password" required >
+                          </div>
+                            <div class="col-xs-4">
+                            <label for="newPassword2" class="sr-only">Confirm New Password</label>  
+                            <input type="password" id="newPassword2" class="form-control" placeholder="Confirm New Password" required >
+                          </div>
+                          </div>
+                        <div class="row" style="margin-top:10px;">
+                          <div class="col-xs-3">
+                          <button class="btn btn-primary" type="button" onclick="changeGRPassword()">Update</button>
+                          </div>
+                        </div>
+
+                        <hr>
+                        <form id="phoneForm">
+                         <h5 class="header-center">Add a Phone Number</h5>  
+                        <div class="row">
+                          <p id="phoneNumberError" style="color:red;margin-left:15px;"></p>
+                          <div class="col-xs-4">
+                            
+
+                            <label for="newPhoneNumber" class="sr-only">Phone Number</label>  
+                            <input type="phone"  id="newPhoneNumber" class="form-control" name="phoneNumber" placeholder="Phone Number" required />
+                          </div>
+                          <div class="col-xs-4">
+                             <select class="form-control" name="countrySelectBox">
+                                <option value="US">United States</option>
+                             </select>
+                          </div>
+                        </div>
+                        
+                        <div class="row" style="margin-top:10px;">
+                          <div class="col-xs-3">
+                          <button class="btn btn-primary" type="button" onclick="changePhone()">Update</button>
+                        </div>
+                        </div>
+                      </form>
+
+                    
+                  </div>
+                    
+                </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!--/col-span-6-->
+         
+        </div><!--/row-->
+          
+
+      </div><!--/col-span-10-->
+    </div>
 </div>
 <!-- /Main -->
-
 <footer class="container-fluid" style="position:relative;">
   <div class="row">
     <div class="col-sm-3 footing">
@@ -317,7 +321,16 @@
   </div>
 </footer>
 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-61784938-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 
 </body>
 </html>

@@ -78,6 +78,13 @@ h2 {
 	font-size: 2em;
 }
 
+img.snm {
+	width: 31px !important;
+	height: 31px !important;
+	display: inline;
+}
+
+/* This is code for the universal footer */
 footer {
 	background-color: gray;
 	color: white;
@@ -100,11 +107,19 @@ footer a {
 footer a:hover {
 	color: #E3C00C;
 }
-
-img.snm {
-	width: 31px !important;
-	height: 31px !important;
-	display: inline;
+/* End Footer Code */
+/* This is code for main content, making the footer not overlap any of it */
+div.scrollable {
+	overflow: auto;
+	overflow-y: scroll;
+	-ms-overflow-style: none;
 }
 
-
+.myMainContent {
+	position:absolute;
+	top:50px;
+	bottom:3em;
+	left:0;
+	right:0;
+}
+/* End code for main content */
