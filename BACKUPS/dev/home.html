@@ -83,7 +83,7 @@
 			<button type="button" class="btn btn-lg btn-block btn-success" data-toggle="modal" href="#createTaskBox">Start a Task</button>
 		</div>
 		<div class="col-sm-3">
-			<button type="button" class="btn btn-lg btn-block btn-danger" data-toggle="modal" href="#createMessageBox">Messages <span class="badge" id"messageCount">4</span></button>
+			<button type="button" class="btn btn-lg btn-block btn-danger" data-toggle="modal" href="#createMessageBox" onclick="populateMessages()">Messages <span class="badge" id="messageCount" style="display:none;">4</span></button>
 		</div>
 	</div>
 </div>
@@ -145,6 +145,7 @@
         <h4 class="modal-title" id="myModalLabel">Create a Group</h4>
       </div>
       <div class="modal-body">
+			<p id="createGroupError" style="color:red;margin-left:1px;"></p>
       			<h5 class="header-center">Step 1: Add a group name.</h5>	
 				<div class="row">
 					<div class="col-xs-10">
@@ -153,7 +154,7 @@
 					</div>
 				</div>
 				<h5 class="header-center">Step 2: Add an email address for each member. </h5>
-				<div class="scrollable"id="members" >
+				<div id="members" >
 					<div class="row">
 						<div class="col-xs-8">
 							<input type="text" id="member1" class="form-control" placeholder="yourEmail@groupright.net" required disabled>
@@ -512,11 +513,8 @@
 			</div>
 			<div class="col-sm-12 scrollable" id="messageBox">
 				<div id="tempMessage">
-					<div class="convoTail"></div>
-					<div class="userMessage">
-						<h4 class="nameTag">Ken</h4>
-						<p>Welcome to GroupRight!</p>
-						<p class="timeStamp">- 4:13pm</p>
+					<div class="row" style="text-align:center;color:#555;">
+					Select a group from above to begin.
 					</div>
 				</div>
 			</div>
@@ -582,7 +580,7 @@ END OF LIGHT BOX SECTION
 	</div>
 </footer>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+<script src="js/jquery.min.js">
 </script>
 <script src="js/cookie.js">
 </script>
@@ -602,7 +600,7 @@ END OF LIGHT BOX SECTION
 </script>
 <script src="js/message.js">
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.js">
+<script src="js/bootstrap.js">
 </script>
 <script src="js/timepicker.js">
 </script>

@@ -1,6 +1,6 @@
 /* styles for Group Right Calendar (grcal) */
 
-.gr-calendar{overflow:hidden; margin:auto;}
+.gr-calendar{overflow:hidden; margin:auto; height:100%;width:100%;}
 
 /* hour labels */
 

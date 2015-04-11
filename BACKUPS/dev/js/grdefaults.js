@@ -1,4 +1,4 @@
-var obj = {
+var _obj = {
 "first_name":"Test",
 "last_name":"McTestVille",
 "photo_url":null,
@@ -482,7 +482,7 @@ var obj = {
 "updates":[]
 };
 
-var DEFAULT_GROUPS = JSON.stringify(obj);
+var DEFAULT_GROUPS = JSON.stringify(_obj);
 var DEFAULT_USER = "zwilson7@gmail.com";
 var DEFAULT_GR_COLORS=[
 "#48CB09",
@@ -495,3 +495,79 @@ var DEFAULT_GR_COLORS=[
 "#00A1D9",
 "#006E22"
 ];
+
+_obj = {
+"messages":[{
+"email":"scomatbarsar@gmail.com",
+"content":"What's up?",
+"timestamp":"2015-02-26 22:00:05 UTC"
+},
+{
+"email":"scomatbarsar@gmail.com",
+"content":"Just testing the server. (for messaging)",
+"timestamp":"2015-02-27 02:38:33 UTC"
+},
+{
+"email":"scomatbarsar@gmail.com",
+"content":"Don't mind me.",
+"timestamp":"2015-02-27 02:38:41 UTC"
+},
+{
+"email":"scomatbarsar@gmail.com",
+"content":"Time check (1:51AM)",
+"timestamp":"2015-02-27 02:51:27 UTC"
+},
+{
+"email":"scomatbarsar@gmail.com",
+"content":"Perfectly normal",
+"timestamp":"2015-02-27 10:01:07 UTC"
+},
+{
+"email":"zwilson7@gmail.com",
+"content":"\"Come to the game tomorrow\"",
+"timestamp":"2015-03-13 20:22:29 UTC"
+},
+{
+"email":"zwilson7@gmail.com",
+"content":"Hello Peoples in the Villaz",
+"timestamp":"2015-04-08 00:02:02 UTC"
+},
+{
+"email":"zwilson7@gmail.com",
+"content":"Hi",
+"timestamp":"2015-04-08 08:44:11 UTC"
+},
+{
+"email":"scomatbarsar@gmail.com",
+"content":"check",
+"timestamp":"2015-04-10 01:16:51 UTC"
+},
+{
+"email":"zwilson7@gmail.com",
+"content":"Hello",
+"timestamp":"2015-04-10 07:05:58 UTC"
+},
+{
+"email":"scomatbarsar@gmail.com",
+"content":"hi there",
+"timestamp":"2015-04-10 19:26:34 UTC"
+},
+{
+"email":"scomatbarsar@gmail.com",
+"content":"time delay",
+"timestamp":"2015-04-10 19:26:54 UTC"
+},
+{
+"email":"scomatbarsar@gmail.com",
+"content":"check",
+"timestamp":"2015-04-10 21:10:59 UTC"
+},
+{
+"email":"scomatbarsar@gmail.com",
+"content":"check2",
+"timestamp":"2015-04-10 21:17:50 UTC"
+}],
+"num_unread":"6"
+};
+
+var DEFAULT_MESSAGES = JSON.stringify(_obj);

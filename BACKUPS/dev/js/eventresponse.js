@@ -49,7 +49,7 @@ function GRER_initialize(obj){
 	start_time = (obj.start_time) ? obj.start_time : "06:15:00";
 	end_time = (obj.end_time) ? obj.end_time : "15:00:00";
 	event_name = (obj.name) ? obj.name : "Code Spree";
-	event_description = (obj.description) ? obj.description : "To make up for a shit ton of laziness, we need to bum rush this.";
+	event_description = (obj.description) ? obj.description : "";
 	event_creator = (obj.creator) ? obj.creator : "Maniac McGee";	
 	
 	// ====================================

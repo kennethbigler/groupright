@@ -7,9 +7,8 @@
 	
 	//---------------------------------------------------------------------
 	
-	var hournames = ["5am","6am","7am","8am","9am","10am","11am","12pm",
-						"1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm",
-						"9pm","10pm","11pm","12am"];
+	var hournames = ["12am","1am","2am","3am","4am","5am","6am","7am","8am","9am","10am","11am",
+						"12pm","1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm","9pm","10pm","11pm","12am"];
 						
 	var daynames = ["M","T","W","R","F","S","U"];
 	
@@ -210,6 +209,7 @@
 			
 			// adjust hours for am / pm
 			if( (h!=12) && x[4].match(/[Pp][Mm]/)){ h += 12; }
+			if( (h==12) && x[4].match(/[Aa][Mm]/)){ h -= 12; }
 						
 			// set the hours
 			d.setHours(h);
