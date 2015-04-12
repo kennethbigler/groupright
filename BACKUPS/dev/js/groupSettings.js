@@ -104,7 +104,7 @@ function loadGroups(allGroups){
 
 		p2=document.createElement('p');
 		var a2=document.createElement('a');
-		$(a2).attr('onclick','manageGroup('+allGroups[i].group_id+')');
+		$(a2).attr('onclick','manageGroup('+allGroups[i].group_id+',"'+allGroups[i].group_name+'","'+allGroups[i].role+'")');
 		a2.style.cursor="pointer";
 		if(allGroups[i].role=="member"){
 			p2.innerText="View Members";
@@ -158,6 +158,94 @@ function addUserGroupInfo(data){
 function leaveGroup(groupID){
 	alert("Warning! This action cannot be undone. Do you wish to continue?");
 }
-function manageGroup(groupID){
-	alert("You are managing a group");
+function manageGroup(groupID,groupName,role){
+	//AJAX Member Load
+	var _cookies = genCookieDictionary();
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"group_uid":groupID,
+			"function":"get_group_members"
+		};
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					var data=JSON.parse(data);
+					console.log(data);
+					addMembersToModal(data,groupName,role);
+				},
+				220: function(data, status, jqXHR){
+					//they don't have the necessary access to see this page have them login again
+					window.location="https://www.groupright.net/dev/login.html";
+				}
+			}
+		
+		});
+	}
+	else{
+		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
+		//window.location="https://www.groupright.net/dev/login.html";
+		var data=[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			},
+			{
+			"email":"scomatbarsar@gmail.com",
+			"first_name":"Scott",
+			"last_name":"Sarsfield"
+			}]
+		console.log(data);
+		addMembersToModal(data,groupName,role);
+	}
+	//Load Members, Drop functionality, Change Leader Functionality
+	$('#myModal').modal('toggle');
 }
+function addMembersToModal(membersArray,groupName,role){
+	document.getElementById("modalGroupName").innerHTML=groupName;
+	//clear out anything there already
+	var addLocation=document.getElementById("addMembers");
+	addLocation.innerHTML="";
+	var headingRow=document.getElementById("addModalTableHeadings");
+	headingRow.innerHTML="";
+	if(role=="member"){
+		var th=document.createElement('th');
+		th.innerText="Member";
+		headingRow.appendChild(th);
+		for(var i=0; i<membersArray.length; i++){
+		    var tr=document.createElement('tr');
+		    var td=document.createElement('td');
+		    td.innerText=membersArray[i].first_name+" "+membersArray[i].last_name;
+			tr.appendChild(td);
+			addLocation.appendChild(tr);
+		}
+	}
+	else if(role=="leader"){
+		var th=document.createElement('th');
+		var th2=document.createElement('th');
+		th.innerText="Member";
+		th2.innerText="Action";
+		headingRow.appendChild(th);
+		headingRow.appendChild(th2);
+		for(var i=0; i<membersArray.length; i++){
+		    var tr=document.createElement('tr');
+		    var td=document.createElement('td');
+		    var td2=document.createElement('td');
+		    td.innerText=membersArray[i].first_name+" "+membersArray[i].last_name;
+		    td2.innerText="Drop Member";
+			tr.appendChild(td);
+			tr.appendChild(td2);
+			addLocation.appendChild(tr);
+		}
+	}
+}
+
+
+
+
+

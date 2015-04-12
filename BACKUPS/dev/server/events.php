@@ -121,15 +121,15 @@ function getAllEventsSince($email,$event_uid){
 		return $dbh->lastInsertId();
 	}
 	
-	function addEventVoteSettings($event_uid,$start_date,$end_date,$start_time,$end_time,$duration){
+	function addEventVoteSettings($event_uid,$start_time,$end_time,$duration){
 				
 		$dbh = ConnectToDB();
 		
 		$stmt = $dbh->prepare(
-			"INSERT INTO events_vote_settings(event_uid,start_date,end_date,start_time,end_time,duration)
-			VALUES(?,?,?,?,?,?);"
+			"INSERT INTO events_vote_settings(event_uid,start_time,end_time,duration)
+			VALUES(?,?,?,?);"
 		);
-		$stmt->execute(array($event_uid,$start_date,$end_date,$start_time,$end_time,$duration));
+		$stmt->execute(array($event_uid,$start_time,$end_time,$duration));
 	}
 	
 	function getEventVoteSettings($group_uid,$event_uid){
@@ -150,8 +150,6 @@ function getAllEventsSince($email,$event_uid){
 			$obj["name"] = $row["name"];
 			$obj["description"] = $row["description"];
 			$obj["creator"] = $row["email"];
-			$obj["start_date"] = $row["start_date"];
-			$obj["end_date"] = $row["end_date"];
 			$obj["start_time"] = $row["start_time"];
 			$obj["end_time"] = $row["end_time"];
 			$obj["duration"] = $row["duration"];
@@ -205,8 +203,6 @@ function getAllEventsSince($email,$event_uid){
 		$event_title = $_POST['event_title'];
 		$event_descr = $_POST['event_description'];
 		
-		$start_date = $_POST['start_date'];
-		$end_date = $_POST['end_date'];
 		$start_time = $_POST['start_time'];
 		$end_time = $_POST['end_time'];
 		$duration = $_POST['duration'];
@@ -216,7 +212,7 @@ function getAllEventsSince($email,$event_uid){
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
 			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,NULL,NULL,$location);
-			addEventVoteSettings($event_uid,$start_date,$end_date,$start_time,$end_time,$duration);
+			addEventVoteSettings($event_uid,$start_time,$end_time,$duration);
 			addEventVotingTask($email,$group_uid,$event_title,$event_uid);
 			
 			

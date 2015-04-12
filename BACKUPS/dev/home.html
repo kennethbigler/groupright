@@ -5,28 +5,43 @@
 <title>GroupRight, Groups Done Right</title>
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet" />
+<!-- Core CSS File, many styles used throughout GroupRight -->
 <link href="css/home-styles.css" rel="stylesheet" />
+<!-- Calendar Styles -->
 <link href="js/cal/grcal.css" rel="stylesheet"/>
+<!-- GroupRight Fonts -->
 <link href="css/font.css" rel="stylesheet">
+<!-- External Libraries for selecting Date and Time -->
 <link href="css/datepicker.css" rel="stylesheet">
 <link href="css/timepicker.css" rel="stylesheet">
+<!-- 
+    Check width of page dynamically.
+    This is really just to assist/improve upon the Bootstrap styles
+    We have a Computer/Tablet/Phone view
+-->
 <link rel='stylesheet' media='screen and (max-width: 767px)' href='css/home-styles-phone.css' />
 <link rel='stylesheet' media='screen and (min-width: 768px) and (max-width: 1199px)' href='css/home-styles-tablet.css' />
 <link rel='stylesheet' media='screen and (min-width: 1200px)' href='css/home-styles-computer.css' />
+<!-- link to favicon -->
 <link rel="icon" href="images/favicon.png" />
 
+<!-- These are keywords for Search Engine Optimization -->
 <meta name="keywords" content="GroupRight, Group Right, Groups done right, Group, Right, GroupWright, Group Wright, Group, Wright, groups, collaboration, collaborative group management, management, tasks, assignment, teamwork, scheduler, scheduling, planning, coordination, team building, Santa Clara University, SCU, Santa Clara, Kenneth Bigler, Kenneth, Bigler, Kenneth William Lidgate Bigler, Zachary Wilson, Zachary, Wilson, Scott Sarsfield, Scott, Sarsfield, Senior Design Project, Senior, Design, Project">
+<!-- Description for Google, hopefully to help get us on the front page -->
 <meta name="description" content="GroupRight is a collaborative group management system.  It is the Senior Design Project for Kenneth Bigler, Zachary Wilson, and Scott Sarsfield, students from Santa Clara University.">
+<!-- Ken Bigler, Zach Wilson, and Scott Sarsfield Wrote this site -->
 <meta name="author" content="GroupRight">
-
-
+<!--
+	This enables the bootstrap mobile view,
+	why this is not done by default I DO NOT KNOW,
+	BUT THIS IS NEEDED
+-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-
 </head>
-<body>
 
+<body>
+<!-- Begin Code for our top navigation bar -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid page-container">
 			<a href="https://www.groupright.net/" >
@@ -58,7 +73,7 @@
 							<li onclick="logoutAndRedirect()"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 							<li><a href="account_settings.html"><span class="glyphicon glyphicon-th-list"></span> My Account</a></li>
 							<li><a href="group_settings.html"><span class="glyphicon glyphicon-cog"></span> Group Settings</a></li>
-							<li><a href="notification_settings"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>
+							<li><a href="notification_settings.html"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>
 							<li><a href="error_settings.html"><span class="glyphicon glyphicon-wrench"></span> Report Error</a></li>
 							<li><a href="contact.html"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
 						</ul>
@@ -68,9 +83,11 @@
 		</div>
 	</div>
 </nav>
-
+<!-- End Navigation Bar Code -->
+<!-- False footer, I think it is there to keep our content from out behind the header, but I do not remember for sure... -->
 <div class="foofooter">&nbsp;</div>
 
+<!--Begin Code for our top Main Action Buttons -->
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3">
@@ -83,15 +100,19 @@
 			<button type="button" class="btn btn-lg btn-block btn-success" data-toggle="modal" href="#createTaskBox">Start a Task</button>
 		</div>
 		<div class="col-sm-3">
-			<button type="button" class="btn btn-lg btn-block btn-danger" data-toggle="modal" href="#createMessageBox">Messages <span class="badge" id"messageCount">4</span></button>
+			<button type="button" class="btn btn-lg btn-block btn-danger" data-toggle="modal" href="#createMessageBox" onclick="populateMessages()">Messages <span class="badge" id="messageCount" style="display:none;">4</span></button>
 		</div>
 	</div>
 </div>
+<!-- End Code for our top Main Action Buttons -->
 
+<!-- This is a wrapping container, we needed it to make the styling work at some point -->
 <div class="wrapstuff">
 
+<!-- FINALLY! We can begin the main content -->
 <div id="mainview" class="container-fluid">
 	<div id="row">
+		<!-- Updates -->
 		<div id="updates" class="col-lg-3 col-sm-6">
 			<div class="main3w">
 				<h2>Updates</h2>
@@ -106,6 +127,7 @@
 				</div>
 			</div>
 		</div>
+		<!-- Tasks -->
 		<div id="tasks" class="col-lg-3 col-sm-6">
 			<div class="main3w">
 				<h2>Tasks <span class='badge' id='taskNumber'></span></h2>
@@ -117,6 +139,7 @@
 				</div>
 			</div>
 		</div>
+		<!-- Calendar -->
 		<div id="comingup" class="col-lg-6 col-sm-12">
 			<div class="main6w" style="position:relative;">
 				<h2>Coming Up</h2>
@@ -145,6 +168,7 @@
         <h4 class="modal-title" id="myModalLabel">Create a Group</h4>
       </div>
       <div class="modal-body">
+			<p id="createGroupError" style="color:red;margin-left:1px;"></p>
       			<h5 class="header-center">Step 1: Add a group name.</h5>	
 				<div class="row">
 					<div class="col-xs-10">
@@ -153,7 +177,7 @@
 					</div>
 				</div>
 				<h5 class="header-center">Step 2: Add an email address for each member. </h5>
-				<div class="scrollable"id="members" >
+				<div id="members" >
 					<div class="row">
 						<div class="col-xs-8">
 							<input type="text" id="member1" class="form-control" placeholder="yourEmail@groupright.net" required disabled>
@@ -512,11 +536,8 @@
 			</div>
 			<div class="col-sm-12 scrollable" id="messageBox">
 				<div id="tempMessage">
-					<div class="convoTail"></div>
-					<div class="userMessage">
-						<h4 class="nameTag">Ken</h4>
-						<p>Welcome to GroupRight!</p>
-						<p class="timeStamp">- 4:13pm</p>
+					<div class="row" style="text-align:center;color:#555;">
+					Select a group from above to begin.
 					</div>
 				</div>
 			</div>
@@ -582,7 +603,8 @@ END OF LIGHT BOX SECTION
 	</div>
 </footer>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+<!-- We include all our scripts at the end of the page so that the page will get better load times -->
+<script src="js/jquery.min.js">
 </script>
 <script src="js/cookie.js">
 </script>
@@ -602,13 +624,24 @@ END OF LIGHT BOX SECTION
 </script>
 <script src="js/message.js">
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.js">
+<script src="js/bootstrap.js">
 </script>
 <script src="js/timepicker.js">
 </script>
 <script src="js/cal/grcal.js">
 </script>
 <script src="js/datepicker.js">
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61784938-1', 'auto');
+  ga('send', 'pageview');
+
 </script>
 
 </body>
