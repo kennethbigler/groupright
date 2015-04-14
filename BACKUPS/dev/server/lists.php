@@ -1,5 +1,5 @@
 <?php
-
+/*
 function getAllTasks($email){
 	$dbh = ConnectToDB();
 	
@@ -55,28 +55,7 @@ function getAllTasksSince($email,$task_uid){
 	return $arr;
 }
 
-function addTask($email,$title,$description,$group_uid,$event_uid,$is_personal,$deadline){
-			
-	$dbh = ConnectToDB();
-	
-	$sql = "INSERT INTO tasks(creator_email,title,description,group_uid,event_uid,is_personal,deadline)
-			VALUES(?,?,?,"
-			.((isset($group_uid))? "?" : "NULL").","
-			.((isset($event_uid))? "?" : "NULL").","
-			."?,"
-			.((isset($deadline))? "?" : "NULL").")";
-	
-	$arr = array($email,$title,$description);
-	if(isset($group_uid)) $arr[] = $group_uid;
-	if(isset($event_uid)) $arr[] = $event_uid;
-	$arr[] = $is_personal;
-	if(isset($deadline)) $arr[] = $deadline;
-	
-	
-	$stmt = $dbh->prepare($sql);
-	$stmt->execute($arr);
-	return $dbh->lastInsertId();
-}
+
 
 function addTaskAssignment($task_uid,$group_uid,$email,$update){
 	$dbh = ConnectToDB();
@@ -105,50 +84,51 @@ function _assignToGroup($task_uid,$group_uid)
 	}
 	
 }
+*/
+function addList($email,$title,$description,$group_uid){
+			
+	$dbh = ConnectToDB();
+	
+	$sql = "INSERT INTO lists(email,title,description,group_uid)
+			VALUES(?,?,?,?)";	
+	$arr = array($email,$title,$description,$group_uid);
+	
+	$stmt = $dbh->prepare($sql);
+	$stmt->execute($arr);
+	return $dbh->lastInsertId();
+}
 
-function createTask(){
+function createList(){
 	
 		// Get information.
 		$email = sanitizeEmail( $_POST['email'] );
-		$cookie = grHash($_POST['cookie'],$email);
+		$cookie = grHash($_POST['ac'],$email);
 		$group_uid = $_POST['group_uid'];
-		$event_uid = $_POST['event_uid'];
 		
-		$task_title = $_POST['task_title'];
-		$task_descr = $_POST['task_description'];
-		$is_personal = $_POST['is_personal'];
-		$deadline = $_POST['deadline'];
+		$list_title = $_POST['title'];
+		$list_descr = $_POST['description'];
 		
-		//echo $task_title;
-		if(!isset($task_title)){ http_response_code(299); return; }
-		if(!isset($task_descr)){ $task_descr = ""; }
-		if(!isset($is_personal)){ $is_personal = false; }
+		//echo $list_title;
+		if(!isset($list_title)){ http_response_code(299); return; }
+		if(!isset($list_descr)){ $list_descr = ""; }
 		
 		// IF valid, continue.
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
-			$task_uid = addTask($email,$task_title,$task_descr,$group_uid,$event_uid,$is_personal,$deadline);
+			$list_uid = addList($email,$list_title,$list_descr,$group_uid);
+			//echo $list_uid;	
+			if($list_uid < 1){ http_response_code(298); return; } // failed list  creation
 			
-			if($task_uid < 1){ http_response_code(298); return; } // failed task creation
+			addListUpdate($email,$group_uid,"created list \"".$list_title."\"",$list_uid);
 			
-			// Assign Task
-			if($is_personal){ 
-				addTaskAssignment($task_uid,$group_uid,$email,true);
-				addTaskUpdate($email,$group_uid,"created task \"".$task_title."\"",$task_uid);
-			}
-			else{ 
-				_assignToGroup($task_uid,$group_uid);
-				addTaskUpdate($email,$group_uid,"created task \"".$task_title."\"",$task_uid);
-			}
-			
-			// output task
-			print_r($task_uid);
+			// output list
+			print_r($list_uid);
 		}else{
 			http_response_code(206);
 			return;
 		}
 }
-
+/*
 function _createTaskLink($task_id,$type,$link_id)
 {
 	$dbh = ConnectToDB();
@@ -227,6 +207,7 @@ function completeTask(){
 		}
 	
 }
+*/
 
 
 ?>

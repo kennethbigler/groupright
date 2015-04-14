@@ -17,6 +17,7 @@
 	include './server/events.php';
 	include './server/tasks.php';
 	include './server/messages.php';
+	include './server/lists.php';
 	
 	include './server/availability.php';
 	include './server/settings.php';
@@ -62,5 +63,7 @@
 	if($function == 'change_phone_number') changePhoneNumber();
 	if($function == 'add_profile_pic') addProfilePic();
 	if($function == 'get_account_info') getAccountInfo();
+	if($function == 'create_list') createList();
+	if($function == 'add_item_to_list') addItemToList();
 	
 ?> 

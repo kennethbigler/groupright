@@ -101,23 +101,30 @@
 			            <div class="btn-group pull-right" data-toggle="buttons">
 			            	<p > Select a category and drag over the grid.</p>
 			                <label class="btn btn-success">
-			                    <input type="radio" id="q156" name="quality[25]" value="1" /> Good
+			                    <input type="radio" id="q156" name="quality[25]" value="1" onchange="setCurrentColorClass(0);" /> Good
 			                </label> 
 			                <label class="btn btn-info">
-			                    <input type="radio" id="q157" name="quality[25]" value="2" /> OK
+			                    <input type="radio" id="q157" name="quality[25]" value="2" onchange="setCurrentColorClass(1);" /> OK
 			                </label> 
 			                <label class="btn btn-warning">
-			                    <input type="radio" id="q158" name="quality[25]" value="3" /> Probably Not
+			                    <input type="radio" id="q158" name="quality[25]" value="3" onchange="setCurrentColorClass(2);" /> Probably Not
 			                </label> 
 			                <label class="btn btn-danger">
-			                    <input type="radio" id="q159" name="quality[25]" value="4" /> Bad
+			                    <input type="radio" id="q159" name="quality[25]" value="4" onchange="setCurrentColorClass(3);" /> Bad
 			                </label> 
 			            </div>
 			        </div>
 			    </div>
            	</div>
             <div class="panel-body">
-              <table class="table" id="completeTable">
+              <table class="table" id="completeTable" style="
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-khtml-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			">
 			    <thead>
 			      <tr id="addDays">
 			        <th>Firstname</th>

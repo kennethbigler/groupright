@@ -78,7 +78,7 @@ function getAllUpdatesSince($email,$update_uid){
 	return $updates;
 }
 
-function __addUpdate($email,$group_uid,$description,$event_id,$task_id,$message_id){
+function __addUpdate($email,$group_uid,$description,$event_id,$task_id,$message_id,$list_id){
 	
 	// Open up connection
 	$dbh = ConnectToDB();
@@ -90,6 +90,7 @@ function __addUpdate($email,$group_uid,$description,$event_id,$task_id,$message_
 	if($event_id != null){ $sql = $sql.",event_id)"; $item = $event_id; }
 	else if($task_id != null){ $sql = $sql.",task_id)"; $item = $task_id; }
 	else if($message_id != null){ $sql = $sql.",message_id)"; $item = $message_id; }
+	else if($list_id != null){ $sql = $sql.",list_id)"; $item = $list_id; }	
 	else { $sql = $sql.")";}
 	
 	$sql = $sql." VALUES(?,?,?";
@@ -122,19 +123,21 @@ function __addUpdate($email,$group_uid,$description,$event_id,$task_id,$message_
 }
 
 function addUpdate($email,$group_uid,$description){
-	__addUpdate($email,$group_uid,$description,null,null,null);
+	__addUpdate($email,$group_uid,$description,null,null,null,null);
 }
 
 function addEventUpdate($email,$group_uid,$description,$event_id){
-	__addUpdate($email,$group_uid,$description,$event_id,null,null);
+	__addUpdate($email,$group_uid,$description,$event_id,null,null,null);
 }
 function addTaskUpdate($email,$group_uid,$description,$task_id){
-	__addUpdate($email,$group_uid,$description,null,$task_id,null);
+	__addUpdate($email,$group_uid,$description,null,$task_id,null,null);
 }
 function addMessageUpdate($email,$group_uid,$description,$message_id){
-	__addUpdate($email,$group_uid,$description,null,null,$message_id);
+	__addUpdate($email,$group_uid,$description,null,null,$message_id,null);
 }
-
+function addListUpdate($email,$group_uid,$description,$list_id){
+	__addUpdate($email,$group_uid,$description,null,null,null,$list_id);
+}
 
 
 
