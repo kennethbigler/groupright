@@ -28,11 +28,9 @@
 </script>
 <!--script src="js/homescripts.js">
 </script-->
-<script src="js/cookie.js">
-</script>
-<script src="js/createGroup.js">
-</script>
-<script src="js/eventResponse2.js"></script>
+<script src="js/cookie.js"></script>
+<script src="js/createGroup.js"></script>
+<script src="js/lists.js"></script>
 <script src="js/grtopbar.js"></script>
 
 
@@ -90,59 +88,28 @@
       <div class="col-md-12">
         <div class="panel panel-default">
            <div class="panel-heading">
-           		<div class="row">
-	           		<div class="col-lg-3">
-	           			<h4>Provide Your Availability</h4>
-	           			<h5 id="addEventName">Event Name: </h5>
-	           			<h5 id="addEventCreator">Creator: </h5>
-	           		</div>
-			        <div class="col-lg-9 pull-right">
-			        	
-			            <div class="btn-group pull-right" data-toggle="buttons">
-			            	<p > Select a category and drag over the grid.</p>
-			                <label class="btn btn-success">
-			                    <input type="radio" id="q156" name="quality[25]" value="1" /> Good
-			                </label> 
-			                <label class="btn btn-info">
-			                    <input type="radio" id="q157" name="quality[25]" value="2" /> OK
-			                </label> 
-			                <label class="btn btn-warning">
-			                    <input type="radio" id="q158" name="quality[25]" value="3" /> Probably Not
-			                </label> 
-			                <label class="btn btn-danger">
-			                    <input type="radio" id="q159" name="quality[25]" value="4" /> Bad
-			                </label> 
-			            </div>
-			        </div>
+           		<div class="row" style="margin-left:5px">
+	           			<h3 id="addListName">List Name: </h3>
+	           			<h5 id="addListCreator">Creator: </h5>
+	           			<h5 id="addListDescription">Description: </h5>
 			    </div>
            	</div>
             <div class="panel-body">
-              <table class="table" id="completeTable">
-			    <thead>
-			      <tr id="addDays">
-			        <th>Firstname</th>
-			        <th>Lastname</th>
-			        <th>Email</th>
-			      </tr>
-			    </thead>
-			    <tbody>
-			      <tr class="success">
-			        <td>John</td>
-			        <td>Doe</td>
-			        <td>john@example.com</td>
-			      </tr>
-			      <tr class="danger">
-			        <td>Mary</td>
-			        <td>Moe</td>
-			        <td>mary@example.com</td>
-			      </tr>
-			      <tr class="info">
-			        <td>July</td>
-			        <td>Dooley</td>
-			        <td>july@example.com</td>
-			      </tr>
-			    </tbody>
-			  </table>
+                <ul class="list-group" id="addListItems">
+				   <li class="list-group-item info">Free Domain Name Registration</li>
+				   <li class="list-group-item info">Free Window Space hosting</li>
+				   <li class="list-group-item">Number of Images</li>
+				   <li class="list-group-item">24*7 support</li>
+			       <li class="list-group-item">Renewal cost per year</li>
+			       <li class="list-group-item">
+			       		<div class="input-group">
+			       		<input type="text" class="form-control info" placeholder="Enter an item">
+      					<span class="input-group-btn">
+        					<button class="btn btn-default" type="button">Go!</button>
+      					</span>
+      					</div>
+      				</li>
+			    </ul>
             </div>
          </div>
        </div>

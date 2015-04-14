@@ -78,7 +78,7 @@ function getAllUpdatesSince($email,$update_uid){
 	return $updates;
 }
 
-function __addUpdate($email,$group_uid,$description,$event_id,$task_id,$message_id){
+function __addUpdate($email,$group_uid,$description,$event_id,$task_id,$message_id,$list_id){
 	
 	// Open up connection
 	$dbh = ConnectToDB();
@@ -122,19 +122,21 @@ function __addUpdate($email,$group_uid,$description,$event_id,$task_id,$message_
 }
 
 function addUpdate($email,$group_uid,$description){
-	__addUpdate($email,$group_uid,$description,null,null,null);
+	__addUpdate($email,$group_uid,$description,null,null,null,null);
 }
 
 function addEventUpdate($email,$group_uid,$description,$event_id){
-	__addUpdate($email,$group_uid,$description,$event_id,null,null);
+	__addUpdate($email,$group_uid,$description,$event_id,null,null,null);
 }
 function addTaskUpdate($email,$group_uid,$description,$task_id){
-	__addUpdate($email,$group_uid,$description,null,$task_id,null);
+	__addUpdate($email,$group_uid,$description,null,$task_id,null,null);
 }
 function addMessageUpdate($email,$group_uid,$description,$message_id){
-	__addUpdate($email,$group_uid,$description,null,null,$message_id);
+	__addUpdate($email,$group_uid,$description,null,null,$message_id,null);
 }
-
+function addListUpdate($email,$group_uid,$description,$list_id){
+	__addUpdate($email,$group_uid,$description,null,null,null,$list_id);
+}
 
 
 
