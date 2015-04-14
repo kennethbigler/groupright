@@ -53,7 +53,7 @@ function getEventVoteSettings(parseFn){
 	if(_cookies.accesscode && _cookies.user){
 	
 		var obj = {
-			"cookie":_cookies.accesscode,
+			"ac":_cookies.accesscode,
 			"email":_cookies.user,
 			"function":"get_event_settings",
 			"group_uid":_group_uid,
@@ -89,7 +89,7 @@ function sendEventAvailability(postFn){
 	if(_cookies.accesscode && _cookies.user){
 	
 		var obj = {
-			"cookie":_cookies.accesscode,
+			"ac":_cookies.accesscode,
 			"email":_cookies.user,
 			"function":"submit_availability",
 			"group_uid":_group_uid,

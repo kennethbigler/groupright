@@ -229,7 +229,7 @@ function getAllEventsSince($email,$event_uid){
 		
 		// Get information.
 		$email = sanitizeEmail( $_POST['email'] );
-		$cookie = grHash($_POST['cookie'],$email);
+		$cookie = grHash($_POST['ac'],$email);
 		$group_uid = $_POST['group_uid'];
 		$event_uid = $_POST['event_uid'];
 		
