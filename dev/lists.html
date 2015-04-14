@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GroupRight, Groups Done Right</title>
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<link href="css/home-styles.css" rel="stylesheet" />
+<link href="js/cal/grcal.css" rel="stylesheet"/>
+<link href="css/font.css" rel="stylesheet">
+<link href="css/datepicker.css" rel="stylesheet">
+<link href="css/timepicker.css" rel="stylesheet">
+<link href="css/eventresponse.css" rel="stylesheet" />
+<link rel='stylesheet' media='screen and (max-width: 767px)' href='css/home-styles-phone.css' />
+<link rel='stylesheet' media='screen and (min-width: 768px) and (max-width: 1199px)' href='css/home-styles-tablet.css' />
+<link rel='stylesheet' media='screen and (min-width: 1200px)' href='css/home-styles-computer.css' />
+<link rel="icon" href="images/favicon.png" />
+
+<meta name="keywords" content="GroupRight, Group Right, Groups done right, Group, Right, GroupWright, Group Wright, Group, Wright, groups, collaboration, collaborative group management, management, tasks, assignment, teamwork, scheduler, scheduling, planning, coordination, team building, Santa Clara University, SCU, Santa Clara, Kenneth Bigler, Kenneth, Bigler, Kenneth William Lidgate Bigler, Zachary Wilson, Zachary, Wilson, Scott Sarsfield, Scott, Sarsfield, Senior Design Project, Senior, Design, Project">
+<meta name="description" content="GroupRight is a collaborative group management system.  It is the Senior Design Project for Kenneth Bigler, Zachary Wilson, and Scott Sarsfield, students from Santa Clara University.">
+<meta name="author" content="GroupRight">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+</script>
+<script src="js/createEvent.js">
+</script>
+<!--script src="js/homescripts.js">
+</script-->
+<script src="js/cookie.js">
+</script>
+<script src="js/createGroup.js">
+</script>
+<script src="js/eventResponse2.js"></script>
+<script src="js/grtopbar.js"></script>
+
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid page-container">
+			<a href="https://www.groupright.net/" >
+				<img align="left" src="images/LogoWhite.svg" alt="GroupRight" id="whitelogo"/>
+			</a>
+			<img class="profpic img-circle" id="profileImage" title="Profile" alt="Profile Picture" src="images/black.png" align="right" />
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Groups<span class="caret"></span></a>
+						<ul class="dropdown-menu" id="myGroups">
+							<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:red;"></span> Senior Design</a></li>
+							<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:orange;"></span> Web Dev</a></li>
+							<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:green;"></span> Family</a></li>
+							<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:blue;"></span> Fake Madrid</a></li>
+							<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:purple;"></span> Spiked Punch</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="profileName">Name<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li onclick="logoutAndRedirect()"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+							<li><a href="#"><span class="glyphicon glyphicon-th-list"></span> My Account</a></li>
+							<li><a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+							<li><a href="#"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>
+							<li><a href="#"><span class="glyphicon glyphicon-wrench"></span> Report Error</a></li>
+							<li><a href="#"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</nav>
+
+<div class="foofooter">
+	&nbsp;
+</div>
+<div class="container">
+<div class="row">     
+      <div class="col-md-12">
+        <div class="panel panel-default">
+           <div class="panel-heading">
+           		<div class="row">
+	           		<div class="col-lg-3">
+	           			<h4>Provide Your Availability</h4>
+	           			<h5 id="addEventName">Event Name: </h5>
+	           			<h5 id="addEventCreator">Creator: </h5>
+	           		</div>
+			        <div class="col-lg-9 pull-right">
+			        	
+			            <div class="btn-group pull-right" data-toggle="buttons">
+			            	<p > Select a category and drag over the grid.</p>
+			                <label class="btn btn-success">
+			                    <input type="radio" id="q156" name="quality[25]" value="1" /> Good
+			                </label> 
+			                <label class="btn btn-info">
+			                    <input type="radio" id="q157" name="quality[25]" value="2" /> OK
+			                </label> 
+			                <label class="btn btn-warning">
+			                    <input type="radio" id="q158" name="quality[25]" value="3" /> Probably Not
+			                </label> 
+			                <label class="btn btn-danger">
+			                    <input type="radio" id="q159" name="quality[25]" value="4" /> Bad
+			                </label> 
+			            </div>
+			        </div>
+			    </div>
+           	</div>
+            <div class="panel-body">
+              <table class="table" id="completeTable">
+			    <thead>
+			      <tr id="addDays">
+			        <th>Firstname</th>
+			        <th>Lastname</th>
+			        <th>Email</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      <tr class="success">
+			        <td>John</td>
+			        <td>Doe</td>
+			        <td>john@example.com</td>
+			      </tr>
+			      <tr class="danger">
+			        <td>Mary</td>
+			        <td>Moe</td>
+			        <td>mary@example.com</td>
+			      </tr>
+			      <tr class="info">
+			        <td>July</td>
+			        <td>Dooley</td>
+			        <td>july@example.com</td>
+			      </tr>
+			    </tbody>
+			  </table>
+            </div>
+         </div>
+       </div>
+</div><!--Row-->
+
+</div><!--Container-->
+     
+<footer class="container-fluid" style="position:relative;">
+	<div class="row">
+		<div class="col-sm-3 footing">
+			<p>GroupRight &copy; 2015</p>
+		</div>
+		<div class="col-sm-1 footing">
+			<p><a href="about.html"> About</a></p>
+		</div>
+		<div class="col-sm-2 footing">
+			<p><a href="contact.html"> Contact</a></p>
+		</div>
+		<div class="col-sm-1 footing">
+			<p><a href="terms.html"> Terms</a></p>
+		</div>
+		<div class="col-sm-2 footing">
+			<p><a href="privacy.html"> Privacy</a></p>
+		</div>
+		<div class="col-sm-3 footing">
+			<div>
+				<a href="https://twitter.com/group_right">
+					<img class="snm" title="Twitter" alt="Twitter" src="images/twitter.png"/>
+				</a>
+				<a href="http://www.pinterest.com/groupright/">
+					<img class="snm" title="Pinterest" alt="Pinterest" src="images/pinterest.png"/>
+				</a>
+				<a href="https://www.facebook.com/groupright">
+					<img class="snm" title="Facebook" alt="Facebook" src="images/facebook.png"/>
+				</a>
+				<a href="https://www.linkedin.com/company/groupright">
+					<img class="snm" title="LinkedIn" alt="LinkedIn" src="images/linkedin.png"/>
+				</a>
+				<a href="http://instagram.com/group.right">
+					<img class="snm" title="Instagram" alt="RSS" src="images/instagram.png"/>
+				</a>
+			</div>
+		</div>
+	<!-- /.row -->
+	</div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.js">
+</script>
+<script src="js/timepicker.js">
+</script>
+<!--script src="js/cal/grcal.js">
+</script-->
+<script src="js/datepicker.js">
+</script>
+
+</body>
+</html>
