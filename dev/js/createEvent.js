@@ -27,7 +27,7 @@ var helpStartDate="Not Added";
 
 var GRNewEventModule = {
 	// macro
-	step = 1,
+	step: 1,
 	
 	// event descriptors
 	name:"Not Added",

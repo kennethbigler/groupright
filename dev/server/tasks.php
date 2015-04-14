@@ -4,7 +4,7 @@ function getAllTasks($email){
 	$dbh = ConnectToDB();
 	
 	$stmt = $dbh->prepare(
-		"SELECT * FROM tasks_assignments JOIN tasks USING (task_uid) WHERE email = ?"
+		"SELECT * FROM tasks_assignments JOIN tasks USING (task_uid) NATURAL LEFT JOIN task_link WHERE email = ?"
 	);
 	$stmt->execute(array($email));
 	
@@ -20,6 +20,9 @@ function getAllTasks($email){
 			"is_completed"=>$row['is_completed'],
 			"is_personal"=>$row['is_personal']
 		);
+		$obj["link_type"] = $row['link_type'];
+		$obj["link_id"] = $row['link_id'];
+		
 		//echo $obj;
 		$arr[] = $obj;
 	}
@@ -144,6 +147,17 @@ function createTask(){
 			http_response_code(206);
 			return;
 		}
+}
+
+function _createTaskLink($task_id,$type,$link_id)
+{
+	$dbh = ConnectToDB();
+	
+	$stmt = $dbh->prepare(
+		"REPLACE INTO task_link(task_uid,link_type,link_id) VALUES(?,?,?)"
+	);
+	$stmt->execute(array($task_id,$type,$link_id));
+	
 }
 
 function assignTask(){

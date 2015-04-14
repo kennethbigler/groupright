@@ -263,6 +263,9 @@ function getAllEventsSince($email,$event_uid){
 			$em = $row['email'];
 			addTaskAssignment($task_uid,$group_uid,$em);
 		}
+		
+		// Link task.
+		_createTaskLink($task_uid,'event',$event_uid);
 
 	}
 
