@@ -313,7 +313,7 @@ function addTasks(){
 			if(task_array[i].link_id!=null){
 				//It's a task to provide availability
 				var eventLink=document.createElement('a');
-				eventLink.href="eventResponse2.html?event_id="+task_array[i].link_id;
+				eventLink.href="eventResponse.html?event_id="+task_array[i].link_id;
 				var span=document.createElement('span');
 				span.className="glyphicon glyphicon-arrow-right";
 				span.style.color=getColorForGroup(task_array[i].group_id);
