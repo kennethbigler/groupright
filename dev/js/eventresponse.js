@@ -47,17 +47,19 @@ function getEventVoteSettings(parseFn){
 
 	var _cookies = genCookieDictionary();
 	
-	var _group_uid = 10;
-	var _event_uid = 50;
+	var _get = getGETArguments();
+	//console.log(_get);
+	var _event_uid = _get.id;
+	var _group_uid = _get.guid;
 
-	if(_cookies.accesscode && _cookies.user){
+	if(_cookies.accesscode && _cookies.user && _event_uid && _group_uid){
 	
 		var obj = {
 			"ac":_cookies.accesscode,
 			"email":_cookies.user,
 			"function":"get_event_settings",
-			"group_uid":_group_uid,
-			"event_uid":_event_uid
+			"event_uid":_event_uid,
+			"group_uid":_group_uid
 		};
 	
 		
@@ -88,10 +90,12 @@ function sendEventAvailability(postFn){
 	
 	var _cookies = genCookieDictionary();
 	
-	var _group_uid = 10;
-	var _event_uid = 50;
+	var _get = getGETArguments();
+	//console.log(_get);
+	var _event_uid = _get.id;
+	var _group_uid = _get.guid;
 
-	if(_cookies.accesscode && _cookies.user){
+	if(_cookies.accesscode && _cookies.user && _event_uid && _group_uid){
 	
 		var obj = {
 			"ac":_cookies.accesscode,
@@ -112,7 +116,7 @@ function sendEventAvailability(postFn){
 						//eatCookies();
 						postFn();
 					}
-			},
+			}
 			
 		
 		});

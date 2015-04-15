@@ -26,7 +26,6 @@ function addEventAvailability($email,$group_uid,$event_uid,$avail){
 		if(!isset($avail[$i]["start_time"])){ http_response_code(298); return; }
 		if(!isset($avail[$i]["end_time"])){ http_response_code(298); return; }
 		if(!isset($avail[$i]["score"])){ http_response_code(298); return; }
-		if($avail[$i]["score"] == -1) {$avail[$i]["score"] = 2;} // empty response. assume ok.
 		$score = $scores[$avail[$i]["score"]];
 		if(!isset($score)){ http_response_code(298); return; }
 		
@@ -57,7 +56,7 @@ function submitAvailability(){
 			return;
 		}
 		addEventAvailability($email,$group_uid,$event_uid,$avail);
-		//http_response_code(200);
+		http_response_code(200);
 	}else{
 		http_response_code(206);
 		return;
