@@ -1,309 +1,59 @@
 /**
- *	eventresponse.js
- *
- *	Goes hand-in-hand with eventResponse.html (surprising, I know).
- *
- *	Written by: Scott Sarsfield
- *
- * 	(C) GroupRight 2015
- **/
- 
-// Global Var (Our "Model" in MVC)
- var GRER = {
-	 aMode:0,
-	 aMap:{},		// availability map
-	 tMap:{},		// time label map
-	 eUID:null,
-	 eName:"Default Name",
-	 eDesc:"Default Description",
-	 eCreator:"Default Creator",
-	 gUID:null,
- };
- var GRER_Settings;
- 
- $(document).ready(function(){
-	getEventVoteSettings(function(){
-		
-		GRER_initialize(GRER_Settings); 
-		
-	});
- });
+	eventResponse2.js
+	
+		JavaScript file for the Event Response component of GroupRight.
+**/
 
-/**
- *	GRER_initialize()
- *
- *	Initializes the module
- *
- **/
-function GRER_initialize(obj){
+// ======================================================
+// GLOBAL VARIABLES
+
+var currentSelect=null;
+var numberOfDays;
+var stepsToAccountFor;
+var eventCreator="Bob Smith";
+var eventName="Quarterly BBQ";
+var earliest_time="2015-03-28 23:00:00 PDT";
+var latest_time="2015-04-03 5:30:00 PDT";
+
+var color_classes = ["success","info","warning","danger"];
+var current_color_class=1;
+
+var availability_map = [];
+
+// ======================================================
+// ONLOAD / SERVER COMM.
+
+window.onload = function() {
 	
-	var start_day,end_day;
-	var start_time,end_time;
-	var event_name,event_description,event_creator;
-	
-	// Load Event Information.
-	
-	// HARD-CODED =========================
-	start_day = (obj.start_date) ? obj.start_date : "2015-02-27";
-	end_day = (obj.end_date) ? obj.end_date : "2015-03-03";
-	start_time = (obj.start_time) ? obj.start_time : "06:15:00";
-	end_time = (obj.end_time) ? obj.end_time : "15:00:00";
-	event_name = (obj.name) ? obj.name : "Code Spree";
-	event_description = (obj.description) ? obj.description : "";
-	event_creator = (obj.creator) ? obj.creator : "Maniac McGee";	
-	
-	// ====================================
-	GRER.eName = event_name;
-	GRER.eDesc = event_description;
-	GRER.eCreator = event_creator;
-	
-	
-	
-	// Display the grid for each day.
-	var orig_grid_space = $("#event_response_days");
-	
-	var grid_space = $("<div />",{class:"er_gridspace"});
-	orig_grid_space.append(grid_space);
-	
-	// Find number of days.
-	var x = (( (new Date(end_day)) - (new Date(start_day)) ) / (1000*60*60*24) ) + 1;
-	
-	// Find number of time segments (15 minutes)
-	var y_day = (new Date()).toDateString();
-	var y = (new Date(y_day+" "+end_time)) - (new Date(y_day+" "+start_time));
-	y = y / (1000*60*15); // 15 min incr.
-	
-	// Populate the tMap (time map).	
-	var epoch_day_diff = (new Date(start_day)).getTime();
-	var epoch_time_diff = (new Date("2015-01-01 "+start_time)).getTime();
-	var offset = new Date().getTimezoneOffset();
-	var dates = [];
-	var hours = {};
-	for(var i = 0; i < x; i++){
-		GRER.tMap[i] = {};
-		GRER.aMap[i] = {};
-		for(var j = 0; j < y; j++){
-			
-			var str = "";
-			var day = new Date( epoch_day_diff  + i*24*60*60*1000 + offset*60*1000 );
-			//console.log(day);
-			str += (1+day.getMonth()) + "/" + day.getDate() + "/" + day.getFullYear();
-			dates[i] = str;
-			var day2 = new Date( epoch_time_diff + j*15*60*1000);
-			if(day2.getMinutes() == 0) hours[j] = day2.getHours();
-			str += " "+day2.toLocaleTimeString();
-			var day3 = new Date( epoch_time_diff + (j+1)*15*60*1000);
-			str += " - "+day3.toLocaleTimeString();
-			//GRER.tMap[i][j] = str;
-			
-			
-			var obj = {start_time:"",end_time:"",date:""};
-			var day = new Date( epoch_day_diff  + i*24*60*60*1000 + offset*60*1000 );
-			obj.date = day.getFullYear()+"-"+("0"+(1+day.getMonth())).slice(-2) + "-" + ("0"+day.getDate()).slice(-2);
-			obj.start_time = day2.toLocaleTimeString({},{hour12:false});
-			obj.end_time = day3.toLocaleTimeString({},{hour12:false});
-			
-			
-			GRER.tMap[i][j] = obj;
-			
-			
-			//----------------------
-			GRER.aMap[i][j] = -1;
-		}
-	}
-	
-	// Check version of browser.
-	var oldIE = false;
-	var ua = window.navigator.userAgent;
-	var msie = ua.indexOf("MSIE ");
-	if(msie > 0){
-		var version = parseInt(ua.substring(msie+5,ua.indexOf(".",msie)));
-		if(version < 9) oldIE = true;
-	}
-	
-	// Add the time column.
-	var time_col = $("<div />",{class:"er_timecol"});
-	grid_space.append(time_col);
-	time_col.append( $("<div />",{class:"er_timecol_spacer"}) );
-	for(var j = 0; j < y; j++){
-		if(hours[j]){
-			var hour_incr = $("<div />",{class:"er_hour_incr"});
-			
-			var ampm = (hours[j] >= 12) ? 'pm' : 'am';
-			hours[j] = hours[j] % 12;
-			hours[j] = hours[j] ? hours[j] : 12;
-			var hour_str = "<span class='num'>" + hours[j] + "</span> " + ampm;
-			
-			
-			hour_incr.html(hour_str);
-			time_col.append(hour_incr);
-			j+=3;
-		}else{
-			var hour_incr_spacer = $("<div />",{class:"er_hour_incr_spacer"});
-			time_col.append(hour_incr_spacer);
-		}
-	}
-	
-	// ----------------------------------------------------------------------
-	// FUNCTIONALITY
-	
-	var start_cell = null;
-	var last_end_cell = null;
-	var temp_aMap = $.extend(true,{},GRER.aMap);
-				
-	// Cell Coloring -------------------------------------------------
-	function indvColorCell(elm, index){
-		var ER_colors = ["#5cb85c","#337ab7","#f0ad4e","#d9534f"];
-		var sel_color = (index == -1) ? "#ccc" : ER_colors[index];
-		elm.css({backgroundColor:sel_color});
-	}
-	
-	function colorSpanByFn(start,end,fn){
-		var x_dir = (end.i > start.i) ? 1 : -1;
-		var y_dir = (end.j > start.j) ? 1 : -1;
-		for(var i = start.i; i != end.i + x_dir; i += x_dir){
-			for(var j = start.j; j != end.j + y_dir; j+= y_dir){
-				var index = fn(i,j);
-				indvColorCell($(".er_row"+j+".er_col"+i),index);
-				temp_aMap[i][j] = index;
-			}
-		}
-	}
-	function colorCellSpan(start,end,index){
-		colorSpanByFn(start,end,function(i,j){return index;});
-	}
-	function revertToMap(start,end){
-		colorSpanByFn(start,end,function(i,j){return GRER.aMap[i][j];});
-	}
-	
-	function colorCell(){
-		var rel = $(this).val();
-		if(last_end_cell) revertToMap(start_cell,last_end_cell);
-		colorCellSpan(start_cell,rel,GRER.aMode);
-		last_end_cell = rel;
-	};
-	
-	function saveGRERMap(){
-		//console.log("saving");
-		for(var i in GRER.aMap){
-			for(var j in GRER.aMap[i]){
-				GRER.aMap[i][j] = temp_aMap[i][j];
-			}
-		}
-		//console.log(GRER.aMap);
-	}
-	
-	var isButtonDown = false;
-	
-	function timeIncrDown(e){
-		var val = $(this).val();
-		start_cell = val;				
-		if(e.which === 1) isButtonDown = true; 
-	};
-	
-	function timeIncrUp(e){
-		last_end_cell = null;
-		saveGRERMap();
-		//console.log(GRER.aMap);
-		if(e.which === 1) isButtonDown = false; 
-	};
-	
-	function timeIncrMove(e){
-		//console.log("called");
-		if(oldIE && !event.button){isButtonDown = false;}				
-		if(e.which === 1 && !isButtonDown) e.which = 0;
-		if(e.which){
-			colorCell.call(this);
-		}
-	};
-	
-	// ---------------------------------------------------------------------
-	// CONSTRUCTION
-	
-	// For each day, create a column.
-	var day_grid_space = $("<div />",{class:"er_day_gridspace"});
-	grid_space.append(day_grid_space);
-	for(var i = 0; i < x; i++){
-		var day = $("<div />",{class:"er_daycol"});
+	getEventVoteSettings(function(data){
+		var obj = JSON.parse(data);
 		
-		day_grid_space.append(day);
-				
-		// Add the day header.
-		var day_header = $("<div />",{class:"er_dayheader"});
-		day_header.text(dates[i]);
-		day.append(day_header);
-				
-		// Add each of the hours
-		for(var j = 0; j < y; j++){
-			var time_incr = $("<div />",{class:"er_time_incr"});
-			
-			// won't necessarily start at hour, but workable.
-			if(hours[j]) time_incr.addClass("hour_marker");
-			
-			time_incr.val({i:i,j:j});
-			
-			time_incr.addClass("er_row"+j);
-			time_incr.addClass("er_col"+i);
-			time_incr.mousedown(timeIncrDown)
-					.mouseup(timeIncrUp)
-					.mousemove(timeIncrMove);
-			
-			day.append(time_incr);
-		}
+		console.log(obj);
+		if(obj.name) eventName = obj.name;
+		if(obj.creator) eventCreator = obj.creator;
+		if(obj.start_time) earliest_time = obj.start_time;
+		if(obj.end_time) latest_time = obj.end_time;
 		
-	}
-	
-	// Relate the Availability Buttons
-	/*
-	$("#avail_perfect").click(function(){ GRER.aMode = 0; });
-	$("#avail_ok").click(function(){ GRER.aMode = 1; });
-	$("#avail_rather_not").click(function(){ GRER.aMode = 2; });
-	$("#avail_no").click(function(){ GRER.aMode = 3; });
-	*/
-	$("#avail_perfect").click(function(){ 
-		GRER.aMode = 1; 
-		$(this).hide();
-		$("#avail_ok").show();
-	});
-	$("#avail_ok").click(function(){ 
-		GRER.aMode = 2; 
-		$(this).hide();
-		$("#avail_rather_not").show();
-	}).hide();
-	$("#avail_rather_not").click(function(){ 
-		GRER.aMode = 3; 
-		$(this).hide();
-		$("#avail_no").show();
-	}).hide();
-	$("#avail_no").click(function(){ 
-		GRER.aMode = 0;
-		$(this).hide();
-		$("#avail_perfect").show();
-	}).hide();
-	
-	// Update other parts.
-	$("#event_title").text(GRER.eName);
-	$("#event_description").text(GRER.eDesc);
-	
-	// save button
-	$("#er_save_button").click( function(){
-		sendEventAvailability(function(){});
+		
+		setNumberOfDays();
+		setNumberOfStepsToAccountFor();
+		//getDayForColumn(3);
+		//getTimeForRow(3);
+		drawPage();
 	});
 }
-
-
-function getEventVoteSettings(postFn){
-	if(!(postFn instanceof Function)){ postFn = function(){}; }
+function getEventVoteSettings(parseFn){
+	if(!(parseFn instanceof Function)){ parseFn = function(){}; }
 
 	var _cookies = genCookieDictionary();
 	
 	var _group_uid = 10;
-	var _event_uid = 31;
+	var _event_uid = 50;
 
 	if(_cookies.accesscode && _cookies.user){
 	
 		var obj = {
-			"cookie":_cookies.accesscode,
+			"ac":_cookies.accesscode,
 			"email":_cookies.user,
 			"function":"get_event_settings",
 			"group_uid":_group_uid,
@@ -317,34 +67,20 @@ function getEventVoteSettings(postFn){
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
-						//eatCookies();
-						GRER_Settings = JSON.parse(data);
-						postFn();
+						parseFn(data);
 					}
 			},
 			
 		
 		});
 	}else{
-		GRER_initialize({});
+		parseFn("{}");
 	}
 }
-
-function synthesizeAvailability(){
-	var avail = new Array();
-	for(var i in GRER.aMap){
-		for(var j in GRER.aMap[i]){
-			var obj = {};
-			//console.log(GRER.tMap[i][j]);
-			obj.start_time = GRER.tMap[i][j].start_time; // "07:00:00";
-			obj.end_time = GRER.tMap[i][j].end_time; // "07:15:00";
-			obj.date = GRER.tMap[i][j].date; //"2015-03-07";
-			obj.score = GRER.aMap[i][j];
-			console.log(obj);
-			avail.push(obj);
-		}
-	}
-	return avail;
+function submitAvailability(){
+	sendEventAvailability(function(){
+		window.location = "home.html";
+	});
 }
 
 function sendEventAvailability(postFn){
@@ -353,12 +89,12 @@ function sendEventAvailability(postFn){
 	var _cookies = genCookieDictionary();
 	
 	var _group_uid = 10;
-	var _event_uid = 31;
+	var _event_uid = 50;
 
 	if(_cookies.accesscode && _cookies.user){
 	
 		var obj = {
-			"cookie":_cookies.accesscode,
+			"ac":_cookies.accesscode,
 			"email":_cookies.user,
 			"function":"submit_availability",
 			"group_uid":_group_uid,
@@ -374,7 +110,6 @@ function sendEventAvailability(postFn){
 			statusCode:{
 				200: function(data, status, jqXHR){
 						//eatCookies();
-						GRER_Settings = JSON.parse(data);
 						postFn();
 					}
 			},
@@ -383,11 +118,305 @@ function sendEventAvailability(postFn){
 		});
 	}else{
 		console.log(synthesizeAvailability());
+		postFn();
 	}
 }
 
+function synthesizeAvailability()
+{
+	var step_size = 30*60*1000;
+	var day_size = 24*60*60*1000;
+	var arr = new Array();
+	for(var i in availability_map){
+		for(var j in availability_map[i]){
+			var obj = {};
+			var d = new Date( new Date(earliest_time).getTime() + step_size*(i-1) + day_size*(j-1));
+			obj.start_time = d.toJSON();
+			obj.end_time = new Date(d.getTime()+step_size).toJSON();
+			obj.score = availability_map[i][j];
+			arr.push(obj);
+		}
+	}
+	return arr;
+}
+
+// ======================================================
+// DATA INITIALIZATION
+
+function setNumberOfDays(){
+	
+	// Fix date format.
+	earliest_time=earliest_time.replace(/[-]/g,"/");
+	latest_time=latest_time.replace(/[-]/g,"/");
+	
+	// Derive dates
+	var referenceDate=new Date(earliest_time);
+	var referenceDate2=new Date(latest_time);
+	
+	// Count # of days.
+	var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+	numberOfDays = Math.ceil(Math.abs((referenceDate2.getTime() - referenceDate.getTime())/(oneDay)));
+}
+
+function setNumberOfStepsToAccountFor(){
+	
+	// Fix date format.
+	earliest_time=earliest_time.replace(/[-]/g,"/");
+	latest_time=latest_time.replace(/[-]/g,"/");
+	
+	// Derive dates
+	var firstTime=new Date(earliest_time);
+	var endTime=new Date(latest_time);
+	
+	// Determine # of 30 minute steps
+	var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+	
+	stepsToAccountFor = Math.ceil(
+		( 
+			( 
+				endTime.getTime() - firstTime.getTime()
+			) % oneDay
+		) / (30*60*1000)
+	);
+	console.log(stepsToAccountFor);
+}
+
+// ======================================================
+// DATE / TIME ACCESS
+
+function getDayForColumn(column){
+	earliest_time=earliest_time.replace(/[-]/g,"/");
+	var referenceDate=new Date(earliest_time);
+	var addDays=(column-1);
+	referenceDate.setDate(referenceDate.getDate()+addDays);
+	var month=referenceDate.getMonth();
+	var months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+	return months[referenceDate.getMonth()]+" "+referenceDate.getDate();
+}
+
+function getTimeForRow(row){
+	earliest_time=earliest_time.replace(/[-]/g,"/");
+	var referenceDate=new Date(earliest_time);
+	var addMinutes=(row-1)*30;
+	referenceDate.setMinutes(referenceDate.getMinutes()+addMinutes);
+	var hour=referenceDate.getHours();
+	var minutes=referenceDate.getMinutes();
+	var ampm="AM"
+	if(hour==12){
+		ampm="PM";
+	}
+	if(hour>12){
+		ampm="PM";
+		hour=hour%12;
+	}
+	if(String(minutes).length<2){
+		minutes=minutes+"0";
+	}
+	if(hour==0){
+		hour="12";
+	}
+	return hour+":"+minutes+" "+ampm;
+
+}
+
+// ======================================================
+// DRAWING
+
+function drawPage(){
+	document.getElementById("addEventCreator").innerHTML="Creator: "+eventCreator;
+	document.getElementById("addEventName").innerHTML="Event Name: "+eventName;
+	var table=document.getElementById("completeTable");
+	table.innerHTML="";
+	var tbody=document.createElement('tbody');
+	//Draw the rows
+	availability_map = {};
+	for(var i=0; i<stepsToAccountFor+1; i++){
+		var tr=document.createElement('tr');
+		//Draw the heading rows column specially
+		if(i==0){
+			var thead=document.createElement('thead');
+			for(var j=0; j<numberOfDays+1;j++){
+				var th=document.createElement('th');
+				th.className="text-center";
+				if(j==0){
+					tr.appendChild(th);
+				}
+				else{
+					th.innerText=getDayForColumn(j);//"Day "+j;
+					tr.appendChild(th);
+				}
+			}
+			thead.appendChild(tr);
+			table.appendChild(thead);
+		}
+		else{
+			availability_map[i] ={};
+			for(var j=0; j<numberOfDays+1;j++){				
+				var td=document.createElement('td');
+				td.className="success";
+				td.style.border="1px solid gray";
+				if(j==0){
+					td.innerText=getTimeForRow(i);
+					td.className="text-center";
+					tr.appendChild(td);
+				}
+				else{
+					tr.appendChild(td);
+					
+					td.onclick = function(){ colorCell(this); }
+					td.value = {i:i,j:j};
+					td.className += " er_row"+i+" er_col"+j;
+					availability_map[i][j] = 0;
+					prepareCell(td);
+				}
+			}
+			//tr.className="success";
+			tbody.appendChild(tr);
+		}
+		
+	}
+	table.appendChild(tbody);
+	
+	// Functionality Setup
+	Coloring.temp_a_map = $.extend(true, availability_map);
+}
 
 
+// ======================================================
+// RUNTIME FUNCTIONALITY
 
-$(document).ready(function(){
-});
+//----------------------------------------
+// Coloring
+
+function setCurrentColorClass(cc)
+{
+	current_color_class = cc;
+}
+
+function resetAvailMap(){
+	for(var i in availability_map){
+		for(var j in availability_map[i]){
+			availability_map[i][j] = 0;
+			colorCellByIndex($(".er_row"+i+".er_col"+j)[0],0);
+		}
+	}
+	
+}
+
+function colorCell(elm)
+{
+	$(elm).removeClass("success info warning danger");
+	$(elm).addClass(color_classes[current_color_class]);
+}
+
+function colorCellByIndex(elm,index)
+{
+	$(elm).removeClass("success info warning danger");
+	$(elm).addClass(color_classes[index]);	
+}
+
+var Coloring = {
+	temp_a_map:[],
+	start_cell:null,
+	last_end_cell:null,
+	isButtonDown : false
+};
+
+function prepareCell(elm)
+{
+	
+	// Check version of browser.
+	var oldIE = false;
+	var ua = window.navigator.userAgent;
+	var msie = ua.indexOf("MSIE ");
+	if(msie > 0){
+		var version = parseInt(ua.substring(msie+5,ua.indexOf(".",msie)));
+		if(version < 9) oldIE = true;
+	}
+	
+	/**
+		colorSpan
+			colors cells area selected by the user. (from start to end)
+	**/
+	function colorSpanByFn(start,end,fn){
+		var x_dir = (end.i > start.i) ? 1 : -1;
+		var y_dir = (end.j > start.j) ? 1 : -1;
+		for(var i = start.i; i != end.i + x_dir; i += x_dir){
+			for(var j = start.j; j != end.j + y_dir; j+= y_dir){
+				index = fn(i,j);
+				colorCellByIndex($(".er_row"+i+".er_col"+j)[0],index);
+				Coloring.temp_a_map[i][j] = index;
+			}
+		}
+	}
+	
+	function colorCellSpan(start,end,index){
+		colorSpanByFn(start,end,function(i,j){return index;});
+	}
+	function revertToMap(start,end){
+		colorSpanByFn(start,end,function(i,j){return availability_map[i][j];});
+	}
+	
+	function colorCell(){
+		
+		// [optimization]
+		if($(this).val() == Coloring.last_end_cell) return;
+		
+		// Revert previous coloring.
+		if(Coloring.last_end_cell && Coloring.start_cell != Coloring.last_end_cell) 
+			revertToMap(
+				Coloring.start_cell,
+				Coloring.last_end_cell
+			);
+			
+		// Color the span.
+		colorCellSpan(
+			Coloring.start_cell,
+			$(this).val(),
+			current_color_class
+		);
+		
+		// Save last_end_cell.
+		Coloring.last_end_cell = $(this).val();
+	};
+	
+	function saveMap(){
+		//console.log("saving");
+		for(var i in availability_map){
+			for(var j in availability_map[i]){
+				availability_map[i][j] = Coloring.temp_a_map[i][j];
+			}
+		}
+		//console.log(availability_map);
+	}
+	
+	// Event Listeners
+	
+	
+	function timeIncrDown(e){
+		var val = $(this).val();
+		Coloring.start_cell = val;				
+		if(e.which === 1) Coloring.isButtonDown = true; 
+	};
+	
+	function timeIncrUp(e){
+		Coloring.last_end_cell = null;
+		saveMap();
+		//console.log(availability_map);
+		if(e.which === 1) Coloring.isButtonDown = false; 
+	};
+	
+	function timeIncrMove(e){
+		//console.log("called");
+		if(oldIE && !event.button){Coloring.isButtonDown = false;}				
+		if(e.which === 1 && !Coloring.isButtonDown) e.which = 0;
+		if(e.which){
+			colorCell.call(this);
+		}
+	};
+	
+	$(elm).mousedown(timeIncrDown)
+			.mouseup(timeIncrUp)
+			.mousemove(timeIncrMove);
+	
+}

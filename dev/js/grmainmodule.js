@@ -4,10 +4,6 @@
 *	A class-like definition for the main GroupRight data module. 
 */
 
-// util function
-function obj_to_arr(obj){
-	return Object.keys(obj).map(function (key) {return obj[key]});
-}
 
 /**
 **	GRMainModule

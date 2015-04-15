@@ -90,3 +90,7 @@ function transformToAssocArray( prmstr ){
 	return params;
 }
 
+
+function obj_to_arr(obj){
+	return Object.keys(obj).map(function (key) {return obj[key]});
+}
