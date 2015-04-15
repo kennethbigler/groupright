@@ -44,6 +44,8 @@ function addField(fieldnumber){
 	document.getElementById("members").appendChild(rowDiv);
 }
 
+var globalNewGroup;
+
 function createGroup(){
 	//clear errors
 	document.getElementById("createGroupError").innerHTML="";
@@ -53,35 +55,46 @@ function createGroup(){
 		document.getElementById("createGroupError").innerHTML="Your Group Name is invalid";
 		return false;
 	}
-	var allEmails=[];
-	//Add the Group Leader's email
+	if(globalNewGroup=="" ||globalNewGroup==undefined){
+		document.getElementById("createGroupError").innerHTML="You must add at least one member to the group.";
+		return false;
+	}
+	var allEmails=globalNewGroup.toLowerCase(globalNewGroup).split(", ");
+
+	//Remove the leader's email if it is already in the array add the Group Leader's email to the front of the array
 	var _cookies = genCookieDictionary();
-	var leader=_cookies.user; 
-	allEmails.push(leader);
-	//get and verify all members emails
-	for(var i=2; i<numberOfFields; i++){
+	var leader=_cookies.user;
+	leader="zwilson7@gmail.com";
+	//console.log(allEmails);
+	function unique(list) {
+	    var result = [];
+	    $.each(list, function(i, e) {
+	        if ($.inArray(e, result) == -1) result.push(e);
+	    });
+	    return result;
+	}
+	allEmails=unique(allEmails);
+	//console.log(allEmails);
+	for(var i=0; i<allEmails.length; i++){
+		if(allEmails[i]==leader){
+			allEmails.splice(i,1);
+			break;
+		}
+	}
+	allEmails.unshift(leader);
+	//verify all members emails
+	for(var i=0; i<allEmails.length; i++){
 		if(document.getElementById("member"+i)){
-			tempEmail=document.getElementById("member"+i).value;
-			console.log(tempEmail);
+			tempEmail=allEmails[i];
 			//validate the email
 			var atpos = tempEmail.indexOf("@");
 			var dotpos = tempEmail.lastIndexOf(".");
-			if(tempEmail==""){
-				//do nothing
-			}
-			else if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=tempEmail.length) {
+			if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=tempEmail.length) {
 			    document.getElementById("createGroupError").innerHTML="An invalid email was entered.";
 			    return false;
 			}
-			else{
-				console.log("added 1");
-				allEmails.push(tempEmail);
-			}
 		}
 	}
-	//json stringify
-	var members=allEmails;
-	console.log(members);
 
 	//get user access code
 	var ac=_cookies.accesscode;
@@ -89,11 +102,11 @@ function createGroup(){
 	var obj = {
 				"function":"create_group",
 				"group_name":group_name,
-				"member_array":members,
+				"member_array":allEmails,
 				"email":email,
 				"ac":ac
 	};
-	console.log(obj);
+	//console.log(obj);
 	//alert("Contacting Server");
 	// Contact Server
 	$.ajax("https://www.groupright.net/dev/groupserve.php",{

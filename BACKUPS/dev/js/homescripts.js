@@ -93,6 +93,7 @@ function addUsersInfo(){
 	
 	if(!initLightbox) return;
 	
+
 	// Lightbox Forms --------------------------------
 	initCreateGroup();		// 'Create a Group'
 	initScheduleEvent();	// 'Schedule an Event'
@@ -391,8 +392,33 @@ function addUpdates(){
 //-------------------------------------------------------------------
 
 function initCreateGroup(){
-	document.getElementById("member1").value = GRMAIN.user;
+	$('#selectize').selectize({
+	    plugins: ['remove_button'],
+	    valueField: 'email',
+	    labelField: 'first_name',
+	    searchField: ['first_name','email'],
+	    options: GRMAIN.contacts(),
+	    delimiter: ', ',
+	    persist: false,
+	    create: function (input) {
+	      return {
+	        email: input,
+	        first_name: input,
+	        last_name: input
+	      };
+	    },
+	    hideSelected: true,
+	    openOnFocus: false,
+	});
+
+	$('#selectize').change(function(){
+		//console.log("you select value="+$(this).val());
+		globalNewGroup=$(this).val();
+		//console.log(globalNewGroup);
+	});
+	
 }
+
 
 function initScheduleEvent(){
 	var allGroups = GRMAIN.groups();
@@ -419,8 +445,6 @@ function initScheduleEvent(){
     	todayHighlight: true,
     	autoclose:true
 	});
-	$('#timepicker1').timepicker();
-	$('#timepicker2').timepicker();
 
 	var groupMenu = document.getElementById("eventGroups");
 	var numGroups = allGroups.length;
@@ -571,5 +595,7 @@ function toggleTask(element, taskid, localIndex){
 	}
 
 }
+
+
 
 

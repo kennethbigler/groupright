@@ -128,38 +128,6 @@ function createList(){
 			return;
 		}
 }
-
-function addItemToList(){
-	// Get information.
-	$email = sanitizeEmail( $_POST['email'] );
-	$cookie = grHash($_POST['ac'],$email);
-	$group_uid = $_POST['group_uid'];
-		
-	$list_id = $_POST['list_id'];
-	$item_name = $_POST['item_name'];
-
-	if(!isset($item_name)){ http_response_code(299); return; }
-	
-	//IF valid contiue
-	//*******************************************
-	//Must Validate User <-> Group <-> List
-	//*******************************************
-	/*
-	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
-		if(!verifyUserGroup($email,$cookie,$group_uid)) return;
-		$list_uid = addList($email,$list_title,$list_descr,$group_uid);
-		//echo $list_uid;	
-		if($list_uid < 1){ http_response_code(298); return; } // failed list  creation
-			
-		addListUpdate($email,$group_uid,"added an item to list \"".$list_title."\"",$list_uid);
-			
-		// output list
-		print_r($list_uid);
-	}else{
-		http_response_code(206);
-		return;
-	}*/
-}
 /*
 function _createTaskLink($task_id,$type,$link_id)
 {
