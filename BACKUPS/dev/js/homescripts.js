@@ -309,8 +309,22 @@ function addTasks(){
 			button.style.backgroundColor=getColorForGroup(task_array[i].group_id);
 		}
 		else{
-			button.style.border="2px solid"+getColorForGroup(task_array[i].group_id);
-			$(button).attr('onclick','toggleTask(this,'+task_array[i].task_uid+','+i+')');
+			if(task_array[i].link_id!=null){
+				//It's a task to provide availability
+				var eventLink=document.createElement('a');
+				eventLink.href="eventResponse2.html?event_id="+task_array[i].link_id;
+				var span=document.createElement('span');
+				span.className="glyphicon glyphicon-arrow-right";
+				span.style.color=getColorForGroup(task_array[i].group_id);
+				eventLink.appendChild(span);
+				button.appendChild(eventLink);
+				button.style.border="2px solid"+getColorForGroup(task_array[i].group_id);
+			}
+			else{
+				//It's a default task
+				button.style.border="2px solid"+getColorForGroup(task_array[i].group_id);
+				$(button).attr('onclick','toggleTask(this,'+task_array[i].task_uid+','+i+')');
+			}
 		}
 		
 

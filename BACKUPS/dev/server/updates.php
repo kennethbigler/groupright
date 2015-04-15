@@ -90,7 +90,6 @@ function __addUpdate($email,$group_uid,$description,$event_id,$task_id,$message_
 	if($event_id != null){ $sql = $sql.",event_id)"; $item = $event_id; }
 	else if($task_id != null){ $sql = $sql.",task_id)"; $item = $task_id; }
 	else if($message_id != null){ $sql = $sql.",message_id)"; $item = $message_id; }
-	else if($list_id != null){ $sql = $sql.",list_id)"; $item = $list_id; }	
 	else { $sql = $sql.")";}
 	
 	$sql = $sql." VALUES(?,?,?";
