@@ -36,6 +36,32 @@ function addEventAvailability($email,$group_uid,$event_uid,$avail){
 		
 		$stmt->execute($arr);		
 	}
+	
+	return;
+}
+
+function _markERTaskComplete($email,$group_id,$event_id)
+{
+	$dbh = ConnectToDB();
+	
+	$sql = "
+		UPDATE tasks_assignments
+		SET is_completed = 1
+		WHERE task_uid in (
+			SELECT task_uid
+			FROM tasks as t
+			JOIN task_link as tl using (task_uid)
+			WHERE tl.link_type = 'event'
+			AND tl.link_id = ?
+			AND t.group_uid = ?
+		)
+		AND email = ?
+	";
+
+	$stmt = $dbh->prepare($sql);
+	
+	$stmt->execute(array($event_id,$group_id,$email));
+	
 	return;
 }
 
@@ -56,6 +82,7 @@ function submitAvailability(){
 			return;
 		}
 		addEventAvailability($email,$group_uid,$event_uid,$avail);
+		_markERTaskComplete($email,$group_uid,$event_uid);
 		http_response_code(200);
 	}else{
 		http_response_code(206);

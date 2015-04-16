@@ -49,7 +49,7 @@ function getEventVoteSettings(parseFn){
 	
 	var _get = getGETArguments();
 	//console.log(_get);
-	var _event_uid = _get.id;
+	var _event_uid = _get.event_id;
 	var _group_uid = _get.guid;
 
 	if(_cookies.accesscode && _cookies.user && _event_uid && _group_uid){
@@ -92,7 +92,7 @@ function sendEventAvailability(postFn){
 	
 	var _get = getGETArguments();
 	//console.log(_get);
-	var _event_uid = _get.id;
+	var _event_uid = _get.event_id;
 	var _group_uid = _get.guid;
 
 	if(_cookies.accesscode && _cookies.user && _event_uid && _group_uid){
