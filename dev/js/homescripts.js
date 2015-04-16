@@ -256,7 +256,8 @@ function addTasks(){
 		return;
 	}
 	//document.getElementById('taskNumber').innerHTML=task_array.length;
-	for(var i=0; i<task_array.length; i++){
+	//for(var i=0; i<task_array.length; i++){
+	for(var i=task_array.length-1; i >= 0; i--){
 		var div=document.createElement('div');
 		div.className="alert alert-danger";
 		var temp=i+1;
