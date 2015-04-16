@@ -91,6 +91,60 @@ function submitAvailability(){
 	
 }
 
+function _getAvailabilityDump($group_id,$event_id)
+{
+	$dbh = ConnectToDB();
+	
+	$sql = "
+			SELECT availability.* 
+			FROM 
+			(
+				SELECT event_uid
+				FROM events 
+				WHERE group_uid = ? 
+				AND event_uid = ?
+			) AS x
+			JOIN availability USING (event_uid)
+	";
+
+	$stmt = $dbh->prepare($sql);
+	
+	$stmt->execute(array($group_id,$event_id));
+	
+	$arr = array();
+	while($row = $stmt->fetch())
+	{
+		$obj = array();
+		$obj['email'] = $row['email'];
+		$obj['start_time'] = $row['start_time']." UTC";
+		$obj['end_time'] = $row['end_time']." UTC";
+		$obj['score'] = $row['score'];
+		$arr[] = $obj;
+	}
+	return $arr;
+	
+}
+
+function getAvailabilityDump()
+{
+	// Get information.
+	$email = sanitizeEmail( $_POST['email'] );
+	$cookie = grHash($_POST['ac'],$email);
+	$group_uid = $_POST['group_uid'];
+	$event_uid = $_POST['event_uid'];
+	
+	
+	// IF valid, continue.
+	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+		if(!verifyUserGroup($email,$cookie,$group_uid)) return;
+		$obj = _getAvailabilityDump($group_uid,$event_uid);
+		echo json_encode($obj);
+	}else{
+		http_response_code(206);
+		return;
+	}
+}
+
 
 
 
