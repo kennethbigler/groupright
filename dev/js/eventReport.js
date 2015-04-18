@@ -21,6 +21,7 @@ var correspondenceMatrix;
 var statusMatrix=[];
 var maxScore=0;
 var minScore=99999999;
+var groupAvail;
 
 // ======================================================
 // ONLOAD / SERVER COMM.
@@ -35,6 +36,7 @@ window.onload = function() {
 		if(obj.creator) eventCreator = obj.creator;
 		if(obj.start_time) earliest_time = obj.start_time;
 		if(obj.end_time) latest_time = obj.end_time;
+		if(obj.dump) groupAvail=obj.dump;
 		
 		
 		setNumberOfDays();
@@ -63,7 +65,7 @@ function getEventVoteSettings(parseFn){
 		var obj = {
 			"ac":_cookies.accesscode,
 			"email":_cookies.user,
-			"function":"get_event_settings",
+			"function":"get_avail_dump",
 			"event_uid":_event_uid,
 			"group_uid":_group_uid
 		};
@@ -199,6 +201,7 @@ function drawPage(){
 			availability_map[i] ={};
 			for(var j=0; j<numberOfDays+1;j++){				
 				var td=document.createElement('td');
+				td.style.cursor="pointer";
 				td.className="success";
 				td.style.border="1px solid gray";
 				if(j==0){
@@ -209,7 +212,7 @@ function drawPage(){
 				else{
 					tr.appendChild(td);
 					
-					//td.onclick = function(){ colorCell(this); }
+					td.onclick = function(){ colorCell(this); }
 					td.style.backgroundColor=getColorForPercentage((statusMatrix[i-1][j-1]-minScore)/maxScore);
 					td.value = {i:i,j:j};
 					td.className += " er_row"+i+" er_col"+j;
@@ -266,11 +269,11 @@ function getScoreForRowColumn(row, column){
 	var referencedDate=new Date(correspondenceMatrix[row][column]);
 	//console.log(correspondenceMatrix[row-1][column-1]);
 	var score=0;
-	for(var i=0; i<defaultAvail.length;i++){
-		var compareDate= new Date(defaultAvail[i].start_time.replace(/[-]/g,"/"));
+	for(var i=0; i<groupAvail.length;i++){
+		var compareDate= new Date(groupAvail[i].start_time.replace(/[-]/g,"/"));
 		//console.log(compareDate);
 		if (compareDate.getTime()==referencedDate.getTime()){
-			score+= parseInt(defaultAvail[i].score);
+			score+= parseInt(groupAvail[i].score);
 			//console.log("match found");
 		}
 		else{
@@ -331,4 +334,8 @@ function drawColorScale(){
 	//td.innerText="Best Times";
 	addLocation.appendChild(td);
 
+}
+
+function colorCell(elem){
+	elem.style.backgroundColor="dodgerBlue";
 }
