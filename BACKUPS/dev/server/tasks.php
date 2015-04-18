@@ -33,7 +33,7 @@ function getAllTasksSince($email,$task_uid){
 	$dbh = ConnectToDB();
 	
 	$stmt = $dbh->prepare(
-		"SELECT * FROM tasks_assignments JOIN tasks USING (task_uid) WHERE email = ? AND task_uid > ?"
+		"SELECT * FROM tasks_assignments JOIN tasks USING (task_uid) NATURAL LEFT JOIN task_link WHERE email = ? AND task_uid > ?"
 	);
 	$stmt->execute(array($email,$task_uid));
 	
@@ -49,6 +49,8 @@ function getAllTasksSince($email,$task_uid){
 			"is_completed"=>$row['is_completed'],
 			"is_personal"=>$row['is_personal']
 		);
+		$obj["link_type"] = $row['link_type'];
+		$obj["link_id"] = $row['link_id'];
 		//echo $obj;
 		$arr[] = $obj;
 	}

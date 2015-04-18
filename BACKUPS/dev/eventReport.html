@@ -23,7 +23,7 @@
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+<script src="js/jquery.min.js">
 </script>
 <script src="js/createEvent.js">
 </script>
@@ -31,7 +31,7 @@
 </script-->
 <script src="js/cookie.js"></script>
 <script src="js/createGroup.js"></script>
-<script src="js/eventresponse.js"></script>
+<script src="js/eventReport.js"></script>
 <script src="js/grdefaults.js"></script>
 <script src="js/grtopbar.js"></script>
 
@@ -92,28 +92,26 @@
            <div class="panel-heading">
            		<div class="row">
 	           		<div class="col-lg-3">
-	           			<h4>Provide Your Availability</h4>
+	           			<h4>Select the time for the event.</h4>
 	           			<h5 id="addEventName">Event Name: </h5>
 	           			<h5 id="addEventCreator">Creator: </h5>
 	           		</div>
-			        <div class="col-lg-9 pull-right">
-			        	
-			            <div class="btn-group pull-right" data-toggle="buttons">
-			            	<p > Select a category and drag over the grid.</p>
-			                <label class="btn btn-success">
-			                    <input type="radio" id="q156" name="quality[25]" value="1" onchange="setCurrentColorClass(0);" /> Good
-			                </label> 
-			                <label class="btn btn-info">
-			                    <input type="radio" id="q157" name="quality[25]" value="2" onchange="setCurrentColorClass(1);" /> OK
-			                </label> 
-			                <label class="btn btn-warning">
-			                    <input type="radio" id="q158" name="quality[25]" value="3" onchange="setCurrentColorClass(2);" /> Probably Not
-			                </label> 
-			                <label class="btn btn-danger">
-			                    <input type="radio" id="q159" name="quality[25]" value="4" onchange="setCurrentColorClass(3);" /> Bad
-			                </label> 
-			            </div>
-			        </div>
+	      			<div class="col-lg-3">
+	      			</div>
+	           		<div class="col-lg-6">
+	           			<table class="pull-right" style="margin-top:20px;">
+	           				<tr id="addScale">
+	           				</tr>
+	           				<tr>
+		           				<td colspan="50">
+		           					Worst Time
+		           				</td>
+		           				<td colspan="50" align="right">
+		           					Best Time
+		           				</td>
+		           			</tr>
+	           			</table>
+	           		</div>
 			    </div>
            	</div>
             <div class="panel-body">

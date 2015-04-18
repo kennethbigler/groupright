@@ -1,8 +1,5 @@
-/**
-	eventResponse2.js
-	
-		JavaScript file for the Event Response component of GroupRight.
-**/
+//eventReport.js
+//Responding to availability
 
 // ======================================================
 // GLOBAL VARIABLES
@@ -12,13 +9,18 @@ var numberOfDays;
 var stepsToAccountFor;
 var eventCreator="Bob Smith";
 var eventName="Quarterly BBQ";
-var earliest_time="2015-03-28 23:00:00 PDT";
-var latest_time="2015-04-03 5:30:00 PDT";
+var earliest_time="2015-04-16 21:00:00 UTC";
+var latest_time="2015-04-23 04:00:00 UTC";
 
 var color_classes = ["success","info","warning","danger"];
 var current_color_class=1;
 
 var availability_map = [];
+
+var correspondenceMatrix;
+var statusMatrix=[];
+var maxScore=0;
+var minScore=99999999;
 
 // ======================================================
 // ONLOAD / SERVER COMM.
@@ -39,9 +41,13 @@ window.onload = function() {
 		setNumberOfStepsToAccountFor();
 		//getDayForColumn(3);
 		//getTimeForRow(3);
+		fillCorrespondenceMatrix();
+		initStatusMatrix();
 		drawPage();
+		drawColorScale();
 	});
 }
+
 function getEventVoteSettings(parseFn){
 	if(!(parseFn instanceof Function)){ parseFn = function(){}; }
 
@@ -78,70 +84,6 @@ function getEventVoteSettings(parseFn){
 	}else{
 		parseFn("{}");
 	}
-}
-function submitAvailability(){
-	sendEventAvailability(function(){
-		window.location = "home.html";
-	});
-}
-
-function sendEventAvailability(postFn){
-	if(!(postFn instanceof Function)){ postFn = function(){}; }
-	
-	var _cookies = genCookieDictionary();
-	
-	var _get = getGETArguments();
-	//console.log(_get);
-	var _event_uid = _get.event_id;
-	var _group_uid = _get.guid;
-
-	if(_cookies.accesscode && _cookies.user && _event_uid && _group_uid){
-	
-		var obj = {
-			"ac":_cookies.accesscode,
-			"email":_cookies.user,
-			"function":"submit_availability",
-			"group_uid":_group_uid,
-			"event_uid":_event_uid,
-			"availability":synthesizeAvailability()
-		};
-	
-		
-		// Contact Server
-		$.ajax("groupserve.php",{
-			type:"POST",
-			data:obj,
-			statusCode:{
-				200: function(data, status, jqXHR){
-						//eatCookies();
-						postFn();
-					}
-			}
-			
-		
-		});
-	}else{
-		console.log(synthesizeAvailability());
-		postFn();
-	}
-}
-
-function synthesizeAvailability()
-{
-	var step_size = 30*60*1000;
-	var day_size = 24*60*60*1000;
-	var arr = new Array();
-	for(var i in availability_map){
-		for(var j in availability_map[i]){
-			var obj = {};
-			var d = new Date( new Date(earliest_time).getTime() + step_size*(i-1) + day_size*(j-1));
-			obj.start_time = d.toJSON();
-			obj.end_time = new Date(d.getTime()+step_size).toJSON();
-			obj.score = availability_map[i][j];
-			arr.push(obj);
-		}
-	}
-	return arr;
 }
 
 // ======================================================
@@ -267,11 +209,15 @@ function drawPage(){
 				else{
 					tr.appendChild(td);
 					
-					td.onclick = function(){ colorCell(this); }
+					//td.onclick = function(){ colorCell(this); }
+					td.style.backgroundColor=getColorForPercentage((statusMatrix[i-1][j-1]-minScore)/maxScore);
 					td.value = {i:i,j:j};
 					td.className += " er_row"+i+" er_col"+j;
 					availability_map[i][j] = 0;
-					prepareCell(td);
+					//td.innerText=getScoreForRowColumn(i,j);
+					td.innerText=statusMatrix[i-1][j-1];
+					//prepareCell(td);
+
 				}
 			}
 			//tr.className="success";
@@ -281,146 +227,108 @@ function drawPage(){
 	}
 	table.appendChild(tbody);
 	
-	// Functionality Setup
-	Coloring.temp_a_map = $.extend(true, availability_map);
 }
 
-
-// ======================================================
-// RUNTIME FUNCTIONALITY
-
-//----------------------------------------
-// Coloring
-
-function setCurrentColorClass(cc)
-{
-	current_color_class = cc;
-}
-
-function resetAvailMap(){
-	for(var i in availability_map){
-		for(var j in availability_map[i]){
-			availability_map[i][j] = 0;
-			colorCellByIndex($(".er_row"+i+".er_col"+j)[0],0);
+function fillCorrespondenceMatrix(){
+	var start_time=9;
+	var referenceDate=new Date(earliest_time);
+	//console.log(referenceDate);
+	correspondenceMatrix=new Array(stepsToAccountFor);
+	for(var i=0; i<stepsToAccountFor; i++){
+		correspondenceMatrix[i]=new Array(numberOfDays);
+		for(var j=0; j<numberOfDays; j++){
+			var minutesFromStartTime=(30*i) + (j*60*24);
+			//console.log(minutesFromStartTime);
+			var newDate= new Date(referenceDate.getTime() + minutesFromStartTime*60000)
+			correspondenceMatrix[i][j]= newDate;
 		}
 	}
-	
+	//console.log(correspondenceMatrix);
 }
 
-function colorCell(elm)
-{
-	$(elm).removeClass("success info warning danger");
-	$(elm).addClass(color_classes[current_color_class]);
+function initStatusMatrix(){
+	//Allocate
+	statusMatrix=new Array(stepsToAccountFor);
+	for(var i=0; i<stepsToAccountFor; i++){
+		statusMatrix[i]=new Array(numberOfDays);
+	}
+	//Gather
+	for(var i=0; i<stepsToAccountFor;i++){
+		for (var j=0; j<numberOfDays; j++){
+			statusMatrix[i][j]=getScoreForRowColumn(i,j);
+		}
+	}
+	console.log(minScore);
+	console.log(maxScore);
 }
 
-function colorCellByIndex(elm,index)
-{
-	$(elm).removeClass("success info warning danger");
-	$(elm).addClass(color_classes[index]);	
+function getScoreForRowColumn(row, column){
+	var referencedDate=new Date(correspondenceMatrix[row][column]);
+	//console.log(correspondenceMatrix[row-1][column-1]);
+	var score=0;
+	for(var i=0; i<defaultAvail.length;i++){
+		var compareDate= new Date(defaultAvail[i].start_time.replace(/[-]/g,"/"));
+		//console.log(compareDate);
+		if (compareDate.getTime()==referencedDate.getTime()){
+			score+= parseInt(defaultAvail[i].score);
+			//console.log("match found");
+		}
+		else{
+			//console.log(compareDate);
+			//console.log(referencedDate);
+
+		}
+	}
+	//console.log(score)
+	//statusMatrix[row][column]=score;
+	if(score<minScore){
+		minScore=score;
+	}
+	if(score>maxScore){
+		maxScore=score;
+	}
+	return score;
 }
 
-var Coloring = {
-	temp_a_map:[],
-	start_cell:null,
-	last_end_cell:null,
-	isButtonDown : false
-};
+var percentColors = [
+    { pct: 0.0, color: { r: 0xff, g: 0x00, b: 0 } },
+    { pct: 0.5, color: { r: 0xff, g: 0xff, b: 0 } },
+    { pct: 1.0, color: { r: 0x00, g: 0xff, b: 0 } } ];
 
-function prepareCell(elm)
-{
-	
-	// Check version of browser.
-	var oldIE = false;
-	var ua = window.navigator.userAgent;
-	var msie = ua.indexOf("MSIE ");
-	if(msie > 0){
-		var version = parseInt(ua.substring(msie+5,ua.indexOf(".",msie)));
-		if(version < 9) oldIE = true;
+var getColorForPercentage = function(pct) {
+    for (var i = 1; i < percentColors.length - 1; i++) {
+        if (pct < percentColors[i].pct) {
+            break;
+        }
+    }
+    var lower = percentColors[i - 1];
+    var upper = percentColors[i];
+    var range = upper.pct - lower.pct;
+    var rangePct = (pct - lower.pct) / range;
+    var pctLower = 1 - rangePct;
+    var pctUpper = rangePct;
+    var color = {
+        r: Math.floor(lower.color.r * pctLower + upper.color.r * pctUpper),
+        g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
+        b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
+    };
+    return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
+    // or output as hex if preferred
+}
+function drawColorScale(){
+	var addLocation=document.getElementById("addScale");
+	var td=document.createElement("td");
+	//td.innerText="Worst Times";
+	addLocation.appendChild(td);
+	for(var i=1; i<101;i++){
+		var div=document.createElement("td");
+		div.style.backgroundColor=getColorForPercentage(i/100);
+		div.style.width="5px";
+		div.style.height="21px";
+		addLocation.appendChild(div);
 	}
-	
-	/**
-		colorSpan
-			colors cells area selected by the user. (from start to end)
-	**/
-	function colorSpanByFn(start,end,fn){
-		var x_dir = (end.i > start.i) ? 1 : -1;
-		var y_dir = (end.j > start.j) ? 1 : -1;
-		for(var i = start.i; i != end.i + x_dir; i += x_dir){
-			for(var j = start.j; j != end.j + y_dir; j+= y_dir){
-				index = fn(i,j);
-				colorCellByIndex($(".er_row"+i+".er_col"+j)[0],index);
-				Coloring.temp_a_map[i][j] = index;
-			}
-		}
-	}
-	
-	function colorCellSpan(start,end,index){
-		colorSpanByFn(start,end,function(i,j){return index;});
-	}
-	function revertToMap(start,end){
-		colorSpanByFn(start,end,function(i,j){return availability_map[i][j];});
-	}
-	
-	function colorCell(){
-		
-		// [optimization]
-		if($(this).val() == Coloring.last_end_cell) return;
-		
-		// Revert previous coloring.
-		if(Coloring.last_end_cell && Coloring.start_cell != Coloring.last_end_cell) 
-			revertToMap(
-				Coloring.start_cell,
-				Coloring.last_end_cell
-			);
-			
-		// Color the span.
-		colorCellSpan(
-			Coloring.start_cell,
-			$(this).val(),
-			current_color_class
-		);
-		
-		// Save last_end_cell.
-		Coloring.last_end_cell = $(this).val();
-	};
-	
-	function saveMap(){
-		//console.log("saving");
-		for(var i in availability_map){
-			for(var j in availability_map[i]){
-				availability_map[i][j] = Coloring.temp_a_map[i][j];
-			}
-		}
-		//console.log(availability_map);
-	}
-	
-	// Event Listeners
-	
-	
-	function timeIncrDown(e){
-		var val = $(this).val();
-		Coloring.start_cell = val;				
-		if(e.which === 1) Coloring.isButtonDown = true; 
-	};
-	
-	function timeIncrUp(e){
-		Coloring.last_end_cell = null;
-		saveMap();
-		//console.log(availability_map);
-		if(e.which === 1) Coloring.isButtonDown = false; 
-	};
-	
-	function timeIncrMove(e){
-		//console.log("called");
-		if(oldIE && !event.button){Coloring.isButtonDown = false;}				
-		if(e.which === 1 && !Coloring.isButtonDown) e.which = 0;
-		if(e.which){
-			colorCell.call(this);
-		}
-	};
-	
-	$(elm).mousedown(timeIncrDown)
-			.mouseup(timeIncrUp)
-			.mousemove(timeIncrMove);
-	
+	td=document.createElement("td");
+	//td.innerText="Best Times";
+	addLocation.appendChild(td);
+
 }

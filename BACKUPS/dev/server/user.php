@@ -34,6 +34,31 @@
 		
 	}
 	
+	function _getUser($email_address){
+		// Enter DB.
+		$dbh = ConnectToDB();
+		
+		// Get user info.
+		$stmt = $dbh->prepare(
+			"SELECT * FROM active_users NATURAL JOIN sessions WHERE email=?"
+		);
+		$stmt->execute(array($email_address));
+		
+		while($row = $stmt->fetch()){
+		
+			// Get namesl
+			$user_info['first_name'] = $row['first_name'];
+			$user_info['last_name'] = $row['last_name'];
+			$user_info['photo_url'] = $row['photo_url'];
+					
+			http_response_code(200);
+			return $user_info;
+			
+		}
+		http_response_code(211);
+		return null;
+	}
+	
 	function _getUserInfoSince($email_address,$cookie,$last_event,$last_task,$last_update){
 		
 		$user_info = array();

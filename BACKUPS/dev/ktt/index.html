@@ -117,6 +117,7 @@ $(document).ready(function(){
 		createTemplate("create_votable_event",["email","cookie","group_uid","event_title","event_description","start_time","end_time","duration","location"],"purple"),
 		createTemplate("get_event_settings",["email","ac","group_uid","event_uid"],"purple"),
 		createTemplate("submit_availability",["email","ac","group_uid","event_uid","availability"],"purple"),
+		createTemplate("get_availability_dump",["email","ac","group_uid","event_uid"],"purple"),
 		
 		createTemplate("create_task",["email","cookie","group_uid","event_uid","task_title","task_description","is_personal","deadline"],"orange"),
 		createTemplate("assign_task",["email","cookie","group_uid","task_uid"],"orange"),
@@ -135,7 +136,8 @@ $(document).ready(function(){
 		createTemplate("get_account_info",["email","ac"],"#999"),
 
 		createTemplate("create_list",["email","ac","title","description","group_uid"],"pink"),
-		createTemplate("add_item_to_list",["email","ac","title","description","group_uid"],"pink")
+		createTemplate("add_item_to_list",["email","ac","item_name","list_uid","group_uid"],"pink"),
+		createTemplate("get_list_info",["email","ac","list_uid","group_uid"],"pink")
 	);
 	
 	var str = document.cookie;

@@ -57,6 +57,7 @@
 	if($function == 'get_num_unread') getNumUnread();
 	if($function == 'get_new_messages') getNewMessages();
 	if($function == 'submit_availability') submitAvailability();
+	if($function == 'get_availability_dump') getAvailabilityDump();
 	if($function == 'reset_membership_colors') resetMembershipColors();
 	if($function == 'change_name') changeName();
 	if($function == 'change_password') changePassword();
@@ -64,6 +65,7 @@
 	if($function == 'add_profile_pic') addProfilePic();
 	if($function == 'get_account_info') getAccountInfo();
 	if($function == 'create_list') createList();
-	if($function == 'add_item_to_list') addItemToList();
+	if($function == 'add_item_to_list') addListItem();
+	if($function == 'get_list_info') getListInfo();
 	
 ?> 
