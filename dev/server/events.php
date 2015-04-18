@@ -154,9 +154,7 @@ function getAllEventsSince($email,$event_uid){
 			$obj["end_time"] = $row["end_time"]." UTC";
 			$obj["duration"] = $row["duration"];
 			
-			$json = json_encode($obj);
-			echo $json;
-			return;
+			return $obj;
 		}
 		http_response_code(299);
 		return;
@@ -237,7 +235,11 @@ function getAllEventsSince($email,$event_uid){
 		// IF valid, continue.
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
-			getEventVoteSettings($group_uid,$event_uid);
+			$obj = getEventVoteSettings($group_uid,$event_uid);
+			if($obj){
+				$json = json_encode($obj);
+				echo $json;
+			}
 		}else{
 			http_response_code(206);
 			return;
