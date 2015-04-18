@@ -150,8 +150,8 @@ function getAllEventsSince($email,$event_uid){
 			$obj["name"] = $row["name"];
 			$obj["description"] = $row["description"];
 			$obj["creator"] = $row["email"];
-			$obj["start_time"] = $row["start_time"];
-			$obj["end_time"] = $row["end_time"];
+			$obj["start_time"] = $row["start_time"]." UTC";
+			$obj["end_time"] = $row["end_time"]." UTC";
 			$obj["duration"] = $row["duration"];
 			
 			$json = json_encode($obj);

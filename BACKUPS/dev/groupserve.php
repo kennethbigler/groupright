@@ -57,6 +57,7 @@
 	if($function == 'get_num_unread') getNumUnread();
 	if($function == 'get_new_messages') getNewMessages();
 	if($function == 'submit_availability') submitAvailability();
+	if($function == 'get_availability_dump') getAvailabilityDump();
 	if($function == 'reset_membership_colors') resetMembershipColors();
 	if($function == 'change_name') changeName();
 	if($function == 'change_password') changePassword();

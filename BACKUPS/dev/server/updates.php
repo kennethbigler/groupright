@@ -10,7 +10,8 @@ function getAllUpdates($email){
 	// Generate Query
 	$sql = "
 		SELECT updates.group_uid, users.email, users.first_name, users.last_name, 
-			updates.description ,updates.timestamp, updates.update_uid
+			updates.description ,updates.timestamp, updates.update_uid, updates.link_type,
+			updates.link_id
 		FROM notifications,updates,active_users as users
 		WHERE notifications.email = ?
 			AND notifications.update_uid = updates.update_uid
@@ -34,6 +35,8 @@ function getAllUpdates($email){
 			"timestamp"=>$row['timestamp']
 		);
 		//echo $obj;
+		$obj["link_type"] = $row["link_type"];
+		$obj["link_id"] = $row["link_id"];
 		$updates[] = $obj;
 	}
 	// Return object.
@@ -47,7 +50,8 @@ function getAllUpdatesSince($email,$update_uid){
 	// Generate Query
 	$sql = "
 		SELECT updates.group_uid, users.email, users.first_name, users.last_name, 
-			updates.description ,updates.timestamp, updates.update_uid
+			updates.description ,updates.timestamp, updates.update_uid, updates.link_type,
+			updates.link_id
 		FROM notifications,updates,active_users as users
 		WHERE notifications.email = ?
 			AND notifications.update_uid = updates.update_uid
@@ -72,34 +76,29 @@ function getAllUpdatesSince($email,$update_uid){
 			"timestamp"=>$row['timestamp']
 		);
 		//echo $obj;
+		$obj["link_type"] = $row["link_type"];
+		$obj["link_id"] = $row["link_id"];
 		$updates[] = $obj;
 	}
 	// Return object.
 	return $updates;
 }
 
-function __addUpdate($email,$group_uid,$description,$event_id,$task_id,$message_id,$list_id){
+function __addUpdate($email,$group_uid,$description,$link_type,$link_id){
 	
 	// Open up connection
 	$dbh = ConnectToDB();
 	
 	// Make initial insertion into 'updates'
-	$sql = "INSERT INTO updates(email,description,group_uid"; 
+	$sql = "
+		INSERT INTO updates(email,description,group_uid,link_type,link_id)
+		VALUES(?,?,?,?,?)
+	"; 
 	
-	$item = null;
-	if($event_id != null){ $sql = $sql.",event_id)"; $item = $event_id; }
-	else if($task_id != null){ $sql = $sql.",task_id)"; $item = $task_id; }
-	else if($message_id != null){ $sql = $sql.",message_id)"; $item = $message_id; }
-	else { $sql = $sql.")";}
-	
-	$sql = $sql." VALUES(?,?,?";
-		
-	$fillers = array($email,$description,$group_uid);
-	if($item != null){ 
-		$fillers[] = $item;
-		$sql = $sql.",?";
+	if($link_type == null || $link_id == null){
+		$link_type = "null";
+		$link_id = "null";
 	}
-	$sql = $sql.")";
 	
 	if((!isset($email) || $email == "") || 
 		(!isset($group_uid) || $group_uid == "") || 
@@ -109,6 +108,8 @@ function __addUpdate($email,$group_uid,$description,$event_id,$task_id,$message_
 	
 	
 	$stmt = $dbh->prepare($sql);
+	
+	$fillers = array($email,$description,$group_uid,$link_type,$link_id);
 	$stmt->execute($fillers);
 	
 	// Get update_uid
@@ -122,20 +123,20 @@ function __addUpdate($email,$group_uid,$description,$event_id,$task_id,$message_
 }
 
 function addUpdate($email,$group_uid,$description){
-	__addUpdate($email,$group_uid,$description,null,null,null,null);
+	__addUpdate($email,$group_uid,$description,null,null);
 }
 
 function addEventUpdate($email,$group_uid,$description,$event_id){
-	__addUpdate($email,$group_uid,$description,$event_id,null,null,null);
+	__addUpdate($email,$group_uid,$description,'event',$event_id);
 }
 function addTaskUpdate($email,$group_uid,$description,$task_id){
-	__addUpdate($email,$group_uid,$description,null,$task_id,null,null);
+	__addUpdate($email,$group_uid,$description,'task',$task_id);
 }
 function addMessageUpdate($email,$group_uid,$description,$message_id){
-	__addUpdate($email,$group_uid,$description,null,null,$message_id,null);
+	__addUpdate($email,$group_uid,$description,'message',$message_id);
 }
 function addListUpdate($email,$group_uid,$description,$list_id){
-	__addUpdate($email,$group_uid,$description,null,null,null,$list_id);
+	__addUpdate($email,$group_uid,$description,'list',$list_id);
 }
 
 

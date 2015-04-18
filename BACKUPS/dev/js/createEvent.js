@@ -78,20 +78,22 @@ function resetEventParameters(){
 	event_descripton="";
 	
 	GRNewEventModule = {
-	fixed:false,
-	attendence:false,
-	grouprightDecides:false,
-	
-	// event descriptors
-	groupname:"Not Added",
-	groupid:"",
-	
-	// time
-	start_time:"Not Added",
-	end_time:"Not Added",
-	start_day:"Not Added",
-	end_day:"Not Added"
-}
+		step:1,	
+		
+		fixed:false,
+		attendence:false,
+		grouprightDecides:false,
+		
+		// event descriptors
+		groupname:"Not Added",
+		groupid:"",
+		
+		// time
+		start_time:"Not Added",
+		end_time:"Not Added",
+		start_day:"Not Added",
+		end_day:"Not Added"
+	}
 	
 	updateProgressBar(1);
 	//close the modal view
@@ -99,6 +101,13 @@ function resetEventParameters(){
 	//Hide all but the initial steps
 
 }
+$(document).ready(function(){
+	$("#createEventBox").on('hidden.bs.modal',function(){
+		resetEventParameters();
+		GRNewEventModule.step = 2; // so it re-displays properly
+		previous();
+	});
+});
 
 // ============================================================
 // Utility Functions
@@ -208,8 +217,10 @@ function createGREvent(){
 		var start_time=time;
 		var end_time=time2;
 		*/
-		var start_time=makeDateAndTimeObject(helpStartDate,time);
-		var end_time=makeDateAndTimeObject(helpEndDate,time2);
+		time=startHourFixed+":"+startMinuteFixed;
+		time2=endHourFixed+":"+endMinuteFixed;
+		var start_time=makeDateAndTimeObject(fixedStartDate,time);
+		var end_time=makeDateAndTimeObject(fixedEndDate,time2);
 		var duration=30;
 		obj = {
 			"function":"create_votable_event",
@@ -235,7 +246,8 @@ function createGREvent(){
 					updateProgressBar(6);
 					resetEventParameters();
 					$('#createTaskBox').modal('hide');
-					//window.location = "./home.html";				
+					//window.location = "./home.html";		
+					resetEventParameters();		
 				},
 				206:function(){
 					$('#createTaskBox').modal('hide');
@@ -249,6 +261,8 @@ function createGREvent(){
 				}
 			}
 	});
+	
+	
 	return false;
 }
 
@@ -318,13 +332,23 @@ function writeStep5(){
 	if(eventIsFixed){
 		var line2="is fixed from <b>"
 					+fixedStartDate
-					+"</b> at <b>"+(startHourFixed%12)+":"+startMinuteFixed+" "+startAMPMFixed
-					+" </b>to<b> "+fixedEndDate+" </b>at<b> "+(endHourFixed%12)+":"+endMinuteFixed+" "+endAMPMFixed+"</b>.";
+					+"</b> at <b>"+(startHourFixed%12)+":"
+					+"00".substring(0,2-startMinuteFixed.toString().length) + startMinuteFixed
+					+" "+startAMPMFixed
+					+" </b>to<b> "+fixedEndDate+" </b>at<b> "+(endHourFixed%12)+":"
+					+"00".substring(0,2-endMinuteFixed.toString().length) + endMinuteFixed
+					+" "+endAMPMFixed+"</b>.";
 	}
 	else{
 		var line2="will be group scheduled sometime between <b>"
-					+helpStartDate+"</b> at <b>"+helpStartTime+" </b>to<b> "
-					+helpEndDate+" </b>at<b> "+helpEndTime+"</b>.";
+					+fixedStartDate
+					+" </b>to<b> "+fixedEndDate
+					+"</b> between <b>"+(startHourFixed%12)+":"
+					+"00".substring(0,2-startMinuteFixed.toString().length) + startMinuteFixed
+					+" "+startAMPMFixed
+					+" </b>and<b> "+(endHourFixed%12)+":"
+					+"00".substring(0,2-endMinuteFixed.toString().length) + endMinuteFixed
+					+" "+endAMPMFixed+"</b>.";
 	}
 	if(attendance && eventIsFixed){
 		var line3="Your group members <b>will</b> be asked if they can make it.";
@@ -383,8 +407,18 @@ function displayPreviousEvent(step){
 		document.getElementById("createEventButton").style.display="none";
 	}
 }
+
+/**
+*	isValid()
+*		Validates and scrapes the data from the corresponding step's page.
+**/
 function isValid(step){
+	// Init the error message div.
 	var errorMessage=document.getElementById('eventError').innerHTML="";
+	
+	// -------------------------------------------------------------
+	// Step 1
+	
 	if(step==1){
 		var name=document.getElementById('eventName').value;
 		if(name==""){
@@ -405,6 +439,10 @@ function isValid(step){
 		eventName=name;
 		return true;
 	}
+	
+	// -------------------------------------------------------------
+	// Step 2
+	
 	else if(step==2){
 		var type=$('input[name="fixedtime"]:checked').val();
 		if(type==1){
@@ -419,49 +457,67 @@ function isValid(step){
 		}
 		return true;
 	}
+	
+	// -------------------------------------------------------------
+	// Step 3 -- Fixed Date
+	
 	else if(step==3 && eventIsFixed){
-		var startdate=document.getElementById('startdatefixed').value;
+		
+		// Get reference day.
 		var todaysDate = new Date();
 		todaysDate.setDate(todaysDate.getDate()-1);
+		
+		// Get the start date.
+		var startdate=document.getElementById('startdatefixed').value;
+		
+		// Check start date.
 		if(!isValidDate(startdate)){
 			document.getElementById('eventError').innerHTML="Invalid Start Date (format should be MM/DD/YYYY)";
 			return false;
 		}
-		var testDate=new Date(startdate);
+		
+		// Check that start date isn't in the past.		
+		var testDate=new Date(startdate);		
 		if(testDate<todaysDate){
 			document.getElementById('eventError').innerHTML="The start date can't be before today.";
 			return false;
 		}
+		
+		// Check end date.
 		var enddate=document.getElementById('enddatefixed').value;
 		if(!isValidDate(enddate)){
 			document.getElementById('eventError').innerHTML="Invalid End Date (format should be MM/DD/YYYY)";
 			return false;
 		}
+		
+		// Check that end date isn't in the past.
 		var test2date=new Date(enddate);
 		if(test2date<testDate){
 			document.getElementById('eventError').innerHTML="The end date can't be before the start date.";
 			return false;
 		}
+		
+		// Verify start time.
 		var startHour=parseInt( document.getElementById("startHourFixed").value );
 		var startMinute=parseInt( document.getElementById("startMinuteFixed").value );
 		if(startHour<1 || startHour>12 || startMinute<0 || startMinute>59){
 			document.getElementById('eventError').innerHTML="Invalid Start time entered";
 			return false;
 		}
+		var startAMPM=document.getElementById("startAMPMFixed").value;
+		if(startAMPM=="PM"){	startHour+=12; }
+		
+		// Verify end time.
 		var endHour=parseInt( document.getElementById("endHourFixed").value );
 		var endMinute=parseInt( document.getElementById("endMinuteFixed").value );
 		if(endHour<1 || endHour>12 || endMinute<0 || endMinute>59){
 			document.getElementById('eventError').innerHTML="Invalid End time entered";
 			return false;
-		}
-		var startAMPM=document.getElementById("startAMPMFixed").value;
+		}		
 		var endAMPM=document.getElementById("endAMPMFixed").value;
-		if(startAMPM=="PM"){
-			startHour+=12;
-		}
-		if(endAMPM=="PM"){
-			endHour+=12;
-		}
+		if(endAMPM=="PM"){ endHour+=12; }
+		
+		// Check that the start date is before the end date.
 		if(fixedStartDate==fixedEndDate){
 			if(startHour > endHour){
 				document.getElementById('eventError').innerHTML="The end date can't be before the start date.";
@@ -474,6 +530,8 @@ function isValid(step){
 				}
 			}
 		}
+		
+		// Save the date information.
 		startHourFixed=startHour;
 		startMinuteFixed=startMinute;
 		startAMPMFixed=startAMPM;
@@ -484,36 +542,94 @@ function isValid(step){
 		fixedEndDate=enddate;
 		return true;
 	}
+	
+	// -------------------------------------------------------------
+	// Step 3 -- Votable Date
+	
 	else if(step==3 && !eventIsFixed){
-		var startdate=document.getElementById('startdatehelp').value;
+		// Get reference day.
 		var todaysDate = new Date();
 		todaysDate.setDate(todaysDate.getDate()-1);
+		
+		// Get the start date.
+		var startdate=document.getElementById('startdatehelp').value;
+		
+		// Check start date.
 		if(!isValidDate(startdate)){
 			document.getElementById('eventError').innerHTML="Invalid Start Date (format should be MM/DD/YYYY)";
 			return false;
 		}
-		var testDate=new Date(startdate);
+		
+		// Check that start date isn't in the past.		
+		var testDate=new Date(startdate);		
 		if(testDate<todaysDate){
 			document.getElementById('eventError').innerHTML="The start date can't be before today.";
 			return false;
 		}
+		
+		// Check end date.
 		var enddate=document.getElementById('enddatehelp').value;
 		if(!isValidDate(enddate)){
 			document.getElementById('eventError').innerHTML="Invalid End Date (format should be MM/DD/YYYY)";
 			return false;
 		}
+		
+		// Check that end date isn't in the past.
 		var test2date=new Date(enddate);
 		if(test2date<testDate){
 			document.getElementById('eventError').innerHTML="The end date can't be before the start date.";
 			return false;
 		}
 		
+		// Verify start time.
+		var startHour=parseInt( document.getElementById("startHourHelp").value );
+		var startMinute=parseInt( document.getElementById("startMinuteHelp").value );
+		if(startHour<1 || startHour>12 || startMinute<0 || startMinute>59){
+			document.getElementById('eventError').innerHTML="Invalid Start time entered";
+			return false;
+		}
+		var startAMPM=document.getElementById("startAMPMHelp").value;
+		if(startAMPM=="PM"){	startHour+=12; }
 		
-		helpStartDate=startdate;
-		helpEndDate=enddate;
+		// Verify end time.
+		var endHour=parseInt( document.getElementById("endHourHelp").value );
+		var endMinute=parseInt( document.getElementById("endMinuteHelp").value );
+		if(endHour<1 || endHour>12 || endMinute<0 || endMinute>59){
+			document.getElementById('eventError').innerHTML="Invalid End time entered";
+			return false;
+		}		
+		var endAMPM=document.getElementById("endAMPMHelp").value;
+		if(endAMPM=="PM"){ endHour+=12; }
+		
+		// Check that the start date is before the end date.
+		if(fixedStartDate==fixedEndDate){
+			if(startHour > endHour){
+				document.getElementById('eventError').innerHTML="The end date can't be before the start date.";
+				return false;
+			}
+			if(startHour==endHour){
+				if(startMinute > endMinute){
+					document.getElementById('eventError').innerHTML="The end date can't be before the start date.";
+					return false;
+				}
+			}
+		}
+		
+		// Save the date information.
+		startHourFixed=startHour;
+		startMinuteFixed=startMinute;
+		startAMPMFixed=startAMPM;
+		endHourFixed=endHour;
+		endMinuteFixed=endMinute;
+		endAMPMFixed=endAMPM;
+		fixedStartDate=startdate;
+		fixedEndDate=enddate;
 		return true;
-
 	}
+	
+	// -------------------------------------------------------------
+	// Step 4 -- Fixed Date
+	
 	else if(step==4 && eventIsFixed){
 		var type=$('input[name="whoscoming"]:checked').val();
 		if(type==1){
@@ -530,6 +646,10 @@ function isValid(step){
 		}
 		return true;
 	}
+	
+	// -------------------------------------------------------------
+	// Step 4 -- Votable Date
+	
 	else if(step==4 && !eventIsFixed){
 		var type=$('input[name="whodecides"]:checked').val();
 		if(type==1){

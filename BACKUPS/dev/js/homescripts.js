@@ -256,7 +256,8 @@ function addTasks(){
 		return;
 	}
 	//document.getElementById('taskNumber').innerHTML=task_array.length;
-	for(var i=0; i<task_array.length; i++){
+	//for(var i=0; i<task_array.length; i++){
+	for(var i=task_array.length-1; i >= 0; i--){
 		var div=document.createElement('div');
 		div.className="alert alert-danger";
 		var temp=i+1;
@@ -313,7 +314,8 @@ function addTasks(){
 			if(task_array[i].link_id!=null){
 				//It's a task to provide availability
 				var eventLink=document.createElement('a');
-				eventLink.href="eventResponse.html?event_id="+task_array[i].link_id;
+				console.log(task_array[i]);
+				eventLink.href="eventResponse.html?guid="+task_array[i].group_id+"&event_id="+task_array[i].link_id;
 				var span=document.createElement('span');
 				span.className="glyphicon glyphicon-arrow-right";
 				span.style.color=getColorForGroup(task_array[i].group_id);
