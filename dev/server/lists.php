@@ -1,4 +1,132 @@
 <?php
+
+// --------------------------------------------------------------
+// UTIL -- VALIDITY CHECKS
+
+function _checkGroupList($group_uid,$list_uid)
+{
+	$dbh = ConnectToDB();
+	
+	$sql = "
+		SELECT * FROM lists
+		WHERE group_uid = ?
+		AND list_uid = ?	
+	";
+	
+	$stmt = $dbh->prepare($sql);
+	
+	$stmt->execute(array($group_uid,$list_uid));
+	
+	while($row = $stmt->fetch()){
+		return true;
+	}
+	return false;
+}
+
+
+// --------------------------------------------------------------
+// LIST CREATION
+
+function _createList($email,$title,$description,$group_uid){
+			
+	$dbh = ConnectToDB();
+	
+	$sql = "INSERT INTO lists(email,title,description,group_uid)
+			VALUES(?,?,?,?)";	
+	$arr = array($email,$title,$description,$group_uid);
+	
+	$stmt = $dbh->prepare($sql);
+	$stmt->execute($arr);
+	return $dbh->lastInsertId();
+}
+
+function createList(){
+	
+		// Get information.
+		$email = sanitizeEmail( $_POST['email'] );
+		$cookie = grHash($_POST['ac'],$email);
+		$group_uid = $_POST['group_uid'];
+		
+		$list_title = $_POST['title'];
+		$list_descr = $_POST['description'];
+		
+		//echo $list_title;
+		if(!isset($list_title)){ http_response_code(299); return; }
+		if(!isset($list_descr)){ $list_descr = ""; }
+		
+		// IF valid, continue.
+		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
+			$list_uid = _createList($email,$list_title,$list_descr,$group_uid);
+			//echo $list_uid;	
+			if($list_uid < 1){ http_response_code(298); return; } // failed list  creation
+			
+			addListUpdate($email,$group_uid,"created list \"".$list_title."\"",$list_uid);
+			
+			// output list
+			print_r($list_uid);
+		}else{
+			http_response_code(206);
+			return;
+		}
+}
+
+// --------------------------------------------------------------
+// LIST RETREIVAL
+function _getListItems($list_uid){
+	
+}
+
+function _getListInfo($list_uid){
+	
+}
+
+function getListInfo(){
+	
+}
+
+
+// --------------------------------------------------------------
+// LIST MODIFICATION ( ADD / REMOVE )
+
+function _addListItem($email,$list_uid,$item){
+	$dbh = ConnectToDB();
+	
+	$sql = "
+		INSERT INTO list_items(list_uid,item_name,email)
+		VALUES(?,?,?)
+	";
+	
+	$stmt = $dbh->prepare($sql);
+	
+	$stmt->execute(array($list_uid,$item,$email));
+	
+	return $dbh->lastInsertId();	
+}
+
+function addListItem(){
+	$email = sanitizeEmail( $_POST['email'] );
+	$cookie = grHash($_POST['ac'],$email);
+	$group_uid = $_POST['group_uid'];
+	$item = $_POST['item_name'];
+	$list_uid = $_POST['list_uid'];
+	
+	if(!isset($list_uid)){ http_response_code(290); return; }
+	if(!isset($group_uid)){ http_response_code(290); return; }
+	if(!isset($item)){ http_response_code(290); return; }
+	
+	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+		if(!verifyUserGroup($email,$cookie,$group_uid)) return;
+		if(!_checkGroupList($group_uid,$list_uid)){ http_response_code(230); return; }
+		$item_id = _addListItem($email,$list_uid,$item);
+		echo $item_id;
+	}else{
+		http_response_code(206);
+		return;
+	}
+}
+
+
 /*
 function getAllTasks($email){
 	$dbh = ConnectToDB();
@@ -85,49 +213,7 @@ function _assignToGroup($task_uid,$group_uid)
 	
 }
 */
-function addList($email,$title,$description,$group_uid){
-			
-	$dbh = ConnectToDB();
-	
-	$sql = "INSERT INTO lists(email,title,description,group_uid)
-			VALUES(?,?,?,?)";	
-	$arr = array($email,$title,$description,$group_uid);
-	
-	$stmt = $dbh->prepare($sql);
-	$stmt->execute($arr);
-	return $dbh->lastInsertId();
-}
 
-function createList(){
-	
-		// Get information.
-		$email = sanitizeEmail( $_POST['email'] );
-		$cookie = grHash($_POST['ac'],$email);
-		$group_uid = $_POST['group_uid'];
-		
-		$list_title = $_POST['title'];
-		$list_descr = $_POST['description'];
-		
-		//echo $list_title;
-		if(!isset($list_title)){ http_response_code(299); return; }
-		if(!isset($list_descr)){ $list_descr = ""; }
-		
-		// IF valid, continue.
-		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
-			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
-			$list_uid = addList($email,$list_title,$list_descr,$group_uid);
-			//echo $list_uid;	
-			if($list_uid < 1){ http_response_code(298); return; } // failed list  creation
-			
-			addListUpdate($email,$group_uid,"created list \"".$list_title."\"",$list_uid);
-			
-			// output list
-			print_r($list_uid);
-		}else{
-			http_response_code(206);
-			return;
-		}
-}
 /*
 function _createTaskLink($task_id,$type,$link_id)
 {
