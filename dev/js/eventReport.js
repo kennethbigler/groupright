@@ -29,10 +29,11 @@ var groupAvail;
 window.onload = function() {
 	
 	getEventVoteSettings(function(data){
+		console.log(data);
 		var obj = JSON.parse(data);
 		
 		console.log(obj);
-		if(obj.name) eventName = obj.name;
+		if(obj.event_name) eventName = obj.event_name;
 		if(obj.creator) eventCreator = obj.creator;
 		if(obj.start_time) earliest_time = obj.start_time;
 		if(obj.end_time) latest_time = obj.end_time;
@@ -60,12 +61,14 @@ function getEventVoteSettings(parseFn){
 	var _event_uid = _get.event_id;
 	var _group_uid = _get.guid;
 
+	console.log(_get);
+
 	if(_cookies.accesscode && _cookies.user && _event_uid && _group_uid){
 	
 		var obj = {
 			"ac":_cookies.accesscode,
 			"email":_cookies.user,
-			"function":"get_avail_dump",
+			"function":"get_availability_dump",
 			"event_uid":_event_uid,
 			"group_uid":_group_uid
 		};
@@ -77,6 +80,7 @@ function getEventVoteSettings(parseFn){
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
+						//alert("Success");
 						parseFn(data);
 					}
 			},
@@ -202,6 +206,7 @@ function drawPage(){
 			for(var j=0; j<numberOfDays+1;j++){				
 				var td=document.createElement('td');
 				td.style.cursor="pointer";
+				td.align="center";
 				td.className="success";
 				td.style.border="1px solid gray";
 				if(j==0){
@@ -337,5 +342,15 @@ function drawColorScale(){
 }
 
 function colorCell(elem){
-	elem.style.backgroundColor="dodgerBlue";
+	if(elem.innerHTML=="<span class='glyphicon glyphicon-star' aria-hidden='true' style='color:white;text-align:center'></span>"){
+		//elem.backgroundColor=elem.data;
+		elem.style.border="1px solid gray";
+		elem.innerHTML="";
+	}
+	else{
+		//elem.data=elem.backgroundColor;
+		//elem.style.backgroundColor="dodgerBlue";
+		elem.innerHTML="<span class='glyphicon glyphicon-star' aria-hidden='true' style='color:white;text-align:center'></span>";
+		elem.style.border="1px solid white";
+	}
 }
