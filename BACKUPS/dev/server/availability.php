@@ -137,8 +137,19 @@ function getAvailabilityDump()
 	// IF valid, continue.
 	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 		if(!verifyUserGroup($email,$cookie,$group_uid)) return;
-		$obj = _getAvailabilityDump($group_uid,$event_uid);
+		
+		$settings = getEventVoteSettings($group_uid,$event_uid);
+		$creator = _getUser($settings["creator"]);
+		$dump = _getAvailabilityDump($group_uid,$event_uid);
+		
+		$obj = array();
+		$obj["event_name"] = $settings["name"];
+		$obj["start_time"] = $settings["start_time"];
+		$obj["end_time"] = $settings["end_time"];
+		$obj["creator"] = $creator["first_name"]." ".$creator["last_name"];
+		$obj["dump"] = $dump;
 		echo json_encode($obj);
+		
 	}else{
 		http_response_code(206);
 		return;

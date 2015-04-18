@@ -572,3 +572,592 @@ _obj = {
 };
 
 var DEFAULT_MESSAGES = JSON.stringify(_obj);
+
+var defaultAvail=[{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-16 21:00:00 UTC",
+"end_time":"2015-04-16 21:30:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-16 21:30:00 UTC",
+"end_time":"2015-04-16 22:00:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-16 22:00:00 UTC",
+"end_time":"2015-04-16 22:30:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-16 22:30:00 UTC",
+"end_time":"2015-04-16 23:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-16 23:00:00 UTC",
+"end_time":"2015-04-16 23:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-16 23:30:00 UTC",
+"end_time":"2015-04-17 00:00:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-17 00:00:00 UTC",
+"end_time":"2015-04-17 00:30:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-17 00:30:00 UTC",
+"end_time":"2015-04-17 01:00:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-17 01:00:00 UTC",
+"end_time":"2015-04-17 01:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-17 01:30:00 UTC",
+"end_time":"2015-04-17 02:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-17 02:00:00 UTC",
+"end_time":"2015-04-17 02:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-17 02:30:00 UTC",
+"end_time":"2015-04-17 03:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-17 03:00:00 UTC",
+"end_time":"2015-04-17 03:30:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-17 03:30:00 UTC",
+"end_time":"2015-04-17 04:00:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-17 21:00:00 UTC",
+"end_time":"2015-04-17 21:30:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-17 21:30:00 UTC",
+"end_time":"2015-04-17 22:00:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-17 22:00:00 UTC",
+"end_time":"2015-04-17 22:30:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-17 22:30:00 UTC",
+"end_time":"2015-04-17 23:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-17 23:00:00 UTC",
+"end_time":"2015-04-17 23:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-17 23:30:00 UTC",
+"end_time":"2015-04-18 00:00:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-18 00:00:00 UTC",
+"end_time":"2015-04-18 00:30:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-18 00:30:00 UTC",
+"end_time":"2015-04-18 01:00:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-18 01:00:00 UTC",
+"end_time":"2015-04-18 01:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-18 01:30:00 UTC",
+"end_time":"2015-04-18 02:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-18 02:00:00 UTC",
+"end_time":"2015-04-18 02:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-18 02:30:00 UTC",
+"end_time":"2015-04-18 03:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-18 03:00:00 UTC",
+"end_time":"2015-04-18 03:30:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-18 03:30:00 UTC",
+"end_time":"2015-04-18 04:00:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-18 21:00:00 UTC",
+"end_time":"2015-04-18 21:30:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-18 21:30:00 UTC",
+"end_time":"2015-04-18 22:00:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-18 22:00:00 UTC",
+"end_time":"2015-04-18 22:30:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-18 22:30:00 UTC",
+"end_time":"2015-04-18 23:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-18 23:00:00 UTC",
+"end_time":"2015-04-18 23:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-18 23:30:00 UTC",
+"end_time":"2015-04-19 00:00:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-19 00:00:00 UTC",
+"end_time":"2015-04-19 00:30:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-19 00:30:00 UTC",
+"end_time":"2015-04-19 01:00:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-19 01:00:00 UTC",
+"end_time":"2015-04-19 01:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-19 01:30:00 UTC",
+"end_time":"2015-04-19 02:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-19 02:00:00 UTC",
+"end_time":"2015-04-19 02:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-19 02:30:00 UTC",
+"end_time":"2015-04-19 03:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-19 03:00:00 UTC",
+"end_time":"2015-04-19 03:30:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-19 03:30:00 UTC",
+"end_time":"2015-04-19 04:00:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-19 21:00:00 UTC",
+"end_time":"2015-04-19 21:30:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-19 21:30:00 UTC",
+"end_time":"2015-04-19 22:00:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-19 22:00:00 UTC",
+"end_time":"2015-04-19 22:30:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-19 22:30:00 UTC",
+"end_time":"2015-04-19 23:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-19 23:00:00 UTC",
+"end_time":"2015-04-19 23:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-19 23:30:00 UTC",
+"end_time":"2015-04-20 00:00:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-20 00:00:00 UTC",
+"end_time":"2015-04-20 00:30:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-20 00:30:00 UTC",
+"end_time":"2015-04-20 01:00:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-20 01:00:00 UTC",
+"end_time":"2015-04-20 01:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-20 01:30:00 UTC",
+"end_time":"2015-04-20 02:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-20 02:00:00 UTC",
+"end_time":"2015-04-20 02:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-20 02:30:00 UTC",
+"end_time":"2015-04-20 03:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-20 03:00:00 UTC",
+"end_time":"2015-04-20 03:30:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-20 03:30:00 UTC",
+"end_time":"2015-04-20 04:00:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-20 21:00:00 UTC",
+"end_time":"2015-04-20 21:30:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-20 21:30:00 UTC",
+"end_time":"2015-04-20 22:00:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-20 22:00:00 UTC",
+"end_time":"2015-04-20 22:30:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-20 22:30:00 UTC",
+"end_time":"2015-04-20 23:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-20 23:00:00 UTC",
+"end_time":"2015-04-20 23:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-20 23:30:00 UTC",
+"end_time":"2015-04-21 00:00:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-21 00:00:00 UTC",
+"end_time":"2015-04-21 00:30:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-21 00:30:00 UTC",
+"end_time":"2015-04-21 01:00:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-21 01:00:00 UTC",
+"end_time":"2015-04-21 01:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-21 01:30:00 UTC",
+"end_time":"2015-04-21 02:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-21 02:00:00 UTC",
+"end_time":"2015-04-21 02:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-21 02:30:00 UTC",
+"end_time":"2015-04-21 03:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-21 03:00:00 UTC",
+"end_time":"2015-04-21 03:30:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-21 03:30:00 UTC",
+"end_time":"2015-04-21 04:00:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-21 21:00:00 UTC",
+"end_time":"2015-04-21 21:30:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-21 21:30:00 UTC",
+"end_time":"2015-04-21 22:00:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-21 22:00:00 UTC",
+"end_time":"2015-04-21 22:30:00 UTC",
+"score":"5"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-21 22:30:00 UTC",
+"end_time":"2015-04-21 23:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-21 23:00:00 UTC",
+"end_time":"2015-04-21 23:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-21 23:30:00 UTC",
+"end_time":"2015-04-22 00:00:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-22 00:00:00 UTC",
+"end_time":"2015-04-22 00:30:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-22 00:30:00 UTC",
+"end_time":"2015-04-22 01:00:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-22 01:00:00 UTC",
+"end_time":"2015-04-22 01:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-22 01:30:00 UTC",
+"end_time":"2015-04-22 02:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-22 02:00:00 UTC",
+"end_time":"2015-04-22 02:30:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-22 02:30:00 UTC",
+"end_time":"2015-04-22 03:00:00 UTC",
+"score":"0"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-22 03:00:00 UTC",
+"end_time":"2015-04-22 03:30:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-22 03:30:00 UTC",
+"end_time":"2015-04-22 04:00:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-22 21:00:00 UTC",
+"end_time":"2015-04-22 21:30:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-22 21:30:00 UTC",
+"end_time":"2015-04-22 22:00:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-22 22:00:00 UTC",
+"end_time":"2015-04-22 22:30:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-22 22:30:00 UTC",
+"end_time":"2015-04-22 23:00:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-22 23:00:00 UTC",
+"end_time":"2015-04-22 23:30:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-22 23:30:00 UTC",
+"end_time":"2015-04-23 00:00:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-23 00:00:00 UTC",
+"end_time":"2015-04-23 00:30:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-23 00:30:00 UTC",
+"end_time":"2015-04-23 01:00:00 UTC",
+"score":"20"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-23 01:00:00 UTC",
+"end_time":"2015-04-23 01:30:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-23 01:30:00 UTC",
+"end_time":"2015-04-23 02:00:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-23 02:00:00 UTC",
+"end_time":"2015-04-23 02:30:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-23 02:30:00 UTC",
+"end_time":"2015-04-23 03:00:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-23 03:00:00 UTC",
+"end_time":"2015-04-23 03:30:00 UTC",
+"score":"50"
+},
+{
+"email":"zwilson7@gmail.com",
+"start_time":"2015-04-23 03:30:00 UTC",
+"end_time":"2015-04-23 04:00:00 UTC",
+"score":"50"
+}];

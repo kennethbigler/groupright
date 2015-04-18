@@ -65,6 +65,7 @@
 	if($function == 'add_profile_pic') addProfilePic();
 	if($function == 'get_account_info') getAccountInfo();
 	if($function == 'create_list') createList();
-	if($function == 'add_item_to_list') addItemToList();
+	if($function == 'add_item_to_list') addListItem();
+	if($function == 'get_list_info') getListInfo();
 	
 ?> 
