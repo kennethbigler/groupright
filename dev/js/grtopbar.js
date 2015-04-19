@@ -117,7 +117,8 @@ $(document).ready(function(){
 function initTopBar(){
 	addUsersName();			// set name
 	dealwithProfilePic();	// set profile picture
-	addUsersGroups();		// add groups to drop down	
+	addUsersGroups();		// add groups to drop down
+	addSettingsLinks();		// add settings pages links
 }
 
 
@@ -160,6 +161,15 @@ function addUsersGroups(){
 			'</a></li>';
 	}
 	groupMenu.innerHTML = allMyGroups;
+}
+function addSettingsLinks(){
+	var settingsMenu=document.getElementById("settingsMenu");
+	settingsMenu.innerHTML='<li onclick="logoutAndRedirect()"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>';
+	settingsMenu.innerHTML+='<li><a href="account_settings.html"><span class="glyphicon glyphicon-th-list"></span> My Account</a></li>';
+	settingsMenu.innerHTML+='<li><a href="group_settings.html"><span class="glyphicon glyphicon-cog"></span> Group Settings</a></li>';
+	settingsMenu.innerHTML+='<li><a href="notification_settings.html"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>';
+	settingsMenu.innerHTML+='<li><a href="error_settings.html"><span class="glyphicon glyphicon-wrench"></span> Report Error</a></li>';
+	settingsMenu.innerHTML+='<li><a href="contact.html"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>';
 }
 //============================================================
 // LOGOUT

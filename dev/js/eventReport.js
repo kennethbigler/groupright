@@ -299,9 +299,9 @@ function getScoreForRowColumn(row, column){
 }
 
 var percentColors = [
-    { pct: 0.0, color: { r: 0xff, g: 0x00, b: 0 } },
+    { pct: 0.0, color: { r: 0x00, g: 0xff, b: 0 } },
     { pct: 0.5, color: { r: 0xff, g: 0xff, b: 0 } },
-    { pct: 1.0, color: { r: 0x00, g: 0xff, b: 0 } } ];
+    { pct: 1.0, color: { r: 0xff, g: 0x00, b: 0 } } ];
 
 var getColorForPercentage = function(pct) {
     for (var i = 1; i < percentColors.length - 1; i++) {
@@ -328,7 +328,7 @@ function drawColorScale(){
 	var td=document.createElement("td");
 	//td.innerText="Worst Times";
 	addLocation.appendChild(td);
-	for(var i=1; i<101;i++){
+	for(var i=100; i>0;i--){
 		var div=document.createElement("td");
 		div.style.backgroundColor=getColorForPercentage(i/100);
 		div.style.width="5px";

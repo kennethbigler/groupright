@@ -72,7 +72,7 @@
 					</li>
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="profileName">Name<span class="caret"></span></a>
-						<ul class="dropdown-menu">
+						<ul class="dropdown-menu" id="settingsMenu">
 							<li onclick="logoutAndRedirect()"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 							<li><a href="account_settings.html"><span class="glyphicon glyphicon-th-list"></span> My Account</a></li>
 							<li><a href="group_settings.html"><span class="glyphicon glyphicon-cog"></span> Group Settings</a></li>
@@ -100,10 +100,10 @@
 			<button type="button" class="btn btn-lg btn-block btn-warning" data-toggle="modal" href="#createEventBox">Schedule an Event</button>
 		</div>
 		<div class="col-sm-2">
-			<button type="button" class="btn btn-lg btn-block btn-info"  style="background-color:#A9A9A9;color:white;border-color:#A9A9A9;" data-toggle="modal" href="#createListBox" >Create a List</button>
+			<button type="button" class="btn btn-lg btn-block btn-info"  style="background-color:#A9A9A9;color:white;border-color:#A9A9A9;" data-toggle="modal" href="#createListBox" >Create a List </button>
 		</div>
 		<div class="col-sm-2">
-			<button type="button" class="btn btn-lg btn-block btn-info"  data-toggle="modal" href="#createPollBox">Make a Decision</button>
+			<button type="button" class="btn btn-lg btn-block btn-info"  data-toggle="modal" href="#createPollBox">Make a Decision </button>
 		</div>
 		<div class="col-sm-2">
 			<button type="button" class="btn btn-lg btn-block btn-success" data-toggle="modal" href="#createTaskBox">Start a Task</button>
@@ -124,7 +124,27 @@
 		<!-- Updates -->
 		<div id="updates" class="col-lg-3 col-sm-6">
 			<div class="main3w">
-				<h2>Updates</h2>
+				<h2>Updates</h2><!--
+				<div class="row">
+					<div class="col-sm-2" align="center" style="margin-left:20px;background-color:lightgrey">
+						<span class="glyphicon glyphicon-calendar" align="center">
+					</div>
+					<div class="col-sm-2" align="center">
+						<span class="glyphicon glyphicon-tasks" align="center">
+					</div>
+					<div class="col-sm-2" align="center">
+						<span class="glyphicon glyphicon-info-sign" align="center">
+					</div>
+					<div class="col-sm-2" align="center">
+						<span class="glyphicon glyphicon-object-align-left" align="center">
+					</div>
+					<div class="col-sm-2" align="center">
+						<span class="glyphicon glyphicon-menu-hamburger" align="center">
+					</div>
+					<div class="col-sm-2" align="center">
+						<span class="glyphicon glyphicon-menu-hamburger" align="center">
+					</div>
+				</div>-->
 				<hr />
 				<div class="scrollable frontbox">
 					<div id="addUpdates" class="list-group">
