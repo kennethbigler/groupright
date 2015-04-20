@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">GroupRight</string>
+
+
+    <string name="title_section1">Updates</string>
+    <string name="title_section2">Tasks</string>
+    <string name="title_section3">Events</string>
+    <string name="title_section4">Messages</string>
+
+    <string name="hello_world">Hello world!</string>
+
+    <string name="action_settings">Sign in</string>
+    <string name="GRLightBlue">blue</string>
+</resources>
