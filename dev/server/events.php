@@ -212,6 +212,7 @@ function getAllEventsSince($email,$event_uid){
 			$event_uid = addEvent($email,$group_uid,$event_title,$event_descr,NULL,NULL,$location);
 			addEventVoteSettings($event_uid,$start_time,$end_time,$duration);
 			addEventVotingTask($email,$group_uid,$event_title,$event_uid);
+			addEventTimePickTask($email,$group_uid,$event_title,$event_uid);
 			
 			
 			addEventUpdate($email,$group_uid,"created event \"".$event_title."\"",$event_uid);
@@ -268,6 +269,20 @@ function getAllEventsSince($email,$event_uid){
 		
 		// Link task.
 		_createTaskLink($task_uid,'event',$event_uid);
+
+	}
+
+	function addEventTimePickTask($creator,$group_uid,$title,$event_uid){
+		
+		$task_title = "Pick Time for '".$title."'";
+		
+		
+		$task_uid = addTask($creator,$task_title,"",$group_uid,$event_uid,true);
+		
+		addTaskAssignment($task_uid,$gropu_uid,$creator);
+		
+		// Link task.
+		_createTaskLink($task_uid,'event_report',$event_uid);
 
 	}
 
