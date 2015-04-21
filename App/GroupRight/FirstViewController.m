@@ -25,7 +25,7 @@
 {
     GRMainModule *grmm = [GRMainModule grMain];
     
-<<<<<<< Updated upstream
+
     if([grmm ac] == nil )
     {
         UIStoryboard *storyboard = self.storyboard;
@@ -33,10 +33,9 @@
         LoginViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:@"loginVC"];
         [self presentViewController:lvc animated:NO completion:nil];
     }
-=======
     //LoginViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:@"loginVC"];
     //[self presentViewController:lvc animated:NO completion:nil];
->>>>>>> Stashed changes
+
 }
 
 - (void)didReceiveMemoryWarning {
