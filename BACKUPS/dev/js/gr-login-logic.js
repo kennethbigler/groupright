@@ -41,13 +41,23 @@ var _GET;
 var LogInFront = true;
 
 function flipToSignUp(){
-	if(LogInFront) $(".flipper").css({"transform":"rotateY(180deg)","-webkit-transform":"rotateY(180deg)"});	
-	else $(".flipper").css({"transform":"rotateY(0deg)","-webkit-transform":"rotateY(0deg)"});	
+	if(!isMobile){
+		if(LogInFront) $(".flipper").css({"transform":"rotateY(180deg)","-webkit-transform":"rotateY(180deg)"});	
+		else $(".flipper").css({"transform":"rotateY(0deg)","-webkit-transform":"rotateY(0deg)"});	
+	}else{
+		$(".login-box").hide();
+		$(".signup-box").show();
+	}
 }
 
 function flipToLogIn(){
-	if(LogInFront) $(".flipper").css({"transform":"rotateY(0deg)","-webkit-transform":"rotateY(0deg)"});		
-	else $(".flipper").css({"transform":"rotateY(180deg)","-webkit-transform":"rotateY(180deg)"});	
+	if(!isMobile){
+		if(LogInFront) $(".flipper").css({"transform":"rotateY(0deg)","-webkit-transform":"rotateY(0deg)"});		
+		else $(".flipper").css({"transform":"rotateY(180deg)","-webkit-transform":"rotateY(180deg)"});	
+	}else{
+		$(".login-box").show();
+		$(".signup-box").hide();
+	}
 }
 
 //==================================================
@@ -191,22 +201,33 @@ function installCookieAndRedirect(data,user,extended){
 	});
 }
 
-
+var isMobile = false;
 
 //==================================================
 // SET UP FUNCTIONS
 //==================================================
 $(document).ready(function(){
 
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+		isMobile = true;
+		$(".front").removeClass("front");
+		$(".back").removeClass("back");
+		$(".signup-box").hide();
+	}
 
 	_GET = getSearchParameters();
 	
 	if(parseInt(_GET['signup'])==1){
-		$(".login-box").removeClass("front");
-		$(".signup-box").removeClass("back");
-		$(".login-box").addClass("back");
-		$(".signup-box").addClass("front");
-		LogInFront = false;
+		if(!isMobile){
+			$(".login-box").removeClass("front");
+			$(".signup-box").removeClass("back");
+			$(".login-box").addClass("back");
+			$(".signup-box").addClass("front");
+			LogInFront = false;
+		}else{
+			$(".signup-box").show();
+			$(".login-box").hide();
+		}
 	}
 
 	$("#signInButton").click(function(e){
