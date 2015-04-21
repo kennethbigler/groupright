@@ -49,7 +49,6 @@
 */
 
 - (IBAction)login1:(id)sender {
-    /*
     if(![self isValidEmail:self.email.text]){
         self.email.text=@"Invalid Email";
         self.email.textColor=[UIColor colorWithRed:1 green:0 blue:0 alpha:1];
@@ -64,24 +63,10 @@
         [alert show];
         return;
         
-    }*/
-    NSDictionary *inputData = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               @"login", @"function",
-                               @"zwilson7@gmail.com", @"email",
-                               @"test1", @"password",
-                               nil];
-   
-    NSError *error = nil;
-    NSData *jsonInputData = [NSJSONSerialization dataWithJSONObject:inputData options:NSJSONWritingPrettyPrinted error:&error];
-    NSString *jsonInputString = [[NSString alloc] initWithData:jsonInputData encoding:NSUTF8StringEncoding];
-    NSLog(jsonInputString);
-    [GroupRightNetworking postDataToGroupServe:jsonInputString];
-    //NSLog(self.email.text);
-    //NSLog(self.password.text);
-    //KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"YourAppLogin" accessGroup:nil];
-    UIStoryboard *storyboard = self.storyboard;
-    FirstViewController *vc =[storyboard instantiateViewControllerWithIdentifier:@"updaesVC"];
-    [self.navigationController pushViewController:vc animated:YES];
+    }
+    //[GroupRightNetworking postDataToGroupServe:jsonInputString];
+    NSString *cookie=[GroupRightNetworking loginToGroupServeWithUsername:self.email.text andPassword:self.password.text];
+    
 }
 
 
