@@ -8,6 +8,7 @@
 
 #import "FirstViewController.h"
 #import "LoginViewController.h"
+#import "GRMainModule.h"
 
 @interface FirstViewController ()
 
@@ -22,10 +23,15 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    UIStoryboard *storyboard = self.storyboard;
+    GRMainModule *grmm = [GRMainModule grMain];
     
-    LoginViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:@"loginVC"];
-    [self presentViewController:lvc animated:NO completion:nil];
+    if([grmm ac] == nil )
+    {
+        UIStoryboard *storyboard = self.storyboard;
+        
+        LoginViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:@"loginVC"];
+        [self presentViewController:lvc animated:NO completion:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

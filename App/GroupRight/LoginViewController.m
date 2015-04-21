@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "GroupRightNetworking.h"
 #import "FirstViewController.h"
+#import "GRMainModule.h"
 
 @interface LoginViewController ()
 
@@ -65,8 +66,16 @@
         
     }
     //[GroupRightNetworking postDataToGroupServe:jsonInputString];
+    GRMainModule *grmm = [GRMainModule grMain];
+    [grmm setUser:self.email.text];
     NSString *cookie=[GroupRightNetworking loginToGroupServeWithUsername:self.email.text andPassword:self.password.text];
     
+    if(![cookie isEqualToString:@""])
+    {
+        cookie = [cookie stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        [grmm setAc:cookie];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 

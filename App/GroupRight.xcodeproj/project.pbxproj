@@ -21,6 +21,7 @@
 		BB4916A91AE30537002E792D /* Anorexic Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BB4916A81AE30537002E792D /* Anorexic Logo.png */; };
 		BBA5ED8A1AE451650075B876 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBA5ED891AE451650075B876 /* ViewController.m */; };
 		BBA5ED8B1AE452660075B876 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB216CA61AE44DD600E75892 /* LoginViewController.m */; };
+		D2183BE51AE706A80024CC77 /* GRMainModule.m in Sources */ = {isa = PBXBuildFile; fileRef = D2183BE41AE706A80024CC77 /* GRMainModule.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,8 @@
 		BB4916A81AE30537002E792D /* Anorexic Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Anorexic Logo.png"; sourceTree = "<group>"; };
 		BBA5ED881AE451650075B876 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		BBA5ED891AE451650075B876 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		D2183BE31AE706A80024CC77 /* GRMainModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMainModule.h; sourceTree = "<group>"; };
+		D2183BE41AE706A80024CC77 /* GRMainModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMainModule.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +120,8 @@
 				BB49168F1AE30482002E792D /* Images.xcassets */,
 				BB4916911AE30482002E792D /* LaunchScreen.xib */,
 				BB49167F1AE30482002E792D /* Supporting Files */,
+				D2183BE31AE706A80024CC77 /* GRMainModule.h */,
+				D2183BE41AE706A80024CC77 /* GRMainModule.m */,
 			);
 			path = GroupRight;
 			sourceTree = "<group>";
@@ -256,6 +261,7 @@
 				BBA5ED8A1AE451650075B876 /* ViewController.m in Sources */,
 				BB49168B1AE30482002E792D /* SecondViewController.m in Sources */,
 				BB4916851AE30482002E792D /* AppDelegate.m in Sources */,
+				D2183BE51AE706A80024CC77 /* GRMainModule.m in Sources */,
 				BB4916881AE30482002E792D /* FirstViewController.m in Sources */,
 				BB4916821AE30482002E792D /* main.m in Sources */,
 			);
