@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="bry-mN-VHr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -45,6 +45,44 @@
             </objects>
             <point key="canvasLocation" x="750" y="-320"/>
         </scene>
+        <!--Messages-->
+        <scene sceneID="xnb-m1-V7Y">
+            <objects>
+                <viewController id="klh-af-YUC" customClass="SecondViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2jO-r3-RR1"/>
+                        <viewControllerLayoutGuide type="bottom" id="Qhq-Mg-Prq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Bis-g1-G1q">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Messages" image="second" id="ahI-1f-SMn"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2uG-3a-8br" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="10" y="1038"/>
+        </scene>
+        <!--Events-->
+        <scene sceneID="ntM-hM-cSO">
+            <objects>
+                <viewController id="wKC-hc-Ngr" customClass="FirstViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="54z-va-92B"/>
+                        <viewControllerLayoutGuide type="bottom" id="sa4-JR-gH6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="P9m-YP-4eB">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Events" image="first" badgeValue="5" id="Ff9-Ud-By0"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y0a-Dg-Jge" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="750" y="1032"/>
+        </scene>
         <!--Tasks-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
@@ -83,12 +121,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="326.25"/>
+            <point key="canvasLocation" x="750" y="354"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="hFs-Oo-3Dy">
             <objects>
-                <viewController id="bry-mN-VHr" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginVC" id="bry-mN-VHr" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="F62-Yw-1Wb"/>
                         <viewControllerLayoutGuide type="bottom" id="O7b-lP-Lm5"/>
@@ -182,6 +220,8 @@
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="wKC-hc-Ngr" kind="relationship" relationship="viewControllers" id="rdu-1k-Dbu"/>
+                        <segue destination="klh-af-YUC" kind="relationship" relationship="viewControllers" id="E7O-Ys-PQk"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>

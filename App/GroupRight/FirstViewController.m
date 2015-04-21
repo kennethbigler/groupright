@@ -7,6 +7,7 @@
 //
 
 #import "FirstViewController.h"
+#import "LoginViewController.h"
 
 @interface FirstViewController ()
 
@@ -17,6 +18,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    UIStoryboard *storyboard = self.storyboard;
+    
+    LoginViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:@"loginVC"];
+    [self presentViewController:lvc animated:NO completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
