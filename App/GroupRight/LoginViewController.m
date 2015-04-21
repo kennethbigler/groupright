@@ -73,8 +73,10 @@
     if(![cookie isEqualToString:@""])
     {
         cookie = [cookie stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        cookie = [cookie stringByReplacingOccurrencesOfString:@" " withString:@""];
         [grmm setAc:cookie];
         [self dismissViewControllerAnimated:YES completion:nil];
+        [GroupRightNetworking getUserInfo];
     }
 }
 

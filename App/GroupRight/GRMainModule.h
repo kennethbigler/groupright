@@ -16,6 +16,9 @@
 @property (strong) NSString *user;
 @property (strong) NSString *ac;
 
+@property (strong) NSString *fname;
+@property (strong) NSString *lname;
+
 @property (strong) NSMutableArray *groups;
 @property (strong) NSMutableArray *events;
 @property (strong) NSMutableArray *tasks;

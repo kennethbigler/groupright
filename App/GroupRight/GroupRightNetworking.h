@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface GroupRightNetworking : NSObject
-+(NSData *)postDataToGroupServe:(NSString*)jsonString;
++(void) getUserInfo;
 +(NSString*)loginToGroupServeWithUsername:(NSString*)username andPassword:(NSString*)password;
 @end

@@ -12,7 +12,7 @@ GRMainModule *GRMAIN;
 
 @implementation GRMainModule
 
-@synthesize user,ac,events,tasks,updates,messages,groups;
+@synthesize user,ac,events,tasks,updates,messages,groups,fname,lname;
 
 /* constructor */
 + (GRMainModule *) grMain
@@ -33,11 +33,14 @@ GRMainModule *GRMAIN;
     [updates removeAllObjects];
     //[messages removeAllObjects];
     
-    groups = (NSMutableArray *) [raw objectForKey:@"groups"];
+    groups = (NSMutableArray *) [raw objectForKey:@"memberships"];
     events = (NSMutableArray *) [raw objectForKey:@"events"];
     tasks = (NSMutableArray *) [raw objectForKey:@"tasks"];
     updates = (NSMutableArray *) [raw objectForKey:@"updates"];
     //messages = (NSMutableArray *) [raw objectForKey:@"messages"];
+    
+    fname = (NSString *) [raw objectForKey:@"first_name"];
+    lname = (NSString *) [raw objectForKey:@"last_name"];
     
     return;
 }
