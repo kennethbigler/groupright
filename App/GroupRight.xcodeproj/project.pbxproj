@@ -10,6 +10,12 @@
 		BB06FE7D1AE4CC1E006619A2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB06FE7C1AE4CC1E006619A2 /* Security.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		BB216CA11AE44AA200E75892 /* Its Small Art...Its Valuable...HaHa.png in Resources */ = {isa = PBXBuildFile; fileRef = BB216CA01AE44AA200E75892 /* Its Small Art...Its Valuable...HaHa.png */; };
 		BB42996D1AE58381007604BC /* GroupRightNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BB42996C1AE58381007604BC /* GroupRightNetworking.m */; };
+		BB488E531AE775480019CDA7 /* cal.png in Resources */ = {isa = PBXBuildFile; fileRef = BB488E521AE775480019CDA7 /* cal.png */; };
+		BB488E551AE776050019CDA7 /* task.png in Resources */ = {isa = PBXBuildFile; fileRef = BB488E541AE776050019CDA7 /* task.png */; };
+		BB488E571AE77D470019CDA7 /* default.pdf in Resources */ = {isa = PBXBuildFile; fileRef = BB488E561AE77D470019CDA7 /* default.pdf */; };
+		BB488E591AE77E430019CDA7 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = BB488E581AE77E430019CDA7 /* default.png */; };
+		BB488E5B1AE780100019CDA7 /* TasksTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB488E5A1AE780100019CDA7 /* TasksTableCell.xib */; };
+		BB488E5D1AE7819F0019CDA7 /* openCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = BB488E5C1AE7819F0019CDA7 /* openCircle.png */; };
 		BB4916821AE30482002E792D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BB4916811AE30482002E792D /* main.m */; };
 		BB4916851AE30482002E792D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BB4916841AE30482002E792D /* AppDelegate.m */; };
 		BB4916881AE30482002E792D /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB4916871AE30482002E792D /* FirstViewController.m */; };
@@ -43,6 +49,12 @@
 		BB216CA61AE44DD600E75892 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = GroupRight/LoginViewController.m; sourceTree = "<group>"; };
 		BB42996B1AE58381007604BC /* GroupRightNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupRightNetworking.h; sourceTree = "<group>"; };
 		BB42996C1AE58381007604BC /* GroupRightNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupRightNetworking.m; sourceTree = "<group>"; };
+		BB488E521AE775480019CDA7 /* cal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cal.png; sourceTree = "<group>"; };
+		BB488E541AE776050019CDA7 /* task.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = task.png; sourceTree = "<group>"; };
+		BB488E561AE77D470019CDA7 /* default.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = default.pdf; path = Images.xcassets/first.imageset/default.pdf; sourceTree = "<group>"; };
+		BB488E581AE77E430019CDA7 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
+		BB488E5A1AE780100019CDA7 /* TasksTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TasksTableCell.xib; sourceTree = "<group>"; };
+		BB488E5C1AE7819F0019CDA7 /* openCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = openCircle.png; sourceTree = "<group>"; };
 		BB49167C1AE30482002E792D /* GroupRight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupRight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB4916801AE30482002E792D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB4916811AE30482002E792D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -124,8 +136,13 @@
 		BB49167F1AE30482002E792D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BB488E5C1AE7819F0019CDA7 /* openCircle.png */,
+				BB488E581AE77E430019CDA7 /* default.png */,
+				BB488E541AE776050019CDA7 /* task.png */,
+				BB488E521AE775480019CDA7 /* cal.png */,
 				BB216CA01AE44AA200E75892 /* Its Small Art...Its Valuable...HaHa.png */,
 				BB4916A81AE30537002E792D /* Anorexic Logo.png */,
+				BB488E561AE77D470019CDA7 /* default.pdf */,
 				BB4916801AE30482002E792D /* Info.plist */,
 				BB4916811AE30482002E792D /* main.m */,
 			);
@@ -189,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				BBD323961AE71DE900F3BE07 /* UpdatesTableCell.h */,
+				BB488E5A1AE780100019CDA7 /* TasksTableCell.xib */,
 				BBD323971AE71DEA00F3BE07 /* UpdatesTableCell.m */,
 				BBD323941AE717F900F3BE07 /* UpdatesTableCell.xib */,
 			);
@@ -279,9 +297,15 @@
 				BB49168E1AE30482002E792D /* Main.storyboard in Resources */,
 				BB4916931AE30482002E792D /* LaunchScreen.xib in Resources */,
 				BB4916A91AE30537002E792D /* Anorexic Logo.png in Resources */,
+				BB488E571AE77D470019CDA7 /* default.pdf in Resources */,
 				BBD323951AE717F900F3BE07 /* UpdatesTableCell.xib in Resources */,
+				BB488E5B1AE780100019CDA7 /* TasksTableCell.xib in Resources */,
 				BB4916901AE30482002E792D /* Images.xcassets in Resources */,
 				BB216CA11AE44AA200E75892 /* Its Small Art...Its Valuable...HaHa.png in Resources */,
+				BB488E551AE776050019CDA7 /* task.png in Resources */,
+				BB488E5D1AE7819F0019CDA7 /* openCircle.png in Resources */,
+				BB488E531AE775480019CDA7 /* cal.png in Resources */,
+				BB488E591AE77E430019CDA7 /* default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

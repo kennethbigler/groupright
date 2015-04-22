@@ -87,12 +87,18 @@
     }
     
     cell.nameLabel.text = [[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"email"];
-    //cell.thumbnailImageView.image = [UIImage imageNamed:];
-    cell.infoLabel.text = [[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"description"];
+        cell.infoLabel.text = [[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"description"];
     if([[[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"link_type"] isEqual: @"event"]){
-        NSLog(@"event");
+        //NSLog(@"event");
+        cell.thumbnailImageView.image = [UIImage imageNamed:@"cal.png"];
+
     }
-    
+    else if([[[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"link_type"] isEqual: @"task"]){
+        cell.thumbnailImageView.image = [UIImage imageNamed:@"task.png"];
+    }
+    else {
+        cell.thumbnailImageView.image = [UIImage imageNamed:@"default.png"];
+    }
     return cell;
 }
 

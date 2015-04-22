@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -34,7 +34,7 @@
                             <constraint firstItem="2BN-h1-5Qf" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="dIj-2g-69Z"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Updates" image="first" badgeValue="6" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Updates" image="Updates" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="UpdatesTable" destination="2BN-h1-5Qf" id="9B4-nL-BOa"/>
                     </connections>
@@ -56,7 +56,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Messages" image="second" id="ahI-1f-SMn"/>
+                    <tabBarItem key="tabBarItem" title="Messages" image="Email" id="ahI-1f-SMn"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2uG-3a-8br" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -75,7 +75,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Events" image="first" badgeValue="5" id="Ff9-Ud-By0"/>
+                    <tabBarItem key="tabBarItem" title="Events" image="Calendar" id="Ff9-Ud-By0"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y0a-Dg-Jge" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -115,7 +115,7 @@
                             <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Tasks" image="second" badgeValue="5" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Tasks" image="Clipboard" id="cPa-gy-q4n"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
@@ -229,7 +229,9 @@
     </scenes>
     <resources>
         <image name="Anorexic Logo.png" width="930" height="163"/>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="Calendar" width="35" height="35"/>
+        <image name="Clipboard" width="37" height="37"/>
+        <image name="Email" width="48" height="48"/>
+        <image name="Updates" width="48" height="48"/>
     </resources>
 </document>
