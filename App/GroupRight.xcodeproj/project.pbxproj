@@ -21,10 +21,9 @@
 		BB4916A91AE30537002E792D /* Anorexic Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BB4916A81AE30537002E792D /* Anorexic Logo.png */; };
 		BBA5ED8A1AE451650075B876 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBA5ED891AE451650075B876 /* ViewController.m */; };
 		BBA5ED8B1AE452660075B876 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB216CA61AE44DD600E75892 /* LoginViewController.m */; };
-
+		BBD323951AE717F900F3BE07 /* UpdatesTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBD323941AE717F900F3BE07 /* UpdatesTableCell.xib */; };
+		BBD323981AE71DEA00F3BE07 /* UpdatesTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD323971AE71DEA00F3BE07 /* UpdatesTableCell.m */; };
 		D2183BE51AE706A80024CC77 /* GRMainModule.m in Sources */ = {isa = PBXBuildFile; fileRef = D2183BE41AE706A80024CC77 /* GRMainModule.m */; };
-
-		BBB78A9A1AE70B1F00F97E5E /* UpdatesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBB78A991AE70B1F00F97E5E /* UpdatesTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,13 +61,11 @@
 		BB4916A81AE30537002E792D /* Anorexic Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Anorexic Logo.png"; sourceTree = "<group>"; };
 		BBA5ED881AE451650075B876 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		BBA5ED891AE451650075B876 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-
+		BBD323941AE717F900F3BE07 /* UpdatesTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UpdatesTableCell.xib; path = GroupRight/UpdatesTableCell.xib; sourceTree = SOURCE_ROOT; };
+		BBD323961AE71DE900F3BE07 /* UpdatesTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdatesTableCell.h; path = GroupRight/UpdatesTableCell.h; sourceTree = "<group>"; };
+		BBD323971AE71DEA00F3BE07 /* UpdatesTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdatesTableCell.m; path = GroupRight/UpdatesTableCell.m; sourceTree = "<group>"; };
 		D2183BE31AE706A80024CC77 /* GRMainModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMainModule.h; sourceTree = "<group>"; };
 		D2183BE41AE706A80024CC77 /* GRMainModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMainModule.m; sourceTree = "<group>"; };
-
-		BBB78A981AE70B1F00F97E5E /* UpdatesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdatesTableViewController.h; sourceTree = "<group>"; };
-		BBB78A991AE70B1F00F97E5E /* UpdatesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdatesTableViewController.m; sourceTree = "<group>"; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +90,7 @@
 		BB4916731AE30481002E792D = {
 			isa = PBXGroup;
 			children = (
+				BBD323991AE72AEB00F3BE07 /* Custom Cells */,
 				BB06FE7C1AE4CC1E006619A2 /* Security.framework */,
 				BB49167E1AE30482002E792D /* GroupRight */,
 				BB49169B1AE30482002E792D /* GroupRightTests */,
@@ -124,8 +122,6 @@
 				BB4916871AE30482002E792D /* FirstViewController.m */,
 				BB4916891AE30482002E792D /* SecondViewController.h */,
 				BB49168A1AE30482002E792D /* SecondViewController.m */,
-				BBB78A981AE70B1F00F97E5E /* UpdatesTableViewController.h */,
-				BBB78A991AE70B1F00F97E5E /* UpdatesTableViewController.m */,
 				BB49168C1AE30482002E792D /* Main.storyboard */,
 				BB49168F1AE30482002E792D /* Images.xcassets */,
 				BB4916911AE30482002E792D /* LaunchScreen.xib */,
@@ -162,6 +158,16 @@
 				BB49169D1AE30482002E792D /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BBD323991AE72AEB00F3BE07 /* Custom Cells */ = {
+			isa = PBXGroup;
+			children = (
+				BBD323961AE71DE900F3BE07 /* UpdatesTableCell.h */,
+				BBD323971AE71DEA00F3BE07 /* UpdatesTableCell.m */,
+				BBD323941AE717F900F3BE07 /* UpdatesTableCell.xib */,
+			);
+			name = "Custom Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -247,6 +253,7 @@
 				BB49168E1AE30482002E792D /* Main.storyboard in Resources */,
 				BB4916931AE30482002E792D /* LaunchScreen.xib in Resources */,
 				BB4916A91AE30537002E792D /* Anorexic Logo.png in Resources */,
+				BBD323951AE717F900F3BE07 /* UpdatesTableCell.xib in Resources */,
 				BB4916901AE30482002E792D /* Images.xcassets in Resources */,
 				BB216CA11AE44AA200E75892 /* Its Small Art...Its Valuable...HaHa.png in Resources */,
 			);
@@ -270,11 +277,11 @@
 				BBA5ED8B1AE452660075B876 /* LoginViewController.m in Sources */,
 				BBA5ED8A1AE451650075B876 /* ViewController.m in Sources */,
 				BB49168B1AE30482002E792D /* SecondViewController.m in Sources */,
-				BBB78A9A1AE70B1F00F97E5E /* UpdatesTableViewController.m in Sources */,
 				BB4916851AE30482002E792D /* AppDelegate.m in Sources */,
 				D2183BE51AE706A80024CC77 /* GRMainModule.m in Sources */,
 				BB4916881AE30482002E792D /* FirstViewController.m in Sources */,
 				BB4916821AE30482002E792D /* main.m in Sources */,
+				BBD323981AE71DEA00F3BE07 /* UpdatesTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
