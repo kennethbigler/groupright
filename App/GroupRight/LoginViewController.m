@@ -8,7 +8,7 @@
 
 #import "LoginViewController.h"
 #import "GroupRightNetworking.h"
-#import "FirstViewController.h"
+#import "UpdatesViewController.h"
 #import "GRMainModule.h"
 
 @interface LoginViewController ()
@@ -79,6 +79,22 @@
         [GroupRightNetworking getUserInfo];
     }
 }
+
+- (IBAction)bypassLogin:(id)sender {
+    GRMainModule *grmm = [GRMainModule grMain];
+    [grmm setUser:@"zwilson7@gmail.com"];
+    NSString *cookie=[GroupRightNetworking loginToGroupServeWithUsername:@"zwilson7@gmail.com" andPassword:@"test1"];
+    
+    if(![cookie isEqualToString:@""])
+    {
+        cookie = [cookie stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        cookie = [cookie stringByReplacingOccurrencesOfString:@" " withString:@""];
+        [grmm setAc:cookie];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        [GroupRightNetworking getUserInfo];
+    }
+}
+
 
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface GRMainModule : NSObject
 {
@@ -31,5 +32,8 @@
 /* loading / parsing data */
 - (void) addUserData: (NSDictionary *) raw;
 
+/*Support Functions*/
+- (NSString*) getFullNameForEmail:(NSString*) email;
+- (UIColor*) getColorForGroupWithId:(NSString*) guid;
 
 @end

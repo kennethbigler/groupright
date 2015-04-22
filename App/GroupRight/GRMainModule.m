@@ -8,6 +8,7 @@
 
 #import "GRMainModule.h"
 
+
 GRMainModule *GRMAIN;
 
 @implementation GRMainModule
@@ -43,6 +44,15 @@ GRMainModule *GRMAIN;
     lname = (NSString *) [raw objectForKey:@"last_name"];
     
     return;
+}
+
+- (NSString*) getFullNameForEmail:(NSString*) email
+{
+    return @"Bob Smith";
+}
+- (UIColor*) getColorForGroupWithId:(NSString*) guid{
+    UIColor *myColor = [UIColor colorWithRed:0.0f green:0.5f blue:0.0f alpha:.5f];
+    return myColor;
 }
 
 @end

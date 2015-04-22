@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FirstViewController : UIViewController
+@interface UpdatesViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITableView *UpdatesTable;
 
 
