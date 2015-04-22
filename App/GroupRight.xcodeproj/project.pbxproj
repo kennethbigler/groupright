@@ -39,19 +39,19 @@
 /* Begin PBXFileReference section */
 		BB06FE7C1AE4CC1E006619A2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		BB216CA01AE44AA200E75892 /* Its Small Art...Its Valuable...HaHa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Its Small Art...Its Valuable...HaHa.png"; sourceTree = "<group>"; };
-		BB216CA51AE44DD600E75892 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		BB216CA61AE44DD600E75892 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		BB216CA51AE44DD600E75892 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = GroupRight/LoginViewController.h; sourceTree = "<group>"; };
+		BB216CA61AE44DD600E75892 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = GroupRight/LoginViewController.m; sourceTree = "<group>"; };
 		BB42996B1AE58381007604BC /* GroupRightNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupRightNetworking.h; sourceTree = "<group>"; };
 		BB42996C1AE58381007604BC /* GroupRightNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupRightNetworking.m; sourceTree = "<group>"; };
 		BB49167C1AE30482002E792D /* GroupRight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupRight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB4916801AE30482002E792D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB4916811AE30482002E792D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		BB4916831AE30482002E792D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		BB4916841AE30482002E792D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		BB4916861AE30482002E792D /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
-		BB4916871AE30482002E792D /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
-		BB4916891AE30482002E792D /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		BB49168A1AE30482002E792D /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		BB4916831AE30482002E792D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = GroupRight/AppDelegate.h; sourceTree = "<group>"; };
+		BB4916841AE30482002E792D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = GroupRight/AppDelegate.m; sourceTree = "<group>"; };
+		BB4916861AE30482002E792D /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FirstViewController.h; path = GroupRight/FirstViewController.h; sourceTree = "<group>"; };
+		BB4916871AE30482002E792D /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FirstViewController.m; path = GroupRight/FirstViewController.m; sourceTree = "<group>"; };
+		BB4916891AE30482002E792D /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SecondViewController.h; path = GroupRight/SecondViewController.h; sourceTree = "<group>"; };
+		BB49168A1AE30482002E792D /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SecondViewController.m; path = GroupRight/SecondViewController.m; sourceTree = "<group>"; };
 		BB49168D1AE30482002E792D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BB49168F1AE30482002E792D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BB4916921AE30482002E792D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -59,8 +59,8 @@
 		BB49169D1AE30482002E792D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB49169E1AE30482002E792D /* GroupRightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupRightTests.m; sourceTree = "<group>"; };
 		BB4916A81AE30537002E792D /* Anorexic Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Anorexic Logo.png"; sourceTree = "<group>"; };
-		BBA5ED881AE451650075B876 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		BBA5ED891AE451650075B876 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		BBA5ED881AE451650075B876 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = GroupRight/ViewController.h; sourceTree = "<group>"; };
+		BBA5ED891AE451650075B876 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = GroupRight/ViewController.m; sourceTree = "<group>"; };
 		BBD323941AE717F900F3BE07 /* UpdatesTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UpdatesTableCell.xib; path = GroupRight/UpdatesTableCell.xib; sourceTree = SOURCE_ROOT; };
 		BBD323961AE71DE900F3BE07 /* UpdatesTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdatesTableCell.h; path = GroupRight/UpdatesTableCell.h; sourceTree = "<group>"; };
 		BBD323971AE71DEA00F3BE07 /* UpdatesTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdatesTableCell.m; path = GroupRight/UpdatesTableCell.m; sourceTree = "<group>"; };
@@ -90,7 +90,6 @@
 		BB4916731AE30481002E792D = {
 			isa = PBXGroup;
 			children = (
-				BBD323991AE72AEB00F3BE07 /* Custom Cells */,
 				BB06FE7C1AE4CC1E006619A2 /* Security.framework */,
 				BB49167E1AE30482002E792D /* GroupRight */,
 				BB49169B1AE30482002E792D /* GroupRightTests */,
@@ -110,24 +109,14 @@
 		BB49167E1AE30482002E792D /* GroupRight */ = {
 			isa = PBXGroup;
 			children = (
-				BB216CA51AE44DD600E75892 /* LoginViewController.h */,
-				BB216CA61AE44DD600E75892 /* LoginViewController.m */,
-				BB42996B1AE58381007604BC /* GroupRightNetworking.h */,
-				BB42996C1AE58381007604BC /* GroupRightNetworking.m */,
-				BBA5ED881AE451650075B876 /* ViewController.h */,
-				BBA5ED891AE451650075B876 /* ViewController.m */,
-				BB4916831AE30482002E792D /* AppDelegate.h */,
-				BB4916841AE30482002E792D /* AppDelegate.m */,
-				BB4916861AE30482002E792D /* FirstViewController.h */,
-				BB4916871AE30482002E792D /* FirstViewController.m */,
-				BB4916891AE30482002E792D /* SecondViewController.h */,
-				BB49168A1AE30482002E792D /* SecondViewController.m */,
+				BB4CC1181AE72B67004A7301 /* View Controllers */,
+				BBD323991AE72AEB00F3BE07 /* Custom Cells */,
+				BB4CC1191AE72B7F004A7301 /* Model (Data) */,
+				BB4CC11A1AE72B9A004A7301 /* Modules */,
 				BB49168C1AE30482002E792D /* Main.storyboard */,
 				BB49168F1AE30482002E792D /* Images.xcassets */,
 				BB4916911AE30482002E792D /* LaunchScreen.xib */,
 				BB49167F1AE30482002E792D /* Supporting Files */,
-				D2183BE31AE706A80024CC77 /* GRMainModule.h */,
-				D2183BE41AE706A80024CC77 /* GRMainModule.m */,
 			);
 			path = GroupRight;
 			sourceTree = "<group>";
@@ -160,6 +149,42 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		BB4CC1181AE72B67004A7301 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BB216CA51AE44DD600E75892 /* LoginViewController.h */,
+				BB216CA61AE44DD600E75892 /* LoginViewController.m */,
+				BBA5ED881AE451650075B876 /* ViewController.h */,
+				BBA5ED891AE451650075B876 /* ViewController.m */,
+				BB4916831AE30482002E792D /* AppDelegate.h */,
+				BB4916841AE30482002E792D /* AppDelegate.m */,
+				BB4916861AE30482002E792D /* FirstViewController.h */,
+				BB4916871AE30482002E792D /* FirstViewController.m */,
+				BB4916891AE30482002E792D /* SecondViewController.h */,
+				BB49168A1AE30482002E792D /* SecondViewController.m */,
+			);
+			name = "View Controllers";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		BB4CC1191AE72B7F004A7301 /* Model (Data) */ = {
+			isa = PBXGroup;
+			children = (
+				D2183BE31AE706A80024CC77 /* GRMainModule.h */,
+				D2183BE41AE706A80024CC77 /* GRMainModule.m */,
+			);
+			name = "Model (Data)";
+			sourceTree = "<group>";
+		};
+		BB4CC11A1AE72B9A004A7301 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				BB42996B1AE58381007604BC /* GroupRightNetworking.h */,
+				BB42996C1AE58381007604BC /* GroupRightNetworking.m */,
+			);
+			name = Modules;
+			sourceTree = "<group>";
+		};
 		BBD323991AE72AEB00F3BE07 /* Custom Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +193,7 @@
 				BBD323941AE717F900F3BE07 /* UpdatesTableCell.xib */,
 			);
 			name = "Custom Cells";
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

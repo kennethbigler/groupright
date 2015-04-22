@@ -10,6 +10,7 @@
 #import "LoginViewController.h"
 #import "GRMainModule.h"
 #import "UpdatesTableCell.h"
+#import "GRMainModule.h"
 
 @interface FirstViewController ()
 
@@ -32,11 +33,12 @@
     {
         UIStoryboard *storyboard = self.storyboard;
         
-        //LoginViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:@"loginVC"];
-        //[self presentViewController:lvc animated:NO completion:nil];
+        LoginViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:@"loginVC"];
+        [self presentViewController:lvc animated:NO completion:nil];
     }
     //LoginViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:@"loginVC"];
     //[self presentViewController:lvc animated:NO completion:nil];
+    [_UpdatesTable reloadData];
 
 }
 
@@ -56,11 +58,13 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    GRMainModule *grmm = [GRMainModule grMain];
+    return [grmm.updates count];
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    GRMainModule *grmm = [GRMainModule grMain];
     /*NSString *cellID = @"eventUpdateCell";
     UITableViewCell *newCell;
     
@@ -81,17 +85,20 @@
 
         cell = (UpdatesTableCell*)[nib objectAtIndex:0];
     }
-    [cell contentView].backgroundColor = [UIColor lightGrayColor];
-    cell.nameLabel.text = @"hello";
+    
+    cell.nameLabel.text = [[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"email"];
     //cell.thumbnailImageView.image = [UIImage imageNamed:];
-    cell.infoLabel.text = @"did something";
+    cell.infoLabel.text = [[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"description"];
+    if([[[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"link_type"] isEqual: @"event"]){
+        NSLog(@"event");
+    }
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 140.0;
+    return [indexPath row] * 20;
 }
 
 
