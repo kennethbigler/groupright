@@ -12,6 +12,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *email;
 @property (strong, nonatomic) IBOutlet UITextField *password;
 - (IBAction)login1:(id)sender;
--(BOOL) isValidEmail:(NSString *) checkString;
+- (IBAction)bypassLogin:(id)sender;
+- (BOOL) isValidEmail:(NSString *) checkString;
 //-(NSData *)postDataToUrl:(NSString*)jsonString;
 @end

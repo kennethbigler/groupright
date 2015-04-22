@@ -6,17 +6,17 @@
 //  Copyright (c) 2015 Zachary Wilson. All rights reserved.
 //
 
-#import "FirstViewController.h"
+#import "UpdatesViewController.h"
 #import "LoginViewController.h"
 #import "GRMainModule.h"
 #import "UpdatesTableCell.h"
 #import "GRMainModule.h"
 
-@interface FirstViewController ()
+@interface UpdatesViewController ()
 
 @end
 
-@implementation FirstViewController
+@implementation UpdatesViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,7 +25,6 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    self.title=@"Updates";
     GRMainModule *grmm = [GRMainModule grMain];
     
 
@@ -65,19 +64,9 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     GRMainModule *grmm = [GRMainModule grMain];
-    /*NSString *cellID = @"eventUpdateCell";
-    UITableViewCell *newCell;
-    
-    newCell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if(!newCell)
-    {
-        newCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
-    }
-    newCell.textLabel.text=@"hello";
-    return newCell;*/
-    
     static NSString *cellID = @"UpdateCell";
     
+    //Get a new or recycled cell
     UpdatesTableCell *cell = (UpdatesTableCell *)[tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil)
     {
@@ -86,10 +75,12 @@
         cell = (UpdatesTableCell*)[nib objectAtIndex:0];
     }
     
-    cell.nameLabel.text = [[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"email"];
-        cell.infoLabel.text = [[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"description"];
+    //Set Name and Description
+    cell.nameLabel.text = [grmm getFullNameForEmail:[[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"email"]];
+    cell.infoLabel.text = [[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"description"];
+    
+    //Set the correct photo
     if([[[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"link_type"] isEqual: @"event"]){
-        //NSLog(@"event");
         cell.thumbnailImageView.image = [UIImage imageNamed:@"cal.png"];
 
     }
@@ -99,14 +90,12 @@
     else {
         cell.thumbnailImageView.image = [UIImage imageNamed:@"default.png"];
     }
+    
+    //Set the background color
+    cell.backgroundColor=[grmm getColorForGroupWithId:[[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"group_uid"]];
+    
     return cell;
 }
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [indexPath row] * 20;
-}
-
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
