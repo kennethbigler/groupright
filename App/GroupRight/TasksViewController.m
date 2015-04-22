@@ -46,7 +46,7 @@
     //LoginViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:@"loginVC"];
     //[self presentViewController:lvc animated:NO completion:nil];
     [_TasksTable reloadData];
-    NSLog(@"Hello1");
+    //NSLog(@"Hello1");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,7 +66,7 @@
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     GRMainModule *grmm = [GRMainModule grMain];
-    NSLog(@"Hello");
+    //NSLog(@"Hello");
     return [grmm.tasks count];
 }
 

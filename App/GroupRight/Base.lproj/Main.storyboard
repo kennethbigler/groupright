@@ -185,6 +185,17 @@
                                     <action selector="bypassLogin:" destination="bry-mN-VHr" eventType="touchUpInside" id="Fsh-7Y-U4j"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9sm-I2-1KN">
+                                <rect key="frame" x="147" y="489" width="306" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.99984040200000002" blue="0.94984927259999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="SIGN UP">
+                                    <color key="titleColor" red="0.15892516709999999" green="0.66722881109999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" red="0.97244106200000002" green="1" blue="0.95329658910000004" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="signup:" destination="bry-mN-VHr" eventType="touchUpInside" id="hf6-6x-j8J"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.070588235294117646" green="0.5607843137254902" blue="0.81568627450980391" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -196,14 +207,17 @@
                             <constraint firstItem="t6x-Zw-lf8" firstAttribute="leading" secondItem="Fbf-2T-q3r" secondAttribute="leading" id="NcT-8q-qyo"/>
                             <constraint firstItem="Fbf-2T-q3r" firstAttribute="trailing" secondItem="3bY-LI-YC0" secondAttribute="trailing" id="PJA-Ww-5LE"/>
                             <constraint firstItem="W48-sU-9x3" firstAttribute="leading" secondItem="3bY-LI-YC0" secondAttribute="leading" id="RZ7-xg-9vJ"/>
+                            <constraint firstItem="9sm-I2-1KN" firstAttribute="top" secondItem="t6x-Zw-lf8" secondAttribute="bottom" constant="8" symbolic="YES" id="WGk-IW-KVY"/>
                             <constraint firstItem="ASG-q1-jJa" firstAttribute="top" secondItem="I3V-qj-JtL" secondAttribute="bottom" constant="8" symbolic="YES" id="abR-ZC-Ro5"/>
                             <constraint firstItem="Fbf-2T-q3r" firstAttribute="top" secondItem="3bY-LI-YC0" secondAttribute="bottom" constant="27" id="f6H-gT-EdQ"/>
                             <constraint firstItem="t6x-Zw-lf8" firstAttribute="top" secondItem="Fbf-2T-q3r" secondAttribute="bottom" constant="8" symbolic="YES" id="gjg-PD-sVU"/>
                             <constraint firstItem="W48-sU-9x3" firstAttribute="top" secondItem="ASG-q1-jJa" secondAttribute="bottom" constant="42" id="hhT-8A-EHV"/>
                             <constraint firstItem="t6x-Zw-lf8" firstAttribute="trailing" secondItem="Fbf-2T-q3r" secondAttribute="trailing" id="hib-vT-WkE"/>
                             <constraint firstItem="3bY-LI-YC0" firstAttribute="trailing" secondItem="W48-sU-9x3" secondAttribute="trailing" id="ngS-aW-FsM"/>
+                            <constraint firstItem="9sm-I2-1KN" firstAttribute="leading" secondItem="t6x-Zw-lf8" secondAttribute="leading" id="okd-4t-DF5"/>
                             <constraint firstItem="O7b-lP-Lm5" firstAttribute="top" secondItem="Fbf-2T-q3r" secondAttribute="bottom" constant="157" id="qEL-fj-bYP"/>
                             <constraint firstItem="icM-nl-wuo" firstAttribute="top" secondItem="F62-Yw-1Wb" secondAttribute="bottom" constant="110" id="qm0-NZ-Osq"/>
+                            <constraint firstItem="9sm-I2-1KN" firstAttribute="trailing" secondItem="t6x-Zw-lf8" secondAttribute="trailing" id="s2h-OV-ydA"/>
                             <constraint firstItem="Fbf-2T-q3r" firstAttribute="centerX" secondItem="2JM-oX-gKA" secondAttribute="centerX" id="spF-5V-IHq"/>
                             <constraint firstItem="3bY-LI-YC0" firstAttribute="top" secondItem="W48-sU-9x3" secondAttribute="bottom" constant="8" symbolic="YES" id="tX1-4M-iT4"/>
                         </constraints>

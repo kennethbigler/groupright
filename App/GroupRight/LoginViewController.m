@@ -95,6 +95,10 @@
     }
 }
 
+- (IBAction)signup:(id)sender{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://groupright.net/dev/login.html?signup=1"]];
+}
+
 
 
 @end

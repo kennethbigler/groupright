@@ -29,10 +29,10 @@
 		BBA5ED8B1AE452660075B876 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB216CA61AE44DD600E75892 /* LoginViewController.m */; };
 		BBB4A6BF1AE81D53001BB2DB /* TasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBB4A6BE1AE81D53001BB2DB /* TasksViewController.m */; };
 		BBB4A6C51AE81F47001BB2DB /* TasksTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BBB4A6C41AE81F47001BB2DB /* TasksTableViewCell.m */; };
-		BBB4A6C71AE82024001BB2DB /* gr_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = BBB4A6C61AE82024001BB2DB /* gr_blue.png */; };
 		BBB4A6C91AE82839001BB2DB /* EventsTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBB4A6C81AE82839001BB2DB /* EventsTableCell.xib */; };
 		BBD323951AE717F900F3BE07 /* UpdatesTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBD323941AE717F900F3BE07 /* UpdatesTableCell.xib */; };
 		BBD323981AE71DEA00F3BE07 /* UpdatesTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD323971AE71DEA00F3BE07 /* UpdatesTableCell.m */; };
+		BBDE35AA1AE8490C0030A211 /* gr_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = BBDE35A91AE8490C0030A211 /* gr_blue.png */; };
 		D2183BE51AE706A80024CC77 /* GRMainModule.m in Sources */ = {isa = PBXBuildFile; fileRef = D2183BE41AE706A80024CC77 /* GRMainModule.m */; };
 /* End PBXBuildFile section */
 
@@ -81,11 +81,11 @@
 		BBB4A6BE1AE81D53001BB2DB /* TasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TasksViewController.m; path = GroupRight/TasksViewController.m; sourceTree = "<group>"; };
 		BBB4A6C31AE81F47001BB2DB /* TasksTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TasksTableViewCell.h; path = GroupRight/TasksTableViewCell.h; sourceTree = "<group>"; };
 		BBB4A6C41AE81F47001BB2DB /* TasksTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TasksTableViewCell.m; path = GroupRight/TasksTableViewCell.m; sourceTree = "<group>"; };
-		BBB4A6C61AE82024001BB2DB /* gr_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gr_blue.png; path = ../../../../Downloads/gr_blue.png; sourceTree = "<group>"; };
 		BBB4A6C81AE82839001BB2DB /* EventsTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventsTableCell.xib; sourceTree = "<group>"; };
 		BBD323941AE717F900F3BE07 /* UpdatesTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UpdatesTableCell.xib; path = GroupRight/UpdatesTableCell.xib; sourceTree = SOURCE_ROOT; };
 		BBD323961AE71DE900F3BE07 /* UpdatesTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdatesTableCell.h; path = GroupRight/UpdatesTableCell.h; sourceTree = "<group>"; };
 		BBD323971AE71DEA00F3BE07 /* UpdatesTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdatesTableCell.m; path = GroupRight/UpdatesTableCell.m; sourceTree = "<group>"; };
+		BBDE35A91AE8490C0030A211 /* gr_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gr_blue.png; sourceTree = "<group>"; };
 		D2183BE31AE706A80024CC77 /* GRMainModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMainModule.h; sourceTree = "<group>"; };
 		D2183BE41AE706A80024CC77 /* GRMainModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMainModule.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -146,8 +146,8 @@
 		BB49167F1AE30482002E792D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				BBB4A6C61AE82024001BB2DB /* gr_blue.png */,
 				BB488E5C1AE7819F0019CDA7 /* openCircle.png */,
+				BBDE35A91AE8490C0030A211 /* gr_blue.png */,
 				BB488E581AE77E430019CDA7 /* default.png */,
 				BB488E541AE776050019CDA7 /* task.png */,
 				BB488E521AE775480019CDA7 /* cal.png */,
@@ -315,7 +315,7 @@
 				BB4916A91AE30537002E792D /* Anorexic Logo.png in Resources */,
 				BB488E571AE77D470019CDA7 /* default.pdf in Resources */,
 				BBD323951AE717F900F3BE07 /* UpdatesTableCell.xib in Resources */,
-				BBB4A6C71AE82024001BB2DB /* gr_blue.png in Resources */,
+				BBDE35AA1AE8490C0030A211 /* gr_blue.png in Resources */,
 				BB488E5B1AE780100019CDA7 /* TasksTableCell.xib in Resources */,
 				BB4916901AE30482002E792D /* Images.xcassets in Resources */,
 				BB216CA11AE44AA200E75892 /* Its Small Art...Its Valuable...HaHa.png in Resources */,
