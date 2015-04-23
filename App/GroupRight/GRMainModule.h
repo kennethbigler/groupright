@@ -21,10 +21,12 @@
 @property (strong) NSString *lname;
 
 @property (strong) NSMutableArray *groups;
+@property (strong) NSMutableDictionary *groupsDict;
 @property (strong) NSMutableArray *events;
 @property (strong) NSMutableArray *tasks;
 @property (strong) NSMutableArray *updates;
 @property (strong) NSMutableArray *messages;
+@property (strong) NSMutableDictionary *contacts;
 
 /* constructor */
 + (GRMainModule *) grMain;

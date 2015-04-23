@@ -13,7 +13,7 @@ GRMainModule *GRMAIN;
 
 @implementation GRMainModule
 
-@synthesize user,ac,events,tasks,updates,messages,groups,fname,lname;
+@synthesize user,ac,events,tasks,updates,messages,groups,groupsDict,contacts,fname,lname;
 
 /* constructor */
 + (GRMainModule *) grMain
@@ -43,15 +43,50 @@ GRMainModule *GRMAIN;
     fname = (NSString *) [raw objectForKey:@"first_name"];
     lname = (NSString *) [raw objectForKey:@"last_name"];
     
+    groupsDict = [[NSMutableDictionary alloc] init];
+    contacts = [[NSMutableDictionary alloc] init];
+    for(int i = 0; i < [groups count]; i++)
+    {
+        [groupsDict setObject:groups[i] forKey:[groups[i] objectForKey:@"group_id"]];
+        NSMutableArray *members = (NSMutableArray *)[groups[i] objectForKey:@"members"];
+        for (int j = 0; j < [members count]; j++)
+        {
+            [contacts setObject:members[j] forKey:[members[j] objectForKey:@"email"]];
+        }
+    }
+    
     return;
 }
 
 - (NSString*) getFullNameForEmail:(NSString*) email
 {
-    return @"Bob Smith";
+    NSDictionary *person = (NSDictionary *)[contacts objectForKey:email];
+    NSString *name = [NSString stringWithFormat:@"%@ %@", [person objectForKey:@"first_name"],[person objectForKey:@"last_name"]];
+    return name;
 }
 - (UIColor*) getColorForGroupWithId:(NSString*) guid{
-    UIColor *myColor = [UIColor colorWithRed:0.0f green:0.5f blue:0.0f alpha:.5f];
+    
+    NSString *hexColor = (NSString *)[[groupsDict objectForKey:guid] objectForKey:@"group_color"];
+    NSString *rColor = [hexColor substringWithRange:NSMakeRange(1, 2)];
+    NSString *gColor = [hexColor substringWithRange:NSMakeRange(3, 2)];
+    NSString *bColor = [hexColor substringWithRange:NSMakeRange(5, 2)];
+    
+    unsigned ri,gi,bi;
+    
+    NSScanner *scanner = [NSScanner scannerWithString:rColor];
+    [scanner scanHexInt:&ri];
+    scanner = [scanner initWithString:gColor];
+    [scanner scanHexInt:&gi];
+    scanner = [scanner initWithString:bColor];
+    [scanner scanHexInt:&bi];
+    
+     float rf,gf,bf;
+     rf = ((float) ri)/255.0;
+     gf = ((float) gi)/255.0;
+     bf = ((float) bi)/255.0;
+
+    
+    UIColor *myColor = [UIColor colorWithRed:rf green:gf blue:bf alpha:.5f];
     return myColor;
 }
 

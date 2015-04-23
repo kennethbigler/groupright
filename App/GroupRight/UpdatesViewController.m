@@ -92,7 +92,9 @@
     }
     
     //Set the background color
-    cell.backgroundColor=[grmm getColorForGroupWithId:[[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"group_uid"]];
+    NSDictionary *update =[grmm.updates objectAtIndex:indexPath.row];
+    NSString *guid =[update objectForKey:@"group_id"];
+    cell.backgroundColor=[grmm getColorForGroupWithId:guid];
     
     return cell;
 }
