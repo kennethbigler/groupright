@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MessagesViewController : UIViewController
+@interface MessagesViewController : UIViewController <UIPickerViewDataSource,UIPickerViewDelegate>
 - (IBAction)toggleGroupPicker:(id)sender;
-
 @property (strong, nonatomic) IBOutlet UIPickerView *groupPIcker;
+@property (strong, nonatomic) IBOutlet UILabel *currentGroupNameLabel;
+@property (strong, nonatomic) IBOutlet UIButton *confirmButton;
 
 @end

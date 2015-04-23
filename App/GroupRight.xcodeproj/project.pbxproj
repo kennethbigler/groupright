@@ -25,6 +25,8 @@
 		BB4916931AE30482002E792D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB4916911AE30482002E792D /* LaunchScreen.xib */; };
 		BB49169F1AE30482002E792D /* GroupRightTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BB49169E1AE30482002E792D /* GroupRightTests.m */; };
 		BB4916A91AE30537002E792D /* Anorexic Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BB4916A81AE30537002E792D /* Anorexic Logo.png */; };
+		BB704A3F1AE8A68E00A84D18 /* message_received.png in Resources */ = {isa = PBXBuildFile; fileRef = BB704A3E1AE8A68E00A84D18 /* message_received.png */; };
+		BB704A411AE8A6AA00A84D18 /* UpdatesTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB704A401AE8A6AA00A84D18 /* UpdatesTableCell.xib */; };
 		BBA5ED8A1AE451650075B876 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBA5ED891AE451650075B876 /* ViewController.m */; };
 		BBA5ED8B1AE452660075B876 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB216CA61AE44DD600E75892 /* LoginViewController.m */; };
 		BBADF0B91AE870C200361BA1 /* EventsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BBADF0B81AE870C200361BA1 /* EventsTableCell.m */; };
@@ -78,6 +80,8 @@
 		BB49169D1AE30482002E792D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB49169E1AE30482002E792D /* GroupRightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupRightTests.m; sourceTree = "<group>"; };
 		BB4916A81AE30537002E792D /* Anorexic Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Anorexic Logo.png"; sourceTree = "<group>"; };
+		BB704A3E1AE8A68E00A84D18 /* message_received.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = message_received.png; sourceTree = "<group>"; };
+		BB704A401AE8A6AA00A84D18 /* UpdatesTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdatesTableCell.xib; sourceTree = "<group>"; };
 		BBA5ED881AE451650075B876 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = GroupRight/ViewController.h; sourceTree = "<group>"; };
 		BBA5ED891AE451650075B876 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = GroupRight/ViewController.m; sourceTree = "<group>"; };
 		BBADF0B71AE870C200361BA1 /* EventsTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventsTableCell.h; path = GroupRight/EventsTableCell.h; sourceTree = "<group>"; };
@@ -155,6 +159,7 @@
 		BB49167F1AE30482002E792D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BB704A3E1AE8A68E00A84D18 /* message_received.png */,
 				BB488E5C1AE7819F0019CDA7 /* openCircle.png */,
 				BBDE35A91AE8490C0030A211 /* gr_blue.png */,
 				BB488E581AE77E430019CDA7 /* default.png */,
@@ -238,6 +243,7 @@
 				BBB4A6C41AE81F47001BB2DB /* TasksTableViewCell.m */,
 				BBD323961AE71DE900F3BE07 /* UpdatesTableCell.h */,
 				BB488E5A1AE780100019CDA7 /* TasksTableCell.xib */,
+				BB704A401AE8A6AA00A84D18 /* UpdatesTableCell.xib */,
 				BBD323971AE71DEA00F3BE07 /* UpdatesTableCell.m */,
 				BBD323941AE717F900F3BE07 /* UpdatesTableCell.xib */,
 			);
@@ -326,6 +332,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB49168E1AE30482002E792D /* Main.storyboard in Resources */,
+				BB704A3F1AE8A68E00A84D18 /* message_received.png in Resources */,
 				BB4916931AE30482002E792D /* LaunchScreen.xib in Resources */,
 				BB4916A91AE30537002E792D /* Anorexic Logo.png in Resources */,
 				BB488E571AE77D470019CDA7 /* default.pdf in Resources */,
@@ -333,6 +340,7 @@
 				BBDE35AA1AE8490C0030A211 /* gr_blue.png in Resources */,
 				BB488E5B1AE780100019CDA7 /* TasksTableCell.xib in Resources */,
 				BB4916901AE30482002E792D /* Images.xcassets in Resources */,
+				BB704A411AE8A6AA00A84D18 /* UpdatesTableCell.xib in Resources */,
 				BB216CA11AE44AA200E75892 /* Its Small Art...Its Valuable...HaHa.png in Resources */,
 				BB488E551AE776050019CDA7 /* task.png in Resources */,
 				BB488E5D1AE7819F0019CDA7 /* openCircle.png in Resources */,
