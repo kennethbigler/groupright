@@ -21,11 +21,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.email.delegate=self;
+    self.password.delegate=self;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self.email resignFirstResponder];
+    [self.email resignFirstResponder];
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    if(textField){
+        [textField resignFirstResponder];
+    }
+    return NO;
 }
 
 -(BOOL) isValidEmail:(NSString *)checkString{
@@ -97,6 +111,9 @@
 
 - (IBAction)signup:(id)sender{
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://groupright.net/dev/login.html?signup=1"]];
+}
+
+- (IBAction)dismissKeyboard:(id)sender {
 }
 
 

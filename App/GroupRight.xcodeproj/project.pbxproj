@@ -27,6 +27,9 @@
 		BB4916A91AE30537002E792D /* Anorexic Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BB4916A81AE30537002E792D /* Anorexic Logo.png */; };
 		BBA5ED8A1AE451650075B876 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBA5ED891AE451650075B876 /* ViewController.m */; };
 		BBA5ED8B1AE452660075B876 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB216CA61AE44DD600E75892 /* LoginViewController.m */; };
+		BBADF0B91AE870C200361BA1 /* EventsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BBADF0B81AE870C200361BA1 /* EventsTableCell.m */; };
+		BBADF0BC1AE871DB00361BA1 /* EventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBADF0BB1AE871DB00361BA1 /* EventsViewController.m */; };
+		BBADF0BF1AE87AE400361BA1 /* MessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBADF0BE1AE87AE400361BA1 /* MessagesViewController.m */; };
 		BBB4A6BF1AE81D53001BB2DB /* TasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBB4A6BE1AE81D53001BB2DB /* TasksViewController.m */; };
 		BBB4A6C51AE81F47001BB2DB /* TasksTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BBB4A6C41AE81F47001BB2DB /* TasksTableViewCell.m */; };
 		BBB4A6C91AE82839001BB2DB /* EventsTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBB4A6C81AE82839001BB2DB /* EventsTableCell.xib */; };
@@ -77,6 +80,12 @@
 		BB4916A81AE30537002E792D /* Anorexic Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Anorexic Logo.png"; sourceTree = "<group>"; };
 		BBA5ED881AE451650075B876 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = GroupRight/ViewController.h; sourceTree = "<group>"; };
 		BBA5ED891AE451650075B876 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = GroupRight/ViewController.m; sourceTree = "<group>"; };
+		BBADF0B71AE870C200361BA1 /* EventsTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventsTableCell.h; path = GroupRight/EventsTableCell.h; sourceTree = "<group>"; };
+		BBADF0B81AE870C200361BA1 /* EventsTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventsTableCell.m; path = GroupRight/EventsTableCell.m; sourceTree = "<group>"; };
+		BBADF0BA1AE871DB00361BA1 /* EventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventsViewController.h; path = GroupRight/EventsViewController.h; sourceTree = "<group>"; };
+		BBADF0BB1AE871DB00361BA1 /* EventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventsViewController.m; path = GroupRight/EventsViewController.m; sourceTree = "<group>"; };
+		BBADF0BD1AE87AE400361BA1 /* MessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessagesViewController.h; path = GroupRight/MessagesViewController.h; sourceTree = "<group>"; };
+		BBADF0BE1AE87AE400361BA1 /* MessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessagesViewController.m; path = GroupRight/MessagesViewController.m; sourceTree = "<group>"; };
 		BBB4A6BD1AE81D53001BB2DB /* TasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TasksViewController.h; path = GroupRight/TasksViewController.h; sourceTree = "<group>"; };
 		BBB4A6BE1AE81D53001BB2DB /* TasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TasksViewController.m; path = GroupRight/TasksViewController.m; sourceTree = "<group>"; };
 		BBB4A6C31AE81F47001BB2DB /* TasksTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TasksTableViewCell.h; path = GroupRight/TasksTableViewCell.h; sourceTree = "<group>"; };
@@ -187,10 +196,14 @@
 				BB4916831AE30482002E792D /* AppDelegate.h */,
 				BB4916841AE30482002E792D /* AppDelegate.m */,
 				BB4916861AE30482002E792D /* UpdatesViewController.h */,
+				BBADF0BD1AE87AE400361BA1 /* MessagesViewController.h */,
+				BBADF0BE1AE87AE400361BA1 /* MessagesViewController.m */,
 				BB4916871AE30482002E792D /* UpdatesViewController.m */,
 				BB4916891AE30482002E792D /* SecondViewController.h */,
 				BB49168A1AE30482002E792D /* SecondViewController.m */,
 				BBB4A6BD1AE81D53001BB2DB /* TasksViewController.h */,
+				BBADF0BA1AE871DB00361BA1 /* EventsViewController.h */,
+				BBADF0BB1AE871DB00361BA1 /* EventsViewController.m */,
 				BBB4A6BE1AE81D53001BB2DB /* TasksViewController.m */,
 			);
 			name = "View Controllers";
@@ -220,6 +233,8 @@
 			children = (
 				BBB4A6C31AE81F47001BB2DB /* TasksTableViewCell.h */,
 				BBB4A6C81AE82839001BB2DB /* EventsTableCell.xib */,
+				BBADF0B71AE870C200361BA1 /* EventsTableCell.h */,
+				BBADF0B81AE870C200361BA1 /* EventsTableCell.m */,
 				BBB4A6C41AE81F47001BB2DB /* TasksTableViewCell.m */,
 				BBD323961AE71DE900F3BE07 /* UpdatesTableCell.h */,
 				BB488E5A1AE780100019CDA7 /* TasksTableCell.xib */,
@@ -345,11 +360,14 @@
 				BBB4A6BF1AE81D53001BB2DB /* TasksViewController.m in Sources */,
 				BBA5ED8B1AE452660075B876 /* LoginViewController.m in Sources */,
 				BBA5ED8A1AE451650075B876 /* ViewController.m in Sources */,
+				BBADF0BC1AE871DB00361BA1 /* EventsViewController.m in Sources */,
 				BB49168B1AE30482002E792D /* SecondViewController.m in Sources */,
+				BBADF0BF1AE87AE400361BA1 /* MessagesViewController.m in Sources */,
 				BB4916851AE30482002E792D /* AppDelegate.m in Sources */,
 				BBB4A6C51AE81F47001BB2DB /* TasksTableViewCell.m in Sources */,
 				D2183BE51AE706A80024CC77 /* GRMainModule.m in Sources */,
 				BB4916881AE30482002E792D /* UpdatesViewController.m in Sources */,
+				BBADF0B91AE870C200361BA1 /* EventsTableCell.m in Sources */,
 				BB4916821AE30482002E792D /* main.m in Sources */,
 				BBD323981AE71DEA00F3BE07 /* UpdatesTableCell.m in Sources */,
 			);

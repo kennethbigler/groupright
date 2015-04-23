@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController <UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *email;
 @property (strong, nonatomic) IBOutlet UITextField *password;
 - (IBAction)login1:(id)sender;
 - (IBAction)bypassLogin:(id)sender;
 - (IBAction)signup:(id)sender;
+
 - (BOOL) isValidEmail:(NSString *) checkString;
 //-(NSData *)postDataToUrl:(NSString*)jsonString;
 @end
