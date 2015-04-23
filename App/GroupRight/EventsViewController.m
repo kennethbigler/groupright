@@ -85,9 +85,30 @@
     }
     
     //Set Name and Description
-    cell.event_title.text = [[grmm.events objectAtIndex:indexPath.row] objectForKey:@"name"];
-    cell.event_day.text=@"12";
-    cell.event_month.text=@"Jan";
+    NSDictionary *event = [grmm.events objectAtIndex:indexPath.row];
+    cell.event_title.text = [event objectForKey:@"name"];
+                             
+    NSString *startDateStr = [event objectForKey:@"start_time"];
+    NSString *endDateStr = [event objectForKey:@"end_time"];
+    
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+    [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *st_date = [df dateFromString:startDateStr];
+    NSDate *ed_date = [df dateFromString:endDateStr];
+    
+    [df setTimeZone:[NSTimeZone systemTimeZone]];
+    
+    [df setDateFormat:@"d"];
+    cell.event_day.text=[df stringFromDate:st_date];
+    
+    [df setDateFormat:@"MMM"];
+    cell.event_month.text=[df stringFromDate:st_date];
+    
+    [df setDateFormat:@"hh:mm a"];
+    cell.event_time.text=[NSString stringWithFormat:@"%@ - %@", [df stringFromDate:st_date], [df stringFromDate:ed_date]];
+    
+    
     //Set the correct photo
     /*if([[[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"link_type"] isEqual: @"event"]){
      cell.thumbnailImageView.image = [UIImage imageNamed:@"cal.png"];

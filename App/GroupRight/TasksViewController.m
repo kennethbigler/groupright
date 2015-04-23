@@ -85,8 +85,16 @@
     }
     
     //Set Name and Description
-    cell.description.text = [[grmm.tasks objectAtIndex:indexPath.row] objectForKey:@"task_title"];
+    NSDictionary *task = [grmm.tasks objectAtIndex: indexPath.row];
     
+    cell.description.text = [task objectForKey:@"task_title"];
+    ;
+    UIColor *grColor = [grmm getColorForGroupWithId:[task objectForKey:@"group_id"] AtAlpha:1.0f];
+    cell.colorImage.backgroundColor = grColor;
+    cell.colorImage.image = nil;
+    cell.statusImage.backgroundColor = grColor;
+                                  
+                                  
     //Set the correct photo
     /*if([[[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"link_type"] isEqual: @"event"]){
         cell.thumbnailImageView.image = [UIImage imageNamed:@"cal.png"];

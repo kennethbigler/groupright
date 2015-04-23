@@ -35,9 +35,7 @@ GRMainModule *GRMAIN;
     //[messages removeAllObjects];
     
     groups = (NSMutableArray *) [raw objectForKey:@"memberships"];
-    events = (NSMutableArray *) [raw objectForKey:@"events"];
-    tasks = (NSMutableArray *) [raw objectForKey:@"tasks"];
-    updates = (NSMutableArray *) [raw objectForKey:@"updates"];
+    
     //messages = (NSMutableArray *) [raw objectForKey:@"messages"];
     
     fname = (NSString *) [raw objectForKey:@"first_name"];
@@ -55,6 +53,24 @@ GRMainModule *GRMAIN;
         }
     }
     
+    
+    NSArray *tempEvents = (NSArray *) [raw objectForKey:@"events"];
+    events = [[NSMutableArray alloc] init];
+    for( int i = 0; i < [tempEvents count]; i++)
+    {
+        if([tempEvents[i] objectForKey:@"start_time"] != [NSNull null])
+        {
+            [events addObject:tempEvents[i]];
+        }
+    }
+    
+    
+    tasks = (NSMutableArray *) [raw objectForKey:@"tasks"];
+    updates = (NSMutableArray *) [raw objectForKey:@"updates"];
+    
+    
+    
+    
     return;
 }
 
@@ -64,7 +80,7 @@ GRMainModule *GRMAIN;
     NSString *name = [NSString stringWithFormat:@"%@ %@", [person objectForKey:@"first_name"],[person objectForKey:@"last_name"]];
     return name;
 }
-- (UIColor*) getColorForGroupWithId:(NSString*) guid{
+- (UIColor*) getColorForGroupWithId:(NSString*) guid AtAlpha: (float) alpha{
     
     NSString *hexColor = (NSString *)[[groupsDict objectForKey:guid] objectForKey:@"group_color"];
     NSString *rColor = [hexColor substringWithRange:NSMakeRange(1, 2)];
@@ -86,8 +102,12 @@ GRMainModule *GRMAIN;
      bf = ((float) bi)/255.0;
 
     
-    UIColor *myColor = [UIColor colorWithRed:rf green:gf blue:bf alpha:.5f];
+    UIColor *myColor = [UIColor colorWithRed:rf green:gf blue:bf alpha:alpha];
     return myColor;
+}
+
+- (UIColor *) getColorForGroupWithId:(NSString *)guid{
+    return [self getColorForGroupWithId:guid AtAlpha:0.5f];
 }
 
 @end
