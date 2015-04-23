@@ -76,7 +76,8 @@
     }
     
     //Set Name and Description
-    cell.nameLabel.text = [grmm getFullNameForEmail:[[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"email"]];
+    NSDictionary *update = [grmm.updates objectAtIndex:indexPath.row];
+    cell.nameLabel.text = [grmm getFullNameForEmail:[update objectForKey:@"email"]];
     cell.infoLabel.text = [[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"description"];
     
     //Set the correct photo
@@ -92,7 +93,7 @@
     }
     
     //Set the background color
-    NSDictionary *update =[grmm.updates objectAtIndex:indexPath.row];
+    update =[grmm.updates objectAtIndex:indexPath.row];
     NSString *guid =[update objectForKey:@"group_id"];
     cell.backgroundColor=[grmm getColorForGroupWithId:guid];
     
