@@ -107,7 +107,7 @@
     
     [df setDateFormat:@"hh:mm a"];
     cell.event_time.text=[NSString stringWithFormat:@"%@ - %@", [df stringFromDate:st_date], [df stringFromDate:ed_date]];
-    
+    cell.group_color_bar.backgroundColor=[grmm getColorForGroupWithId:[event objectForKey:@"group_id"]AtAlpha:1];
     
     //Set the correct photo
     /*if([[[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"link_type"] isEqual: @"event"]){

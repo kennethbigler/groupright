@@ -17,7 +17,7 @@
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="45"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="April" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zmx-6B-uqL">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="April" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zmx-6B-uqL">
                         <rect key="frame" x="8" y="51" width="69" height="27"/>
                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -34,24 +34,32 @@
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="gr_blue.png" translatesAutoresizingMaskIntoConstraints="NO" id="CnB-1Q-vg7">
-                        <rect key="frame" x="0.0" y="-3" width="320" height="12"/>
-                    </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="gr_blue.png" translatesAutoresizingMaskIntoConstraints="NO" id="17F-1I-yF3">
-                        <rect key="frame" x="0.0" y="78" width="320" height="3"/>
-                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lly-h0-6Fq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="11"/>
+                        <color key="backgroundColor" red="0.15070254154388063" green="1" blue="0.30109730837903781" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="11" id="cvU-1T-RBO"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="Lly-h0-6Fq" firstAttribute="top" secondItem="zpE-Hd-pEh" secondAttribute="top" id="AYs-5N-W1L"/>
+                    <constraint firstAttribute="trailing" secondItem="Lly-h0-6Fq" secondAttribute="trailing" id="KJw-9n-uff"/>
+                    <constraint firstItem="Lly-h0-6Fq" firstAttribute="leading" secondItem="zpE-Hd-pEh" secondAttribute="leading" id="jAe-jz-go4"/>
+                    <constraint firstItem="Zmx-6B-uqL" firstAttribute="top" secondItem="Lly-h0-6Fq" secondAttribute="bottom" constant="40" id="oJY-wG-a6D"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="event_day" destination="c59-YV-JdO" id="onw-vo-MT1"/>
                 <outlet property="event_month" destination="Zmx-6B-uqL" id="jJz-5Q-J78"/>
                 <outlet property="event_time" destination="AKr-PH-z02" id="sGT-lh-HBI"/>
                 <outlet property="event_title" destination="Vw2-SU-O0U" id="9fk-Pv-JbS"/>
+                <outlet property="group_color_bar" destination="Lly-h0-6Fq" id="Y4g-MG-h4A"/>
             </connections>
             <point key="canvasLocation" x="423" y="315.5"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="gr_blue.png" width="128" height="128"/>
-    </resources>
 </document>

@@ -13,6 +13,7 @@
 @synthesize event_month = _event_month;
 @synthesize event_title = _event_title;
 @synthesize event_time = _event_time;
+@synthesize group_color_bar = _group_color_bar;
 
 - (void)awakeFromNib {
     // Initialization code

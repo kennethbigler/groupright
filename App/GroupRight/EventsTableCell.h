@@ -13,5 +13,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *event_month;
 @property (strong, nonatomic) IBOutlet UILabel *event_title;
 @property (strong, nonatomic) IBOutlet UILabel *event_time;
+@property (strong, nonatomic) IBOutlet UILabel *group_color_bar;
 
 @end
