@@ -148,9 +148,6 @@ video {
 .stopfade { 
    opacity: .5;
 }
-@media screen and (max-width: 500px) { 
-  div{width:70%;} 
-}
 @media screen and (max-device-width: 800px) {
   html { background: url("images/background.png") #000 no-repeat center center fixed; }
   #bgvid { display: none; }
