@@ -59,7 +59,7 @@
 /*		LOGIN STYLES												*/
 /********************************************************************/
 
-@media (min-height: 520px){
+@media (min-device-width: 737px){
 	.login-box,.signup-box,.flipper,.flip-container{
 
 		/* sizing */
@@ -94,7 +94,7 @@
 	}
 }
 
-@media (max-height:519px){
+@media (max-device-width:736px){
 	.flip-container{
 		position:absolute;
 		top:50px;bottom:0px;

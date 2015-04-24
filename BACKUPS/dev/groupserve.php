@@ -27,10 +27,14 @@
 	header('Content-Type: text/plain; charset=utf-8');
 	//---------------------------------------------------------------------------
 	// INTERFACE (essentially)	
-	
+
 	$function = "";
 	if(isset($_POST['function'])) $function = $_POST['function'];
-	else{ http_response_code(299); }
+	else{  
+		echo "hello from groupright server.";
+		flush();
+		http_response_code(299); 
+	}
 	
 	if($function == 'signup') 	signUp();
 	if($function == 'login')	logIn();

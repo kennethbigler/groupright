@@ -21,6 +21,7 @@ var correspondenceMatrix;
 var statusMatrix=[];
 var maxScore=0;
 var minScore=99999999;
+var groupAvail;
 
 // ======================================================
 // ONLOAD / SERVER COMM.
@@ -28,13 +29,15 @@ var minScore=99999999;
 window.onload = function() {
 	
 	getEventVoteSettings(function(data){
+		console.log(data);
 		var obj = JSON.parse(data);
 		
 		console.log(obj);
-		if(obj.name) eventName = obj.name;
+		if(obj.event_name) eventName = obj.event_name;
 		if(obj.creator) eventCreator = obj.creator;
 		if(obj.start_time) earliest_time = obj.start_time;
 		if(obj.end_time) latest_time = obj.end_time;
+		if(obj.dump) groupAvail=obj.dump;
 		
 		
 		setNumberOfDays();
@@ -58,12 +61,14 @@ function getEventVoteSettings(parseFn){
 	var _event_uid = _get.event_id;
 	var _group_uid = _get.guid;
 
+	console.log(_get);
+
 	if(_cookies.accesscode && _cookies.user && _event_uid && _group_uid){
 	
 		var obj = {
 			"ac":_cookies.accesscode,
 			"email":_cookies.user,
-			"function":"get_event_settings",
+			"function":"get_availability_dump",
 			"event_uid":_event_uid,
 			"group_uid":_group_uid
 		};
@@ -75,6 +80,7 @@ function getEventVoteSettings(parseFn){
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
+						//alert("Success");
 						parseFn(data);
 					}
 			},
@@ -199,6 +205,8 @@ function drawPage(){
 			availability_map[i] ={};
 			for(var j=0; j<numberOfDays+1;j++){				
 				var td=document.createElement('td');
+				td.style.cursor="pointer";
+				td.align="center";
 				td.className="success";
 				td.style.border="1px solid gray";
 				if(j==0){
@@ -209,7 +217,7 @@ function drawPage(){
 				else{
 					tr.appendChild(td);
 					
-					//td.onclick = function(){ colorCell(this); }
+					td.onclick = function(){ colorCell(this); }
 					td.style.backgroundColor=getColorForPercentage((statusMatrix[i-1][j-1]-minScore)/maxScore);
 					td.value = {i:i,j:j};
 					td.className += " er_row"+i+" er_col"+j;
@@ -266,11 +274,11 @@ function getScoreForRowColumn(row, column){
 	var referencedDate=new Date(correspondenceMatrix[row][column]);
 	//console.log(correspondenceMatrix[row-1][column-1]);
 	var score=0;
-	for(var i=0; i<defaultAvail.length;i++){
-		var compareDate= new Date(defaultAvail[i].start_time.replace(/[-]/g,"/"));
+	for(var i=0; i<groupAvail.length;i++){
+		var compareDate= new Date(groupAvail[i].start_time.replace(/[-]/g,"/"));
 		//console.log(compareDate);
 		if (compareDate.getTime()==referencedDate.getTime()){
-			score+= parseInt(defaultAvail[i].score);
+			score+= parseInt(groupAvail[i].score);
 			//console.log("match found");
 		}
 		else{
@@ -291,9 +299,9 @@ function getScoreForRowColumn(row, column){
 }
 
 var percentColors = [
-    { pct: 0.0, color: { r: 0xff, g: 0x00, b: 0 } },
+    { pct: 0.0, color: { r: 0x00, g: 0xff, b: 0 } },
     { pct: 0.5, color: { r: 0xff, g: 0xff, b: 0 } },
-    { pct: 1.0, color: { r: 0x00, g: 0xff, b: 0 } } ];
+    { pct: 1.0, color: { r: 0xff, g: 0x00, b: 0 } } ];
 
 var getColorForPercentage = function(pct) {
     for (var i = 1; i < percentColors.length - 1; i++) {
@@ -320,7 +328,7 @@ function drawColorScale(){
 	var td=document.createElement("td");
 	//td.innerText="Worst Times";
 	addLocation.appendChild(td);
-	for(var i=1; i<101;i++){
+	for(var i=100; i>0;i--){
 		var div=document.createElement("td");
 		div.style.backgroundColor=getColorForPercentage(i/100);
 		div.style.width="5px";
@@ -331,4 +339,18 @@ function drawColorScale(){
 	//td.innerText="Best Times";
 	addLocation.appendChild(td);
 
+}
+
+function colorCell(elem){
+	if(elem.innerHTML=="<span class='glyphicon glyphicon-star' aria-hidden='true' style='color:white;text-align:center'></span>"){
+		//elem.backgroundColor=elem.data;
+		elem.style.border="1px solid gray";
+		elem.innerHTML="";
+	}
+	else{
+		//elem.data=elem.backgroundColor;
+		//elem.style.backgroundColor="dodgerBlue";
+		elem.innerHTML="<span class='glyphicon glyphicon-star' aria-hidden='true' style='color:white;text-align:center'></span>";
+		elem.style.border="1px solid white";
+	}
 }
