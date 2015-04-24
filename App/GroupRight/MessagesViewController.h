@@ -13,5 +13,8 @@
 @property (strong, nonatomic) IBOutlet UIPickerView *groupPIcker;
 @property (strong, nonatomic) IBOutlet UILabel *currentGroupNameLabel;
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;
+@property (strong, nonatomic) IBOutlet UITableView *messagesTable;
+@property (strong, nonatomic) IBOutlet UITextField *messageInput;
+@property (strong, nonatomic) IBOutlet UIButton *sendButton;
 
 @end

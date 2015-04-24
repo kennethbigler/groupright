@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="103" id="61f-Uj-iuQ" customClass="MessagesTableCell">
+            <rect key="frame" x="-1" y="0.0" width="340" height="103"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="61f-Uj-iuQ" id="mdo-ff-GGY">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="message_sent.png" translatesAutoresizingMaskIntoConstraints="NO" id="Z4k-do-ERp">
+                        <rect key="frame" x="76" y="4" width="256" height="94"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="FirstName LastName" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ctJ-Dg-3HO">
+                        <rect key="frame" x="90" y="0.0" width="231" height="42"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="3:30 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uKK-18-L0c">
+                        <rect key="frame" x="204" y="78" width="112" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="112" id="TLP-at-wSz"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="This is the message. It's content can take two lines" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g1c-Bd-vZg">
+                        <rect key="frame" x="90" y="28" width="242" height="46"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Z4k-do-ERp" firstAttribute="top" secondItem="mdo-ff-GGY" secondAttribute="topMargin" constant="-4" id="35q-fR-PWa"/>
+                    <constraint firstItem="Z4k-do-ERp" firstAttribute="trailing" secondItem="g1c-Bd-vZg" secondAttribute="trailing" id="EW7-6O-CSC"/>
+                    <constraint firstItem="g1c-Bd-vZg" firstAttribute="leading" secondItem="ctJ-Dg-3HO" secondAttribute="leading" id="FnH-hR-Z5K"/>
+                    <constraint firstItem="ctJ-Dg-3HO" firstAttribute="leading" secondItem="mdo-ff-GGY" secondAttribute="leadingMargin" constant="75" id="Jeo-rM-m8q"/>
+                    <constraint firstItem="g1c-Bd-vZg" firstAttribute="top" secondItem="mdo-ff-GGY" secondAttribute="topMargin" constant="20" id="PHJ-qL-x0Z"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="ctJ-Dg-3HO" secondAttribute="trailing" constant="4" id="SLc-pW-I8E"/>
+                    <constraint firstItem="ctJ-Dg-3HO" firstAttribute="top" secondItem="mdo-ff-GGY" secondAttribute="top" id="Z2k-Fm-RTF"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="g1c-Bd-vZg" secondAttribute="trailing" constant="-7" id="b46-1J-Tzj"/>
+                    <constraint firstItem="uKK-18-L0c" firstAttribute="top" secondItem="ctJ-Dg-3HO" secondAttribute="bottom" constant="36" id="caG-iE-dL4"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="uKK-18-L0c" secondAttribute="trailing" constant="9" id="lFc-SQ-eYo"/>
+                    <constraint firstItem="uKK-18-L0c" firstAttribute="top" secondItem="g1c-Bd-vZg" secondAttribute="bottom" constant="4" id="oeq-6N-OBf"/>
+                    <constraint firstItem="Z4k-do-ERp" firstAttribute="leading" secondItem="mdo-ff-GGY" secondAttribute="leadingMargin" constant="61" id="pt2-eB-d7d"/>
+                    <constraint firstItem="uKK-18-L0c" firstAttribute="bottom" secondItem="mdo-ff-GGY" secondAttribute="bottomMargin" id="q0x-ZZ-GW9"/>
+                    <constraint firstItem="g1c-Bd-vZg" firstAttribute="centerY" secondItem="Z4k-do-ERp" secondAttribute="centerY" id="szH-rR-Ukr"/>
+                    <constraint firstItem="Z4k-do-ERp" firstAttribute="centerY" secondItem="mdo-ff-GGY" secondAttribute="centerY" id="tt4-WI-fxM"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="message_content" destination="g1c-Bd-vZg" id="vEt-v6-n4n"/>
+                <outlet property="message_time" destination="uKK-18-L0c" id="hhn-1a-cHZ"/>
+                <outlet property="sender_name" destination="ctJ-Dg-3HO" id="aby-2z-pUw"/>
+            </connections>
+            <point key="canvasLocation" x="290" y="450.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="message_sent.png" width="380" height="174"/>
+    </resources>
+</document>

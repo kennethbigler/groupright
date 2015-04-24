@@ -38,5 +38,6 @@
 - (NSString*) getFullNameForEmail:(NSString*) email;
 - (UIColor*) getColorForGroupWithId:(NSString*) guid AtAlpha: (float) alpha;
 - (UIColor*) getColorForGroupWithId:(NSString*) guid;
+- (void) setMessagesForGroupWithId:(NSString*) guid;
 
 @end

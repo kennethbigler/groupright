@@ -6,27 +6,44 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="148" id="6pf-U7-8A3">
-            <rect key="frame" x="0.0" y="0.0" width="447" height="148"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="103" id="6pf-U7-8A3" customClass="MessagesTableCell">
+            <rect key="frame" x="0.0" y="0.0" width="272" height="103"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6pf-U7-8A3" id="vPL-C9-5AA">
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="message_received.png" translatesAutoresizingMaskIntoConstraints="NO" id="1uG-A8-LS6">
-                        <rect key="frame" x="-20" y="-7" width="417" height="182"/>
+                        <rect key="frame" x="0.0" y="1" width="269" height="99"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This is the message. It fits in " lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nlA-DU-HYV">
-                        <rect key="frame" x="44" y="30" width="279" height="93"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This is the message. It's content can take two lines" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nlA-DU-HYV">
+                        <rect key="frame" x="15" y="29" width="242" height="46"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="FirstName LastName" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VkC-PL-7IV">
+                        <rect key="frame" x="15" y="-3" width="231" height="42"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="3:30 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3CT-ak-lwf">
+                        <rect key="frame" x="141" y="80" width="112" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="457.5" y="284"/>
+            <connections>
+                <outlet property="message_content" destination="nlA-DU-HYV" id="XuG-V9-wqt"/>
+                <outlet property="message_time" destination="3CT-ak-lwf" id="VHv-3k-Owd"/>
+                <outlet property="sender_name" destination="VkC-PL-7IV" id="2h3-ES-OKM"/>
+            </connections>
+            <point key="canvasLocation" x="370" y="314.5"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="message_received.png" width="500" height="267"/>
+        <image name="message_received.png" width="380" height="174"/>
     </resources>
 </document>

@@ -25,8 +25,11 @@
 		BB4916931AE30482002E792D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB4916911AE30482002E792D /* LaunchScreen.xib */; };
 		BB49169F1AE30482002E792D /* GroupRightTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BB49169E1AE30482002E792D /* GroupRightTests.m */; };
 		BB4916A91AE30537002E792D /* Anorexic Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BB4916A81AE30537002E792D /* Anorexic Logo.png */; };
-		BB704A3F1AE8A68E00A84D18 /* message_received.png in Resources */ = {isa = PBXBuildFile; fileRef = BB704A3E1AE8A68E00A84D18 /* message_received.png */; };
 		BB704A411AE8A6AA00A84D18 /* MessagesTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB704A401AE8A6AA00A84D18 /* MessagesTableCell.xib */; };
+		BBA0E8651AEAF7A000CE8DF6 /* message_received.png in Resources */ = {isa = PBXBuildFile; fileRef = BBA0E8641AEAF7A000CE8DF6 /* message_received.png */; };
+		BBA0E8681AEAF86A00CE8DF6 /* MessagesTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BBA0E8671AEAF86A00CE8DF6 /* MessagesTableCell.m */; };
+		BBA0E86A1AEB049C00CE8DF6 /* message_sent.png in Resources */ = {isa = PBXBuildFile; fileRef = BBA0E8691AEB049C00CE8DF6 /* message_sent.png */; };
+		BBA0E86C1AEB04E500CE8DF6 /* MessagesSentTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBA0E86B1AEB04E500CE8DF6 /* MessagesSentTableCell.xib */; };
 		BBA5ED8A1AE451650075B876 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBA5ED891AE451650075B876 /* ViewController.m */; };
 		BBA5ED8B1AE452660075B876 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB216CA61AE44DD600E75892 /* LoginViewController.m */; };
 		BBADF0B91AE870C200361BA1 /* EventsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BBADF0B81AE870C200361BA1 /* EventsTableCell.m */; };
@@ -80,8 +83,12 @@
 		BB49169D1AE30482002E792D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB49169E1AE30482002E792D /* GroupRightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupRightTests.m; sourceTree = "<group>"; };
 		BB4916A81AE30537002E792D /* Anorexic Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Anorexic Logo.png"; sourceTree = "<group>"; };
-		BB704A3E1AE8A68E00A84D18 /* message_received.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = message_received.png; sourceTree = "<group>"; };
 		BB704A401AE8A6AA00A84D18 /* MessagesTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessagesTableCell.xib; sourceTree = "<group>"; };
+		BBA0E8641AEAF7A000CE8DF6 /* message_received.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = message_received.png; sourceTree = "<group>"; };
+		BBA0E8661AEAF86A00CE8DF6 /* MessagesTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessagesTableCell.h; path = GroupRight/MessagesTableCell.h; sourceTree = "<group>"; };
+		BBA0E8671AEAF86A00CE8DF6 /* MessagesTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessagesTableCell.m; path = GroupRight/MessagesTableCell.m; sourceTree = "<group>"; };
+		BBA0E8691AEB049C00CE8DF6 /* message_sent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = message_sent.png; sourceTree = "<group>"; };
+		BBA0E86B1AEB04E500CE8DF6 /* MessagesSentTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessagesSentTableCell.xib; sourceTree = "<group>"; };
 		BBA5ED881AE451650075B876 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = GroupRight/ViewController.h; sourceTree = "<group>"; };
 		BBA5ED891AE451650075B876 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = GroupRight/ViewController.m; sourceTree = "<group>"; };
 		BBADF0B71AE870C200361BA1 /* EventsTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventsTableCell.h; path = GroupRight/EventsTableCell.h; sourceTree = "<group>"; };
@@ -159,10 +166,11 @@
 		BB49167F1AE30482002E792D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				BB704A3E1AE8A68E00A84D18 /* message_received.png */,
+				BBA0E8641AEAF7A000CE8DF6 /* message_received.png */,
 				BB488E5C1AE7819F0019CDA7 /* openCircle.png */,
 				BBDE35A91AE8490C0030A211 /* gr_blue.png */,
 				BB488E581AE77E430019CDA7 /* default.png */,
+				BBA0E8691AEB049C00CE8DF6 /* message_sent.png */,
 				BB488E541AE776050019CDA7 /* task.png */,
 				BB488E521AE775480019CDA7 /* cal.png */,
 				BB216CA01AE44AA200E75892 /* Its Small Art...Its Valuable...HaHa.png */,
@@ -244,6 +252,9 @@
 				BBD323961AE71DE900F3BE07 /* UpdatesTableCell.h */,
 				BB488E5A1AE780100019CDA7 /* TasksTableCell.xib */,
 				BB704A401AE8A6AA00A84D18 /* MessagesTableCell.xib */,
+				BBA0E86B1AEB04E500CE8DF6 /* MessagesSentTableCell.xib */,
+				BBA0E8661AEAF86A00CE8DF6 /* MessagesTableCell.h */,
+				BBA0E8671AEAF86A00CE8DF6 /* MessagesTableCell.m */,
 				BBD323971AE71DEA00F3BE07 /* UpdatesTableCell.m */,
 				BBD323941AE717F900F3BE07 /* UpdatesTableCell.xib */,
 			);
@@ -332,8 +343,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB49168E1AE30482002E792D /* Main.storyboard in Resources */,
-				BB704A3F1AE8A68E00A84D18 /* message_received.png in Resources */,
+				BBA0E86A1AEB049C00CE8DF6 /* message_sent.png in Resources */,
 				BB4916931AE30482002E792D /* LaunchScreen.xib in Resources */,
+				BBA0E86C1AEB04E500CE8DF6 /* MessagesSentTableCell.xib in Resources */,
+				BBA0E8651AEAF7A000CE8DF6 /* message_received.png in Resources */,
 				BB4916A91AE30537002E792D /* Anorexic Logo.png in Resources */,
 				BB488E571AE77D470019CDA7 /* default.pdf in Resources */,
 				BBD323951AE717F900F3BE07 /* UpdatesTableCell.xib in Resources */,
@@ -372,6 +385,7 @@
 				BB49168B1AE30482002E792D /* SecondViewController.m in Sources */,
 				BBADF0BF1AE87AE400361BA1 /* MessagesViewController.m in Sources */,
 				BB4916851AE30482002E792D /* AppDelegate.m in Sources */,
+				BBA0E8681AEAF86A00CE8DF6 /* MessagesTableCell.m in Sources */,
 				BBB4A6C51AE81F47001BB2DB /* TasksTableViewCell.m in Sources */,
 				D2183BE51AE706A80024CC77 /* GRMainModule.m in Sources */,
 				BB4916881AE30482002E792D /* UpdatesViewController.m in Sources */,

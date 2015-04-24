@@ -109,5 +109,35 @@ GRMainModule *GRMAIN;
 - (UIColor *) getColorForGroupWithId:(NSString *)guid{
     return [self getColorForGroupWithId:guid AtAlpha:0.5f];
 }
+- (void) setMessagesForGroupWithId:(NSString*) guid{
+    //empty the messages array
+    if([messages count]){
+        [messages removeAllObjects];
+    }
+    //Replace messages with those messages that correspond to to guid
+    
+    
+    NSDictionary*message1= @{@"content": @"Content 1",
+                             @"email":@"zwilson7@gmail.com",
+                             @"timestamp":@"2015-02-26 22:00:05 UTC"};
+    NSDictionary*message2= @{@"content": @"Content 2",
+                             @"email":@"kennethbigler@gmail.com",
+                             @"timestamp":@"2015-02-26 22:00:05 UTC"};
+    NSDictionary*message3= @{@"content": @"Content 3",
+                             @"email":@"zwilson7@gmail.com",
+                             @"timestamp":@"2015-02-26 22:00:05 UTC"};
+    NSDictionary*message4= @{@"content": @"Content 1",
+                             @"email":@"zwilson7@gmail.com",
+                             @"timestamp":@"2015-02-26 22:00:05 UTC"};
+    NSDictionary*message5= @{@"content": @"Content 2",
+                             @"email":@"kennethbigler@gmail.com",
+                             @"timestamp":@"2015-02-26 22:00:05 UTC"};
+    NSDictionary*message6= @{@"content": @"Content 3",
+                             @"email":@"zwilson7@gmail.com",
+                             @"timestamp":@"2015-02-26 22:00:05 UTC"};
+    
+    //populate the array
+    messages=[NSMutableArray arrayWithObjects:message1,message2,message3,message4,message5,message6,nil];
+}
 
 @end
