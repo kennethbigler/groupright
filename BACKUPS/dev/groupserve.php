@@ -35,7 +35,6 @@
 		flush();
 		http_response_code(299); 
 	}
-	
 	if($function == 'signup') 	signUp();
 	if($function == 'login')	logIn();
 	if($function == 'confirm_account') confirmAccount();
