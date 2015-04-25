@@ -25,6 +25,9 @@ window.onload = function() {
 	//get the cookies and get all of the data from the server
 	var _cookies = genCookieDictionary();
 	if(_cookies.accesscode && _cookies.user){
+		
+		$("#pp_cookie_email").val(_cookies.user);
+		$("#pp_cookie_ac").val(_cookies.accesscode);
 	
 		var obj = {
 			"ac":_cookies.accesscode,
