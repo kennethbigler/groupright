@@ -192,5 +192,68 @@ function addListItem(){
 	}
 }
 
+function _checkListItemOwner($email,$list_uid,$item_uid)
+{
+	$dbh = ConnectToDB();
+	
+	$sql = "
+		SELECT item_uid FROM list_items
+		WHERE email = ?
+		AND list_uid = ?
+		AND item_uid = ?
+	";
+	
+	$stmt = $dbh->prepare($sql);
+	
+	$stmt->execute(array($email,$list_uid,$item_uid));
+	
+	while($row = $stmt->fetch())
+	{
+		return true;
+	}
+	return false;
+}
+
+function _removeListItem($email,$list_uid,$item_uid){
+	$dbh = ConnectToDB();
+	
+	$sql = "
+		DELETE FROM list_items
+		WHERE email = ?
+		AND list_uid = ?
+		AND item_uid = ?
+	";
+	
+	$stmt = $dbh->prepare($sql);
+	
+	$stmt->execute(array($email,$list_uid,$item_uid));
+	
+	return;
+}
+
+function removeListItem(){
+	$email = sanitizeEmail( $_POST['email'] );
+	$cookie = grHash($_POST['ac'],$email);
+	$group_uid = $_POST['group_uid'];
+	$item_uid = $_POST['item_uid'];
+	$list_uid = $_POST['list_uid'];
+	
+	if(!isset($list_uid)){ http_response_code(290); return; }
+	if(!isset($group_uid)){ http_response_code(290); return; }
+	if(!isset($item_uid)){ http_response_code(290); return; }
+	
+	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+		if(!verifyUserGroup($email,$cookie,$group_uid)) return;
+		if(!_checkGroupList($group_uid,$list_uid)){ http_response_code(230); return; }
+		if(!_checkListItemOwner($email,$list_uid,$item_uid)){ http_response_code(240); return; }
+		$item_id = _removeListItem($email,$list_uid,$item_uid);
+		echo $item_id;
+	}else{
+		http_response_code(206);
+		return;
+	}
+}
+
+
 
 ?>
