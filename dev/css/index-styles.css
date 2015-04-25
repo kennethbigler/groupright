@@ -151,6 +151,39 @@ video {
 @media screen and (max-width: 767px) {
   footer { bottom:-15em;}
 }
+
+@media screen and (max-width: 408px) {
+  #whitelogo {
+  	float: none;
+  	margin: auto;
+  	display: block !important;
+  	margin-top: 10px !important;
+  }
+
+  .indexButtonWrapper > .pull-right {
+  	float: none !important;
+  }
+
+  .indexButtonWrapper > .pull-right > button {
+  	display: block;
+  	margin: auto;
+  	width: 100%;
+  }
+
+  .myMainContent {
+  	top: 165px;
+  }
+}
+
+@media screen and (max-width: 367px) {
+  .myMainContent {
+    top: 150px;
+  }
+  #pannel {
+  	font-size: 11vw !important;
+  }
+}
+
 @media screen and (max-device-width: 800px) {
   html { background: url("images/background.png") #000 no-repeat center center fixed; }
   #bgvid { display: none; }
