@@ -64,11 +64,11 @@
 		if($g_uid != 0){
 		
 			// add leader
-			addMember($members[0],$g_uid,"leader","{\"color\":\"#900000\"}");
+			_addMember($members[0],$g_uid,"leader");
 			
 			// add other members
 			for($i = 1; $i < count($members); $i++){
-				addMember($members[$i],$g_uid,"member","{\"color\":\"#900000\"}");
+				_addMember($members[$i],$g_uid,"member");
 			}
 			
 			http_response_code(200);
@@ -128,7 +128,7 @@
 	
 	}
 	
-	function addMember($email,$group_uid,$role,$properties){
+	function _addMember($email,$group_uid,$role){
 	/*
 	INSERT INTO `memberships`(`email`, `group_uid`, `role`, `properties`) VALUES ('scomatbarsar@gmail.com', 2,'member', '{"color":"#990000"}')
 	*/
