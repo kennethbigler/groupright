@@ -203,7 +203,7 @@ function getMembers($group_uid){
 
 		// Run Query.			
 		$stmt = $dbh->prepare(
-			"SELECT u.email,u.first_name,u.last_name
+			"SELECT u.email,u.first_name,u.last_name,u.photo_url, m.role
 			FROM active_users AS u
 			INNER JOIN memberships AS m
 			ON u.email = m.email
@@ -219,9 +219,12 @@ function getMembers($group_uid){
 			$email = $row['email'];
 			$fname = $row['first_name'];
 			$lname = $row['last_name'];
+			$photo = $row['photo_url'];
+			$role = $row['role'];
 			
 			// Create membership object.
-			$m = array("email"=>$email,"first_name"=>$fname,"last_name"=>$lname);
+			$m = array("email"=>$email,"first_name"=>$fname,"last_name"=>$lname,"photo_url"=>$photo);
+			$m["role"] = $role;
 			
 			// Add to groups.
 			$members[] = $m;

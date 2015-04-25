@@ -216,12 +216,34 @@ function addMembersToModal(membersArray,groupName,role){
 	if(role=="member"){
 		var th=document.createElement('th');
 		th.innerText="Member";
+		th.colspan = 2;
 		headingRow.appendChild(th);
+		console.log("Here VVV");
+		console.log(membersArray);
 		for(var i=0; i<membersArray.length; i++){
 		    var tr=document.createElement('tr');
+			
+			// pic
 		    var td=document.createElement('td');
-		    td.innerText=membersArray[i].first_name+" "+membersArray[i].last_name;
+			var p_u = (membersArray[i].photo_url) ? membersArray[i].photo_url : "images/orange.jpg";
+			td.appendChild( $("<img />",{src:p_u,class:"member-profile-pic img-circle"})[0]);
+			//tr.appendChild(td);
+			
+			// name
+			//td=document.createElement('td');
+			var div = document.createElement('div');
+		    div.innerText=membersArray[i].first_name+" "+membersArray[i].last_name;
+			td.appendChild(div);
 			tr.appendChild(td);
+			
+			// role
+			td=document.createElement('td');
+			div = document.createElement('div');
+			div.className = "member-role-div";
+		    div.innerText= (membersArray[i].role == 'leader') ? "Leader" : "Member";
+			td.appendChild(div);
+			tr.appendChild(td);
+			
 			addLocation.appendChild(tr);
 		}
 	}
