@@ -139,7 +139,10 @@ $(document).ready(function(){
 		createTemplate("create_list",["email","ac","title","description","group_uid"],"pink"),
 		createTemplate("add_item_to_list",["email","ac","item_name","list_uid","group_uid"],"pink"),
 		createTemplate("remove_item",["email","ac","item_uid","list_uid","group_uid"],"pink"),
-		createTemplate("get_list_info",["email","ac","list_uid","group_uid"],"pink")
+		createTemplate("get_list_info",["email","ac","list_uid","group_uid"],"pink"),
+		
+		createTemplate("leave_group",["email","ac","group_uid"],"brown"),
+		createTemplate("disband_group",["email","ac","group_uid"],"brown")
 	);
 	
 	var str = document.cookie;
