@@ -157,6 +157,7 @@
 			$user_info['last_name'] = $row['last_name'];
 			$user_info['phone_number'] = $row['phone_number'];
 			$user_info['date_joined'] = $row['date_joined'];
+			$user_info['photo_url'] = $row['photo_url'];
 			http_response_code(200);
 			return $user_info;
 			

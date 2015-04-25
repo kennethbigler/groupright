@@ -80,6 +80,10 @@ function loadAccountInfo(accountInfo){
 		var months=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 		document.getElementById("dateJoined").innerHTML= months[parseInt(dateStr.substring(5,7))-1] +" "+parseInt(dateStr.substring(8,10))+", "+dateStr.substring(0,4);
 	}
+	
+	if(accountInfo.photo_url!=null){
+		$("#existing_pp")[0].src = accountInfo.photo_url;
+	}
 }
 
 function changeName(){
