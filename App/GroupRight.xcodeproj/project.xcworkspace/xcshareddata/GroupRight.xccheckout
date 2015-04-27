@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>2C5CC9EE-DEF9-4F97-AB76-88CB0E29948A</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>GroupRight</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>81FCE00C050B1C3941C567E69C04EAC689096247</key>
 		<string>https://github.com/kennethbigler/groupright.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>App/GroupRight.xcodeproj/project.xcworkspace</string>
+	<string>App/GroupRight.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>81FCE00C050B1C3941C567E69C04EAC689096247</key>

@@ -12,6 +12,16 @@ function alertSuccessBanner(text){
     document.getElementById("alertSuccessBanner").style.display="block";
     document.getElementById("alertDangerBanner").style.display="none";
 }
+function alertBannerSignup(text){
+	document.getElementById("alertDangerBannerSignup").innerHTML=text;
+    document.getElementById("alertDangerBannerSignup").style.display="block";
+    document.getElementById("alertSuccessBannerSignup").style.display="none";
+}
+function alertSuccessBannerSignup(text){
+	document.getElementById("alertSuccessBannerSignup").innerHTML=text;
+    document.getElementById("alertSuccessBannerSignup").style.display="block";
+    document.getElementById("alertDangerBannerSignup").style.display="none";
+}
 
 //==================================================
 // URL PARAMETER PARSING
@@ -148,23 +158,23 @@ function signUp(){
 		password2=="" || password2==null 	||
 		termsCond=="" || termsCond==null) {
        
-        alertBanner("All Fields Are Required");
+        alertBannerSignup("All Fields Are Required");
         return false;
     }
     // Validate Email Address
 	var atpos = email.indexOf("@");
 	var dotpos = email.lastIndexOf(".");
 	if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=email.length) {
-	    alertBanner("Please enter a valid email address.");
+	    alertBannerSignup("Please enter a valid email address.");
 	    return false;
 	}
 	
 	if(password != password2){
-		alertBanner("Your passwords do not match.");
+		alertBannerSignup("Your passwords do not match.");
 		return false;
 	}
 	if(!termsCond){
-		alertBanner("You must agree to the terms and conditions in order to use GroupRight.");
+		alertBannerSignup("You must agree to the terms and conditions in order to use GroupRight.");
 		return false;
 	}
 	
@@ -182,10 +192,10 @@ function signUp(){
 			data:obj,
 			statusCode:{
 				200:function(data,status,jqXHR){
-					alertSuccessBanner("Thanks for signing up for GroupRight. Please check your email and follow the instructions to verify your account.");				
+					alertSuccessBannerSignup("Thanks for signing up for GroupRight. Please check your email and follow the instructions to verify your account.");				
 				},
 				208:function(data,status,jqXHR){
-					alertBanner("You have already an account with GroupRight. <a href='forgot.html'>Did you forget your password?</a>")
+					alertBannerSignup("You have already an account with GroupRight. <a href='forgot.html'>Did you forget your password?</a>")
 				}
 			}
 		});
