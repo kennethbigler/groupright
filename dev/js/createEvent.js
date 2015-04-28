@@ -95,9 +95,50 @@ function resetEventParameters(){
 		end_day:"Not Added"
 	}
 	
+	/* USER INTERFACE RESET */
+	$("#eventName").val("");
+	$("#eventGroups").val("XXX");
+	$("#eventDescription").val("");
+	$("#eventLocation").val("");
+	
+	$('input[name="fixedtime"]').prop('checked',false);
+	$('input[name="fixedtime"]').parent().removeClass('active');
+	
+	
+	$("#startdatefixed").val("");
+	$("#startHourFixed").val("");
+	$("#startMinuteFixed").val("");
+	$("#startAMPMFixed").val("AM");
+	$("#enddatefixed").val("");
+	$("#endHourFixed").val("");
+	$("#endMinuteFixed").val("");
+	$("#endAMPMFixed").val("PM");
+	
+	$("#startdatehelp").val("");
+	$("#enddatehelp").val("");
+	$("#startHourHelp").val("");
+	$("#endHourHelp").val("");
+	$("#startMinuteHelp").val("");
+	$("#endMinuteHelp").val("");
+	$("#startAMPMHelp").val("AM");
+	$("#endAMPMHelp").val("PM");
+	
+	$("#yescoming").prop('checked',false);
+	$('#yescoming').parent().removeClass('active');
+	$("#nocoming").prop('checked',false);
+	$('#nocoming').parent().removeClass('active');
+	
+	$("#iDecide").prop('checked',false);
+	$('#iDecide').parent().removeClass('active');
+	$("#groupRightDecide").prop('checked',false);
+	$('#groupRightDecide').parent().removeClass('active');
+	
 	updateProgressBar(1);
 	//close the modal view
 	$('#createEventBox').modal('hide');
+	$("#eventStep5").hide();
+	document.getElementById("eventNextButton").style.display="block";
+	document.getElementById("createEventButton").style.display="none";
 	//Hide all but the initial steps
 
 }
