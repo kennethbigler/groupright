@@ -13,7 +13,6 @@
 #import "GRMainModule.h"
 
 @interface UpdatesViewController ()
-
 @end
 
 @implementation UpdatesViewController
@@ -21,7 +20,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doYourStuff)
+     name:UIApplicationWillEnterForegroundNotification object:nil];
 }
+
+-(void)doYourStuff{
+    [_UpdatesTable reloadData];
+}
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -35,9 +45,8 @@
         LoginViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:@"loginVC"];
         [self presentViewController:lvc animated:NO completion:nil];
     }
-    //LoginViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:@"loginVC"];
-    //[self presentViewController:lvc animated:NO completion:nil];
-    [_UpdatesTable reloadData];
+    
+    [self doYourStuff];
 
 }
 

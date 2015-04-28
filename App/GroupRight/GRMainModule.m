@@ -28,10 +28,11 @@ GRMainModule *GRMAIN;
 - (void) addUserData: (NSDictionary *) raw
 {
     // Clear the data.
-    [groups removeAllObjects];
-    [events removeAllObjects];
-    [tasks removeAllObjects];
-    [updates removeAllObjects];
+    //[groups removeAllObjects];
+    //[events removeAllObjects];
+    //[tasks removeAllObjects];
+    //[updates removeAllObjects];
+    [self clearData];
     //[messages removeAllObjects];
     
     groups = (NSMutableArray *) [raw objectForKey:@"memberships"];
@@ -138,6 +139,12 @@ GRMainModule *GRMAIN;
     
     //populate the array
     messages=[NSMutableArray arrayWithObjects:message1,message2,message3,message4,message5,message6,nil];
+}
+-(void) clearData{
+    [groups removeAllObjects];
+    [events removeAllObjects];
+    [tasks removeAllObjects];
+    [updates removeAllObjects];
 }
 
 @end

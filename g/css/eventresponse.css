@@ -1,0 +1,97 @@
+/* eventresponse.css */
+
+/* Styles exclusively for event response. */
+
+.er_gridspace{
+	height:100%;
+	width:auto;
+	white-space:nowrap;
+	overflow-x:hidden;
+	overflow-y:auto;
+}
+
+.er_avail_perfect{background-color:#5cb85c;}
+.er_avail_ok{background-color:#337ab7;}
+.er_avail_rathernot{background-color:#f0ad4e;}
+.er_avail_no{background-color:#d9534f;}
+.er_avail_empty{background:color:#ccc;}
+
+#avail_perfect,#avail_ok,#avail_rather_not,#avail_no{margin-top:0;}
+
+#event_title{font-size:1.3em; font-weight:bold; border-bottom:solid 1pt;}
+#event_description{font-style:italic; text-indent:2.0em;}
+
+.er_gridspace *{
+	-webkit-touch-callout:none;
+	-webkit-user-select:none;
+	-khtml-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+
+.er_timecol{
+	min-width:60px;
+	height:100%;
+	display:inline-block;
+}
+
+.er_timecol_spacer{
+	height:1.5em;
+}
+
+.er_hour_incr_spacer{
+	height:15px;
+	margin-bottom:1px;
+}
+
+.er_hour_incr{
+	border-top:0.2em solid rgb(0,161,217);
+	margin-top:-0.1em;
+	box-sizing:border-box;
+	height:64px;
+	font-weight:bold;
+	text-align:right;
+	font-size:1.0em;
+	padding-right:0.5em;
+	font-style:italic;	
+}
+.er_hour_incr .num{
+	font-size:1.3em;
+	vertical-align:top;
+}
+
+.er_dayheader{
+	text-align:center;
+	font-weight:bold;
+	background-color:rgb(0,161,217);
+	color:white;
+}
+
+.er_day_gridspace{
+	display:inline-block;
+	vertical-align:top;
+	overflow:auto;
+	width:90%;
+	background-color:#555;
+}
+
+.er_daycol{
+	min-width:150px;
+	background-color:#eee;
+	margin-right:10px;
+	height:100%;
+	display:inline-block;
+	vertical-align:top;
+}
+
+.er_time_incr{
+	height:16px;
+	width:100%;
+	background-color:#ccc;
+}
+
+.er_time_incr.hour_marker{
+	height:15px;
+	border-top:solid 1px #888;
+}

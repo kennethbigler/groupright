@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GroupRight, Groups Done Right</title>
+</head>
+<body>
+
+<style type="text/css">
+	html,body{width:100%;height:100%; margin:0; padding:0;}
+</style>
+
+<div style="width:600px; height:100%; padding:10px; float:left;">
+	<div id="lastUser" style="width:600px; height:25px; font-family:Courier; font-weight:bold">
+	Last User: <span style="color:blue;"></span>
+	</div>
+	<div id="lastCookie" style="width:600px; height:25px; font-family:Courier; font-weight:bold">
+	Last Cookie: <span style="color:blue;"></span>
+	</div>
+	<div style="width:600px; height:25px; font-family:Courier; font-weight:bold">
+	Type Input Here
+	</div>
+	<textarea id="inputText" style="width:600px; height:150px;"></textarea>
+	<br />
+	<button onclick="postToGroupServe()" style="width:600px; height:30px">Go</button>
+	<br />
+	<br />
+	<div style="width:600px; height:25px; font-family:Courier; font-weight:bold">
+	Parsed Input
+	</div>
+	<hr style="margin:2px 0;padding:0;width:600px; "/>
+	<div id="input" style="width:600px; height:150px; font-family:Courier;overflow:auto;">
+	(input)
+	</div>
+	<br />
+	<div id="status_code" style="width:600px; height:25px; font-family:Courier; font-weight:bold">
+	Status Code: (code)
+	</div>
+	<hr style="margin:2px 0;padding:0;width:600px;"/>
+	<div id="output" style="width:600px; height:200px; font-family:Courier;overflow:auto;">
+	(output)
+	</div>
+</div>
+<div id="templates" style="background-color:#666;position:absolute;left:630px;height:100%;overflow:scroll;right:0px;">
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+
+var lastUser;
+var lastCookie;
+
+function createTemplate(fn,elm,color){
+
+
+	var str = "";
+	str += "function="+fn+"\n";
+	
+	for(var i = 0; i < elm.length; i++){
+		str += "&"+elm[i]+"= <"+ elm[i]+">\n";
+	}
+
+
+	var mask = fn;
+	var value = str;
+
+	var button = $("<button />").html(mask).click(function(){
+	
+		
+		// user and cookie
+		var str = value;
+		str = str.replace("<email>",lastUser);
+		str = str.replace("<cookie>",lastCookie);
+		str = str.replace("<code>",lastCookie);
+		str = str.replace("<ac>",lastCookie);
+		
+		
+		$("#inputText").val(str);
+		
+		
+		
+	
+	});
+	button.css({"padding":"10px","box-sizing":"border-box","width":"100%","margin-bottom":"3px"});
+	button.css({"background-color":"white","box-shadow":"0 0 60px 0 "+color+" inset"});
+	
+	return button;
+}
+
+
+$(document).ready(function(){
+	
+	var cont = $("#templates");
+	cont.append(
+	
+		createTemplate("signup",["first_name","last_name","email","password"],"yellow"),
+		createTemplate("confirm_account",["password","vc"],"yellow"),
+		
+		createTemplate("login",["email","password"],"green"),
+		createTemplate("remember_user",["email","code"],"green"),
+		createTemplate("logout_user",["email","code"],"green"),
+		
+		createTemplate("forgot",["email"],"blue"),
+		createTemplate("unlock_account",["vc"],"blue"),
+		createTemplate("reset_password",["vc","password"],"blue"),
+		
+		//createTemplate("get_memberships",["email","cookie"],"red"),		
+		createTemplate("get_user_info",["email","ac"],"red"),
+		createTemplate("get_user_groups",["email","ac"],"red"),
+		createTemplate("get_updated_info",["email","ac","event_id","task_id","update_id"],"red"),
+		createTemplate("get_group_members",["email","ac","group_uid"],"red"),
+		createTemplate("reset_membership_colors",["email","cookie"],"red"),
+		createTemplate("create_group",["group_name","member_array","email","ac"],"red"),
+	
+		createTemplate("create_fixed_event",["email","cookie","group_uid","event_title","event_description","start_time","end_time","location"],"purple"),
+		createTemplate("create_votable_event",["email","cookie","group_uid","event_title","event_description","start_time","end_time","duration","location"],"purple"),
+		createTemplate("get_event_settings",["email","ac","group_uid","event_uid"],"purple"),
+		createTemplate("submit_availability",["email","ac","group_uid","event_uid","availability"],"purple"),
+		createTemplate("get_availability_dump",["email","ac","group_uid","event_uid"],"purple"),
+		createTemplate("choose_event_time",["email","ac","group_uid","event_uid","start_time","end_time"],"purple"),
+		
+		createTemplate("create_task",["email","cookie","group_uid","event_uid","task_title","task_description","is_individual","deadline"],"orange"),
+		createTemplate("assign_task",["email","cookie","group_uid","task_uid"],"orange"),
+		createTemplate("mark_task_complete",["email","ac","task_id"],"orange"),
+		
+		createTemplate("send_message",["email","ac","group_uid","message_content"],"white"),
+		createTemplate("get_messages",["email","ac","group_uid"],"white"),
+		createTemplate("mark_messages_read",["email","ac","group_uid"],"white"),
+		createTemplate("get_num_unread",["email","ac"],"white"),
+		createTemplate("get_new_messages",["email","ac","group_uid","last_timestamp"],"white"),
+		
+		
+		createTemplate("change_name",["email","ac","first_name","last_name"],"#999"),
+		createTemplate("change_password",["email","ac","old_password","new_password"],"#999"),
+		createTemplate("change_phone_number",["email","ac","phone_number"],"#999"),
+		createTemplate("get_account_info",["email","ac"],"#999"),
+
+		createTemplate("create_list",["email","ac","title","description","group_uid"],"pink"),
+		createTemplate("add_item_to_list",["email","ac","item_name","list_uid","group_uid"],"pink"),
+		createTemplate("remove_item",["email","ac","item_uid","list_uid","group_uid"],"pink"),
+		createTemplate("get_list_info",["email","ac","list_uid","group_uid"],"pink"),
+		
+		createTemplate("leave_group",["email","ac","group_uid"],"brown"),
+		createTemplate("disband_group",["email","ac","group_uid"],"brown"),
+		createTemplate("drop_member",["email","ac","group_uid","dropped_member"],"brown"),
+		createTemplate("add_member",["email","ac","group_uid","added_member"],"brown"),
+		createTemplate("make_leader",["email","ac","group_uid","new_leader"],"brown")
+	);
+	
+	var str = document.cookie;
+	
+	var vars = str.split(";");
+	
+	var obj = {};
+	
+	for(var i = 0; i < vars.length; i++){
+		var rel = vars[i].split("=");
+		var key = rel[0].trim();
+		var val = rel[1].trim();
+		if(key != "" && val != "")	obj[ key ] = val;
+	}
+	//console.log(obj);
+	lastUser = obj["user"];
+	lastCookie = obj["accesscode"];
+	$("#lastUser").children("span").html(obj["user"]);
+	$("#lastCookie").children("span").html(obj["accesscode"]);
+
+});
+
+
+function parseInput(str){	
+	var vars = str.split("&");
+	
+	var obj = {};
+	
+	for(var i = 0; i < vars.length; i++){
+		var rel = vars[i].split("=");
+		var key = rel[0].trim();
+		var val = rel[1].trim();
+		if(val[0] == "{" && val[val.length-1] == "}") val = eval(val);
+		if(val[0] == "[" && val[val.length-1] == "]") val = eval(val);
+		if(key != "" && val != "")	obj[ key ] = val;
+	}
+	
+	return obj;
+}
+
+function postToGroupServe(){
+
+		var obj = parseInput($("#inputText").val());
+		var str = JSON.stringify(obj);
+		str = str.replace(/,/g,",<br />");
+		str = str.replace(/{/g,"{<br />");
+		str = str.replace(/}/g,"<br />}");
+		$("#input").html(str);
+		
+		if(obj.function=="login"){
+			lastUser = obj.email;
+		}
+
+		// Contact Server
+		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			type:"POST",
+			data:obj,
+			success: function(d,s,j){
+				$("#status_code").text("Status Code: "+j.status + "("+statusCodeMeaning(j.status)+")");
+				var str = d;
+				try{
+					console.log(JSON.parse(d));
+				}catch(e){
+					console.log(d);
+				}
+				str = str.replace(/,/g,",<br />");
+				str = str.replace(/{/g,"{<br />");
+				str = str.replace(/}/g,"<br />}");
+				$("#output").html(str);
+				//alert(JSON.stringify(j));
+				
+				// special login
+				if(obj.function == 'login'){
+					document.cookie = "accesscode="+d.trim()+";path=/";
+					document.cookie = "user="+obj.email.trim()+";path=/";
+					
+					$("#lastCookie").children("span").html(d);
+					$("#lastUser").children("span").html(obj.email);
+					lastCookie = d;
+				}
+			}
+		
+		});
+
+}
+
+function statusCodeMeaning(code){
+
+	var stc = {
+		200:"Success",
+		206:"Invalid Password / Credentials",
+		207:"Maintenance",
+		208:"Duplicate Account",
+		209:"Locked Out",
+		210:"Link Expired",
+		211:"Bad Cookie",
+		212:"Account Not Found",
+		213:"Duplicate Group",
+		220:"Something went wrong..."
+	
+	};
+
+	if(!stc[code])return "Not Defined";
+	
+	return stc[code];
+}
+
+</script>
+
+</body>
+</html>
+

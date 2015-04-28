@@ -14,6 +14,7 @@
 {
     // Get main module.
     GRMainModule *grmm = [GRMainModule grMain];
+    if ([grmm ac] == nil) return;
     
     // Set URL.
     NSString *urlString = @"https://www.groupright.net/dev/groupserve.php";
@@ -63,6 +64,22 @@
     NSString *cookie = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
     return cookie;
     
+}
++(void) logoutOfGroupServeWithUsername:(NSString*)username andCookier:(NSString*)ac{
+    GRMainModule *grmm = [GRMainModule grMain];
+    NSString *urlString = @"https://www.groupright.net/dev/groupserve.php";
+    NSData* responseData = nil;
+    NSURL *url=[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    responseData = [NSMutableData data] ;
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
+    NSString *bodydata=[NSString stringWithFormat:@"function=logout&email=%@&ac=%@",username,ac];
+    [request setHTTPMethod:@"POST"];
+    NSData *req=[NSData dataWithBytes:[bodydata UTF8String] length:[bodydata length]];
+    [request setHTTPBody:req];
+    NSURLResponse* response;
+    NSError* error = nil;
+    responseData = [NSURLConnection sendSynchronousRequest:request     returningResponse:&response error:&error];
+    [grmm clearData];
 }
 
 @end

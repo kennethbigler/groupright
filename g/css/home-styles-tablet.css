@@ -1,0 +1,19 @@
+@charset "utf-8";
+/* CSS Document */
+
+#updates, #tasks {
+	height: 500px;
+	margin-bottom: 20px;
+}
+
+div.main3w {
+	height: 500px;
+}
+
+div.main6w {
+	height: 666px;
+}
+
+#comingup {
+	height: 666px;
+}

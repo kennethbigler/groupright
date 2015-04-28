@@ -11,4 +11,5 @@
 @interface GroupRightNetworking : NSObject
 +(void) getUserInfo;
 +(NSString*)loginToGroupServeWithUsername:(NSString*)username andPassword:(NSString*)password;
++(void) logoutOfGroupServeWithUsername:(NSString*)username andCookier:(NSString*)ac;
 @end

@@ -1,0 +1,1 @@
+var GR_DIR = "/g";

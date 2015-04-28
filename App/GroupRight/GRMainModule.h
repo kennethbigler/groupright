@@ -39,5 +39,6 @@
 - (UIColor*) getColorForGroupWithId:(NSString*) guid AtAlpha: (float) alpha;
 - (UIColor*) getColorForGroupWithId:(NSString*) guid;
 - (void) setMessagesForGroupWithId:(NSString*) guid;
+- (void) clearData;
 
 @end

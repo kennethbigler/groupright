@@ -42,6 +42,7 @@
 		BBD323981AE71DEA00F3BE07 /* UpdatesTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD323971AE71DEA00F3BE07 /* UpdatesTableCell.m */; };
 		BBDE35AA1AE8490C0030A211 /* gr_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = BBDE35A91AE8490C0030A211 /* gr_blue.png */; };
 		D2183BE51AE706A80024CC77 /* GRMainModule.m in Sources */ = {isa = PBXBuildFile; fileRef = D2183BE41AE706A80024CC77 /* GRMainModule.m */; };
+		D25127261AEF421500812603 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25127251AEF421500812603 /* SettingsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,8 @@
 		BBDE35A91AE8490C0030A211 /* gr_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gr_blue.png; sourceTree = "<group>"; };
 		D2183BE31AE706A80024CC77 /* GRMainModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRMainModule.h; sourceTree = "<group>"; };
 		D2183BE41AE706A80024CC77 /* GRMainModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMainModule.m; sourceTree = "<group>"; };
+		D25127241AEF421500812603 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		D25127251AEF421500812603 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +205,8 @@
 		BB4CC1181AE72B67004A7301 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				D25127241AEF421500812603 /* SettingsViewController.h */,
+				D25127251AEF421500812603 /* SettingsViewController.m */,
 				BB216CA51AE44DD600E75892 /* LoginViewController.h */,
 				BB216CA61AE44DD600E75892 /* LoginViewController.m */,
 				BBA5ED881AE451650075B876 /* ViewController.h */,
@@ -311,6 +316,7 @@
 				TargetAttributes = {
 					BB49167B1AE30482002E792D = {
 						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = Z48JG47829;
 					};
 					BB4916971AE30482002E792D = {
 						CreatedOnToolsVersion = 6.3;
@@ -380,6 +386,7 @@
 				BB42996D1AE58381007604BC /* GroupRightNetworking.m in Sources */,
 				BBB4A6BF1AE81D53001BB2DB /* TasksViewController.m in Sources */,
 				BBA5ED8B1AE452660075B876 /* LoginViewController.m in Sources */,
+				D25127261AEF421500812603 /* SettingsViewController.m in Sources */,
 				BBA5ED8A1AE451650075B876 /* ViewController.m in Sources */,
 				BBADF0BC1AE871DB00361BA1 /* EventsViewController.m in Sources */,
 				BB49168B1AE30482002E792D /* SecondViewController.m in Sources */,
@@ -519,9 +526,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = GroupRight/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -530,9 +540,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = GroupRight/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

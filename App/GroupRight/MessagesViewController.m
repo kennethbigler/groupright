@@ -18,7 +18,7 @@
 NSString* activeGroupId;
 BOOL isSelectingGroups=YES;
 NSString* activeGroupName;
-- (void)viewDidLoad {
+- (void)viewAppearLoad {
     [super viewDidLoad];
     GRMainModule *grmm=[GRMainModule grMain];
     activeGroupId=[[grmm.groups objectAtIndex:0] objectForKey:@"group_id"];
