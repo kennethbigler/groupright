@@ -22,7 +22,7 @@ function _associatePic($email,$filename)
 }
 
 function associatePic(){
-	global $prof_filepath;
+	global $msg, $prof_filepath;
 	
 	// Get Data
 	$email = $_POST['email'];
@@ -41,12 +41,15 @@ function associatePic(){
 	
 	// If valid, continue.
 	if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {
-		if(!checkHashedCookie($email,$cookie)){ return false; }
-		$filename = grHash($email).".png";
+		if(!checkHashedCookie($email,$cookie)){ 
+			$msg = "Bad cookie.";
+			return false;
+		}
+		$filename = grHash($email);
 		$good = uploadPic($filename);
 		if($good){
-			_associatePic($email,$filename);
-			$prof_filepath = '_profiles/'.$filename;
+			_associatePic($email,$good);
+			$prof_filepath = '../_profiles/'.$good;
 		}
 		return;
 	}
@@ -63,32 +66,39 @@ function uploadPic($filename){
 
 	if($_FILES['profile_pic']['error'] > 0){
 		$msg = ('An error occurred when uploading.');
-		return false;
+		return null;
 	}
 
 	if(!getimagesize($_FILES['profile_pic']['tmp_name'])){
 		$msg = ('Please ensure you are uploading an image.');
-		return false;
+		return null;
 	}
+	
+	$ftype = $_FILES['profile_pic']['type'];
+	$ext = null;
+	if($ftype == "image/png") $ext = ".png";
+	if($ftype == "image/jpg") $ext = ".jpg";
+	if($ftype == "image/bmp") $ext = ".bmp";
 
-	if($_FILES['profile_pic']['type'] != "image/png"){
+
+	if(!ext){
 		$msg = ('Unsupported filetype uploaded.');
-		return false;
+		return null;
 	}
 
 	if($_FILES['profile_pic']['size'] > 1000000){
 		$msg = ('File uploaded exceeds maximum upload size.');
-		return false;
+		return null;
 	}
 
-	if(!move_uploaded_file($_FILES['profile_pic']['tmp_name'],'_profiles/'.$filename))
+	if(!move_uploaded_file($_FILES['profile_pic']['tmp_name'],'../_profiles/'.$filename.$ext))
 	{
 		$msg = ('Error uploading file - check destination.');
-		return false;
+		return null;
 	}
 
 	$msg = ('File uploaded successfully');
-	return true;
+	return $filename.$ext;
 }
 
 $msg = "";
@@ -101,19 +111,48 @@ associatePic();
 <!doctype html>
 <html lang="en">
 	<head>
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
 	<style>
+		body{
+			background:#EEE;
+		}
+		#mydiv{
+			width:340px;
+			margin:auto; 
+			background:#FFF;
+			padding-bottom:20px;
+		}
+		h3{
+			text-align:center;
+			margin:0;
+			padding:20px;
+			background-color:#00A1D9;
+		}
 		#profile{
 			height:200px;
 			width:200px;
+			margin:30px 70px;
 			object-fit:cover;
 			border-radius:50%;
 		}
+		
 	</style>
 	</head>
 	
 	<body>
-		<h3><?php echo $msg; ?></h3>
-		<img id="profile" src="<?php echo $prof_filepath ?>" />
+		<div id="mydiv" class="container-fluid">
+			<div class="row">
+				<h3 style="color:white;"><?php echo $msg; ?></h3>
+			</div>
+			<div class="row">
+			<img id="profile" src="<?php echo $prof_filepath ?>" />
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<button class="btn btn-block btn-info" onclick="window.close()" >Back</button>
+				</div>
+			</div>
+		</div>
 	</body>
 	
 </html>

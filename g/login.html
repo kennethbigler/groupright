@@ -80,9 +80,14 @@
 		
 		<div class="container-fluid signup-box back">
 
-		  <form class="" role="form" onsubmit="signUp()">
+		  <form class="" role="form">
 			<h2 class="header-center">Sign Up</h2>
-			
+			<div class="alert alert-danger" id="alertDangerBannerSignup" style="display:none" role="alert">
+			  This is an invalid login attempt alert.
+			</div>
+			<div class="alert alert-success" id="alertSuccessBannerSignup" style="display:none" role="alert">
+			  This is a successful alert.
+			</div>	
 			
 			<div class="row">
 				<div class="col-xs-6">
