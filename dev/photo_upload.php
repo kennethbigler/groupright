@@ -22,7 +22,7 @@ function _associatePic($email,$filename)
 }
 
 function associatePic(){
-	global $prof_filepath;
+	global $msg, $prof_filepath;
 	
 	// Get Data
 	$email = $_POST['email'];
@@ -41,7 +41,10 @@ function associatePic(){
 	
 	// If valid, continue.
 	if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {
-		if(!checkHashedCookie($email,$cookie)){ return false; }
+		if(!checkHashedCookie($email,$cookie)){ 
+			$msg = "Bad cookie.";
+			return false;
+		}
 		$filename = grHash($email);
 		$good = uploadPic($filename);
 		if($good){

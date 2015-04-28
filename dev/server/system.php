@@ -65,14 +65,10 @@
 	
 		$dbh = ConnectToDB();
 		
-		$stmt = $dbh->prepare("SELECT * FROM sessions WHERE email=? AND sc=?");
-		if($stmt->execute(array($user,$cookie))){
-			while($row = $stmt->fetch()){
-				$expDate = new DateTime($row['expiration']);
-				if($expDate < $today) return false;
-				return true;
-			
-			}
+		$stmt = $dbh->prepare("SELECT * FROM sessions WHERE email=? AND sc=? AND expiration > NOW()");
+		$stmt->execute(array($user,$cookie));
+		while($row = $stmt->fetch()){
+			return true;			
 		}
 		
 	
