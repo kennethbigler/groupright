@@ -262,8 +262,8 @@ GRMainModule.prototype._parseEvents = function(events){
 	var evt;
 	for(var i = 0; i < events.length; i++){
 		evt = events[i];
-		if(evt.start_time) evt.start_time = evt.start_time.replace(/[-]/g,"/");
-		if(evt.end_time) evt.end_time = evt.end_time.replace(/[-]/g,"/");
+		if(evt.start_time) evt.start_time = evt.start_time.replace(/[-]/g,"/")+" UTC";
+		if(evt.end_time) evt.end_time = evt.end_time.replace(/[-]/g,"/")+" UTC";
 		this._events[evt.event_uid] = evt;
 	}
 	if(evt) this._lastEventID = parseInt(evt.event_uid);
