@@ -38,12 +38,14 @@
 	function generateCookie($user,$extended){
 		$code = generateCode(32,$user);
 		$code2 = grHash($code,$user);
-		$monthLater = time() + (30*24*60*60);
 		
 		$dbh = ConnectToDB();
 		
-		$stmt = $dbh->prepare("INSERT INTO sessions(sc,expiration,email) VALUES(?,?,?)");
-		$stmt->execute(array($code2,date("Y-m-d H:i:s",$monthLater),$user));
+		$stmt = $dbh->prepare("
+		INSERT INTO sessions(sc,expiration,email)
+		VALUES(?,DATE_ADD(NOW(),INTERVAL 4 HOUR),?)
+		");
+		$stmt->execute(array($code2,$user));
 		
 		return $code;	
 		
