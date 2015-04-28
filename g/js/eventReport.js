@@ -89,6 +89,7 @@ function getEventVoteSettings(parseFn){
 		});
 	}else{
 		parseFn("{}");
+		window.location="login.html";
 	}
 }
 
@@ -274,6 +275,7 @@ function getScoreForRowColumn(row, column){
 	var referencedDate=new Date(correspondenceMatrix[row][column]);
 	//console.log(correspondenceMatrix[row-1][column-1]);
 	var score=0;
+	if(!groupAvail) return 0;
 	for(var i=0; i<groupAvail.length;i++){
 		var compareDate= new Date(groupAvail[i].start_time.replace(/[-]/g,"/"));
 		//console.log(compareDate);

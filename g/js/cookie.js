@@ -46,7 +46,21 @@ function checkCookie(goodFn,badFn){
 		
 		});
 	}
+	else badFn();
 };
+
+$(window).load(function(){
+	checkCookie(function(){},function(){
+		var good = false;
+		if(window.location.pathname != "/g/login.html") good = true;
+		if(window.location.pathname != "/g/index.html") good = true;
+		if(window.location.pathname != "/g/confirm.html") good = true;
+		if(!good){
+			window.location = "login.html";
+		}
+	});
+});
+
 function eatCookies()
 {   
     var cookies = document.cookie.split(";");
