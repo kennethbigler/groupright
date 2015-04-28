@@ -19,7 +19,8 @@
 	
 	
 	function sendLockedEmail($email, $fname, $lname, $vc){
-		$hackedUrl = "https://www.groupright.net/dev/unlock.html?vc=".$vc;
+		global $GR_DIR;
+		$hackedUrl = "https://www.groupright.net".$GR_DIR."/unlock.html?vc=".$vc;
 	
 		$to = $email;
 		$subject = 'Your Account Has Been Locked';
@@ -30,7 +31,7 @@
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 		
 		$message = '<html><body>';
-		$message .= '<img src="https://www.groupright.net/dev/images/emailLogo.png" alt="GroupRight" />';
+		$message .= '<img src="https://www.groupright.net'.$GR_DIR.'/images/emailLogo.png" alt="GroupRight" />';
 		$message .= '<p><strong>'.$fname." ".$lname."</strong>,</p>";
 		$message .= "<p>Someone has been trying to get into your account.  If this is not you, click the following link to unlock your account.</p>";
 		$message .= "<p><a href='".$hackedUrl."'>".$hackedUrl."</a></p>";

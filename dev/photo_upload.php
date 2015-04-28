@@ -15,7 +15,7 @@ function _associatePic($email,$filename)
 	
 	$stmt = $dbh->prepare($sql);
 	
-	$full_filename = "https://www.groupright.net/dev/_profiles/".$filename;
+	$full_filename = "https://www.groupright.net/_profiles/".$filename;
 	$stmt->execute(array($full_filename,$email));
 	
 	return;

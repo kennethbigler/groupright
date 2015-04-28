@@ -71,7 +71,7 @@ window.onload = function() {
 		},	
 		function(){
 			//they don't have the necessary access to see this page have them login again
-			window.location="https://www.groupright.net/dev/login.html";
+			window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 		}
 	);
 
@@ -534,7 +534,7 @@ function initSendMessage(){
 				};
 
 				// Contact Server
-				$.ajax("https://www.groupright.net/dev/groupserve.php",{
+				$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 						type:"POST",
 						data:obj,
 						statusCode:{
@@ -577,7 +577,7 @@ function toggleTask(element, taskid, localIndex){
 			};
 
 			// Contact Server
-			$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 					type:"POST",
 					data:obj,
 					statusCode:{

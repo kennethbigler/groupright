@@ -59,7 +59,7 @@ GRMessageModule.prototype.update = function(){
 	var self = this;
 	if(email && ac){
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 				type:'POST',
 				data:obj,
 				statusCode:{
@@ -106,7 +106,7 @@ GRMessageModule.prototype.markMessagesRead = function(group_id){
 
 	if(email && ac){
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 				type:'POST',
 				data:obj,
 				statusCode:{
@@ -145,7 +145,7 @@ GRMessageModule.prototype.sendMessage = function(content,group_id,successFn,fail
 	var self = this;
 
 	// Contact Server
-	$.ajax("https://www.groupright.net/dev/groupserve.php",{
+	$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:'POST',
 			data:obj,
 			statusCode:{
@@ -187,7 +187,7 @@ GRMessageModule.prototype.loadMessages = function(group_id,successFn,failureFn){
 
 	if(email && ac){
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 				type:'POST',
 				data:obj,
 				statusCode:{

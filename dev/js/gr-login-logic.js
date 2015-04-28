@@ -107,7 +107,7 @@ function logIn(){
 			  };
 	
 	// Contact Server
-	$.ajax("https://www.groupright.net/dev/groupserve.php",{
+	$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 		type:"POST",
 		data:obj,
 		statusCode:{
@@ -187,7 +187,7 @@ function signUp(){
 	};
 	
 	// Contact Server
-	$.ajax("https://www.groupright.net/dev/groupserve.php",{
+	$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:'POST',
 			data:obj,
 			statusCode:{

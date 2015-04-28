@@ -36,7 +36,7 @@ window.onload = function() {
 		};
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{
@@ -45,7 +45,7 @@ window.onload = function() {
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
-					window.location="https://www.groupright.net/dev/login.html";
+					window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 				}
 			}
 		
@@ -53,7 +53,7 @@ window.onload = function() {
 	}
 	else{
 		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
-		//window.location="https://www.groupright.net/dev/login.html";
+		//window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 
 		var accountInfo={"first_name":"John","last_name":"Doe","date_joined":"2015-01-23 18:53:00","phone_number":"5556667777"};
 		console.log(accountInfo);
@@ -112,17 +112,17 @@ function changeName(){
 		};
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
 					//Redirect for Confirmation
-					window.location="https://www.groupright.net/dev/account_settings.html?update=0";
+					window.location="https://www.groupright.net"+GR_DIR+"/account_settings.html?update=0";
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
-					window.location="https://www.groupright.net/dev/login.html";
+					window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 				}
 			}
 		
@@ -130,7 +130,7 @@ function changeName(){
 	}
 	else{
 		console.warn("No Valid Cookies in current state. Force Redirect. fx: changeName");
-		//window.location="https://www.groupright.net/dev/login.html";
+		//window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 
 	}
 }
@@ -168,20 +168,20 @@ function changeGRPassword(){
 			"function":"change_password"
 		};
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
 					//Redirect for Confirmation
-					window.location="https://www.groupright.net/dev/account_settings.html?update=1";
+					window.location="https://www.groupright.net"+GR_DIR+"/account_settings.html?update=1";
 				},
 				206: function(data, status, jqXHR){
 					var errorField=document.getElementById("passwordError").innerHTML="Your old password was invalid. Password was not changed.";
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
-					window.location="https://www.groupright.net/dev/login.html";
+					window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 				}
 			}
 		
@@ -189,7 +189,7 @@ function changeGRPassword(){
 	}
 	else{
 		console.warn("No Valid Cookies in current state. Force Redirect. fx: changePassword");
-		//window.location="https://www.groupright.net/dev/login.html";
+		//window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 
 	}
 }
@@ -219,17 +219,17 @@ function changePhone(){
 		};
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
 					//Redirect for Confirmation
-					window.location="https://www.groupright.net/dev/account_settings.html?update=2";
+					window.location="https://www.groupright.net"+GR_DIR+"/account_settings.html?update=2";
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
-					window.location="https://www.groupright.net/dev/login.html";
+					window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 				}
 			}
 		
@@ -237,7 +237,7 @@ function changePhone(){
 	}
 	else{
 		console.warn("No Valid Cookies in current state. Force Redirect. fx: changePhone");
-		//window.location="https://www.groupright.net/dev/login.html";
+		//window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 
 	}
 }

@@ -4,8 +4,9 @@
 	// ACCOUNT VERIFICATION EMAIL GENERATION
 	
 	function sendVerifEmail($email, $fname, $lname, $vc){
-		$url = "https://www.groupright.net/dev/confirm.html?vc=".$vc;
-		$wrongURL = "https://www.groupright.net/dev/wrong_email.html?vc=".$vc;
+		global $GR_DIR;
+		$url = "https://www.groupright.net".$GR_DIR."/confirm.html?vc=".$vc;
+		$wrongURL = "https://www.groupright.net".$GR_DIR."/wrong_email.html?vc=".$vc;
 	
 		$to = $email;
 		$subject = 'Account Verification';
@@ -16,7 +17,7 @@
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 		
 		$message = '<html><body>';
-		$message .= '<img src="https://www.groupright.net/dev/images/emailLogo.png" alt="GroupRight" />';
+		$message .= '<img src="https://www.groupright.net'.$GR_DIR.'/images/emailLogo.png" alt="GroupRight" />';
 		$message .= '<p><strong>'.$fname." ".$lname."</strong>,</p>";
 		$message .= "<p>Thanks for signing up for GroupRight!  Click on the link below to confirm your email.</p>";
 		$message .= "<p><a href='".$url."'>".$url."</a></p>";

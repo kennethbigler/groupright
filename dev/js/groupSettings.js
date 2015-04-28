@@ -12,7 +12,7 @@ window.onload = function() {
 		};
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{
@@ -21,7 +21,7 @@ window.onload = function() {
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
-					window.location="https://www.groupright.net/dev/login.html";
+					window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 				}
 			}
 		
@@ -29,7 +29,7 @@ window.onload = function() {
 	}
 	else{
 		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
-		//window.location="https://www.groupright.net/dev/login.html";
+		//window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 		var allGroups=[
 				{"group_name":"Apple","group_color":"red","group_id":"77","role":"member"},
 				{"group_name":"Orange","group_color":"orange","group_id":"78","role":"member"},
@@ -170,7 +170,7 @@ function manageGroup(groupID,groupName,role){
 			"function":"get_group_members"
 		};
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{
@@ -181,7 +181,7 @@ function manageGroup(groupID,groupName,role){
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
-					window.location="https://www.groupright.net/dev/login.html";
+					window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 				}
 			}
 		
@@ -189,7 +189,7 @@ function manageGroup(groupID,groupName,role){
 	}
 	else{
 		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
-		//window.location="https://www.groupright.net/dev/login.html";
+		//window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 		var data=[{
 			"email":"zwilson7@gmail.com",
 			"first_name":"Zachary",
@@ -206,6 +206,11 @@ function manageGroup(groupID,groupName,role){
 	//Load Members, Drop functionality, Change Leader Functionality
 	$('#myModal').modal('toggle');
 }
+
+function employBackupProfile(elm){
+	elm.src = "images/orange.jpg";
+}
+
 function addMembersToModal(membersArray,groupName,role){
 	document.getElementById("modalGroupName").innerHTML=groupName;
 	//clear out anything there already
@@ -226,7 +231,11 @@ function addMembersToModal(membersArray,groupName,role){
 			// pic
 		    var td=document.createElement('td');
 			var p_u = (membersArray[i].photo_url) ? membersArray[i].photo_url : "images/orange.jpg";
-			td.appendChild( $("<img />",{src:p_u,class:"member-profile-pic img-circle"})[0]);
+			td.appendChild( 
+				$("<img />",{src:p_u,class:"member-profile-pic img-circle"}).error(function(){
+					employBackupProfile(this);
+				})[0]
+			);
 			//tr.appendChild(td);
 			
 			// name

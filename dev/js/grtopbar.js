@@ -44,7 +44,7 @@ GRGroupsModule.prototype.load = function(cookies,successFn,failureFn){
 		var self = this;
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{
@@ -109,7 +109,7 @@ $(document).ready(function(){
 			initTopBar();
 		},
 		function(){
-			window.location="https://www.groupright.net/dev/login.html";
+			window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 		}
 	);
 });
@@ -187,7 +187,7 @@ function logoutAndRedirect(){
 		};
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{

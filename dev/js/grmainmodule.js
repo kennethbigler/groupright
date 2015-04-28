@@ -133,7 +133,7 @@ GRMainModule.prototype.load = function(cookies,successFn,failureFn){
 		var self = this;
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{
@@ -176,7 +176,7 @@ GRMainModule.prototype._updateData = function(){
 		var self = this;
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{

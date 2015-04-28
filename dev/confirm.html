@@ -65,8 +65,9 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+	<script src="js/grglobals.js"></script>
     <script src="js/cookie.js"></script>
     <script>
     	function getSearchParameters(){
@@ -124,7 +125,7 @@
 					  };
 			
 			// Contact Server
-			$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 				type:"POST",
 				data:obj,
 				statusCode:{
