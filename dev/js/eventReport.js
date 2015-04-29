@@ -23,6 +23,9 @@ var maxScore=0;
 var minScore=99999999;
 var groupAvail;
 
+var groupMembers=["Scott Sarsfield","Kenneth Bigler","zwilson7@gmail.com"];
+var respondersArray=[];
+var nonRespondersArray=[];
 // ======================================================
 // ONLOAD / SERVER COMM.
 
@@ -48,6 +51,8 @@ window.onload = function() {
 		initStatusMatrix();
 		drawPage();
 		drawColorScale();
+		addRespondersInfo();
+		findSuggestedTimes();
 	});
 }
 
@@ -354,3 +359,70 @@ function colorCell(elem){
 		elem.style.border="1px solid white";
 	}
 }
+
+function addRespondersInfo(){
+	getRespondersInfo();
+	var responders=document.getElementById("addResponders");
+	var nonResponders=document.getElementById("addNonResponders");
+	for(var i=0; i<respondersArray.length;i++){
+		var span=document.createElement("span");
+		span.innerText=respondersArray[i];
+		span.className="label label-success";
+		span.style.marginRight="2px";
+		span.style.marginTop="6px";
+		responders.appendChild(span);
+	}
+	for(var i=0; i<nonRespondersArray.length;i++){
+		var span=document.createElement("span");
+		span.innerText=nonRespondersArray[i];
+		span.className="label label-danger";
+		span.style.marginRight="2px";
+		span.style.marginTop="6px";
+		nonResponders.appendChild(span);
+	}
+}
+
+function _isInArray(array,value){
+	for(var i=0; i<array.length; i++){
+		if(array[i]==value){
+			return true;
+		}
+	}
+	return false;
+}
+
+function getRespondersInfo(){
+	_populateRespondersArray();
+	_populateNonRespondersArray();
+}
+
+function _populateNonRespondersArray(){
+	for(var i=0; i<groupMembers.length; i++){
+		if(_isInArray(respondersArray,groupMembers[i])){
+			//do nothing
+		}
+		else{
+			nonRespondersArray.push(groupMembers[i]);
+		}
+	}
+}
+function _populateRespondersArray(){
+	for(var i=0; i<groupAvail.length; i++){
+		if(_isInArray(respondersArray,groupAvail[i].email)){
+			//do nothing
+		}
+		else{
+			respondersArray.push(groupAvail[i].email)
+		}
+	}
+}
+
+function findSuggestedTimes(){
+	var currentLongest=[];
+	//figure this out in morning
+}
+
+
+
+
+
