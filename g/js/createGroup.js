@@ -23,7 +23,7 @@ function addField(fieldnumber){
 
 	var memberSpan = document.createElement('span');
 	memberSpan.className="label label-info";
-	$(memberSpan).text("Member");
+	memberSpan.innerText="Member";
 
 
 	var br=document.createElement('br');

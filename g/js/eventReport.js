@@ -23,9 +23,6 @@ var maxScore=0;
 var minScore=99999999;
 var groupAvail;
 
-var groupMembers=["Scott Sarsfield","Kenneth Bigler","zwilson7@gmail.com"];
-var respondersArray=[];
-var nonRespondersArray=[];
 // ======================================================
 // ONLOAD / SERVER COMM.
 
@@ -51,8 +48,6 @@ window.onload = function() {
 		initStatusMatrix();
 		drawPage();
 		drawColorScale();
-		addRespondersInfo();
-		findSuggestedTimes();
 	});
 }
 
@@ -94,6 +89,7 @@ function getEventVoteSettings(parseFn){
 		});
 	}else{
 		parseFn("{}");
+		window.location="login.html";
 	}
 }
 
@@ -199,7 +195,7 @@ function drawPage(){
 					tr.appendChild(th);
 				}
 				else{
-					$(th).text( getDayForColumn(j) );//"Day "+j;
+					th.innerText=getDayForColumn(j);//"Day "+j;
 					tr.appendChild(th);
 				}
 			}
@@ -215,7 +211,7 @@ function drawPage(){
 				td.className="success";
 				td.style.border="1px solid gray";
 				if(j==0){
-					$( td ).text( getTimeForRow(i) );
+					td.innerText=getTimeForRow(i);
 					td.className="text-center";
 					tr.appendChild(td);
 				}
@@ -227,8 +223,8 @@ function drawPage(){
 					td.value = {i:i,j:j};
 					td.className += " er_row"+i+" er_col"+j;
 					availability_map[i][j] = 0;
-					$(td).text( getScoreForRowColumn(i,j) );
-					$(td).text( statusMatrix[i-1][j-1] );
+					//td.innerText=getScoreForRowColumn(i,j);
+					td.innerText=statusMatrix[i-1][j-1];
 					//prepareCell(td);
 
 				}
@@ -279,6 +275,7 @@ function getScoreForRowColumn(row, column){
 	var referencedDate=new Date(correspondenceMatrix[row][column]);
 	//console.log(correspondenceMatrix[row-1][column-1]);
 	var score=0;
+	if(!groupAvail) return 0;
 	for(var i=0; i<groupAvail.length;i++){
 		var compareDate= new Date(groupAvail[i].start_time.replace(/[-]/g,"/"));
 		//console.log(compareDate);
@@ -331,7 +328,7 @@ var getColorForPercentage = function(pct) {
 function drawColorScale(){
 	var addLocation=document.getElementById("addScale");
 	var td=document.createElement("td");
-	
+	//td.innerText="Worst Times";
 	addLocation.appendChild(td);
 	for(var i=100; i>0;i--){
 		var div=document.createElement("td");
@@ -341,7 +338,7 @@ function drawColorScale(){
 		addLocation.appendChild(div);
 	}
 	td=document.createElement("td");
-	
+	//td.innerText="Best Times";
 	addLocation.appendChild(td);
 
 }
@@ -359,70 +356,3 @@ function colorCell(elem){
 		elem.style.border="1px solid white";
 	}
 }
-
-function addRespondersInfo(){
-	getRespondersInfo();
-	var responders=document.getElementById("addResponders");
-	var nonResponders=document.getElementById("addNonResponders");
-	for(var i=0; i<respondersArray.length;i++){
-		var span=document.createElement("span");
-		$( span ).text( respondersArray[i] );
-		span.className="label label-success";
-		span.style.marginRight="2px";
-		span.style.marginTop="6px";
-		responders.appendChild(span);
-	}
-	for(var i=0; i<nonRespondersArray.length;i++){
-		var span=document.createElement("span");
-		$( span ).text( nonRespondersArray[i] );
-		span.className="label label-danger";
-		span.style.marginRight="2px";
-		span.style.marginTop="6px";
-		nonResponders.appendChild(span);
-	}
-}
-
-function _isInArray(array,value){
-	for(var i=0; i<array.length; i++){
-		if(array[i]==value){
-			return true;
-		}
-	}
-	return false;
-}
-
-function getRespondersInfo(){
-	_populateRespondersArray();
-	_populateNonRespondersArray();
-}
-
-function _populateNonRespondersArray(){
-	for(var i=0; i<groupMembers.length; i++){
-		if(_isInArray(respondersArray,groupMembers[i])){
-			//do nothing
-		}
-		else{
-			nonRespondersArray.push(groupMembers[i]);
-		}
-	}
-}
-function _populateRespondersArray(){
-	for(var i=0; i<groupAvail.length; i++){
-		if(_isInArray(respondersArray,groupAvail[i].email)){
-			//do nothing
-		}
-		else{
-			respondersArray.push(groupAvail[i].email)
-		}
-	}
-}
-
-function findSuggestedTimes(){
-	var currentLongest=[];
-	//figure this out in morning
-}
-
-
-
-
-

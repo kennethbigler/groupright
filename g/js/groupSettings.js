@@ -53,8 +53,7 @@ window.onload = function() {
 */
 function loadGroups(allGroups){
 	var colorButtons="Hello";
-	var ad = document.getElementById("addNumber");
-	$(ad).text( allGroups.length );
+	document.getElementById("addNumber").innerText=allGroups.length;
 	var adder=document.getElementById("groupAdder");
 	var row;
 	for(var i=0; i<allGroups.length; i++){
@@ -98,7 +97,7 @@ function loadGroups(allGroups){
 		var a1=document.createElement('a');
 		$(a1).attr('onclick','leaveGroup('+allGroups[i].group_id+')');
 		p1=document.createElement('p');
-		$(p1).text( "Leave this group" );
+		p1.innerText="Leave this group";
 		a1.appendChild(p1);
 		a1.style.cursor="pointer";
 		pannelBody.appendChild(a1);
@@ -108,10 +107,10 @@ function loadGroups(allGroups){
 		$(a2).attr('onclick','manageGroup('+allGroups[i].group_id+',"'+allGroups[i].group_name+'","'+allGroups[i].role+'")');
 		a2.style.cursor="pointer";
 		if(allGroups[i].role=="member"){
-			$(p2).text( "View Members" );
+			p2.innerText="View Members";
 		}
 		else{
-			$(p2).text( "Manage Membership" );
+			p2.innerText="Manage Membership";
 		}
 		a2.appendChild(p2);
 		pannelBody.appendChild(a2);
@@ -119,7 +118,7 @@ function loadGroups(allGroups){
 
 
 		var h4=document.createElement('h4');
-		$(h4).text( allGroups[i].group_name );
+		h4.innerText=allGroups[i].group_name;
 		colorButton.appendChild(span);
 		h4.appendChild(colorButton);
 		pannelHeading.appendChild(h4);
@@ -221,7 +220,7 @@ function addMembersToModal(membersArray,groupName,role){
 	headingRow.innerHTML="";
 	if(role=="member"){
 		var th=document.createElement('th');
-		$(th).text( "Member" );
+		th.innerText="Member";
 		th.colspan = 2;
 		headingRow.appendChild(th);
 		console.log("Here VVV");
@@ -242,7 +241,7 @@ function addMembersToModal(membersArray,groupName,role){
 			// name
 			//td=document.createElement('td');
 			var div = document.createElement('div');
-		    $(div).text( membersArray[i].first_name+" "+membersArray[i].last_name );
+		    div.innerText=membersArray[i].first_name+" "+membersArray[i].last_name;
 			td.appendChild(div);
 			tr.appendChild(td);
 			
@@ -250,7 +249,7 @@ function addMembersToModal(membersArray,groupName,role){
 			td=document.createElement('td');
 			div = document.createElement('div');
 			div.className = "member-role-div";
-		    $(div).text( membersArray[i].role == 'leader') ? "Leader" : "Member" );
+		    div.innerText= (membersArray[i].role == 'leader') ? "Leader" : "Member";
 			td.appendChild(div);
 			tr.appendChild(td);
 			
@@ -260,16 +259,16 @@ function addMembersToModal(membersArray,groupName,role){
 	else if(role=="leader"){
 		var th=document.createElement('th');
 		var th2=document.createElement('th');
-		$(th).text( "Member" );
-		$(th2).text( "Action" );
+		th.innerText="Member";
+		th2.innerText="Action";
 		headingRow.appendChild(th);
 		headingRow.appendChild(th2);
 		for(var i=0; i<membersArray.length; i++){
 		    var tr=document.createElement('tr');
 		    var td=document.createElement('td');
 		    var td2=document.createElement('td');
-		    $(td).text( membersArray[i].first_name+" "+membersArray[i].last_name );
-		    $(td2).text( "Drop Member" );
+		    td.innerText=membersArray[i].first_name+" "+membersArray[i].last_name;
+		    td2.innerText="Drop Member";
 			tr.appendChild(td);
 			tr.appendChild(td2);
 			addLocation.appendChild(tr);

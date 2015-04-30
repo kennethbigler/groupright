@@ -246,7 +246,7 @@ function drawPage(){
 					tr.appendChild(th);
 				}
 				else{
-					$(th).text( getDayForColumn(j) );//"Day "+j;
+					th.innerText=getDayForColumn(j);//"Day "+j;
 					tr.appendChild(th);
 				}
 			}
@@ -260,7 +260,7 @@ function drawPage(){
 				td.className="success";
 				td.style.border="1px solid gray";
 				if(j==0){
-					$(td).text( getTimeForRow(i) );
+					td.innerText=getTimeForRow(i);
 					td.className="text-center";
 					tr.appendChild(td);
 				}
