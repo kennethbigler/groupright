@@ -199,7 +199,7 @@ function drawPage(){
 					tr.appendChild(th);
 				}
 				else{
-					th.innerText=getDayForColumn(j);//"Day "+j;
+					$(th).text( getDayForColumn(j) );//"Day "+j;
 					tr.appendChild(th);
 				}
 			}
@@ -215,7 +215,7 @@ function drawPage(){
 				td.className="success";
 				td.style.border="1px solid gray";
 				if(j==0){
-					td.innerText=getTimeForRow(i);
+					$( td ).text( getTimeForRow(i) );
 					td.className="text-center";
 					tr.appendChild(td);
 				}
@@ -227,8 +227,8 @@ function drawPage(){
 					td.value = {i:i,j:j};
 					td.className += " er_row"+i+" er_col"+j;
 					availability_map[i][j] = 0;
-					//td.innerText=getScoreForRowColumn(i,j);
-					td.innerText=statusMatrix[i-1][j-1];
+					$(td).text( getScoreForRowColumn(i,j) );
+					$(td).text( statusMatrix[i-1][j-1] );
 					//prepareCell(td);
 
 				}
@@ -331,7 +331,7 @@ var getColorForPercentage = function(pct) {
 function drawColorScale(){
 	var addLocation=document.getElementById("addScale");
 	var td=document.createElement("td");
-	//td.innerText="Worst Times";
+	
 	addLocation.appendChild(td);
 	for(var i=100; i>0;i--){
 		var div=document.createElement("td");
@@ -341,7 +341,7 @@ function drawColorScale(){
 		addLocation.appendChild(div);
 	}
 	td=document.createElement("td");
-	//td.innerText="Best Times";
+	
 	addLocation.appendChild(td);
 
 }
@@ -366,7 +366,7 @@ function addRespondersInfo(){
 	var nonResponders=document.getElementById("addNonResponders");
 	for(var i=0; i<respondersArray.length;i++){
 		var span=document.createElement("span");
-		span.innerText=respondersArray[i];
+		$( span ).text( respondersArray[i] );
 		span.className="label label-success";
 		span.style.marginRight="2px";
 		span.style.marginTop="6px";
@@ -374,7 +374,7 @@ function addRespondersInfo(){
 	}
 	for(var i=0; i<nonRespondersArray.length;i++){
 		var span=document.createElement("span");
-		span.innerText=nonRespondersArray[i];
+		$( span ).text( nonRespondersArray[i] );
 		span.className="label label-danger";
 		span.style.marginRight="2px";
 		span.style.marginTop="6px";

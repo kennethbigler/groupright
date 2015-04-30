@@ -278,7 +278,7 @@ function addTasks(){
 		$(link).attr( 'href', '#collapse'+temp);
 		$(link).attr( 'aria-expanded', 'false' );
 		$(link).attr( 'aria-controls', 'collapse1' );
-		link.innerText=task_array[i].task_title;
+		$(link).text( task_array[i].task_title );
 		var collapseDiv=document.createElement('div');
 		$(collapseDiv).attr( 'id', 'collapse'+temp );
 		$(collapseDiv).attr( 'class', 'panel-collapse collapse' );
@@ -288,15 +288,15 @@ function addTasks(){
 		detailDiv.className="panel-body";
 		var createdPar=document.createElement('p');
 		
-		createdPar.innerText+="Created By: "+getFullNameForEmail(task_array[i].creator);
+		$(createdPar).text( "Created By: "+getFullNameForEmail(task_array[i].creator) );
 		createdPar.style.marginLeft="5px";
 		collapseDiv.appendChild(createdPar);
 		//var responsibilityPar=document.createElement('p');
 		if(task_array[i].task_description==""){
-			detailDiv.innerText="No Description Provided";
+			$(detailDiv).text( "No Description Provided" );
 		}
 		else{
-			detailDiv.innerText=task_array[i].task_description;
+			$(detailDiv).text( task_array[i].task_description );
 		}
 
 		var headingDivColLeft=document.createElement('div');
@@ -381,10 +381,10 @@ function addUpdates(){
 		var h4=document.createElement('h4');
 		//h4.appendChild(span);
 		$(h4).attr('class','list-group-item-heading');
-		h4.innerText=getFullNameForEmail(updates[i].email)+" "+updates[i].description;
+		$(h4).text( getFullNameForEmail(updates[i].email)+" "+updates[i].description );
 		var p=document.createElement('p');
 		$(p).attr('class','list-group-item-text');
-		p.innerText=getFullNameForEmail(updates[i].email)+" "+updates[i].description;
+		$(p).text( getFullNameForEmail(updates[i].email)+" "+updates[i].description );
 		//a.style.backgroundColor=DEFAULT_GR_COLORS[Math.floor(Math.random() * 8) ];
 		a.style.backgroundColor=getColorForGroup(updates[i].group_id);
 		a.appendChild(h4);
