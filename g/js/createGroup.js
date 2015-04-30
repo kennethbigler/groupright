@@ -23,7 +23,7 @@ function addField(fieldnumber){
 
 	var memberSpan = document.createElement('span');
 	memberSpan.className="label label-info";
-	memberSpan.innerText="Member";
+	memberSpan.innerHTML="Member";
 
 
 	var br=document.createElement('br');

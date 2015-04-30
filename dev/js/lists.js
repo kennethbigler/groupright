@@ -23,7 +23,7 @@ function drawList(){
 	for(var i=0; i<items.length; i++){
 		var li=document.createElement('li');
 		li.className="list-group-item";
-		li.innerText=items[i];
+		li.innerHTML=items[i];
 		list.appendChild(li);
 	}
 	//Add the input section
@@ -41,7 +41,7 @@ function drawList(){
 	var button=document.createElement('button');
 	button.className="btn btn-default";
 	button.type="button";
-	button.innerText="Add";
+	button.innerHTML="Add";
 	$(button).attr( 'onclick', 'addItem()' );
 	$(input).attr( 'id', 'addItem' );
 	span.appendChild(button);
