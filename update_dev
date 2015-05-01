@@ -43,8 +43,8 @@ echo "|the Development Server.                                 |"
 echo "+--------------------------------------------------------+"
 sftp groupright@dev.groupright.net <<END_SCRIPT
 	cd public_html
-	get -r dev/ GitHub/groupright/BACKUPS/
-	put -r GitHub/groupright/dev/
+	get -r dev/ BACKUPS/
+	put -r dev/
 	chmod 600 dev/server/*
 	chmod 600 mailing-list.php
 	chmod 600 *.php
