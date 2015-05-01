@@ -435,7 +435,7 @@ function findSuggestedTimes(){
 		for(var j=0; j<stepsToAccountFor;j++){
 			tempCounter=0;
 			k=j
-			while(statusMatrix[k][i]==minScore){
+			while(k<stepsToAccountFor && statusMatrix[k][i]==minScore){
 				tempCounter++;
 				k++;
 			}
