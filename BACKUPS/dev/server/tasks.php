@@ -18,7 +18,7 @@ function getAllTasks($email){
 			"group_id"=>$row['group_uid'],
 			"creator"=>$row['creator_email'],
 			"is_completed"=>$row['is_completed'],
-			"is_personal"=>$row['is_personal']
+			"is_individual"=>$row['is_individual']
 		);
 		$obj["link_type"] = $row['link_type'];
 		$obj["link_id"] = $row['link_id'];
@@ -47,7 +47,7 @@ function getAllTasksSince($email,$task_uid){
 			"group_id"=>$row['group_uid'],
 			"creator"=>$row['creator_email'],
 			"is_completed"=>$row['is_completed'],
-			"is_personal"=>$row['is_personal']
+			"is_individual"=>$row['is_individual']
 		);
 		$obj["link_type"] = $row['link_type'];
 		$obj["link_id"] = $row['link_id'];
@@ -57,11 +57,11 @@ function getAllTasksSince($email,$task_uid){
 	return $arr;
 }
 
-function addTask($email,$title,$description,$group_uid,$event_uid,$is_personal,$deadline){
+function addTask($email,$title,$description,$group_uid,$event_uid,$is_indv,$deadline){
 			
 	$dbh = ConnectToDB();
 	
-	$sql = "INSERT INTO tasks(creator_email,title,description,group_uid,event_uid,is_personal,deadline)
+	$sql = "INSERT INTO tasks(creator_email,title,description,group_uid,event_uid,is_individual,deadline)
 			VALUES(?,?,?,"
 			.((isset($group_uid))? "?" : "NULL").","
 			.((isset($event_uid))? "?" : "NULL").","
@@ -71,7 +71,7 @@ function addTask($email,$title,$description,$group_uid,$event_uid,$is_personal,$
 	$arr = array($email,$title,$description);
 	if(isset($group_uid)) $arr[] = $group_uid;
 	if(isset($event_uid)) $arr[] = $event_uid;
-	$arr[] = $is_personal;
+	$arr[] = $is_indv;
 	if(isset($deadline)) $arr[] = $deadline;
 	
 	
@@ -118,23 +118,23 @@ function createTask(){
 		
 		$task_title = $_POST['task_title'];
 		$task_descr = $_POST['task_description'];
-		$is_personal = $_POST['is_personal'];
+		$is_individual = $_POST['is_individual'];
 		$deadline = $_POST['deadline'];
 		
 		//echo $task_title;
 		if(!isset($task_title)){ http_response_code(299); return; }
 		if(!isset($task_descr)){ $task_descr = ""; }
-		if(!isset($is_personal)){ $is_personal = false; }
+		if(!isset($is_individual)){ $is_individual = false; }
 		
 		// IF valid, continue.
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 			if(!verifyUserGroup($email,$cookie,$group_uid)) return;
-			$task_uid = addTask($email,$task_title,$task_descr,$group_uid,$event_uid,$is_personal,$deadline);
+			$task_uid = addTask($email,$task_title,$task_descr,$group_uid,$event_uid,$is_individual,$deadline);
 			
 			if($task_uid < 1){ http_response_code(298); return; } // failed task creation
 			
 			// Assign Task
-			if($is_personal){ 
+			if($is_individual){ 
 				addTaskAssignment($task_uid,$group_uid,$email,true);
 				addTaskUpdate($email,$group_uid,"created task \"".$task_title."\"",$task_uid);
 			}
@@ -181,6 +181,17 @@ function assignTask(){
 	
 }
 
+function _completeGroupTask($task_uid){
+	$dbh = ConnectToDB();
+	
+	$stmt = $dbh->prepare(
+		"UPDATE tasks_assignments SET is_completed = 1
+		WHERE task_uid = ?"
+	);
+	$stmt->execute(array($task_uid));
+	
+}
+
 function _completeTask($email,$task_uid){
 		// Get members.
 	$dbh = ConnectToDB();
@@ -193,7 +204,7 @@ function _completeTask($email,$task_uid){
 	
 	
 	$stmt = $dbh->prepare(
-		"SELECT t.group_uid, t.task_uid, t.title, ta.is_completed 
+		"SELECT t.group_uid, t.task_uid, t.is_individual, t.title, ta.is_completed 
 		FROM tasks_assignments AS ta
 		LEFT JOIN tasks AS t
 		ON ta.group_uid = t.group_uid
@@ -209,6 +220,7 @@ function _completeTask($email,$task_uid){
 		//echo $group_uid;
 		echo $row['is_completed'];
 		addTaskUpdate($email,$group_uid," completed \"".$row['title']."\"",$task_uid);
+		if($row['is_individual'] != 1) _completeGroupTask($task_uid);
 		return;
 	}
 	http_response_code(280);

@@ -115,6 +115,9 @@
 		padding:20px;
 		padding-top:0px;
 	}
+	.login-box,.signup-box,.flipper{
+		background-color:white;	
+	}
 }
 
 .login-box,.signup-box,.flipper{
@@ -126,7 +129,7 @@
 	
 	/* color, borders */
 	
-	background-color: white;
+	/*background-color: white;*/
 	border-radius:10px;
 	
 }

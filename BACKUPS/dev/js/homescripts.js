@@ -71,7 +71,7 @@ window.onload = function() {
 		},	
 		function(){
 			//they don't have the necessary access to see this page have them login again
-			window.location="https://www.groupright.net/dev/login.html";
+			window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 		}
 	);
 
@@ -278,7 +278,7 @@ function addTasks(){
 		$(link).attr( 'href', '#collapse'+temp);
 		$(link).attr( 'aria-expanded', 'false' );
 		$(link).attr( 'aria-controls', 'collapse1' );
-		link.innerText=task_array[i].task_title;
+		link.innerHTML=task_array[i].task_title;
 		var collapseDiv=document.createElement('div');
 		$(collapseDiv).attr( 'id', 'collapse'+temp );
 		$(collapseDiv).attr( 'class', 'panel-collapse collapse' );
@@ -288,15 +288,15 @@ function addTasks(){
 		detailDiv.className="panel-body";
 		var createdPar=document.createElement('p');
 		
-		createdPar.innerText+="Created By: "+getFullNameForEmail(task_array[i].creator);
+		createdPar.innerHTML+="Created By: "+getFullNameForEmail(task_array[i].creator);
 		createdPar.style.marginLeft="5px";
 		collapseDiv.appendChild(createdPar);
 		//var responsibilityPar=document.createElement('p');
 		if(task_array[i].task_description==""){
-			detailDiv.innerText="No Description Provided";
+			detailDiv.innerHTML="No Description Provided";
 		}
 		else{
-			detailDiv.innerText=task_array[i].task_description;
+			detailDiv.innerHTML=task_array[i].task_description;
 		}
 
 		var headingDivColLeft=document.createElement('div');
@@ -356,7 +356,7 @@ function addTasks(){
 		div.style.border="1px solid darkBlue";
 		var paragraph=document.createElement('p');
 		paragraph.style.color="darkBlue";
-		paragraph.innerText=task_array[i].task_title;
+		paragraph.innerHTML=task_array[i].task_title;
 		//paragraph.innerHTML='<a id="popoverData" class="btn" href="#" data-content="Popover with data-trigger" rel="popover" data-placement="bottom" data-original-title="Title" data-trigger="hover">Popover with data-trigger</a>'
 		div.appendChild(paragraph);
 		*/
@@ -381,10 +381,10 @@ function addUpdates(){
 		var h4=document.createElement('h4');
 		//h4.appendChild(span);
 		$(h4).attr('class','list-group-item-heading');
-		h4.innerText=getFullNameForEmail(updates[i].email)+" "+updates[i].description;
+		h4.innerHTML=getFullNameForEmail(updates[i].email)+" "+updates[i].description;
 		var p=document.createElement('p');
 		$(p).attr('class','list-group-item-text');
-		p.innerText=getFullNameForEmail(updates[i].email)+" "+updates[i].description;
+		p.innerHTML=getFullNameForEmail(updates[i].email)+" "+updates[i].description;
 		//a.style.backgroundColor=DEFAULT_GR_COLORS[Math.floor(Math.random() * 8) ];
 		a.style.backgroundColor=getColorForGroup(updates[i].group_id);
 		a.appendChild(h4);
@@ -534,7 +534,7 @@ function initSendMessage(){
 				};
 
 				// Contact Server
-				$.ajax("https://www.groupright.net/dev/groupserve.php",{
+				$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 						type:"POST",
 						data:obj,
 						statusCode:{
@@ -577,7 +577,7 @@ function toggleTask(element, taskid, localIndex){
 			};
 
 			// Contact Server
-			$.ajax("https://www.groupright.net/dev/groupserve.php",{
+			$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 					type:"POST",
 					data:obj,
 					statusCode:{

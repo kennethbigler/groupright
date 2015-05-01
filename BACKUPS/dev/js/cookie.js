@@ -36,7 +36,7 @@ function checkCookie(goodFn,badFn){
 		var obj = {"ac":_cookies.accesscode,"email":_cookies.user,"function":"remember_user"};
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{

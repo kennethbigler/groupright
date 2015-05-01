@@ -85,8 +85,6 @@ function getNumUnread(){
 	// IF valid, continue.
 	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 		if(!checkHashedCookie($email,$cookie)) return;
-		//echo "hello";
-		//flush();	
 		echo _getAllNumberUnreadMsgs($email);
 	}else{
 		http_response_code(206);

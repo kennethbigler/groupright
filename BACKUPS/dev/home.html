@@ -60,6 +60,9 @@
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">	
+						<a id="addMode" class="dropdown-toggle"></a>
+					</li>
 					<li class="dropdown">
 						<a id="usergroups" class="dropdown-toggle" data-toggle="dropdown" href="#">All Groups<span class="caret"></span></a>
 						<ul class="dropdown-menu" id="myGroups">
@@ -100,7 +103,7 @@
 			<button type="button" class="btn btn-lg btn-block btn-warning" data-toggle="modal" href="#createEventBox">Schedule an Event</button>
 		</div>
 		<div class="col-sm-2">
-			<button type="button" class="btn btn-lg btn-block btn-info"  style="background-color:#A9A9A9;color:white;border-color:#A9A9A9;" data-toggle="modal" href="#createListBox" >Create a List </button>
+			<button type="button" class="btn btn-lg btn-block btn-info"  style="background-color:#6B558D;color:white;border-color:#64428A;" data-toggle="modal" href="#createListBox" >Create a List </button>
 		</div>
 		<div class="col-sm-2">
 			<button type="button" class="btn btn-lg btn-block btn-info"  data-toggle="modal" href="#createPollBox">Make a Decision </button>
@@ -303,9 +306,9 @@
 				<h5 class="header-center">Step 3: When is the event? </h5>
 				<br/>
 				<div class="row">
-					<label class="col-sm-4">Start Date</label>
+					<label class="col-sm-4">Date</label>
 					<div class="col-sm-3">
-						<input id="startdatefixed" type="text" type="text" class="form-control" placeholder="Start Date">
+						<input id="startdatefixed" type="text" type="text" class="form-control" placeholder="Date">
 					</div>
 					<div class="col-sm-3">
 						<div class="input-group">
@@ -323,9 +326,9 @@
             	</div>
             	<br/>
 				<div class="row">
-					<label class="col-sm-4">End Date</label>
+					<label class="col-sm-4"></label>
 					<div class="col-sm-3">
-						<input id="enddatefixed" type="text" type="text" class="form-control" placeholder="End Date">
+						<input id="enddatefixed" type="text" type="text" class="form-control" placeholder="End Date" style="display:none;">
 					</div>
 					<div class="col-sm-3">
 						<div class="input-group">
@@ -646,6 +649,7 @@ END OF LIGHT BOX SECTION
 
 <script src="js/jquery.min.js">
 </script>
+<script src="js/grglobals.js"></script>
 <script src="js/typeahead.js">
 </script>
 <script src="js/cookie.js">

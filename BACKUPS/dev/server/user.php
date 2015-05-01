@@ -92,8 +92,6 @@
 		if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {
 			$user_info = _getUserInfo($email_address,$cookie,$complete);
 			if($user_info) echo json_encode($user_info);
-			//echo $user_info;
-			//flush();	
 			return;
 		}
 		else {

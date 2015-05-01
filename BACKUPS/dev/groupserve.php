@@ -1,15 +1,13 @@
 <?php
 
-	function ConnectToDB(){
-		$dbh = new PDO('mysql:host=localhost;dbname=GroupRight','pendingAdder','groupscoop10201');
-		return $dbh;
-	}
+	include 'connect.php';
 	
 	include './server/system.php';
 	include './server/login.php';
 	include './server/signup.php';
 	include './server/forgot.php';
 	include './server/groups.php';
+	include './server/members.php';
 	include './server/user.php';
 	
 	include './server/updates.php';
@@ -51,6 +49,7 @@
 	if($function == 'create_fixed_event') createFixedEvent();
 	if($function == 'create_votable_event') createVotableEvent();
 	if($function == 'get_event_settings') getEventSettings();
+	if($function == 'choose_event_time') chooseEventTime();
 	if($function == 'create_task') createTask();
 	if($function == 'assign_task') assignTask();
 	if($function == 'mark_task_complete') completeTask();
@@ -69,6 +68,12 @@
 	if($function == 'get_account_info') getAccountInfo();
 	if($function == 'create_list') createList();
 	if($function == 'add_item_to_list') addListItem();
+	if($function == 'remove_item') removeListItem();
 	if($function == 'get_list_info') getListInfo();
+	if($function == 'leave_group') leaveGroup();
+	if($function == 'disband_group') disbandGroup();
+	if($function == 'drop_member') dropMember();
+	if($function == 'add_member') addMember();
+	if($function == 'make_leader') makeLeader();
 	
 ?> 

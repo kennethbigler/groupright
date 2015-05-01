@@ -23,16 +23,20 @@ var maxScore=0;
 var minScore=99999999;
 var groupAvail;
 
+var groupMembers=[];
+var respondersArray=[];
+var nonRespondersArray=[];
 // ======================================================
 // ONLOAD / SERVER COMM.
 
 window.onload = function() {
 	
+	getGroupMembers();
 	getEventVoteSettings(function(data){
-		console.log(data);
+		//console.log(data);
 		var obj = JSON.parse(data);
 		
-		console.log(obj);
+		//console.log(obj);
 		if(obj.event_name) eventName = obj.event_name;
 		if(obj.creator) eventCreator = obj.creator;
 		if(obj.start_time) earliest_time = obj.start_time;
@@ -48,6 +52,8 @@ window.onload = function() {
 		initStatusMatrix();
 		drawPage();
 		drawColorScale();
+		addRespondersInfo();
+		findSuggestedTimes();
 	});
 }
 
@@ -61,7 +67,7 @@ function getEventVoteSettings(parseFn){
 	var _event_uid = _get.event_id;
 	var _group_uid = _get.guid;
 
-	console.log(_get);
+	//console.log(_get);
 
 	if(_cookies.accesscode && _cookies.user && _event_uid && _group_uid){
 	
@@ -130,7 +136,7 @@ function setNumberOfStepsToAccountFor(){
 			) % oneDay
 		) / (30*60*1000)
 	);
-	console.log(stepsToAccountFor);
+	//console.log(stepsToAccountFor);
 }
 
 // ======================================================
@@ -194,7 +200,7 @@ function drawPage(){
 					tr.appendChild(th);
 				}
 				else{
-					th.innerText=getDayForColumn(j);//"Day "+j;
+					th.innerHTML=getDayForColumn(j);//"Day "+j;
 					tr.appendChild(th);
 				}
 			}
@@ -210,7 +216,7 @@ function drawPage(){
 				td.className="success";
 				td.style.border="1px solid gray";
 				if(j==0){
-					td.innerText=getTimeForRow(i);
+					td.innerHTML=getTimeForRow(i);
 					td.className="text-center";
 					tr.appendChild(td);
 				}
@@ -222,8 +228,8 @@ function drawPage(){
 					td.value = {i:i,j:j};
 					td.className += " er_row"+i+" er_col"+j;
 					availability_map[i][j] = 0;
-					//td.innerText=getScoreForRowColumn(i,j);
-					td.innerText=statusMatrix[i-1][j-1];
+					//td.innerHTML=getScoreForRowColumn(i,j);
+					td.innerHTML=statusMatrix[i-1][j-1];
 					//prepareCell(td);
 
 				}
@@ -266,8 +272,8 @@ function initStatusMatrix(){
 			statusMatrix[i][j]=getScoreForRowColumn(i,j);
 		}
 	}
-	console.log(minScore);
-	console.log(maxScore);
+	//console.log(minScore);
+	//console.log(maxScore);
 }
 
 function getScoreForRowColumn(row, column){
@@ -326,7 +332,7 @@ var getColorForPercentage = function(pct) {
 function drawColorScale(){
 	var addLocation=document.getElementById("addScale");
 	var td=document.createElement("td");
-	//td.innerText="Worst Times";
+	//td.innerHTML="Worst Times";
 	addLocation.appendChild(td);
 	for(var i=100; i>0;i--){
 		var div=document.createElement("td");
@@ -336,7 +342,7 @@ function drawColorScale(){
 		addLocation.appendChild(div);
 	}
 	td=document.createElement("td");
-	//td.innerText="Best Times";
+	//td.innerHTML="Best Times";
 	addLocation.appendChild(td);
 
 }
@@ -354,3 +360,154 @@ function colorCell(elem){
 		elem.style.border="1px solid white";
 	}
 }
+
+function addRespondersInfo(){
+	getRespondersInfo();
+	var responders=document.getElementById("addResponders");
+	var nonResponders=document.getElementById("addNonResponders");
+	for(var i=0; i<respondersArray.length;i++){
+		var span=document.createElement("span");
+		span.innerHTML=getFullNameForEmail(respondersArray[i]);
+		span.className="label label-success";
+		span.style.marginRight="2px";
+		span.style.marginTop="6px";
+		responders.appendChild(span);
+	}
+	for(var i=0; i<nonRespondersArray.length;i++){
+		var span=document.createElement("span");
+		span.innerHTML=getFullNameForEmail(nonRespondersArray[i]);
+		span.className="label label-danger";
+		span.style.marginRight="2px";
+		span.style.marginTop="6px";
+		nonResponders.appendChild(span);
+	}
+}
+
+function _isInArray(array,value){
+	for(var i=0; i<array.length; i++){
+		if(array[i]==value){
+			return true;
+		}
+	}
+	return false;
+}
+
+function getRespondersInfo(){
+	_populateRespondersArray();
+	_populateNonRespondersArray();
+}
+
+function _populateNonRespondersArray(){
+	for(var i=0; i<groupMembers.length; i++){
+		//console.log(groupMembers[i]);
+		if(_isInArray(respondersArray,groupMembers[i].email)){
+			//do nothing
+			//console.log(groupMembers[i].email+" is in array");
+		}
+		else{
+			nonRespondersArray.push(groupMembers[i].email);
+			//console.log("added non responder"+groupMembers[i].email);
+		}
+	}
+}
+function _populateRespondersArray(){
+	for(var i=0; i<groupAvail.length; i++){
+		if(_isInArray(respondersArray,groupAvail[i].email)){
+			//do nothing
+		}
+		else{
+			respondersArray.push(groupAvail[i].email);
+			//console.log("added responder"+groupAvail[i].email);
+		}
+	}
+}
+
+function findSuggestedTimes(){
+	var currentLongestColumn=-1;
+	var currentLongestRow=-1;
+	var currentLongestSteps=-1;
+	var tempCounter=0;
+	var k;
+	//figure this out in morning
+	console.log(correspondenceMatrix);
+	console.log(statusMatrix);
+	for(var i=0; i<numberOfDays; i++){
+		for(var j=0; j<stepsToAccountFor;j++){
+			tempCounter=0;
+			k=j
+			while(statusMatrix[k][i]==minScore){
+				tempCounter++;
+				k++;
+			}
+			if(tempCounter>currentLongestSteps){
+				currentLongestSteps=tempCounter;
+				currentLongestColumn=i;
+				currentLongestRow=j;
+			}
+		}
+	}
+	console.log(currentLongestColumn);
+	console.log(currentLongestRow);
+	console.log(currentLongestSteps);
+	document.getElementById("addOurSuggestion").innerHTML=correspondenceMatrix[currentLongestRow][currentLongestColumn] +"("+(30*currentLongestSteps)+"minute window)";
+}
+
+function getGroupMembers(){
+	var _cookies = genCookieDictionary();
+	
+	var _get = getGETArguments();
+	//console.log(_get);
+	var _event_uid = _get.event_id;
+	var _group_uid = _get.guid;
+
+	//console.log(_get);
+
+	if(_cookies.accesscode && _cookies.user && _event_uid && _group_uid){
+	
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"function":"get_group_members",
+			"group_uid":_group_uid
+		};
+	
+		
+		// Contact Server
+		$.ajax("groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+						//alert("Success");
+						groupMembers=JSON.parse(data);
+						//console.log(groupMembers);
+					}
+			},
+			
+		
+		});
+	}else{
+		if(GR_Dir=="/dev"){
+			console.warn("Forced Redirect to Login on Production")
+		}
+		else{
+			window.location="login.html";
+		}
+	}
+}
+
+function getFullNameForEmail(email){
+	//console.log(email);
+	for(var i=0; i<groupMembers.length; i++){
+		//console.log(groupMembers[i])
+		if(groupMembers[i].email==email){
+
+			return (groupMembers[i].first_name +" "+groupMembers[i].last_name);
+		}
+	}
+	return "Bob";
+	console.warn("Reached end of getFullNameForEmail without finding a member")
+}
+
+
+

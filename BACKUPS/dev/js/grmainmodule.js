@@ -133,7 +133,7 @@ GRMainModule.prototype.load = function(cookies,successFn,failureFn){
 		var self = this;
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{
@@ -176,7 +176,7 @@ GRMainModule.prototype._updateData = function(){
 		var self = this;
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{
@@ -262,8 +262,8 @@ GRMainModule.prototype._parseEvents = function(events){
 	var evt;
 	for(var i = 0; i < events.length; i++){
 		evt = events[i];
-		if(evt.start_time) evt.start_time = evt.start_time.replace(/[-]/g,"/");
-		if(evt.end_time) evt.end_time = evt.end_time.replace(/[-]/g,"/");
+		if(evt.start_time) evt.start_time = evt.start_time.replace(/[-]/g,"/")+" UTC";
+		if(evt.end_time) evt.end_time = evt.end_time.replace(/[-]/g,"/")+" UTC";
 		this._events[evt.event_uid] = evt;
 	}
 	if(evt) this._lastEventID = parseInt(evt.event_uid);

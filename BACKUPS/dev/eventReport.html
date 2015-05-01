@@ -25,6 +25,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="js/jquery.min.js">
 </script>
+<script src="js/grglobals.js"></script>
 <script src="js/createEvent.js">
 </script>
 <!--script src="js/homescripts.js">
@@ -87,7 +88,7 @@
 </div>
 <div class="container">
 <div class="row">     
-      <div class="col-md-12">
+      <!--<div class="col-md-12">-->
         <div class="panel panel-default">
            <div class="panel-heading">
            		<div class="row">
@@ -95,6 +96,7 @@
 	           			<h4>Select the time for the event.</h4>
 	           			<h5 id="addEventName">Event Name: </h5>
 	           			<h5 id="addEventCreator">Creator: </h5>
+				
 	           		</div>
 	      			<div class="col-lg-3">
 	      			</div>
@@ -113,6 +115,11 @@
 	           			</table>
 	           		</div>
 			    </div>
+			<div class="row">
+			
+					<h5 id="addResponders" style="margin-left:15px;">Responded: </h5>
+					<h5 id="addNonResponders" style="margin-left:15px;">Not Responded: </h5>
+			</div>
            	</div>
             <div class="panel-body">
               <table class="table" id="completeTable" style="
@@ -130,19 +137,20 @@
 			    <tbody>
 			    </tbody>
 			  </table>
-			  <div class="row">
-			  	<div class="col-md-12">
-			  		<div class="pull-right">
-			  		<input class="btn btn-danger"  type="button" value="Reset" onclick="resetAvailMap();">
-			  		<input class="btn btn-default"  type="button" value="Send Availability"
-						onclick="submitAvailability();">
-			  		</div>
-			  	</div>
-			  </div>
             </div>
          </div>
-       </div>
+       <!--</div>-->
 </div><!--Row-->
+<div class="row">
+        <div class="panel panel-default">
+           <div class="panel-heading">
+		<h3>Our Suggestion </h4>
+	   </div>
+	   <div class="panel-body">
+		<h4 id="addOurSuggestion"></h4>
+	   </div>
+	</div>
+</div>
 
 </div><!--Container-->
      
@@ -186,9 +194,7 @@
 	</div>
 </footer>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.js">
+<script src="js/bootstrap.js">
 </script>
 <script src="js/timepicker.js">
 </script>

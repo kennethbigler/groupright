@@ -95,9 +95,50 @@ function resetEventParameters(){
 		end_day:"Not Added"
 	}
 	
+	/* USER INTERFACE RESET */
+	$("#eventName").val("");
+	$("#eventGroups").val("XXX");
+	$("#eventDescription").val("");
+	$("#eventLocation").val("");
+	
+	$('input[name="fixedtime"]').prop('checked',false);
+	$('input[name="fixedtime"]').parent().removeClass('active');
+	
+	
+	$("#startdatefixed").val("");
+	$("#startHourFixed").val("");
+	$("#startMinuteFixed").val("");
+	$("#startAMPMFixed").val("AM");
+	$("#enddatefixed").val("");
+	$("#endHourFixed").val("");
+	$("#endMinuteFixed").val("");
+	$("#endAMPMFixed").val("PM");
+	
+	$("#startdatehelp").val("");
+	$("#enddatehelp").val("");
+	$("#startHourHelp").val("");
+	$("#endHourHelp").val("");
+	$("#startMinuteHelp").val("");
+	$("#endMinuteHelp").val("");
+	$("#startAMPMHelp").val("AM");
+	$("#endAMPMHelp").val("PM");
+	
+	$("#yescoming").prop('checked',false);
+	$('#yescoming').parent().removeClass('active');
+	$("#nocoming").prop('checked',false);
+	$('#nocoming').parent().removeClass('active');
+	
+	$("#iDecide").prop('checked',false);
+	$('#iDecide').parent().removeClass('active');
+	$("#groupRightDecide").prop('checked',false);
+	$('#groupRightDecide').parent().removeClass('active');
+	
 	updateProgressBar(1);
 	//close the modal view
 	$('#createEventBox').modal('hide');
+	$("#eventStep5").hide();
+	document.getElementById("eventNextButton").style.display="block";
+	document.getElementById("createEventButton").style.display="none";
 	//Hide all but the initial steps
 
 }
@@ -237,15 +278,16 @@ function createGREvent(){
 	}
 
 	// Contact Server
-	$.ajax("https://www.groupright.net/dev/groupserve.php",{
+	$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:'POST',
 			data:obj,
 			statusCode:{
 				200:function(data,status,jqXHR){
-					alert("Event Created");
+					//alert("Event Created");
 					updateProgressBar(6);
 					resetEventParameters();
 					$('#createTaskBox').modal('hide');
+					$("#eventStep5").hide();
 					//window.location = "./home.html";		
 					resetEventParameters();		
 				},
@@ -332,10 +374,11 @@ function writeStep5(){
 	if(eventIsFixed){
 		var line2="is fixed from <b>"
 					+fixedStartDate
-					+"</b> at <b>"+(startHourFixed%12)+":"
+					+"</b> at <b>"+((startHourFixed == 12) ? 12 : (startHourFixed%12))+":"
 					+"00".substring(0,2-startMinuteFixed.toString().length) + startMinuteFixed
 					+" "+startAMPMFixed
-					+" </b>to<b> "+fixedEndDate+" </b>at<b> "+(endHourFixed%12)+":"
+					+" </b>to<b> "+fixedEndDate+" </b>at<b> "
+					+((endHourFixed == 12) ? 12 : (endHourFixed%12))+":"
 					+"00".substring(0,2-endMinuteFixed.toString().length) + endMinuteFixed
 					+" "+endAMPMFixed+"</b>.";
 	}
@@ -343,10 +386,10 @@ function writeStep5(){
 		var line2="will be group scheduled sometime between <b>"
 					+fixedStartDate
 					+" </b>to<b> "+fixedEndDate
-					+"</b> between <b>"+(startHourFixed%12)+":"
+					+"</b> between <b>"+((startHourFixed == 12) ? 12 : (startHourFixed%12))+":"
 					+"00".substring(0,2-startMinuteFixed.toString().length) + startMinuteFixed
 					+" "+startAMPMFixed
-					+" </b>and<b> "+(endHourFixed%12)+":"
+					+" </b>and<b> "+((endHourFixed == 12) ? 12 : (endHourFixed%12))+":"
 					+"00".substring(0,2-endMinuteFixed.toString().length) + endMinuteFixed
 					+" "+endAMPMFixed+"</b>.";
 	}
@@ -482,7 +525,8 @@ function isValid(step){
 			document.getElementById('eventError').innerHTML="The start date can't be before today.";
 			return false;
 		}
-		
+		var enddate = startdate;
+		/*
 		// Check end date.
 		var enddate=document.getElementById('enddatefixed').value;
 		if(!isValidDate(enddate)){
@@ -496,7 +540,7 @@ function isValid(step){
 			document.getElementById('eventError').innerHTML="The end date can't be before the start date.";
 			return false;
 		}
-		
+		*/
 		// Verify start time.
 		var startHour=parseInt( document.getElementById("startHourFixed").value );
 		var startMinute=parseInt( document.getElementById("startMinuteFixed").value );
@@ -505,7 +549,8 @@ function isValid(step){
 			return false;
 		}
 		var startAMPM=document.getElementById("startAMPMFixed").value;
-		if(startAMPM=="PM"){	startHour+=12; }
+		if(startAMPM=="PM" && startHour != 12){	startHour+=12; }
+		else if(startHour == 12 && startAMPM == "AM"){ startHour = 0; }
 		
 		// Verify end time.
 		var endHour=parseInt( document.getElementById("endHourFixed").value );
@@ -515,7 +560,8 @@ function isValid(step){
 			return false;
 		}		
 		var endAMPM=document.getElementById("endAMPMFixed").value;
-		if(endAMPM=="PM"){ endHour+=12; }
+		if(endAMPM=="PM" && endHour != 12){ endHour+=12; }
+		else if(endHour == 12 && endAMPM == "AM"){ endHour = 0; }
 		
 		// Check that the start date is before the end date.
 		if(fixedStartDate==fixedEndDate){

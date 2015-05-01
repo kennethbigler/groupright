@@ -2,7 +2,8 @@
 
 
 	function sendForgotEmail($email, $fname, $lname, $vc){
-		$hackedUrl = "https://www.groupright.net/dev/reset.html?vc=".$vc;
+		global $GR_DIR;
+		$hackedUrl = "https://www.groupright.net".$GR_DIR."/reset.html?vc=".$vc;
 	
 		$to = $email;
 		$subject = 'Link to Reset Password';
@@ -13,7 +14,7 @@
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 		
 		$message = '<html><body>';
-		$message .= '<img src="https://www.groupright.net/dev/images/emailLogo.png" alt="GroupRight" />';
+		$message .= '<img src="https://www.groupright.net'.$GR_DIR.'/images/emailLogo.png" alt="GroupRight" />';
 		$message .= '<p><strong>'.$fname." ".$lname."</strong>,</p>";
 		$message .= "<p>Here is the link to reset your password:</p>";
 		$message .= "<p><a href='".$hackedUrl."'>".$hackedUrl."</a></p>";

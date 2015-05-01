@@ -12,7 +12,7 @@ window.onload = function() {
 		};
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{
@@ -21,7 +21,7 @@ window.onload = function() {
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
-					window.location="https://www.groupright.net/dev/login.html";
+					window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 				}
 			}
 		
@@ -29,7 +29,7 @@ window.onload = function() {
 	}
 	else{
 		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
-		//window.location="https://www.groupright.net/dev/login.html";
+		//window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 		var allGroups=[
 				{"group_name":"Apple","group_color":"red","group_id":"77","role":"member"},
 				{"group_name":"Orange","group_color":"orange","group_id":"78","role":"member"},
@@ -53,7 +53,7 @@ window.onload = function() {
 */
 function loadGroups(allGroups){
 	var colorButtons="Hello";
-	document.getElementById("addNumber").innerText=allGroups.length;
+	document.getElementById("addNumber").innerHTML=allGroups.length;
 	var adder=document.getElementById("groupAdder");
 	var row;
 	for(var i=0; i<allGroups.length; i++){
@@ -97,7 +97,7 @@ function loadGroups(allGroups){
 		var a1=document.createElement('a');
 		$(a1).attr('onclick','leaveGroup('+allGroups[i].group_id+')');
 		p1=document.createElement('p');
-		p1.innerText="Leave this group";
+		p1.innerHTML="Leave this group";
 		a1.appendChild(p1);
 		a1.style.cursor="pointer";
 		pannelBody.appendChild(a1);
@@ -107,10 +107,10 @@ function loadGroups(allGroups){
 		$(a2).attr('onclick','manageGroup('+allGroups[i].group_id+',"'+allGroups[i].group_name+'","'+allGroups[i].role+'")');
 		a2.style.cursor="pointer";
 		if(allGroups[i].role=="member"){
-			p2.innerText="View Members";
+			p2.innerHTML="View Members";
 		}
 		else{
-			p2.innerText="Manage Membership";
+			p2.innerHTML="Manage Membership";
 		}
 		a2.appendChild(p2);
 		pannelBody.appendChild(a2);
@@ -118,7 +118,7 @@ function loadGroups(allGroups){
 
 
 		var h4=document.createElement('h4');
-		h4.innerText=allGroups[i].group_name;
+		h4.innerHTML=allGroups[i].group_name;
 		colorButton.appendChild(span);
 		h4.appendChild(colorButton);
 		pannelHeading.appendChild(h4);
@@ -170,7 +170,7 @@ function manageGroup(groupID,groupName,role){
 			"function":"get_group_members"
 		};
 		// Contact Server
-		$.ajax("https://www.groupright.net/dev/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
 			statusCode:{
@@ -181,7 +181,7 @@ function manageGroup(groupID,groupName,role){
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
-					window.location="https://www.groupright.net/dev/login.html";
+					window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 				}
 			}
 		
@@ -189,7 +189,7 @@ function manageGroup(groupID,groupName,role){
 	}
 	else{
 		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
-		//window.location="https://www.groupright.net/dev/login.html";
+		//window.location="https://www.groupright.net"+GR_DIR+"/login.html";
 		var data=[{
 			"email":"zwilson7@gmail.com",
 			"first_name":"Zachary",
@@ -206,6 +206,11 @@ function manageGroup(groupID,groupName,role){
 	//Load Members, Drop functionality, Change Leader Functionality
 	$('#myModal').modal('toggle');
 }
+
+function employBackupProfile(elm){
+	elm.src = "images/orange.jpg";
+}
+
 function addMembersToModal(membersArray,groupName,role){
 	document.getElementById("modalGroupName").innerHTML=groupName;
 	//clear out anything there already
@@ -215,29 +220,55 @@ function addMembersToModal(membersArray,groupName,role){
 	headingRow.innerHTML="";
 	if(role=="member"){
 		var th=document.createElement('th');
-		th.innerText="Member";
+		th.innerHTML="Member";
+		th.colspan = 2;
 		headingRow.appendChild(th);
+		console.log("Here VVV");
+		console.log(membersArray);
 		for(var i=0; i<membersArray.length; i++){
 		    var tr=document.createElement('tr');
+			
+			// pic
 		    var td=document.createElement('td');
-		    td.innerText=membersArray[i].first_name+" "+membersArray[i].last_name;
+			var p_u = (membersArray[i].photo_url) ? membersArray[i].photo_url : "images/orange.jpg";
+			td.appendChild( 
+				$("<img />",{src:p_u,class:"member-profile-pic img-circle"}).error(function(){
+					employBackupProfile(this);
+				})[0]
+			);
+			//tr.appendChild(td);
+			
+			// name
+			//td=document.createElement('td');
+			var div = document.createElement('div');
+		    div.innerHTML=membersArray[i].first_name+" "+membersArray[i].last_name;
+			td.appendChild(div);
 			tr.appendChild(td);
+			
+			// role
+			td=document.createElement('td');
+			div = document.createElement('div');
+			div.className = "member-role-div";
+		    div.innerHTML= (membersArray[i].role == 'leader') ? "Leader" : "Member";
+			td.appendChild(div);
+			tr.appendChild(td);
+			
 			addLocation.appendChild(tr);
 		}
 	}
 	else if(role=="leader"){
 		var th=document.createElement('th');
 		var th2=document.createElement('th');
-		th.innerText="Member";
-		th2.innerText="Action";
+		th.innerHTML="Member";
+		th2.innerHTML="Action";
 		headingRow.appendChild(th);
 		headingRow.appendChild(th2);
 		for(var i=0; i<membersArray.length; i++){
 		    var tr=document.createElement('tr');
 		    var td=document.createElement('td');
 		    var td2=document.createElement('td');
-		    td.innerText=membersArray[i].first_name+" "+membersArray[i].last_name;
-		    td2.innerText="Drop Member";
+		    td.innerHTML=membersArray[i].first_name+" "+membersArray[i].last_name;
+		    td2.innerHTML="Drop Member";
 			tr.appendChild(td);
 			tr.appendChild(td2);
 			addLocation.appendChild(tr);

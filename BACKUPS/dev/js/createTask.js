@@ -42,12 +42,12 @@ function createGRTask(){
 				"group_uid":taskGroupID,
 				"task_title":task_title,
 				"task_description":task_description,
-				"is_personal":is_personal
+				"is_individual":is_personal
 	};
 	console.log(obj);
 
 	// Contact Server
-	$.ajax("https://www.groupright.net/dev/groupserve.php",{
+	$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:'POST',
 			data:obj,
 			statusCode:{

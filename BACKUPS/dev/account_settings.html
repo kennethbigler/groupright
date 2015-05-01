@@ -25,6 +25,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="js/jquery.min.js"></script>
+<script src="js/grglobals.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/cookie.js"></script>
 <script src="js/grtopbar.js"></script>
@@ -171,17 +172,26 @@
                <div class="panel-heading">
                   <h4>Profile Picture</h4>
                </div>
-               <div class="panel-body" style="height:225px;">
+               <div class="panel-body row" style="height:225px;">
+				<div class="col-sm-6">
+					<img src="images/orange.jpg" style="height:150px;width:150px;margin:25px;object-fit:cover;border-radius:50%;" id="existing_pp" />
+				</div>
+				<div class="col-sm-6">
                       <h4>Select photo from your computer</h4>
                       <br/>
-                    <form action="" method="post" enctype="multipart/form-data" id="js-upload-form">
+                    <form action="photo_upload.php" method="post" enctype="multipart/form-data" id="js-upload-form" target="_blank">
                       <div class="form-inline">
                         <div class="form-group">
-                          <input type="file" name="files[]" id="js-upload-files">
+                          <input type="file" name="profile_pic" id="js-upload-files">
                         </div>
+						<input type="hidden" name="email" id="pp_cookie_email" />
+						<input type="hidden" name="ac" id="pp_cookie_ac" />
+						<br />
+						<br />
                         <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload</button>
                       </div>
                     </form>
+				</div>
              </div>
           </div>
         </div>
