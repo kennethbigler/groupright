@@ -1,0 +1,61 @@
+#!/bin/bash
+function doGitHubStuff(){
+	pwd
+	cd GitHub/groupright
+	git pull
+	git add .
+	git commit -m "Automatic push From Development Server Updating"
+	git push
+	git status
+}
+function pause(){
+   read -p "$*"
+}
+function verify(){
+	echo "+---------------------------------------------+"
+	echo "| Do you want to continue (yes/no) or (retry) |"
+	echo "+---------------------------------------------+"
+	read input
+	if [ "$input" == "yes" ]
+		then
+		echo "Proceeding to transfer files"
+	elif [ "$input" == "retry" ]
+		then
+		doGitHubStuff
+		verify
+	else 
+		echo "Shell Terminated...Press [Enter] to close"
+		pause
+		exit
+	fi
+}
+
+echo "+----------------------------------------------------------+"
+echo "| Welcome to GroupRight's Development Server Update System |"
+echo "+----------------------------------------------------------+"
+echo "Please Wait..."
+doGitHubStuff
+verify
+echo "+--------------------------------------------------------+"
+echo "|Successful Authentication will make local backup Copies |"
+echo "|of Server Code and KTT and transfer all GitHub files to |"
+echo "|the Development Server.                                 |"
+echo "+--------------------------------------------------------+"
+sftp groupright@dev.groupright.net <<END_SCRIPT
+	cd public_html
+	get -r dev/ BACKUPS/
+	put -r dev/
+	chmod 600 dev/server/*
+	chmod 600 mailing-list.php
+	chmod 600 *.php
+	bye
+END_SCRIPT
+echo "+------------------------------------------------------+"
+echo "|Dev has been updated. Press [Enter] to update GitHub  |"
+echo "+------------------------------------------------------+"
+pause
+doGitHubStuff
+echo "+------------------------------------------------+"
+echo "|GitHub has been updated. Press [Enter] to exit  |"
+echo "+------------------------------------------------+"
+pause
