@@ -21,11 +21,12 @@ var correspondenceMatrix;
 var statusMatrix=[];
 var maxScore=0;
 var minScore=99999999;
-var groupAvail;
+var groupAvail = [];
 
 var groupMembers=[];
 var respondersArray=[];
 var nonRespondersArray=[];
+
 // ======================================================
 // ONLOAD / SERVER COMM.
 
@@ -35,40 +36,43 @@ window.onload = function() {
 	getEventVoteSettings(function(data){
 		//console.log(data);
 		var obj = JSON.parse(data);
-		
 		//console.log(obj);
+		
+		// Parse event information.
 		if(obj.event_name) eventName = obj.event_name;
 		if(obj.creator) eventCreator = obj.creator;
 		if(obj.start_time) earliest_time = obj.start_time;
 		if(obj.end_time) latest_time = obj.end_time;
 		if(obj.dump) groupAvail=obj.dump;
 		
-		
+		// Set grid rows / columns.
 		setNumberOfDays();
 		setNumberOfStepsToAccountFor();
-		//getDayForColumn(3);
-		//getTimeForRow(3);
-		fillCorrespondenceMatrix();
-		initStatusMatrix();
-		drawPage();
-		drawColorScale();
-		addRespondersInfo();
-		findSuggestedTimes();
+		
+		// Initialize Response + Status Matrices
+		fillCorrespondenceMatrix();		/* response */
+		initStatusMatrix();				/* availability scores */
+		
+		// Draw Elements
+		drawPage();						/* page */
+		drawColorScale();				/* scale */
+		addRespondersInfo();			/* responders */
+		findSuggestedTimes();			/* suggested time */
 	});
 }
 
 function getEventVoteSettings(parseFn){
 	if(!(parseFn instanceof Function)){ parseFn = function(){}; }
 
-	var _cookies = genCookieDictionary();
-	
+	// Get stored information.
+	var _cookies = genCookieDictionary();	
 	var _get = getGETArguments();
-	//console.log(_get);
+	
+	// Determine IDs
 	var _event_uid = _get.event_id;
 	var _group_uid = _get.guid;
 
-	//console.log(_get);
-
+	// Check cookies + info.
 	if(_cookies.accesscode && _cookies.user && _event_uid && _group_uid){
 	
 		var obj = {
@@ -98,8 +102,54 @@ function getEventVoteSettings(parseFn){
 	}
 }
 
+function getGroupMembers(){	
+	// Get stored info.
+	var _cookies = genCookieDictionary();
+	var _get = getGETArguments();
+	
+	// Parse IDs
+	var _event_uid = _get.event_id;
+	var _group_uid = _get.guid;
+
+	// Check if cookies exist.
+	if(_cookies.accesscode && _cookies.user && _event_uid && _group_uid){
+		
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"function":"get_group_members",
+			"group_uid":_group_uid
+		};
+	
+		// Contact Server
+		$.ajax("groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+						//alert("Success");
+						var x = JSON.parse(data);
+						initMembers(x)
+						//console.log(groupMembers);
+					}
+			},
+			
+		});
+	}else{
+		if(GR_DIR=="/dev"){ console.warn("Forced Redirect to Login on Production"); }
+		else{ window.location="login.html"; }
+	}
+}
+
 // ======================================================
 // DATA INITIALIZATION
+
+function initMembers(arr){
+	groupMembers = {};
+	for(var i = 0; i < arr.length; i++){
+		groupMembers[ arr[i].email ] = arr[i];
+	}
+}
 
 function setNumberOfDays(){
 	
@@ -139,6 +189,55 @@ function setNumberOfStepsToAccountFor(){
 	//console.log(stepsToAccountFor);
 }
 
+// ------------------------------------------------------
+
+function fillCorrespondenceMatrix(){
+	var start_time=9;
+	var referenceDate=new Date(earliest_time);
+	//console.log(referenceDate);
+	correspondenceMatrix=new Array(stepsToAccountFor);
+	for(var i=0; i<stepsToAccountFor; i++){
+		correspondenceMatrix[i]=new Array(numberOfDays);
+		for(var j=0; j<numberOfDays; j++){
+			var minutesFromStartTime=(30*i) + (j*60*24);
+			//console.log(minutesFromStartTime);
+			var newDate= new Date(referenceDate.getTime() + minutesFromStartTime*60000)
+			correspondenceMatrix[i][j]= newDate;
+		}
+	}
+	//console.log(correspondenceMatrix);
+}
+
+function initStatusMatrix(){
+	//Allocate
+	statusMatrix=new Array(stepsToAccountFor);
+	for(var i=0; i<stepsToAccountFor; i++){
+		statusMatrix[i]=new Array(numberOfDays);
+	}
+	//Gather
+	for(var i=0; i<stepsToAccountFor;i++){
+		for (var j=0; j<numberOfDays; j++){
+			statusMatrix[i][j]=getScoreForRowColumn(i,j);
+		}
+	}
+	//console.log(minScore);
+	//console.log(maxScore);
+}
+
+
+// ======================================================
+// UTILITY
+
+
+function _isInArray(array,value){
+	for(var i=0; i<array.length; i++){
+		if(array[i]==value){
+			return true;
+		}
+	}
+	return false;
+}
+
 // ======================================================
 // DATE / TIME ACCESS
 
@@ -175,6 +274,44 @@ function getTimeForRow(row){
 	}
 	return hour+":"+minutes+" "+ampm;
 
+}
+
+// ======================================================
+// DATA ACCESS
+
+function getFullNameForEmail(email){
+	var x = groupMembers[ email ];
+	if(x) return x.first_name+" "+x.last_name;
+	return "Bob";
+	console.warn("Reached end of getFullNameForEmail without finding a member")
+}
+
+function getScoreForRowColumn(row, column){
+	var referencedDate=new Date(correspondenceMatrix[row][column]);
+	//console.log(correspondenceMatrix[row-1][column-1]);
+	var score=0;
+	for(var i=0; i<groupAvail.length;i++){
+		var compareDate= new Date(groupAvail[i].start_time.replace(/[-]/g,"/"));
+		//console.log(compareDate);
+		if (compareDate.getTime()==referencedDate.getTime()){
+			score+= parseInt(groupAvail[i].score);
+			//console.log("match found");
+		}
+		else{
+			//console.log(compareDate);
+			//console.log(referencedDate);
+
+		}
+	}
+	//console.log(score)
+	//statusMatrix[row][column]=score;
+	if(score<minScore){
+		minScore=score;
+	}
+	if(score>maxScore){
+		maxScore=score;
+	}
+	return score;
 }
 
 // ======================================================
@@ -243,66 +380,22 @@ function drawPage(){
 	
 }
 
-function fillCorrespondenceMatrix(){
-	var start_time=9;
-	var referenceDate=new Date(earliest_time);
-	//console.log(referenceDate);
-	correspondenceMatrix=new Array(stepsToAccountFor);
-	for(var i=0; i<stepsToAccountFor; i++){
-		correspondenceMatrix[i]=new Array(numberOfDays);
-		for(var j=0; j<numberOfDays; j++){
-			var minutesFromStartTime=(30*i) + (j*60*24);
-			//console.log(minutesFromStartTime);
-			var newDate= new Date(referenceDate.getTime() + minutesFromStartTime*60000)
-			correspondenceMatrix[i][j]= newDate;
-		}
+function colorCell(elem){
+	if(elem.innerHTML=="<span class='glyphicon glyphicon-star' aria-hidden='true' style='color:white;text-align:center'></span>"){
+		//elem.backgroundColor=elem.data;
+		elem.style.border="1px solid gray";
+		elem.innerHTML="";
 	}
-	//console.log(correspondenceMatrix);
+	else{
+		//elem.data=elem.backgroundColor;
+		//elem.style.backgroundColor="dodgerBlue";
+		elem.innerHTML="<span class='glyphicon glyphicon-star' aria-hidden='true' style='color:white;text-align:center'></span>";
+		elem.style.border="1px solid white";
+	}
 }
 
-function initStatusMatrix(){
-	//Allocate
-	statusMatrix=new Array(stepsToAccountFor);
-	for(var i=0; i<stepsToAccountFor; i++){
-		statusMatrix[i]=new Array(numberOfDays);
-	}
-	//Gather
-	for(var i=0; i<stepsToAccountFor;i++){
-		for (var j=0; j<numberOfDays; j++){
-			statusMatrix[i][j]=getScoreForRowColumn(i,j);
-		}
-	}
-	//console.log(minScore);
-	//console.log(maxScore);
-}
-
-function getScoreForRowColumn(row, column){
-	var referencedDate=new Date(correspondenceMatrix[row][column]);
-	//console.log(correspondenceMatrix[row-1][column-1]);
-	var score=0;
-	for(var i=0; i<groupAvail.length;i++){
-		var compareDate= new Date(groupAvail[i].start_time.replace(/[-]/g,"/"));
-		//console.log(compareDate);
-		if (compareDate.getTime()==referencedDate.getTime()){
-			score+= parseInt(groupAvail[i].score);
-			//console.log("match found");
-		}
-		else{
-			//console.log(compareDate);
-			//console.log(referencedDate);
-
-		}
-	}
-	//console.log(score)
-	//statusMatrix[row][column]=score;
-	if(score<minScore){
-		minScore=score;
-	}
-	if(score>maxScore){
-		maxScore=score;
-	}
-	return score;
-}
+// ------------------------------------------------------
+// COLOR RETRIEVAL
 
 var percentColors = [
     { pct: 0.0, color: { r: 0x00, g: 0xff, b: 0 } },
@@ -329,6 +422,10 @@ var getColorForPercentage = function(pct) {
     return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
     // or output as hex if preferred
 }
+
+// ------------------------------------------------------
+// COLOR SCALE
+
 function drawColorScale(){
 	var addLocation=document.getElementById("addScale");
 	var td=document.createElement("td");
@@ -347,19 +444,8 @@ function drawColorScale(){
 
 }
 
-function colorCell(elem){
-	if(elem.innerHTML=="<span class='glyphicon glyphicon-star' aria-hidden='true' style='color:white;text-align:center'></span>"){
-		//elem.backgroundColor=elem.data;
-		elem.style.border="1px solid gray";
-		elem.innerHTML="";
-	}
-	else{
-		//elem.data=elem.backgroundColor;
-		//elem.style.backgroundColor="dodgerBlue";
-		elem.innerHTML="<span class='glyphicon glyphicon-star' aria-hidden='true' style='color:white;text-align:center'></span>";
-		elem.style.border="1px solid white";
-	}
-}
+// ------------------------------------------------------
+// RESPONDER INFO
 
 function addRespondersInfo(){
 	getRespondersInfo();
@@ -383,15 +469,6 @@ function addRespondersInfo(){
 	}
 }
 
-function _isInArray(array,value){
-	for(var i=0; i<array.length; i++){
-		if(array[i]==value){
-			return true;
-		}
-	}
-	return false;
-}
-
 function getRespondersInfo(){
 	_populateRespondersArray();
 	_populateNonRespondersArray();
@@ -410,6 +487,7 @@ function _populateNonRespondersArray(){
 		}
 	}
 }
+
 function _populateRespondersArray(){
 	for(var i=0; i<groupAvail.length; i++){
 		if(_isInArray(respondersArray,groupAvail[i].email)){
@@ -421,6 +499,9 @@ function _populateRespondersArray(){
 		}
 	}
 }
+
+// ------------------------------------------------------
+// SUGGESTED TIMES
 
 function findSuggestedTimes(){
 	var currentLongestColumn=-1;
@@ -451,63 +532,3 @@ function findSuggestedTimes(){
 	console.log(currentLongestSteps);
 	document.getElementById("addOurSuggestion").innerHTML=correspondenceMatrix[currentLongestRow][currentLongestColumn] +"("+(30*currentLongestSteps)+"minute window)";
 }
-
-function getGroupMembers(){
-	var _cookies = genCookieDictionary();
-	
-	var _get = getGETArguments();
-	//console.log(_get);
-	var _event_uid = _get.event_id;
-	var _group_uid = _get.guid;
-
-	//console.log(_get);
-
-	if(_cookies.accesscode && _cookies.user && _event_uid && _group_uid){
-	
-		var obj = {
-			"ac":_cookies.accesscode,
-			"email":_cookies.user,
-			"function":"get_group_members",
-			"group_uid":_group_uid
-		};
-	
-		
-		// Contact Server
-		$.ajax("groupserve.php",{
-			type:"POST",
-			data:obj,
-			statusCode:{
-				200: function(data, status, jqXHR){
-						//alert("Success");
-						groupMembers=JSON.parse(data);
-						//console.log(groupMembers);
-					}
-			},
-			
-		
-		});
-	}else{
-		if(GR_Dir=="/dev"){
-			console.warn("Forced Redirect to Login on Production")
-		}
-		else{
-			window.location="login.html";
-		}
-	}
-}
-
-function getFullNameForEmail(email){
-	//console.log(email);
-	for(var i=0; i<groupMembers.length; i++){
-		//console.log(groupMembers[i])
-		if(groupMembers[i].email==email){
-
-			return (groupMembers[i].first_name +" "+groupMembers[i].last_name);
-		}
-	}
-	return "Bob";
-	console.warn("Reached end of getFullNameForEmail without finding a member")
-}
-
-
-
