@@ -100,6 +100,9 @@ function addUsersInfo(){
 	initStartTask();		// 'Start a Task'
 	initSendMessage();		// 'Send Message'
 	
+	initCreateList();
+	initCreatePoll();
+	
 }
 
 function __resetDashboard(){
@@ -475,10 +478,11 @@ function initScheduleEvent(){
 	}
 }
 
-function initStartTask(){
 
+function populateGroupSelect(groupMenu){
+	if(!groupMenu) return;
+	
 	var allGroups = GRMAIN.groups();
-	var groupMenu = document.getElementById("taskGroups");
 	var numGroups = allGroups.length;
 
 	//If no groups
@@ -498,6 +502,20 @@ function initStartTask(){
 		item.innerHTML=allGroups[i].group_name;
 		groupMenu.appendChild(item);
 	}
+}
+
+function initCreateList(){
+	var groupMenu = document.getElementById("listGroups");
+	populateGroupSelect(groupMenu);
+}
+function initCreatePoll(){
+	var groupMenu = document.getElementById("pollGroups");
+	populateGroupSelect(groupMenu);
+}
+
+function initStartTask(){
+	var groupMenu = document.getElementById("taskGroups");
+	populateGroupSelect(groupMenu);
 }
 
 function initSendMessage(){
@@ -562,6 +580,8 @@ function initSendMessage(){
 	updateMessageCount();
 	GRMSG.addUpdateListener(updateMessageCount);
 }
+
+
 
 
 
