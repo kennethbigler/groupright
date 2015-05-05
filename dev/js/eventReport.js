@@ -164,7 +164,7 @@ function pickEventTime(){
 		var obj = {
 			"ac":_cookies.accesscode,
 			"email":_cookies.user,
-			"function":"pick_event_time",
+			"function":"choose_event_time",
 			"group_uid":_group_uid,
 			"event_uid":_event_uid,
 			"start_time":_startTime,
@@ -177,7 +177,17 @@ function pickEventTime(){
 			data:obj,
 			statusCode:{
 				200: function(data, status, jqXHR){
-					window.location = "index.html";
+					window.location = "home.html";
+				},
+				206: function(data, status, jqXHR){
+					eatCookies();
+					window.location = "login.html";
+				},
+				230: function(d,s,j){
+					window.location = "home.html";
+				},
+				290: function(d,s,j){
+					console.error("Argument not passed to server.");
 				}
 			},
 			
@@ -519,6 +529,8 @@ function saveSelectedTimes(){
 	var eDate = new Date(refDate);
 	eDate.setMinutes( refDate.getMinutes() + (selected_time.end.i)*30 );
 	selEndTime = refDate.toJSON();
+	
+	$("#pickButton").removeClass("disabled");
 	
 	//console.log(sDate);
 	//console.log(eDate);
