@@ -212,6 +212,9 @@ function employBackupProfile(elm){
 }
 
 function addMembersToModal(membersArray,groupName,role){
+	
+	var _cookie = genCookieDictionary();
+	
 	document.getElementById("modalGroupName").innerHTML=groupName;
 	//clear out anything there already
 	var addLocation=document.getElementById("addMembers");
@@ -258,19 +261,64 @@ function addMembersToModal(membersArray,groupName,role){
 	}
 	else if(role=="leader"){
 		var th=document.createElement('th');
-		var th2=document.createElement('th');
 		th.innerHTML="Member";
-		th2.innerHTML="Action";
+		th.colspan = 4;
 		headingRow.appendChild(th);
-		headingRow.appendChild(th2);
+		console.log("Here VVV");
+		console.log(membersArray);
 		for(var i=0; i<membersArray.length; i++){
 		    var tr=document.createElement('tr');
+			
+			// pic
 		    var td=document.createElement('td');
-		    var td2=document.createElement('td');
-		    td.innerHTML=membersArray[i].first_name+" "+membersArray[i].last_name;
-		    td2.innerHTML="Drop Member";
+			var p_u = (membersArray[i].photo_url) ? membersArray[i].photo_url : "images/orange.jpg";
+			td.appendChild( 
+				$("<img />",{src:p_u,class:"member-profile-pic img-circle"}).error(function(){
+					employBackupProfile(this);
+				})[0]
+			);
+			//tr.appendChild(td);
+			
+			// name
+			//td=document.createElement('td');
+			var div = document.createElement('div');
+		    div.innerHTML=membersArray[i].first_name+" "+membersArray[i].last_name;
+			td.appendChild(div);
 			tr.appendChild(td);
-			tr.appendChild(td2);
+			
+			
+			// role
+			td=document.createElement('td');
+			div = document.createElement('div');
+			div.className = "member-role-div";
+		    div.innerHTML= (membersArray[i].role == 'leader') ? "Leader" : "Member";
+			td.appendChild(div);
+			tr.appendChild(td);
+			
+			
+			// make leader
+			td=document.createElement('td');
+			
+			if(membersArray[i].email != _cookie.user){
+				var button = document.createElement('a');
+				button.href = "#";
+				$(button).css({"float":"right","fontSize":"0.9em"});
+				button.innerHTML= "Make Leader";
+				td.appendChild(button);
+				
+				td.appendChild($("<br />")[0]);
+				
+				// drop member
+				button = document.createElement('a');
+				button.href = "#";
+				$(button).css({"float":"right","fontSize":"0.9em"});
+				button.innerHTML= "Drop Member";
+				td.appendChild(button);
+			}
+				
+			tr.appendChild(td);
+			
+			
 			addLocation.appendChild(tr);
 		}
 	}
