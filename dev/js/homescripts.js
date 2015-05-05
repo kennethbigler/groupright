@@ -317,11 +317,13 @@ function addTasks(){
 			if(task_array[i].link_id!=null){
 				//It's a task to provide availability
 				var eventLink=document.createElement('a');
-				console.log(task_array[i]);
+				//console.log(task_array[i]);
 				if(task_array[i].link_type == "event")
 					eventLink.href="eventResponse.html?guid="+task_array[i].group_id+"&event_id="+task_array[i].link_id;
 				else if(task_array[i].link_type == "event_report")
 					eventLink.href="eventReport.html?guid="+task_array[i].group_id+"&event_id="+task_array[i].link_id;
+				else if(task_array[i].link_type == "list")
+					eventLink.href="lists.html?guid="+task_array[i].group_id+"&list_id="+task_array[i].link_id;
 				else
 					eventLink.href="#";
 				var span=document.createElement('span');
@@ -380,7 +382,16 @@ function addUpdates(){
 		//span.style.color=gr_colors[Math.floor(Math.random() * 8) ];
 		var a=document.createElement('a');
 		$(a).attr( 'class', 'list-group-item' );
-		$(a).attr( 'href', '#' );
+		
+		//console.log(updates[i]);
+		switch(updates[i].link_type){
+			case 'list':
+				$(a).attr('href','lists.html?guid='+updates[i].group_id+'&list_id='+updates[i].link_id);
+				break;
+			default:
+				$(a).attr( 'href', '#' );
+				break;
+		}
 		var h4=document.createElement('h4');
 		//h4.appendChild(span);
 		$(h4).attr('class','list-group-item-heading');
