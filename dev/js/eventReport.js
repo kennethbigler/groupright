@@ -27,6 +27,9 @@ var groupMembers=[];
 var respondersArray=[];
 var nonRespondersArray=[];
 
+var selStartTime = null;
+var selEndTime = null;
+
 // ======================================================
 // ONLOAD / SERVER COMM.
 
@@ -132,6 +135,50 @@ function getGroupMembers(){
 						initMembers(x)
 						//console.log(groupMembers);
 					}
+			},
+			
+		});
+	}else{
+		if(GR_DIR=="/dev"){ console.warn("Forced Redirect to Login on Production"); }
+		else{ window.location="login.html"; }
+	}
+}
+
+function pickEventTime(){	
+	// Get stored info.
+	var _cookies = genCookieDictionary();
+	var _get = getGETArguments();
+	
+	// Parse IDs
+	var _event_uid = _get.event_id;
+	var _group_uid = _get.guid;
+	
+	// Parse Times
+	var _startTime = selStartTime;
+	var _endTime = selEndTime;
+
+	// Check if cookies exist.
+	if(_cookies.accesscode && _cookies.user && _event_uid 
+		&& _group_uid && _startTime &&_endTime){
+		
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"function":"pick_event_time",
+			"group_uid":_group_uid,
+			"event_uid":_event_uid,
+			"start_time":_startTime,
+			"end_time":_endTime
+		};
+	
+		// Contact Server
+		$.ajax("groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					window.location = "index.html";
+				}
 			},
 			
 		});
@@ -348,10 +395,7 @@ function drawPage(){
 			availability_map[i] ={};
 			for(var j=0; j<numberOfDays+1;j++){				
 				var td=document.createElement('td');
-				td.style.cursor="pointer";
-				td.align="center";
 				td.className="success";
-				td.style.border="1px solid gray";
 				if(j==0){
 					td.innerHTML=getTimeForRow(i);
 					td.className="text-center";
@@ -361,13 +405,13 @@ function drawPage(){
 					tr.appendChild(td);
 					
 					td.onclick = function(){ colorCell(this); }
-					td.style.backgroundColor=getColorForPercentage((statusMatrix[i-1][j-1]-minScore)/maxScore);
+					td.style.backgroundColor = getColorForPercentage((statusMatrix[i-1][j-1]-minScore)/maxScore);
 					td.value = {i:i,j:j};
 					td.className += " er_row"+i+" er_col"+j;
 					availability_map[i][j] = 0;
 					//td.innerHTML=getScoreForRowColumn(i,j);
 					td.innerHTML=statusMatrix[i-1][j-1];
-					//prepareCell(td);
+					prepareCell(td);
 
 				}
 			}
@@ -381,17 +425,103 @@ function drawPage(){
 }
 
 function colorCell(elem){
-	if(elem.innerHTML=="<span class='glyphicon glyphicon-star' aria-hidden='true' style='color:white;text-align:center'></span>"){
-		//elem.backgroundColor=elem.data;
-		elem.style.border="1px solid gray";
-		elem.innerHTML="";
+	elem.innerHTML="<span class='glyphicon glyphicon-star' aria-hidden='true' style='color:white;text-align:center'></span>";
+	$(elem).css({"boxShadow":"0 0 50px 0 white inset"});
+}
+
+function decolorCell(elem){
+	var x = elem.value;
+	elem.innerHTML=statusMatrix[x.i-1][x.j-1];
+	$(elem).css({"boxShadow":""});
+}
+
+var selected_time = {
+	start:null,
+	end:null,
+	button_down:false
+};
+function prepareCell(elm)
+{
+	
+	// Check version of browser.
+	var oldIE = false;
+	var ua = window.navigator.userAgent;
+	var msie = ua.indexOf("MSIE ");
+	if(msie > 0){
+		var version = parseInt(ua.substring(msie+5,ua.indexOf(".",msie)));
+		if(version < 9) oldIE = true;
 	}
-	else{
-		//elem.data=elem.backgroundColor;
-		//elem.style.backgroundColor="dodgerBlue";
-		elem.innerHTML="<span class='glyphicon glyphicon-star' aria-hidden='true' style='color:white;text-align:center'></span>";
-		elem.style.border="1px solid white";
+	
+	/**
+		colorSpan
+			colors cells area selected by the user. (from start to end)
+	**/
+	function colorSpan(start,end){
+		var y_dir = (end.i > start.i) ? 1 : -1;
+		var j = start.j;
+		for(var i = start.i; i != end.i + y_dir; i+= y_dir){
+			colorCell($(".er_row"+i+".er_col"+j)[0]);
+		}
 	}
+	
+	// Event Listeners
+	
+	
+	function timeIncrDown(e){
+		var val = $(this).val();
+		selected_time.start = val;				
+		if(e.which === 1) selected_time.button_down = true; 
+	};
+	
+	function timeIncrUp(e){
+		if(e.which === 1){
+			selected_time.button_down = false;
+			saveSelectedTimes();
+		}
+	};
+	
+	function timeIncrMove(e){
+		if(oldIE && !event.button){selected_time.button_down = false;}				
+		if(e.which === 1 && !selected_time.button_down) e.which = 0;
+		if(e.which){
+			if(selected_time.end == $(this).val()) return;
+			
+			selected_time.end = $(this).val();
+			$.each($("#completeTable td"),function(i,td){
+				if(td.value) decolorCell(td);
+			});
+			colorSpan(selected_time.start,selected_time.end);
+		}
+	};
+	
+	$(elm).mousedown(timeIncrDown)
+			.mouseup(timeIncrUp)
+			.mousemove(timeIncrMove);
+	
+}
+
+function saveSelectedTimes(){
+	if(!selected_time.start || !selected_time.end) return;
+	if(selected_time.start.i > selected_time.end.i){
+		var t = selected_time.start;
+		selected_time.start = selected_time.end;
+		selected_time.end = t;
+	}
+	
+	var refDate = new Date(earliest_time);
+		
+	refDate.setDate( refDate.getDate() + selected_time.start.j - 1 );
+	
+	var sDate = new Date(refDate);
+	sDate.setMinutes( refDate.getMinutes() + (selected_time.start.i - 1)*30 );
+	selStartTime = refDate.toJSON();
+	
+	var eDate = new Date(refDate);
+	eDate.setMinutes( refDate.getMinutes() + (selected_time.end.i)*30 );
+	selEndTime = refDate.toJSON();
+	
+	//console.log(sDate);
+	//console.log(eDate);
 }
 
 // ------------------------------------------------------
@@ -448,9 +578,15 @@ function drawColorScale(){
 // RESPONDER INFO
 
 function addRespondersInfo(){
+	
+	// Populate the respond arrays.
 	getRespondersInfo();
+	
+	// Get the containing elements
 	var responders=document.getElementById("addResponders");
 	var nonResponders=document.getElementById("addNonResponders");
+	
+	// Add the responders.
 	for(var i=0; i<respondersArray.length;i++){
 		var span=document.createElement("span");
 		span.innerHTML=getFullNameForEmail(respondersArray[i]);
@@ -459,6 +595,8 @@ function addRespondersInfo(){
 		span.style.marginTop="6px";
 		responders.appendChild(span);
 	}
+	
+	// Add the non-responders.
 	for(var i=0; i<nonRespondersArray.length;i++){
 		var span=document.createElement("span");
 		span.innerHTML=getFullNameForEmail(nonRespondersArray[i]);
@@ -470,32 +608,22 @@ function addRespondersInfo(){
 }
 
 function getRespondersInfo(){
-	_populateRespondersArray();
-	_populateNonRespondersArray();
-}
-
-function _populateNonRespondersArray(){
-	for(var i=0; i<groupMembers.length; i++){
-		//console.log(groupMembers[i]);
-		if(_isInArray(respondersArray,groupMembers[i].email)){
-			//do nothing
-			//console.log(groupMembers[i].email+" is in array");
-		}
-		else{
-			nonRespondersArray.push(groupMembers[i].email);
-			//console.log("added non responder"+groupMembers[i].email);
-		}
+	//console.log(groupAvail);
+	
+	// Traverse groupAvail, adding emails to responders.
+	var resp = {};
+	for(var i = 0; i < groupAvail.length; i++){
+		resp[ groupAvail[i].email ] = 1;
 	}
-}
-
-function _populateRespondersArray(){
-	for(var i=0; i<groupAvail.length; i++){
-		if(_isInArray(respondersArray,groupAvail[i].email)){
-			//do nothing
+	
+	// Check if each group member has responded and add
+	// them to the appropriate group.
+	for(var i in groupMembers){
+		if(resp[ i ]){
+			respondersArray.push(i);
 		}
 		else{
-			respondersArray.push(groupAvail[i].email);
-			//console.log("added responder"+groupAvail[i].email);
+			nonRespondersArray.push(i);
 		}
 	}
 }
@@ -510,8 +638,8 @@ function findSuggestedTimes(){
 	var tempCounter=0;
 	var k;
 	//figure this out in morning
-	console.log(correspondenceMatrix);
-	console.log(statusMatrix);
+	//console.log(correspondenceMatrix);
+	//console.log(statusMatrix);
 	for(var i=0; i<numberOfDays; i++){
 		for(var j=0; j<stepsToAccountFor;j++){
 			tempCounter=0;
@@ -527,8 +655,8 @@ function findSuggestedTimes(){
 			}
 		}
 	}
-	console.log(currentLongestColumn);
-	console.log(currentLongestRow);
-	console.log(currentLongestSteps);
+	//console.log(currentLongestColumn);
+	//console.log(currentLongestRow);
+	//console.log(currentLongestSteps);
 	document.getElementById("addOurSuggestion").innerHTML=correspondenceMatrix[currentLongestRow][currentLongestColumn] +"("+(30*currentLongestSteps)+"minute window)";
 }
