@@ -77,7 +77,6 @@
 		
 		$stmt->execute(array($user,$cookie));
 		while($row = $stmt->fetch()){
-			echo 'hi';
 			return true;			
 		}
 		
