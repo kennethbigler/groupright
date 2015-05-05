@@ -414,7 +414,6 @@ function drawPage(){
 				else{
 					tr.appendChild(td);
 					
-					td.onclick = function(){ colorCell(this); }
 					td.style.backgroundColor = getColorForPercentage((statusMatrix[i-1][j-1]-minScore)/maxScore);
 					td.value = {i:i,j:j};
 					td.className += " er_row"+i+" er_col"+j;
@@ -480,7 +479,16 @@ function prepareCell(elm)
 	function timeIncrDown(e){
 		var val = $(this).val();
 		selected_time.start = val;				
-		if(e.which === 1) selected_time.button_down = true; 
+		if(e.which === 1){
+			selected_time.button_down = true; 
+			if(selected_time.end == $(this).val()) return;
+			
+			selected_time.end = $(this).val();
+			$.each($("#completeTable td"),function(i,td){
+				if(td.value) decolorCell(td);
+			});
+			colorSpan(selected_time.start,selected_time.end);
+		}
 	};
 	
 	function timeIncrUp(e){
@@ -531,6 +539,12 @@ function saveSelectedTimes(){
 	selEndTime = refDate.toJSON();
 	
 	$("#pickButton").removeClass("disabled");
+	
+	var timeStr = "";
+	timeStr += sDate.toDateString()+" "
+				+sDate.toLocaleTimeString()+" - "
+				+eDate.toLocaleTimeString();
+	$("#selTimePrintout").text(timeStr);
 	
 	//console.log(sDate);
 	//console.log(eDate);

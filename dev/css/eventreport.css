@@ -103,3 +103,11 @@
 	text-align:center;
 	border:1px solid gray;
 }
+
+#selTimePrintout{
+	position:absolute;
+	bottom:0.1em;
+	right:16.6666667%;
+	font-size:1.2em;
+	font-style:italic;
+}
