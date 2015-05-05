@@ -109,6 +109,7 @@ function _getListItems($list_uid){
 		FROM list_items
 		NATURAL JOIN active_users
 		WHERE list_uid = ?
+		ORDER BY item_uid
 	";
 	
 	$stmt = $dbh->prepare($sql);
@@ -243,6 +244,12 @@ function addListItem(){
 		if(!_checkGroupList($group_uid,$list_uid)){ http_response_code(230); return; }
 		$item_id = _addListItem($email,$list_uid,$item);
 		echo $item_id;
+		
+		$x = _getListInfo($list_uid,$group_uid);
+		$list_title = $x["title"];
+		
+		addListUpdate($email,$group_uid,"added an item to \"".$list_title."\"",$list_uid);
+		
 	}else{
 		http_response_code(206);
 		return;
