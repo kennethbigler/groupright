@@ -12,4 +12,6 @@
 +(void) getUserInfo;
 +(NSString*)loginToGroupServeWithUsername:(NSString*)username andPassword:(NSString*)password;
 +(void) logoutOfGroupServeWithUsername:(NSString*)username andCookier:(NSString*)ac;
++(void) markTaskCompleteWithTaskId:(NSString*)task_id;
++(void) getMessagesForGroupId:(NSString*)group_id;
 @end

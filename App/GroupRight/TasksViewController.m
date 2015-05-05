@@ -31,6 +31,11 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
+
+-(UITableView*) TasksTable{
+    return _TasksTable;
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     GRMainModule *grmm = [GRMainModule grMain];
@@ -87,12 +92,38 @@
     //Set Name and Description
     NSDictionary *task = [grmm.tasks objectAtIndex: indexPath.row];
     
+    
     cell.description.text = [task objectForKey:@"task_title"];
-    ;
+  
+    
     UIColor *grColor = [grmm getColorForGroupWithId:[task objectForKey:@"group_id"] AtAlpha:1.0f];
     cell.colorImage.backgroundColor = grColor;
     cell.colorImage.image = nil;
-    cell.statusImage.backgroundColor = grColor;
+    //cell.statusImage.backgroundColor = grColor;
+    CAShapeLayer *circleLayer = [CAShapeLayer layer];
+    circleLayer.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, 30, 30)].CGPath;
+    if([[task objectForKey:@"is_completed"] isEqual:@"1"]){
+        circleLayer.fillColor = grColor.CGColor;
+        circleLayer.strokeColor = [UIColor colorWithRed:.44 green:.44 blue:.44 alpha:1].CGColor;
+        circleLayer.lineWidth = 2;
+    }
+    else{
+        circleLayer.fillColor = [UIColor whiteColor].CGColor;
+        circleLayer.strokeColor = grColor.CGColor;
+        circleLayer.lineWidth = 2;
+    }
+    //NSLog([task objectForKey:@"link_type"]);
+    if(![[task objectForKey:@"link_type"] isEqual:[NSNull null]]){
+        [cell.completedButton setAccessibilityValue:@"null"];
+    }
+    else if([[task objectForKey:@"is_completed"] isEqual:@"1"]){
+        [cell.completedButton setAccessibilityValue:@"completed"];
+    }
+    else{
+        [cell.completedButton setAccessibilityValue:[task objectForKey:@"task_uid"]];
+    }
+    //[cell.completed.layer addSublayer:circleLayer];
+    [cell.completedButton.layer addSublayer:circleLayer];
                                   
                                   
     //Set the correct photo

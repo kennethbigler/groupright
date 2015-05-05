@@ -17,7 +17,7 @@
     if ([grmm ac] == nil) return;
     
     // Set URL.
-    NSString *urlString = @"https://www.groupright.net/dev/groupserve.php";
+    NSString *urlString = @"https://www.groupright.net/g/groupserve.php";
     NSURL *url=[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
     // Set Request Data
@@ -38,7 +38,7 @@
     NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
     
     // Parse string into JSON.
-    NSError *jsonError;
+    NSError *jsonError; 
     NSData *objectData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData
                                                          options:NSJSONReadingMutableContainers
@@ -49,7 +49,7 @@
 }
 
 +(NSString*)loginToGroupServeWithUsername:(NSString*)username andPassword:(NSString*)password{
-    NSString *urlString = @"https://www.groupright.net/dev/groupserve.php";
+    NSString *urlString = @"https://www.groupright.net/g/groupserve.php";
     NSData* responseData = nil;
     NSURL *url=[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     responseData = [NSMutableData data] ;
@@ -67,7 +67,7 @@
 }
 +(void) logoutOfGroupServeWithUsername:(NSString*)username andCookier:(NSString*)ac{
     GRMainModule *grmm = [GRMainModule grMain];
-    NSString *urlString = @"https://www.groupright.net/dev/groupserve.php";
+    NSString *urlString = @"https://www.groupright.net/g/groupserve.php";
     NSData* responseData = nil;
     NSURL *url=[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     responseData = [NSMutableData data] ;
@@ -81,5 +81,49 @@
     responseData = [NSURLConnection sendSynchronousRequest:request     returningResponse:&response error:&error];
     [grmm clearData];
 }
++(void) markTaskCompleteWithTaskId:(NSString*)task_id{
+    GRMainModule *grmm = [GRMainModule grMain];
+    NSString *urlString = @"https://www.groupright.net/g/groupserve.php";
+    NSData* responseData = nil;
+    NSURL *url=[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    responseData = [NSMutableData data];
+    NSString* username =[grmm user];
+    NSString* ac=[grmm ac];
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
+    NSString *bodydata=[NSString stringWithFormat:@"function=mark_task_complete&email=%@&ac=%@&task_id=%@",username,ac,task_id];
+    [request setHTTPMethod:@"POST"];
+    NSData *req=[NSData dataWithBytes:[bodydata UTF8String] length:[bodydata length]];
+    [request setHTTPBody:req];
+    NSURLResponse* response;
+    NSError* error = nil;
+    responseData = [NSURLConnection sendSynchronousRequest:request     returningResponse:&response error:&error];
+}
++(void) getMessagesForGroupId:(NSString*)group_id{
+    GRMainModule *grmm = [GRMainModule grMain];
+    NSString *urlString = @"https://www.groupright.net/g/groupserve.php";
+    NSData* responseData = nil;
+    NSURL *url=[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    responseData = [NSMutableData data];
+    NSString* username =[grmm user];
+    NSString* ac=[grmm ac];
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
+    NSString *bodydata=[NSString stringWithFormat:@"function=get_messages&email=%@&ac=%@&group_uid=%@",username,ac,group_id];
+    [request setHTTPMethod:@"POST"];
+    NSData *req=[NSData dataWithBytes:[bodydata UTF8String] length:[bodydata length]];
+    [request setHTTPBody:req];
+    NSURLResponse* response;
+    NSError* error = nil;
+    responseData = [NSURLConnection sendSynchronousRequest:request     returningResponse:&response error:&error];
+    NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+    
+    // Parse string into JSON.
+    NSError *jsonError;
+    NSData *objectData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData
+                                                         options:NSJSONReadingMutableContainers
+                                                           error:&jsonError];
 
+    // Pass JSON to grmm.
+    [grmm addMessages:json];
+}
 @end

@@ -10,5 +10,5 @@
 
 @interface TasksViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITableView *TasksTable;
-
+-(UITableView*) TasksTable;
 @end

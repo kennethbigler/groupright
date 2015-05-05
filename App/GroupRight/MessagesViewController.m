@@ -9,6 +9,7 @@
 #import "MessagesViewController.h"
 #import "GRMainModule.h"
 #import "MessagesTableCell.h"
+#import "GroupRightNetworking.h"
 
 @interface MessagesViewController ()
 
@@ -18,7 +19,7 @@
 NSString* activeGroupId;
 BOOL isSelectingGroups=YES;
 NSString* activeGroupName;
-- (void)viewAppearLoad {
+- (void)viewDidLoad {
     [super viewDidLoad];
     GRMainModule *grmm=[GRMainModule grMain];
     activeGroupId=[[grmm.groups objectAtIndex:0] objectForKey:@"group_id"];
@@ -31,6 +32,7 @@ NSString* activeGroupName;
     //NSLog(activeGroupId);
     //NSLog(@"hello");
     // Do any additional setup after loading the view.
+   
     
 }
 
@@ -56,7 +58,8 @@ NSString* activeGroupName;
         self.groupPIcker.hidden=YES;
         //self.confirmButton.=@"Change Group";
         [self.confirmButton setTitle:@"Change" forState:UIControlStateNormal];
-        [grmm setMessagesForGroupWithId:activeGroupId];
+        //[grmm setMessagesForGroupWithId:activeGroupId];
+        [GroupRightNetworking getMessagesForGroupId:activeGroupId];
         [_messagesTable reloadData];
         [self.messagesTable setHidden:NO];
         [self.messageInput setHidden:NO];
@@ -73,6 +76,12 @@ NSString* activeGroupName;
     }
     isSelectingGroups=!isSelectingGroups;
     //if (self.groupPIcker) self.groupPIcker.hidden = !self.groupPIcker.hidden;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:([grmm.messages count]-1) inSection:0];
+    [self.messagesTable scrollToRowAtIndexPath:indexPath
+                          atScrollPosition:UITableViewScrollPositionTop
+                                  animated:YES];
+    //[self.messagesTable reloadData];
+
 }
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{

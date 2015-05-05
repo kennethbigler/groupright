@@ -69,10 +69,13 @@ GRMainModule *GRMAIN;
     tasks = (NSMutableArray *) [raw objectForKey:@"tasks"];
     updates = (NSMutableArray *) [raw objectForKey:@"updates"];
     
-    
-    
-    
     return;
+}
+- (void) addMessages:(NSDictionary *)raw{
+    if([messages count]){
+        [messages removeAllObjects];
+    }
+    messages= (NSMutableArray*) [raw objectForKey:@"messages"];
 }
 
 - (NSString*) getFullNameForEmail:(NSString*) email
@@ -108,7 +111,18 @@ GRMainModule *GRMAIN;
 }
 
 - (UIColor *) getColorForGroupWithId:(NSString *)guid{
-    return [self getColorForGroupWithId:guid AtAlpha:0.5f];
+    return [self getColorForGroupWithId:guid AtAlpha:0.7f];
+}
+
+- (UIColor *) getColorForTaskWithId:(NSString *)task_id{
+    NSString* guid;
+    for(int i=0; i<[tasks count]; i++){
+        if([[tasks objectAtIndex:i] objectForKey:@"task_uid"]==task_id){
+            guid=[[tasks objectAtIndex:i] objectForKey:@"group_id"];
+            break;
+        }
+    }
+    return [self getColorForGroupWithId:guid AtAlpha:1];
 }
 - (void) setMessagesForGroupWithId:(NSString*) guid{
     //empty the messages array

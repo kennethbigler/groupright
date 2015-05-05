@@ -10,7 +10,8 @@
 
 @interface TasksTableViewCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *description;
-@property (strong, nonatomic) IBOutlet UIButton *statusImage;
 @property (strong, nonatomic) IBOutlet UIImageView *colorImage;
+@property (weak, nonatomic) IBOutlet UIButton *completedButton;
+- (IBAction)markTaskComplete:(id)sender;
 
 @end

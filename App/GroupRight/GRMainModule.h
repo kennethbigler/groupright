@@ -33,12 +33,15 @@
 
 /* loading / parsing data */
 - (void) addUserData: (NSDictionary *) raw;
+- (void) addMessages:(NSDictionary *) raw;
 
 /*Support Functions*/
 - (NSString*) getFullNameForEmail:(NSString*) email;
 - (UIColor*) getColorForGroupWithId:(NSString*) guid AtAlpha: (float) alpha;
 - (UIColor*) getColorForGroupWithId:(NSString*) guid;
+- (UIColor *) getColorForTaskWithId:(NSString *)task_id;
 - (void) setMessagesForGroupWithId:(NSString*) guid;
 - (void) clearData;
+
 
 @end
