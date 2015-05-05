@@ -532,11 +532,11 @@ function saveSelectedTimes(){
 	
 	var sDate = new Date(refDate);
 	sDate.setMinutes( refDate.getMinutes() + (selected_time.start.i - 1)*30 );
-	selStartTime = refDate.toJSON();
+	selStartTime = sDate.toJSON();
 	
 	var eDate = new Date(refDate);
 	eDate.setMinutes( refDate.getMinutes() + (selected_time.end.i)*30 );
-	selEndTime = refDate.toJSON();
+	selEndTime = eDate.toJSON();
 	
 	$("#pickButton").removeClass("disabled");
 	
