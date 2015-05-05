@@ -40,6 +40,32 @@ function _createList($email,$title,$description,$group_uid){
 	return $dbh->lastInsertId();
 }
 
+
+function addListContribTask($creator,$group_uid,$title,$list_uid){
+	
+	$task_title = "Contribute to '".$title."'";
+	
+	
+	$task_uid = addTask($creator,$task_title,"",$group_uid,null,true);
+	
+	// Get members.
+	$dbh = ConnectToDB();
+	
+	$stmt = $dbh->prepare(
+		"SELECT email FROM memberships WHERE group_uid = ?"
+	);
+	$stmt->execute(array($group_uid));
+			
+	while($row = $stmt->fetch()){
+		$em = $row['email'];
+		addTaskAssignment($task_uid,$group_uid,$em);
+	}
+	
+	// Link task.
+	_createTaskLink($task_uid,'list',$list_uid);
+
+}
+
 function createList(){
 	
 		// Get information.
@@ -62,6 +88,8 @@ function createList(){
 			if($list_uid < 1){ http_response_code(298); return; } // failed list  creation
 			
 			addListUpdate($email,$group_uid,"created list \"".$list_title."\"",$list_uid);
+			
+			addListContribTask($email,$group_uid,$list_title,$list_uid);
 			
 			// output list
 			print_r($list_uid);
@@ -93,7 +121,8 @@ function _getListItems($list_uid){
 		$obj["item_uid"] = $row["item_uid"];
 		$obj["item_name"] = $row["item_name"];
 		//$obj["creator"] = $row["creator"];
-		$obj["item_creator"] = $row["first_name"]." ".$row["last_name"];
+		//$obj["item_creator"] = $row["first_name"]." ".$row["last_name"];
+		$obj["item_creator"] = $row["email"];
 		$arr[] = $obj;
 	}
 	return $arr;
@@ -124,6 +153,31 @@ function _getListInfo($list_uid,$group_uid){
 	return null;
 }
 
+function _markListContribComplete($email,$group_id,$list_id)
+{
+	$dbh = ConnectToDB();
+	
+	$sql = "
+		UPDATE tasks_assignments
+		SET is_completed = 1
+		WHERE task_uid in (
+			SELECT task_uid
+			FROM tasks as t
+			JOIN task_link as tl using (task_uid)
+			WHERE tl.link_type = 'list'
+			AND tl.link_id = ?
+			AND t.group_uid = ?
+		)
+		AND email = ?
+	";
+
+	$stmt = $dbh->prepare($sql);
+	
+	$stmt->execute(array($list_id,$group_id,$email));
+	
+	return;
+}
+
 function getListInfo(){
 	$email = sanitizeEmail( $_POST['email'] );
 	$cookie = grHash($_POST['ac'],$email);
@@ -145,6 +199,9 @@ function getListInfo(){
 		$info["items"] = _getListItems($list_uid);
 		
 		echo json_encode($info);
+		
+		_markListContribComplete($email,$group_uid,$list_uid);
+		
 	}else{
 		http_response_code(206);
 		return;
