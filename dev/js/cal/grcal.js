@@ -72,8 +72,10 @@
 		if(this.mobile) hours.addClass("mobile-compliant");
 		
 		// Add each label.
+		var eInd = hournames.indexOf(this.options.end_hour);
+		if(eInd == 0) eInd = 24;
 		for(var i = hournames.indexOf(this.options.start_hour);
-				i <= hournames.indexOf(this.options.end_hour);
+				i <= eInd;
 				i++){
 			hours.append(
 				$("<div />",{class:"gr-hour",text:hournames[i]}).height(this.dim.cell_height)
@@ -97,7 +99,7 @@
 			// make the hour markers.
 			var contDiv = $("<div />").css("position","relative");
 			for(var j = hournames.indexOf(this.options.start_hour);
-				j < hournames.indexOf(this.options.end_hour);
+				j < eInd;
 				j++){
 				contDiv.append(
 					$("<div />",{class:"gr-hour"}).height(this.dim.cell_height)
@@ -144,8 +146,9 @@
 		this.dim.day_width = 100/this.options.num_days+"%";
 		
 		// fix height
-		var nHours = hournames.indexOf(this.options.end_hour) 
-						- hournames.indexOf(this.options.start_hour);
+		var sInd = hournames.indexOf(this.options.start_hour);
+		var eInd = (this.options.end_hour == "12am") ? 24 : hournames.indexOf(this.options.start_hour);
+		var nHours = eInd - sInd;
 						
 		this.dim.cell_height = Math.floor((height-30)/nHours);
 		
