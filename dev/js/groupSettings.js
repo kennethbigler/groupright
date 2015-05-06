@@ -66,7 +66,76 @@ function makeMemberLeader(groupID,email){}
 
 function dropMember(groupID,email){}
 
-function _leaveGroup(groupID){}
+function _leaveGroup(groupID){
+	var _cookies = genCookieDictionary();
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"group_uid":groupID,
+			"function":"leave_group"
+		};
+		// Contact Server
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					window.location = ""; /* reload */
+				},
+				220: function(data, status, jqXHR){
+					//they don't have the necessary access to see this page have them login again
+					window.location="https://www.groupright.net"+GR_DIR+"/login.html";
+				}
+			}
+		
+		});
+	}
+	else{
+		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
+		
+	}
+	//Load Members, Drop functionality, Change Leader Functionality
+	
+}
+
+function disbandGroup(groupID){
+	
+	confirm("Warning! This action cannot be undone. Do you wish to continue?");
+	
+	var _cookies = genCookieDictionary();
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"group_uid":groupID,
+			"function":"disband_group"
+		};
+		// Contact Server
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					window.location = ""; /* reload */
+				},
+				220: function(data, status, jqXHR){
+					//they don't have the necessary access to see this page have them login again
+					window.location="https://www.groupright.net"+GR_DIR+"/login.html";
+				}
+			}
+		
+		});
+	}
+	else{
+		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
+		
+	}
+	//Load Members, Drop functionality, Change Leader Functionality
+	
+}
 
 function _addGroupMembers(groupID,members){}
 
@@ -233,7 +302,9 @@ function addUserGroupInfo(data){
 }
 
 function leaveGroup(groupID){
-	alert("Warning! This action cannot be undone. Do you wish to continue?");
+	confirm("Warning! This action cannot be undone. Do you wish to continue?");
+	
+	_leaveGroup(groupID);
 }
 
 // ==========================================================
