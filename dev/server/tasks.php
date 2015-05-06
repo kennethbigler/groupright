@@ -8,8 +8,10 @@ function getAllTasks($email){
 		FROM tasks_assignments 
 			JOIN tasks USING (task_uid) 
 			NATURAL LEFT JOIN task_link
-			JOIN memberships USING (group_uid,email)
-		WHERE email = ?
+			JOIN memberships
+			ON tasks.group_uid = memberships.group_uid
+			AND memberships.email = tasks_assignments.email
+		WHERE tasks_assignments.email = ?
 	");
 	$stmt->execute(array($email));
 	
@@ -38,7 +40,16 @@ function getAllTasksSince($email,$task_uid){
 	$dbh = ConnectToDB();
 	
 	$stmt = $dbh->prepare(
-		"SELECT * FROM tasks_assignments JOIN tasks USING (task_uid) NATURAL LEFT JOIN task_link WHERE email = ? AND task_uid > ?"
+		"
+		SELECT * 
+		FROM tasks_assignments 
+			JOIN tasks USING (task_uid) 
+			NATURAL LEFT JOIN task_link
+			JOIN memberships
+			ON tasks.group_uid = memberships.group_uid
+			AND memberships.email = tasks_assignments.email
+		WHERE tasks_assignments.email = ?
+		AND task_uid > ?"
 	);
 	$stmt->execute(array($email,$task_uid));
 	

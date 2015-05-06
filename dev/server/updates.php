@@ -54,11 +54,13 @@ function getAllUpdatesSince($email,$update_uid){
 		SELECT updates.group_uid, users.email, users.first_name, users.last_name, 
 			updates.description ,updates.timestamp, updates.update_uid, updates.link_type,
 			updates.link_id
-		FROM notifications,updates,active_users as users
+		FROM notifications,updates,active_users as users,memberships
 		WHERE notifications.email = ?
 			AND notifications.update_uid = updates.update_uid
 			AND updates.email = users.email
 			AND notifications.read = false
+			AND memberships.email = notifications.email
+			AND memberships.group_uid = updates.group_uid
 			AND updates.update_uid > ?
 		ORDER BY updates.timestamp DESC
 	";
