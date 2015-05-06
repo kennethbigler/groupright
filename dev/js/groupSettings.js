@@ -102,7 +102,7 @@ function _leaveGroup(groupID){
 
 function disbandGroup(groupID){
 	
-	confirm("Warning! This action cannot be undone. Do you wish to continue?");
+	if(!confirm("Warning! This action cannot be undone. Do you wish to continue?")) return;
 	
 	var _cookies = genCookieDictionary();
 	if(_cookies.accesscode && _cookies.user){
@@ -302,7 +302,7 @@ function addUserGroupInfo(data){
 }
 
 function leaveGroup(groupID){
-	confirm("Warning! This action cannot be undone. Do you wish to continue?");
+	if(!confirm("Warning! This action cannot be undone. Do you wish to continue?")) return;
 	
 	_leaveGroup(groupID);
 }
