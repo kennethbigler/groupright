@@ -26,8 +26,11 @@ function getFullNameForEmail(email){
 }
 
 function getColorForGroup(groupid){
-	var color= GRMAIN.group(groupid).group_color;
-	return color;
+	var gr = GRMAIN.group(groupid);
+	if(!gr){
+		return;
+	}
+	return gr.group_color;
 
 	console.warn("No color found in fx: getColorForGroup");
 	return "FFFFFF";	

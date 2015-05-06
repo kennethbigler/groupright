@@ -3,9 +3,14 @@
 function getAllTasks($email){
 	$dbh = ConnectToDB();
 	
-	$stmt = $dbh->prepare(
-		"SELECT * FROM tasks_assignments JOIN tasks USING (task_uid) NATURAL LEFT JOIN task_link WHERE email = ?"
-	);
+	$stmt = $dbh->prepare("
+		SELECT * 
+		FROM tasks_assignments 
+			JOIN tasks USING (task_uid) 
+			NATURAL LEFT JOIN task_link
+			JOIN memberships USING (group_uid,email)
+		WHERE email = ?
+	");
 	$stmt->execute(array($email));
 	
 	$arr = array();

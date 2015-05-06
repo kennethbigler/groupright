@@ -147,7 +147,7 @@
 		
 		// fix height
 		var sInd = hournames.indexOf(this.options.start_hour);
-		var eInd = (this.options.end_hour == "12am") ? 24 : hournames.indexOf(this.options.start_hour);
+		var eInd = (this.options.end_hour == "12am") ? 24 : hournames.indexOf(this.options.end_hour);
 		var nHours = eInd - sInd;
 						
 		this.dim.cell_height = Math.floor((height-30)/nHours);
