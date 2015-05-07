@@ -69,6 +69,9 @@
 			// add other members
 			for($i = 1; $i < count($members); $i++){
 				_addMember($members[$i],$g_uid,"member");
+				if(!_checkUserExists($members[$i])){
+					sendInviteEmail($members[$i],$name);
+				}
 			}
 			
 			http_response_code(200);
