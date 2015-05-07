@@ -185,6 +185,7 @@ function signUp(){
 				"email":email,
 				"password":password
 	};
+	$("#signUpButton")[0].disabled = true;
 	
 	// Contact Server
 	$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
@@ -196,6 +197,7 @@ function signUp(){
 				},
 				208:function(data,status,jqXHR){
 					alertBannerSignup("You have already an account with GroupRight. <a href='forgot.html'>Did you forget your password?</a>")
+					$("#signUpButton")[0].disabled = false;
 				}
 			}
 		});

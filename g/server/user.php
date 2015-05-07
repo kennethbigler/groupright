@@ -23,7 +23,7 @@
 		$message .= "<li>Create collaborative lists and polls.</li>";
 		$message .= "<li>And easily manage all of your groups!</li></ul>";
 		$message .= "<p>Come join today.  Your groups are waiting.</p>";
-		$message .= "<p><a href='https://groupright.net/g/'>GroupRight.net</a></p>";
+		$message .= "<p><a href='https://www.groupright.net/g/'>GroupRight.net</a></p>";
 		$message .= "</body></html>";
 		
 		//echo $message;
