@@ -93,6 +93,13 @@ window.onload = function() {
 	};
 	GRMAIN.onupdateupdate = function(x){
 		if(x.length){
+			for(var i = 0; i < x.length; i++){
+				if(x[i].link_type == "task" && x[i].description.match("completed"))
+				{
+					GRMAIN.task(x[i].link_id).is_completed="1";
+					__resetTasks();
+				}				
+			}
 			__resetUpdates();
 		}
 	};
@@ -398,6 +405,7 @@ function addTasks(){
 			else{
 				//It's a default task
 				button.style.border="2px solid"+getColorForGroup(task_array[i].group_id);
+				button.id = "taskcomplete_"+task_array[i].task_uid;
 				$(button).attr('onclick','toggleTask(this,'+task_array[i].task_uid+','+i+')');
 			}
 		}
@@ -680,7 +688,7 @@ function toggleTask(element, taskid, localIndex){
 											element.style.border="2px solid #666";
 											$(element).attr('onclick','return;');
 											//Clean the global object
-											GRMAIN.task(taskid).isCompleted="1";
+											GRMAIN.task(taskid).is_completed="1";
 											//Do something with the update
 											
 									},
