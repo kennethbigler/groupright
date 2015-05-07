@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+//<<<<<<< HEAD
 // homescripts.js
 //
 //		Scripts that are applied more or less exclusively to home.html
@@ -36,6 +36,35 @@ function getColorForGroup(groupid){
 	console.warn("No color found in fx: getColorForGroup");
 	return "FFFFFF";	
 }
+
+//============================================================
+// Modify Button wording on resize
+$(window).resize(function() {
+    // desktop
+    if ( $(this).width() >= 1200 ) {
+        $("createGroup").html("Create a Group");
+        $("scheduleEvent").html("Schedule an Event");
+        $("createList").html("Create a List");
+		$("makeDecision").html("Make a Decision");
+		$("startTask").html("Start a Task");
+    }
+    // tablet
+    if ( $(this).width() >= 768 && $(this).width() < 1200 ) {
+        $("createGroup").html("Groups");
+        $("scheduleEvent").html("Events");
+        $("createList").html("Lists");
+		$("makeDecision").html("Decisions");
+		$("startTask").html("Tasks");
+    }
+    // phone
+    if ( $(this).width() < 768 ) {
+		$("createGroup").html("Create a Group");
+		$("scheduleEvent").html("Schedule an Event");
+		$("createList").html("Create a List");
+		$("makeDecision").html("Make a Decision");
+		$("startTask").html("Start a Task");
+    }
+});
 
 
 

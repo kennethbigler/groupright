@@ -97,22 +97,22 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-2">
-			<button type="button" class="btn btn-lg btn-block btn-primary"  data-toggle="modal" href="#createGroupBox" >Create a Group</button>
+			<button id="createGroup" type="button" class="btn btn-lg btn-block btn-primary"  data-toggle="modal" href="#createGroupBox" >Create a Group</button>
 		</div>
 		<div class="col-sm-2">
-			<button type="button" class="btn btn-lg btn-block btn-warning" data-toggle="modal" href="#createEventBox">Schedule an Event</button>
+			<button id="scheduleEvent" type="button" class="btn btn-lg btn-block btn-warning" data-toggle="modal" href="#createEventBox">Schedule an Event</button>
 		</div>
 		<div class="col-sm-2">
-			<button type="button" class="btn btn-lg btn-block btn-info"  style="background-color:#6B558D;color:white;border-color:#64428A;" data-toggle="modal" href="#createListBox" >Create a List </button>
+			<button id="createList" type="button" class="btn btn-lg btn-block btn-info"  style="background-color:#6B558D;color:white;border-color:#64428A;" data-toggle="modal" href="#createListBox" >Create a List </button>
 		</div>
 		<div class="col-sm-2">
-			<button type="button" class="btn btn-lg btn-block btn-info"  data-toggle="modal" href="#createPollBox">Make a Decision </button>
+			<button id="makeDecision" type="button" class="btn btn-lg btn-block btn-info"  data-toggle="modal" href="#createPollBox">Make a Decision </button>
 		</div>
 		<div class="col-sm-2">
-			<button type="button" class="btn btn-lg btn-block btn-success" data-toggle="modal" href="#createTaskBox">Start a Task</button>
+			<button id="startTask" type="button" class="btn btn-lg btn-block btn-success" data-toggle="modal" href="#createTaskBox">Start a Task</button>
 		</div>
 		<div class="col-sm-2">
-			<button type="button" class="btn btn-lg btn-block btn-danger" data-toggle="modal" href="#createMessageBox" onclick="populateMessages()">Messages <span class="badge" id="messageCount" style="display:none;">4</span></button>
+			<button id="sendMessage" type="button" class="btn btn-lg btn-block btn-danger" data-toggle="modal" href="#createMessageBox" onclick="populateMessages()">Messages <span class="badge" id="messageCount" style="display:none;">4</span></button>
 		</div>
 	</div>
 </div>
