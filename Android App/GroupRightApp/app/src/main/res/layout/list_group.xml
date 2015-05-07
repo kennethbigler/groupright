@@ -1,15 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp" >
+    >
 
 
     <TextView
         android:id="@+id/lblListHeader"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft" />
+        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:text="@string/hello_world"
+        android:textSize="20sp"
+        android:paddingTop="14sp"
+        android:paddingBottom="14sp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/imageView3"
+        />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="16sp"
+        android:layout_height="48sp"
+        android:layout_centerVertical="true"
+        android:background="@color/gr_teal"
+    />
+
+    <!--android:layout_centerVertical="true"
+    android:layout_alignParentStart="true"
+    android:layout_toStartOf="@+id/checkBox"
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox"
+        android:layout_alignTop="@+id/lblListHeader"
+        android:layout_alignParentEnd="true"
+        android:background="@color/gr_teal"
+        android:layout_centerVertical="true"
+    />-->
+
+</RelativeLayout>

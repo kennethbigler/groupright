@@ -1,16 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+
     <!-- the theme applied to the application or activity -->
-    <style name="CustomActionBarTheme"
-        parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="Theme.MyAppTheme"
+        parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:actionBarTabBarStyle">@style/MyTabStyle</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="actionBarTabBarStyle">@style/MyTabStyle</item>
+        <!-- Main theme colors -->
+        <!--   your app branding color for the app bar -->
+        <!--<item name="android:colorPrimary">@color/gr_teal</item>-->
+        <!--   darker variant for the status bar and contextual app bars -->
+        <!--<item name="android:colorPrimaryDark">@color/gr_blue</item>-->
+        <!--   theme UI controls like checkboxes and text fields -->
+        <!--<item name="android:colorAccent">@color/gr_white</item>-->
+        <!-- change color of nav bar at the bottom -->
+        <!--<item name="android:navigationBarColor">@color/gr_blue</item>-->
     </style>
+
+
 
     <!-- ActionBar styles -->
     <style name="MyActionBar"
-        parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/actionbar_background</item>
+        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/gr_teal</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@color/gr_teal</item>
     </style>
 
-    <drawable name="actionbar_background">#00A1D9</drawable>
+    <style name="MyTabStyle" parent="android:Widget.ActionBar.TabBar">
+        <item name="android:background">@color/gr_blue</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@color/gr_blue</item>
+    </style>
+
+    <!--<style name="Theme.MyAppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/Theme.MyAppTheme.ActionBar</item>
+    </style>
+
+    <style name="Theme.MyAppTheme.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/gr_teal</item>
+    </style>-->
+
 </resources>

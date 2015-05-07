@@ -83,9 +83,9 @@ public class TaskAdapter extends BaseExpandableListAdapter {
                              View convertView, ViewGroup parent) {
         String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.context
+            LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_group, null);
+            convertView = inflater.inflate(R.layout.list_group, null);
         }
 
         TextView lblListHeader = (TextView) convertView
@@ -105,57 +105,3 @@ public class TaskAdapter extends BaseExpandableListAdapter {
         return true;
     }
 }
-
-
-
-
-/*    @Override
-    public int getGroupCount() {
-        return 0;
-    }
-
-    @Override
-    public int getChildrenCount(int groupPosition) {
-        return 0;
-    }
-
-    @Override
-    public Object getGroup(int groupPosition) {
-        return null;
-    }
-
-    @Override
-    public Object getChild(int groupPosition, int childPosition) {
-        return null;
-    }
-
-    @Override
-    public long getGroupId(int groupPosition) {
-        return 0;
-    }
-
-    @Override
-    public long getChildId(int groupPosition, int childPosition) {
-        return 0;
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return false;
-    }
-
-    @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        return null;
-    }
-
-    @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        return null;
-    }
-
-    @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
-    }
-}*/
