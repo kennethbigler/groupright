@@ -1,4 +1,4 @@
-//<<<<<<< HEAD
+<<<<<<< HEAD
 // homescripts.js
 //
 //		Scripts that are applied more or less exclusively to home.html
