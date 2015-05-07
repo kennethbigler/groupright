@@ -26,8 +26,11 @@ function getFullNameForEmail(email){
 }
 
 function getColorForGroup(groupid){
-	var color= GRMAIN.group(groupid).group_color;
-	return color;
+	var gr = GRMAIN.group(groupid);
+	if(!gr){
+		return;
+	}
+	return gr.group_color;
 
 	console.warn("No color found in fx: getColorForGroup");
 	return "FFFFFF";	
@@ -225,7 +228,7 @@ function addCalendarInfo(){
 	sd = days[ (new Date()).getDay() ];
 	
 	var hours = ["12am","1am","2am","3am","4am","5am","6am","7am","8am","9am","10am","11am",
-					"12pm","1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm","9pm","10pm","11pm"];
+					"12pm","1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm","9pm","10pm","11pm","12am"];
 	sh = 9; eh = 18;
 	
 	var prepped = new Array();
@@ -289,18 +292,41 @@ function addTasks(){
 		$(collapseDiv).attr( 'aria-labelledby', 'heading'+temp );
 		var detailDiv=document.createElement('div');
 		detailDiv.className="panel-body";
-		var createdPar=document.createElement('p');
-		
-		createdPar.innerHTML+="Created By: "+getFullNameForEmail(task_array[i].creator);
-		createdPar.style.marginLeft="5px";
-		collapseDiv.appendChild(createdPar);
-		//var responsibilityPar=document.createElement('p');
-		if(task_array[i].task_description==""){
-			detailDiv.innerHTML="No Description Provided";
+
+		//Add type info
+		var typePar=document.createElement('p');
+		if(task_array[i].is_individual=="1"){
+			typePar.innerHTML="<b>Responsiblity:</b> You";
 		}
 		else{
-			detailDiv.innerHTML=task_array[i].task_description;
+			typePar.innerHTML="<b>Responsiblity:</b> Entire Group";
 		}
+		typePar.style.marginLeft="5px";
+		collapseDiv.appendChild(typePar);
+		
+		//Add creator
+		var createdPar=document.createElement('p');
+		createdPar.innerHTML+="<b>Created By:</b> "+getFullNameForEmail(task_array[i].creator);
+		createdPar.style.marginLeft="5px";
+		collapseDiv.appendChild(createdPar);
+
+		//Add Description
+		var descriptionPar=document.createElement('p');
+		if(task_array[i].task_description==""){
+			descriptionPar.innerHTML="<b>Description:</b> None Provided";
+		}
+		else{
+			descriptionPar.innerHTML="<b>Description:</b> "+task_array[i].task_description;
+		}
+		descriptionPar.style.marginLeft="5px";
+		collapseDiv.appendChild(descriptionPar);
+
+		//Add group
+		var groupPar=document.createElement('p');
+		groupPar.innerHTML="<b>Group:</b> "+GRMAIN.group(task_array[i].group_id).group_name;
+		groupPar.style.marginLeft="5px";
+		collapseDiv.appendChild(groupPar);
+
 
 		var headingDivColLeft=document.createElement('div');
 		$(headingDivColLeft).attr( 'class', 'col-sm-10' );
@@ -331,7 +357,14 @@ function addTasks(){
 				span.style.color=getColorForGroup(task_array[i].group_id);
 				eventLink.appendChild(span);
 				button.appendChild(eventLink);
+				$(button).attr('href',eventLink);
 				button.style.border="2px solid"+getColorForGroup(task_array[i].group_id);
+
+				//Add creator
+				var instructionPar=document.createElement('p');
+				instructionPar.innerHTML+="<b>Instruction:</b> Click the arrow to complete this task.";
+				instructionPar.style.marginLeft="5px";
+				collapseDiv.appendChild(instructionPar);
 			}
 			else{
 				//It's a default task
@@ -339,6 +372,7 @@ function addTasks(){
 				$(button).attr('onclick','toggleTask(this,'+task_array[i].task_uid+','+i+')');
 			}
 		}
+
 		
 
 
