@@ -13,7 +13,7 @@ function employBackupProfile(elm){
 // ==========================================================
 // SERVER COMM.
 
-function manageGroup(groupID,groupName,role){
+function manageGroup(groupID,groupName,role,toggle){
 	//AJAX Member Load
 	var _cookies = genCookieDictionary();
 	if(_cookies.accesscode && _cookies.user){
@@ -31,8 +31,8 @@ function manageGroup(groupID,groupName,role){
 			statusCode:{
 				200: function(data, status, jqXHR){
 					var data=JSON.parse(data);
-					console.log(data);
-					addMembersToModal(data,groupName,role);
+					//console.log(data);
+					addMembersToModal(data,groupName,role,groupID);
 				},
 				220: function(data, status, jqXHR){
 					//they don't have the necessary access to see this page have them login again
@@ -55,11 +55,56 @@ function manageGroup(groupID,groupName,role){
 			"first_name":"Scott",
 			"last_name":"Sarsfield"
 			}]
-		console.log(data);
-		addMembersToModal(data,groupName,role);
+		//console.log(data);
+		addMembersToModal(data,groupName,role,groupID);
 	}
 	//Load Members, Drop functionality, Change Leader Functionality
-	$('#myModal').modal('toggle');
+	if(toggle){
+		$('#myModal').modal('toggle');
+	}
+}
+
+function addMemberToGroup(groupID,groupName){
+	var tempEmail=document.getElementById("addNewMember").value;
+	var atpos = tempEmail.indexOf("@");
+	var dotpos = tempEmail.lastIndexOf(".");
+	if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=tempEmail.length) {
+		document.getElementById("addNewMember").value="An invalid email was entered.";
+	    return false;
+	}
+	var _cookies = genCookieDictionary();
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"group_uid":groupID,
+			"added_member":tempEmail,
+			"function":"add_member"
+		};
+		// Contact Server
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					console.log("success");
+					manageGroup(groupID,groupName,"leader",false)
+				},
+				220: function(data, status, jqXHR){
+					//they don't have the necessary access to see this page have them login again
+					//window.location="https://www.groupright.net"+GR_DIR+"/login.html";
+					document.getElementById("addNewMember").value="An Error Occured.";
+				}
+			}
+		
+		});
+	}
+	else{
+		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
+		
+	}
+
 }
 
 function makeMemberLeader(groupID,email){}
@@ -137,7 +182,9 @@ function disbandGroup(groupID){
 	
 }
 
-function _addGroupMembers(groupID,members){}
+function _addGroupMembers(groupID,members){
+
+}
 
 // ==========================================================
 // LOAD / INIT
@@ -184,8 +231,8 @@ window.onload = function() {
 				{"group_name":"Grape","group_color":"purple","group_id":"84","role":"member"}
 		];
 
-		console.log(allGroups);
-		loadGroups(allGroups);
+		//console.log(allGroups);
+		//loadGroups(allGroups);
 	}
 
 };
@@ -249,7 +296,7 @@ function loadGroups(allGroups){
 		// View / Manage
 		p2=document.createElement('p');
 		var a2=document.createElement('a');
-		$(a2).attr('onclick','manageGroup('+allGroups[i].group_id+',"'+allGroups[i].group_name+'","'+allGroups[i].role+'")');
+		$(a2).attr('onclick','manageGroup('+allGroups[i].group_id+',"'+allGroups[i].group_name+'","'+allGroups[i].role+'",'+true+')');
 		a2.style.cursor="pointer";
 		if(allGroups[i].role=="member"){
 			p2.innerHTML="View Members";
@@ -310,10 +357,10 @@ function leaveGroup(groupID){
 // ==========================================================
 // RENDER
 
-function addMembersToModal(membersArray,groupName,role){
+function addMembersToModal(membersArray,groupName,role,groupID){
 	
 	var _cookie = genCookieDictionary();
-	
+	document.getElementById("addNewMemberBox").innerHTML="";
 	document.getElementById("modalGroupName").innerHTML=groupName;
 	//clear out anything there already
 	var addLocation=document.getElementById("addMembers");
@@ -325,8 +372,8 @@ function addMembersToModal(membersArray,groupName,role){
 		th.innerHTML="Member";
 		th.colspan = 2;
 		headingRow.appendChild(th);
-		console.log("Here VVV");
-		console.log(membersArray);
+		//console.log("Here VVV");
+		//console.log(membersArray);
 		for(var i=0; i<membersArray.length; i++){
 		    var tr=document.createElement('tr');
 			
@@ -363,8 +410,8 @@ function addMembersToModal(membersArray,groupName,role){
 		th.innerHTML="Member";
 		th.colspan = 4;
 		headingRow.appendChild(th);
-		console.log("Here VVV");
-		console.log(membersArray);
+		//console.log("Here VVV");
+		//console.log(membersArray);
 		for(var i=0; i<membersArray.length; i++){
 		    var tr=document.createElement('tr');
 			
@@ -421,5 +468,15 @@ function addMembersToModal(membersArray,groupName,role){
 			
 			addLocation.appendChild(tr);
 		}
+		var leftcol=document.createElement("div");
+		leftcol.className="col-md-9";
+		var righttcol=document.createElement("div");
+		righttcol.className="col-md-3";
+		righttcol.innerHTML='<button class="btn btn-success pull-right" onclick="addMemberToGroup('+groupID+',\''+groupName+'\')">Add</button>';
+		leftcol.innerHTML='<input type="text" id="addNewMember" class="form-control" placeholder="Add New Member (Enter Email)" required autofocus></td><td colspan="1">';
+		addNewMemberBox.appendChild(leftcol);
+		addNewMemberBox.appendChild(righttcol);
+		document.getElementById("addNewMemberBox").appendChild(leftcol);
+		document.getElementById("addNewMemberBox").appendChild(righttcol);
 	}
 }
