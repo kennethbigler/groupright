@@ -64,7 +64,7 @@ function createGroup(){
 	//Remove the leader's email if it is already in the array add the Group Leader's email to the front of the array
 	var _cookies = genCookieDictionary();
 	var leader=_cookies.user;
-	leader="zwilson7@gmail.com";
+	//leader="zwilson7@gmail.com";
 	//console.log(allEmails);
 	function unique(list) {
 	    var result = [];
@@ -106,7 +106,7 @@ function createGroup(){
 				"email":email,
 				"ac":ac
 	};
-	//console.log(obj);
+	console.log(obj);
 	//alert("Contacting Server");
 	// Contact Server
 	$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{

@@ -59,16 +59,22 @@
 	}
 	
 	function checkHashedCookie($user,$cookie){
-	
-		$today = new DateTime("now");
 		//echo $cookie;
 	
 		$dbh = ConnectToDB();
 		
 		$stmt = $dbh->prepare("
-			DELETE FROM sessions WHERE expiration < NOW();
-			SELECT * FROM sessions WHERE email=? AND sc=?
+			DELETE FROM sessions 
+			WHERE expiration < NOW();
 		");
+		$stmt->execute();
+		
+		$stmt = $dbh->prepare("
+			SELECT * FROM sessions 
+			WHERE email = ? 
+			AND sc = ?
+		");
+		
 		$stmt->execute(array($user,$cookie));
 		while($row = $stmt->fetch()){
 			return true;			

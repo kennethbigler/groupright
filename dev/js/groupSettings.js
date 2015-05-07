@@ -1,3 +1,146 @@
+/* groupSettings.js */
+
+// ==========================================================
+// GLOBALS
+
+// ==========================================================
+// UTILITY
+
+function employBackupProfile(elm){
+	elm.src = "images/orange.jpg";
+}
+
+// ==========================================================
+// SERVER COMM.
+
+function manageGroup(groupID,groupName,role){
+	//AJAX Member Load
+	var _cookies = genCookieDictionary();
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"group_uid":groupID,
+			"function":"get_group_members"
+		};
+		// Contact Server
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					var data=JSON.parse(data);
+					console.log(data);
+					addMembersToModal(data,groupName,role);
+				},
+				220: function(data, status, jqXHR){
+					//they don't have the necessary access to see this page have them login again
+					window.location="https://www.groupright.net"+GR_DIR+"/login.html";
+				}
+			}
+		
+		});
+	}
+	else{
+		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
+		//window.location="https://www.groupright.net"+GR_DIR+"/login.html";
+		var data=[{
+			"email":"zwilson7@gmail.com",
+			"first_name":"Zachary",
+			"last_name":"Wilson"
+			},
+			{
+			"email":"scomatbarsar@gmail.com",
+			"first_name":"Scott",
+			"last_name":"Sarsfield"
+			}]
+		console.log(data);
+		addMembersToModal(data,groupName,role);
+	}
+	//Load Members, Drop functionality, Change Leader Functionality
+	$('#myModal').modal('toggle');
+}
+
+function makeMemberLeader(groupID,email){}
+
+function dropMember(groupID,email){}
+
+function _leaveGroup(groupID){
+	var _cookies = genCookieDictionary();
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"group_uid":groupID,
+			"function":"leave_group"
+		};
+		// Contact Server
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					window.location = ""; /* reload */
+				},
+				220: function(data, status, jqXHR){
+					//they don't have the necessary access to see this page have them login again
+					window.location="https://www.groupright.net"+GR_DIR+"/login.html";
+				}
+			}
+		
+		});
+	}
+	else{
+		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
+		
+	}
+	//Load Members, Drop functionality, Change Leader Functionality
+	
+}
+
+function disbandGroup(groupID){
+	
+	if(!confirm("Warning! This action cannot be undone. Do you wish to continue?")) return;
+	
+	var _cookies = genCookieDictionary();
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"group_uid":groupID,
+			"function":"disband_group"
+		};
+		// Contact Server
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					window.location = ""; /* reload */
+				},
+				220: function(data, status, jqXHR){
+					//they don't have the necessary access to see this page have them login again
+					window.location="https://www.groupright.net"+GR_DIR+"/login.html";
+				}
+			}
+		
+		});
+	}
+	else{
+		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
+		
+	}
+	//Load Members, Drop functionality, Change Leader Functionality
+	
+}
+
+function _addGroupMembers(groupID,members){}
+
+// ==========================================================
+// LOAD / INIT
 
 window.onload = function() {
 
@@ -46,11 +189,7 @@ window.onload = function() {
 	}
 
 };
-/*
-<button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-        Popover on left
-      </button>
-*/
+
 function loadGroups(allGroups){
 	var colorButtons="Hello";
 	document.getElementById("addNumber").innerHTML=allGroups.length;
@@ -95,13 +234,19 @@ function loadGroups(allGroups){
 		pannelBody.appendChild(p);
 
 		var a1=document.createElement('a');
-		$(a1).attr('onclick','leaveGroup('+allGroups[i].group_id+')');
 		p1=document.createElement('p');
-		p1.innerHTML="Leave this group";
+		if(allGroups[i].role=="member"){
+			$(a1).attr('onclick','leaveGroup('+allGroups[i].group_id+')');
+			p1.innerHTML="Leave this group";
+		}else{
+			$(a1).attr('onclick','disbandGroup('+allGroups[i].group_id+')');
+			p1.innerHTML="Disband this group";
+		}
 		a1.appendChild(p1);
-		a1.style.cursor="pointer";
+		a1.style.cursor="pointer";	
 		pannelBody.appendChild(a1);
 
+		// View / Manage
 		p2=document.createElement('p');
 		var a2=document.createElement('a');
 		$(a2).attr('onclick','manageGroup('+allGroups[i].group_id+',"'+allGroups[i].group_name+'","'+allGroups[i].role+'")');
@@ -155,63 +300,20 @@ function addUserGroupInfo(data){
 	loadGroups(obj.memberships);
 
 }
+
 function leaveGroup(groupID){
-	alert("Warning! This action cannot be undone. Do you wish to continue?");
-}
-function manageGroup(groupID,groupName,role){
-	//AJAX Member Load
-	var _cookies = genCookieDictionary();
-	if(_cookies.accesscode && _cookies.user){
+	if(!confirm("Warning! This action cannot be undone. Do you wish to continue?")) return;
 	
-		var obj = {
-			"ac":_cookies.accesscode,
-			"email":_cookies.user,
-			"group_uid":groupID,
-			"function":"get_group_members"
-		};
-		// Contact Server
-		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
-			type:"POST",
-			data:obj,
-			statusCode:{
-				200: function(data, status, jqXHR){
-					var data=JSON.parse(data);
-					console.log(data);
-					addMembersToModal(data,groupName,role);
-				},
-				220: function(data, status, jqXHR){
-					//they don't have the necessary access to see this page have them login again
-					window.location="https://www.groupright.net"+GR_DIR+"/login.html";
-				}
-			}
-		
-		});
-	}
-	else{
-		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
-		//window.location="https://www.groupright.net"+GR_DIR+"/login.html";
-		var data=[{
-			"email":"zwilson7@gmail.com",
-			"first_name":"Zachary",
-			"last_name":"Wilson"
-			},
-			{
-			"email":"scomatbarsar@gmail.com",
-			"first_name":"Scott",
-			"last_name":"Sarsfield"
-			}]
-		console.log(data);
-		addMembersToModal(data,groupName,role);
-	}
-	//Load Members, Drop functionality, Change Leader Functionality
-	$('#myModal').modal('toggle');
+	_leaveGroup(groupID);
 }
 
-function employBackupProfile(elm){
-	elm.src = "images/orange.jpg";
-}
+// ==========================================================
+// RENDER
 
 function addMembersToModal(membersArray,groupName,role){
+	
+	var _cookie = genCookieDictionary();
+	
 	document.getElementById("modalGroupName").innerHTML=groupName;
 	//clear out anything there already
 	var addLocation=document.getElementById("addMembers");
@@ -258,25 +360,66 @@ function addMembersToModal(membersArray,groupName,role){
 	}
 	else if(role=="leader"){
 		var th=document.createElement('th');
-		var th2=document.createElement('th');
 		th.innerHTML="Member";
-		th2.innerHTML="Action";
+		th.colspan = 4;
 		headingRow.appendChild(th);
-		headingRow.appendChild(th2);
+		console.log("Here VVV");
+		console.log(membersArray);
 		for(var i=0; i<membersArray.length; i++){
 		    var tr=document.createElement('tr');
+			
+			// pic
 		    var td=document.createElement('td');
-		    var td2=document.createElement('td');
-		    td.innerHTML=membersArray[i].first_name+" "+membersArray[i].last_name;
-		    td2.innerHTML="Drop Member";
+			var p_u = (membersArray[i].photo_url) ? membersArray[i].photo_url : "images/orange.jpg";
+			td.appendChild( 
+				$("<img />",{src:p_u,class:"member-profile-pic img-circle"}).error(function(){
+					employBackupProfile(this);
+				})[0]
+			);
+			//tr.appendChild(td);
+			
+			// name
+			//td=document.createElement('td');
+			var div = document.createElement('div');
+		    div.innerHTML=membersArray[i].first_name+" "+membersArray[i].last_name;
+			td.appendChild(div);
 			tr.appendChild(td);
-			tr.appendChild(td2);
+			
+			
+			// role
+			td=document.createElement('td');
+			div = document.createElement('div');
+			div.className = "member-role-div";
+		    div.innerHTML= (membersArray[i].role == 'leader') ? "Leader" : "Member";
+			td.appendChild(div);
+			tr.appendChild(td);
+			
+			
+			td=document.createElement('td');
+			
+			if(membersArray[i].email != _cookie.user){
+				
+				// make leader
+				var button = document.createElement('a');
+				button.href = "#";
+				$(button).css({"float":"right","fontSize":"0.9em"});
+				button.innerHTML= "Make Leader";
+				td.appendChild(button);
+				
+				td.appendChild($("<br />")[0]);
+				
+				// drop member
+				button = document.createElement('a');
+				button.href = "#";
+				$(button).css({"float":"right","fontSize":"0.9em"});
+				button.innerHTML= "Drop Member";
+				td.appendChild(button);
+			}
+				
+			tr.appendChild(td);
+			
+			
 			addLocation.appendChild(tr);
 		}
 	}
 }
-
-
-
-
-
