@@ -2,13 +2,16 @@
 function getAllEvents($email){
 	$dbh = ConnectToDB();
 	
-	$stmt = $dbh->prepare(
-		"SELECT name,description,group_uid,
-		events.email as creator_email, event_uid,
-		start_time,end_time FROM events 
+	$stmt = $dbh->prepare("
+		SELECT name,description,group_uid,
+			events.email as creator_email, event_uid,
+			start_time,end_time 
+		FROM events 
 		JOIN groups USING (group_uid) 
 		JOIN memberships USING(group_uid)
-		WHERE memberships.email = ?"
+		WHERE memberships.email = ?
+		AND start_time IS NOT NULL
+		ORDER BY start_time ASC"
 	);
 	$stmt->execute(array($email));
 	
