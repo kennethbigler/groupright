@@ -2,15 +2,53 @@
 function getAllEvents($email){
 	$dbh = ConnectToDB();
 	
-	$stmt = $dbh->prepare(
-		"SELECT name,description,group_uid,
-		events.email as creator_email, event_uid,
-		start_time,end_time FROM events 
+	$stmt = $dbh->prepare("
+		SELECT name,description,group_uid,
+			events.email as creator_email, event_uid,
+			start_time,end_time 
+		FROM events 
 		JOIN groups USING (group_uid) 
 		JOIN memberships USING(group_uid)
-		WHERE memberships.email = ?"
+		WHERE memberships.email = ?
+		AND start_time IS NOT NULL
+		ORDER BY start_time ASC"
 	);
 	$stmt->execute(array($email));
+	
+	$arr = array();
+	
+	while($row = $stmt->fetch()){
+		$obj = array(
+			"event_uid"=>$row['event_uid'],
+			"name"=>$row['name'],
+			"description"=>$row['description'],
+			"group_id"=>$row['group_uid'],
+			"creator"=>$row['creator_email'],
+			"start_time"=>$row['start_time'],
+			"end_time"=>$row['end_time']
+		);
+		//echo $obj;
+		$arr[] = $obj;
+	}
+	return $arr;
+}
+
+function fetchEvent($email,$event_uid){
+	$dbh = ConnectToDB();
+	
+	$stmt = $dbh->prepare("
+		SELECT name,description,group_uid,
+			events.email as creator_email, event_uid,
+			start_time,end_time 
+		FROM events 
+		JOIN groups USING (group_uid) 
+		JOIN memberships USING(group_uid)
+		WHERE memberships.email = ?
+		AND event_uid = ?
+		AND start_time IS NOT NULL
+		ORDER BY start_time ASC"
+	);
+	$stmt->execute(array($email,$event_uid));
 	
 	$arr = array();
 	
@@ -325,6 +363,53 @@ function _chooseEventTime($group_uid, $event_uid, $start_time, $end_time)
 	return;	
 }
 
+
+function _markPickTimeTaskComplete($email,$group_id,$event_id){
+	
+	$dbh = ConnectToDB();
+	
+	$sql = "
+		UPDATE tasks_assignments
+		SET is_completed = 1
+		WHERE task_uid in (
+			SELECT task_uid
+			FROM tasks as t
+			JOIN task_link as tl using (task_uid)
+			WHERE tl.link_type = 'event_report'
+			AND tl.link_id = ?
+			AND t.group_uid = ?
+		)
+		AND email = ?
+	";
+
+	$stmt = $dbh->prepare($sql);
+	
+	$stmt->execute(array($event_id,$group_id,$email));
+	
+	return;
+}
+
+function _getEventTitleByID($event_uid){
+
+	$dbh = ConnectToDB();
+	
+	$sql = "
+		SELECT name FROM events
+		WHERE event_uid = ?
+	";
+	
+	$stmt = $dbh->prepare($sql);
+	
+	$stmt->execute(array($event_uid));
+	
+	while($row = $stmt->fetch()){
+		return $row["name"];
+	}
+	
+	return null;	
+}
+
+
 function chooseEventTime()
 {
 	// Get information.
@@ -345,7 +430,14 @@ function chooseEventTime()
 	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 		if(!verifyUserGroup($email,$cookie,$group_uid)) return;
 		if(!_checkEventCreator($email,$event_uid)){ http_response(230); return; }
+		
+		// Choose Time
 		_chooseEventTime($group_uid,$event_uid,$start_time,$end_time);
+		_markPickTimeTaskComplete($email,$group_uid,$event_uid);
+		
+		// Notify.
+		$event_title = _getEventTitleByID($event_uid);
+		addEventUpdate($email,$group_uid,"chose a time for \"".$event_title."\"",$event_uid);
 	}else{
 		http_response_code(206);
 		return;

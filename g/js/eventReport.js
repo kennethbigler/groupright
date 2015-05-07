@@ -21,53 +21,61 @@ var correspondenceMatrix;
 var statusMatrix=[];
 var maxScore=0;
 var minScore=99999999;
-var groupAvail;
+var groupAvail = [];
 
-var groupMembers=["Scott Sarsfield","Kenneth Bigler","zwilson7@gmail.com"];
+var groupMembers=[];
 var respondersArray=[];
 var nonRespondersArray=[];
+
+var selStartTime = null;
+var selEndTime = null;
+
 // ======================================================
 // ONLOAD / SERVER COMM.
 
 window.onload = function() {
 	
+	getGroupMembers();
 	getEventVoteSettings(function(data){
-		console.log(data);
+		//console.log(data);
 		var obj = JSON.parse(data);
+		//console.log(obj);
 		
-		console.log(obj);
+		// Parse event information.
 		if(obj.event_name) eventName = obj.event_name;
 		if(obj.creator) eventCreator = obj.creator;
 		if(obj.start_time) earliest_time = obj.start_time;
 		if(obj.end_time) latest_time = obj.end_time;
 		if(obj.dump) groupAvail=obj.dump;
 		
-		
+		// Set grid rows / columns.
 		setNumberOfDays();
 		setNumberOfStepsToAccountFor();
-		//getDayForColumn(3);
-		//getTimeForRow(3);
-		fillCorrespondenceMatrix();
-		initStatusMatrix();
-		drawPage();
-		drawColorScale();
-		addRespondersInfo();
-		findSuggestedTimes();
+		
+		// Initialize Response + Status Matrices
+		fillCorrespondenceMatrix();		/* response */
+		initStatusMatrix();				/* availability scores */
+		
+		// Draw Elements
+		drawPage();						/* page */
+		drawColorScale();				/* scale */
+		addRespondersInfo();			/* responders */
+		findSuggestedTimes();			/* suggested time */
 	});
 }
 
 function getEventVoteSettings(parseFn){
 	if(!(parseFn instanceof Function)){ parseFn = function(){}; }
 
-	var _cookies = genCookieDictionary();
-	
+	// Get stored information.
+	var _cookies = genCookieDictionary();	
 	var _get = getGETArguments();
-	//console.log(_get);
+	
+	// Determine IDs
 	var _event_uid = _get.event_id;
 	var _group_uid = _get.guid;
 
-	console.log(_get);
-
+	// Check cookies + info.
 	if(_cookies.accesscode && _cookies.user && _event_uid && _group_uid){
 	
 		var obj = {
@@ -97,8 +105,108 @@ function getEventVoteSettings(parseFn){
 	}
 }
 
+function getGroupMembers(){	
+	// Get stored info.
+	var _cookies = genCookieDictionary();
+	var _get = getGETArguments();
+	
+	// Parse IDs
+	var _event_uid = _get.event_id;
+	var _group_uid = _get.guid;
+
+	// Check if cookies exist.
+	if(_cookies.accesscode && _cookies.user && _event_uid && _group_uid){
+		
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"function":"get_group_members",
+			"group_uid":_group_uid
+		};
+	
+		// Contact Server
+		$.ajax("groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+						//alert("Success");
+						var x = JSON.parse(data);
+						initMembers(x)
+						//console.log(groupMembers);
+					}
+			},
+			
+		});
+	}else{
+		if(GR_DIR=="/dev"){ console.warn("Forced Redirect to Login on Production"); }
+		else{ window.location="login.html"; }
+	}
+}
+
+function pickEventTime(){	
+	// Get stored info.
+	var _cookies = genCookieDictionary();
+	var _get = getGETArguments();
+	
+	// Parse IDs
+	var _event_uid = _get.event_id;
+	var _group_uid = _get.guid;
+	
+	// Parse Times
+	var _startTime = selStartTime;
+	var _endTime = selEndTime;
+
+	// Check if cookies exist.
+	if(_cookies.accesscode && _cookies.user && _event_uid 
+		&& _group_uid && _startTime &&_endTime){
+		
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"function":"choose_event_time",
+			"group_uid":_group_uid,
+			"event_uid":_event_uid,
+			"start_time":_startTime,
+			"end_time":_endTime
+		};
+	
+		// Contact Server
+		$.ajax("groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					window.location = "home.html";
+				},
+				206: function(data, status, jqXHR){
+					eatCookies();
+					window.location = "login.html";
+				},
+				230: function(d,s,j){
+					window.location = "home.html";
+				},
+				290: function(d,s,j){
+					console.error("Argument not passed to server.");
+				}
+			},
+			
+		});
+	}else{
+		if(GR_DIR=="/dev"){ console.warn("Forced Redirect to Login on Production"); }
+		else{ window.location="login.html"; }
+	}
+}
+
 // ======================================================
 // DATA INITIALIZATION
+
+function initMembers(arr){
+	groupMembers = {};
+	for(var i = 0; i < arr.length; i++){
+		groupMembers[ arr[i].email ] = arr[i];
+	}
+}
 
 function setNumberOfDays(){
 	
@@ -135,7 +243,56 @@ function setNumberOfStepsToAccountFor(){
 			) % oneDay
 		) / (30*60*1000)
 	);
-	console.log(stepsToAccountFor);
+	//console.log(stepsToAccountFor);
+}
+
+// ------------------------------------------------------
+
+function fillCorrespondenceMatrix(){
+	var start_time=9;
+	var referenceDate=new Date(earliest_time);
+	//console.log(referenceDate);
+	correspondenceMatrix=new Array(stepsToAccountFor);
+	for(var i=0; i<stepsToAccountFor; i++){
+		correspondenceMatrix[i]=new Array(numberOfDays);
+		for(var j=0; j<numberOfDays; j++){
+			var minutesFromStartTime=(30*i) + (j*60*24);
+			//console.log(minutesFromStartTime);
+			var newDate= new Date(referenceDate.getTime() + minutesFromStartTime*60000)
+			correspondenceMatrix[i][j]= newDate;
+		}
+	}
+	//console.log(correspondenceMatrix);
+}
+
+function initStatusMatrix(){
+	//Allocate
+	statusMatrix=new Array(stepsToAccountFor);
+	for(var i=0; i<stepsToAccountFor; i++){
+		statusMatrix[i]=new Array(numberOfDays);
+	}
+	//Gather
+	for(var i=0; i<stepsToAccountFor;i++){
+		for (var j=0; j<numberOfDays; j++){
+			statusMatrix[i][j]=getScoreForRowColumn(i,j);
+		}
+	}
+	//console.log(minScore);
+	//console.log(maxScore);
+}
+
+
+// ======================================================
+// UTILITY
+
+
+function _isInArray(array,value){
+	for(var i=0; i<array.length; i++){
+		if(array[i]==value){
+			return true;
+		}
+	}
+	return false;
 }
 
 // ======================================================
@@ -177,6 +334,44 @@ function getTimeForRow(row){
 }
 
 // ======================================================
+// DATA ACCESS
+
+function getFullNameForEmail(email){
+	var x = groupMembers[ email ];
+	if(x) return x.first_name+" "+x.last_name;
+	return "Bob";
+	console.warn("Reached end of getFullNameForEmail without finding a member")
+}
+
+function getScoreForRowColumn(row, column){
+	var referencedDate=new Date(correspondenceMatrix[row][column]);
+	//console.log(correspondenceMatrix[row-1][column-1]);
+	var score=0;
+	for(var i=0; i<groupAvail.length;i++){
+		var compareDate= new Date(groupAvail[i].start_time.replace(/[-]/g,"/"));
+		//console.log(compareDate);
+		if (compareDate.getTime()==referencedDate.getTime()){
+			score+= parseInt(groupAvail[i].score);
+			//console.log("match found");
+		}
+		else{
+			//console.log(compareDate);
+			//console.log(referencedDate);
+
+		}
+	}
+	//console.log(score)
+	//statusMatrix[row][column]=score;
+	if(score<minScore){
+		minScore=score;
+	}
+	if(score>maxScore){
+		maxScore=score;
+	}
+	return score;
+}
+
+// ======================================================
 // DRAWING
 
 function drawPage(){
@@ -210,10 +405,7 @@ function drawPage(){
 			availability_map[i] ={};
 			for(var j=0; j<numberOfDays+1;j++){				
 				var td=document.createElement('td');
-				td.style.cursor="pointer";
-				td.align="center";
 				td.className="success";
-				td.style.border="1px solid gray";
 				if(j==0){
 					td.innerHTML=getTimeForRow(i);
 					td.className="text-center";
@@ -222,14 +414,13 @@ function drawPage(){
 				else{
 					tr.appendChild(td);
 					
-					td.onclick = function(){ colorCell(this); }
-					td.style.backgroundColor=getColorForPercentage((statusMatrix[i-1][j-1]-minScore)/maxScore);
+					td.style.backgroundColor = getColorForPercentage((statusMatrix[i-1][j-1]-minScore)/maxScore);
 					td.value = {i:i,j:j};
 					td.className += " er_row"+i+" er_col"+j;
 					availability_map[i][j] = 0;
 					//td.innerHTML=getScoreForRowColumn(i,j);
 					td.innerHTML=statusMatrix[i-1][j-1];
-					//prepareCell(td);
+					prepareCell(td);
 
 				}
 			}
@@ -242,66 +433,125 @@ function drawPage(){
 	
 }
 
-function fillCorrespondenceMatrix(){
-	var start_time=9;
-	var referenceDate=new Date(earliest_time);
-	//console.log(referenceDate);
-	correspondenceMatrix=new Array(stepsToAccountFor);
-	for(var i=0; i<stepsToAccountFor; i++){
-		correspondenceMatrix[i]=new Array(numberOfDays);
-		for(var j=0; j<numberOfDays; j++){
-			var minutesFromStartTime=(30*i) + (j*60*24);
-			//console.log(minutesFromStartTime);
-			var newDate= new Date(referenceDate.getTime() + minutesFromStartTime*60000)
-			correspondenceMatrix[i][j]= newDate;
-		}
-	}
-	//console.log(correspondenceMatrix);
+function colorCell(elem){
+	elem.innerHTML="<span class='glyphicon glyphicon-star' aria-hidden='true' style='color:white;text-align:center'></span>";
+	$(elem).css({"boxShadow":"0 0 50px 0 white inset"});
 }
 
-function initStatusMatrix(){
-	//Allocate
-	statusMatrix=new Array(stepsToAccountFor);
-	for(var i=0; i<stepsToAccountFor; i++){
-		statusMatrix[i]=new Array(numberOfDays);
-	}
-	//Gather
-	for(var i=0; i<stepsToAccountFor;i++){
-		for (var j=0; j<numberOfDays; j++){
-			statusMatrix[i][j]=getScoreForRowColumn(i,j);
-		}
-	}
-	console.log(minScore);
-	console.log(maxScore);
+function decolorCell(elem){
+	var x = elem.value;
+	elem.innerHTML=statusMatrix[x.i-1][x.j-1];
+	$(elem).css({"boxShadow":""});
 }
 
-function getScoreForRowColumn(row, column){
-	var referencedDate=new Date(correspondenceMatrix[row][column]);
-	//console.log(correspondenceMatrix[row-1][column-1]);
-	var score=0;
-	for(var i=0; i<groupAvail.length;i++){
-		var compareDate= new Date(groupAvail[i].start_time.replace(/[-]/g,"/"));
-		//console.log(compareDate);
-		if (compareDate.getTime()==referencedDate.getTime()){
-			score+= parseInt(groupAvail[i].score);
-			//console.log("match found");
+var selected_time = {
+	start:null,
+	end:null,
+	button_down:false
+};
+function prepareCell(elm)
+{
+	
+	// Check version of browser.
+	var oldIE = false;
+	var ua = window.navigator.userAgent;
+	var msie = ua.indexOf("MSIE ");
+	if(msie > 0){
+		var version = parseInt(ua.substring(msie+5,ua.indexOf(".",msie)));
+		if(version < 9) oldIE = true;
+	}
+	
+	/**
+		colorSpan
+			colors cells area selected by the user. (from start to end)
+	**/
+	function colorSpan(start,end){
+		var y_dir = (end.i > start.i) ? 1 : -1;
+		var j = start.j;
+		for(var i = start.i; i != end.i + y_dir; i+= y_dir){
+			colorCell($(".er_row"+i+".er_col"+j)[0]);
 		}
-		else{
-			//console.log(compareDate);
-			//console.log(referencedDate);
-
+	}
+	
+	// Event Listeners
+	
+	
+	function timeIncrDown(e){
+		var val = $(this).val();
+		selected_time.start = val;				
+		if(e.which === 1){
+			selected_time.button_down = true; 
+			if(selected_time.end == $(this).val()) return;
+			
+			selected_time.end = $(this).val();
+			$.each($("#completeTable td"),function(i,td){
+				if(td.value) decolorCell(td);
+			});
+			colorSpan(selected_time.start,selected_time.end);
 		}
-	}
-	//console.log(score)
-	//statusMatrix[row][column]=score;
-	if(score<minScore){
-		minScore=score;
-	}
-	if(score>maxScore){
-		maxScore=score;
-	}
-	return score;
+	};
+	
+	function timeIncrUp(e){
+		if(e.which === 1){
+			selected_time.button_down = false;
+			saveSelectedTimes();
+		}
+	};
+	
+	function timeIncrMove(e){
+		if(oldIE && !event.button){selected_time.button_down = false;}				
+		if(e.which === 1 && !selected_time.button_down) e.which = 0;
+		if(e.which){
+			if(selected_time.end == $(this).val()) return;
+			
+			selected_time.end = $(this).val();
+			$.each($("#completeTable td"),function(i,td){
+				if(td.value) decolorCell(td);
+			});
+			colorSpan(selected_time.start,selected_time.end);
+		}
+	};
+	
+	$(elm).mousedown(timeIncrDown)
+			.mouseup(timeIncrUp)
+			.mousemove(timeIncrMove);
+	
 }
+
+function saveSelectedTimes(){
+	if(!selected_time.start || !selected_time.end) return;
+	if(selected_time.start.i > selected_time.end.i){
+		var t = selected_time.start;
+		selected_time.start = selected_time.end;
+		selected_time.end = t;
+	}
+	
+	var refDate = new Date(earliest_time);
+		
+	refDate.setDate( refDate.getDate() + selected_time.start.j - 1 );
+	
+	var sDate = new Date(refDate);
+	sDate.setMinutes( refDate.getMinutes() + (selected_time.start.i - 1)*30 );
+	selStartTime = sDate.toJSON();
+	
+	var eDate = new Date(refDate);
+	eDate.setMinutes( refDate.getMinutes() + (selected_time.end.i)*30 );
+	selEndTime = eDate.toJSON();
+	
+	$("#pickButton").removeClass("disabled");
+	
+	var timeStr = "";
+	timeStr += sDate.toDateString()+" "
+				+sDate.toLocaleTimeString()+" - "
+				+eDate.toLocaleTimeString();
+	$("#selTimePrintout").text(timeStr);
+	
+	//console.log(sDate);
+	//console.log(eDate);
+}
+
+// ------------------------------------------------------
+// COLOR RETRIEVAL
 
 var percentColors = [
     { pct: 0.0, color: { r: 0x00, g: 0xff, b: 0 } },
@@ -328,6 +578,10 @@ var getColorForPercentage = function(pct) {
     return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
     // or output as hex if preferred
 }
+
+// ------------------------------------------------------
+// COLOR SCALE
+
 function drawColorScale(){
 	var addLocation=document.getElementById("addScale");
 	var td=document.createElement("td");
@@ -346,35 +600,32 @@ function drawColorScale(){
 
 }
 
-function colorCell(elem){
-	if(elem.innerHTML=="<span class='glyphicon glyphicon-star' aria-hidden='true' style='color:white;text-align:center'></span>"){
-		//elem.backgroundColor=elem.data;
-		elem.style.border="1px solid gray";
-		elem.innerHTML="";
-	}
-	else{
-		//elem.data=elem.backgroundColor;
-		//elem.style.backgroundColor="dodgerBlue";
-		elem.innerHTML="<span class='glyphicon glyphicon-star' aria-hidden='true' style='color:white;text-align:center'></span>";
-		elem.style.border="1px solid white";
-	}
-}
+// ------------------------------------------------------
+// RESPONDER INFO
 
 function addRespondersInfo(){
+	
+	// Populate the respond arrays.
 	getRespondersInfo();
+	
+	// Get the containing elements
 	var responders=document.getElementById("addResponders");
 	var nonResponders=document.getElementById("addNonResponders");
+	
+	// Add the responders.
 	for(var i=0; i<respondersArray.length;i++){
 		var span=document.createElement("span");
-		span.innerHTML=respondersArray[i];
+		span.innerHTML=getFullNameForEmail(respondersArray[i]);
 		span.className="label label-success";
 		span.style.marginRight="2px";
 		span.style.marginTop="6px";
 		responders.appendChild(span);
 	}
+	
+	// Add the non-responders.
 	for(var i=0; i<nonRespondersArray.length;i++){
 		var span=document.createElement("span");
-		span.innerHTML=nonRespondersArray[i];
+		span.innerHTML=getFullNameForEmail(nonRespondersArray[i]);
 		span.className="label label-danger";
 		span.style.marginRight="2px";
 		span.style.marginTop="6px";
@@ -382,47 +633,56 @@ function addRespondersInfo(){
 	}
 }
 
-function _isInArray(array,value){
-	for(var i=0; i<array.length; i++){
-		if(array[i]==value){
-			return true;
-		}
-	}
-	return false;
-}
-
 function getRespondersInfo(){
-	_populateRespondersArray();
-	_populateNonRespondersArray();
+	//console.log(groupAvail);
+	
+	// Traverse groupAvail, adding emails to responders.
+	var resp = {};
+	for(var i = 0; i < groupAvail.length; i++){
+		resp[ groupAvail[i].email ] = 1;
+	}
+	
+	// Check if each group member has responded and add
+	// them to the appropriate group.
+	for(var i in groupMembers){
+		if(resp[ i ]){
+			respondersArray.push(i);
+		}
+		else{
+			nonRespondersArray.push(i);
+		}
+	}
 }
 
-function _populateNonRespondersArray(){
-	for(var i=0; i<groupMembers.length; i++){
-		if(_isInArray(respondersArray,groupMembers[i])){
-			//do nothing
-		}
-		else{
-			nonRespondersArray.push(groupMembers[i]);
-		}
-	}
-}
-function _populateRespondersArray(){
-	for(var i=0; i<groupAvail.length; i++){
-		if(_isInArray(respondersArray,groupAvail[i].email)){
-			//do nothing
-		}
-		else{
-			respondersArray.push(groupAvail[i].email)
-		}
-	}
-}
+// ------------------------------------------------------
+// SUGGESTED TIMES
 
 function findSuggestedTimes(){
-	var currentLongest=[];
+	var currentLongestColumn=-1;
+	var currentLongestRow=-1;
+	var currentLongestSteps=-1;
+	var tempCounter=0;
+	var k;
 	//figure this out in morning
+	//console.log(correspondenceMatrix);
+	//console.log(statusMatrix);
+	for(var i=0; i<numberOfDays; i++){
+		for(var j=0; j<stepsToAccountFor;j++){
+			tempCounter=0;
+			k=j
+			while(k<stepsToAccountFor && statusMatrix[k][i]==minScore){
+				tempCounter++;
+				k++;
+			}
+			if(tempCounter>currentLongestSteps){
+				currentLongestSteps=tempCounter;
+				currentLongestColumn=i;
+				currentLongestRow=j;
+			}
+		}
+	}
+	//console.log(currentLongestColumn);
+	//console.log(currentLongestRow);
+	//console.log(currentLongestSteps);
+	document.getElementById("addOurSuggestion").innerHTML=correspondenceMatrix[currentLongestRow][currentLongestColumn] +"("+(30*currentLongestSteps)+"minute window)";
 }
-
-
-
-
-

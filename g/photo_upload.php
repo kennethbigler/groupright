@@ -25,7 +25,7 @@ function associatePic(){
 	global $msg, $prof_filepath;
 	
 	// Get Data
-	$email = $_POST['email'];
+	$email = sanitizeEmail($_POST['email']);
 	$cookie = $_POST['ac'];
 	
 	// Initialize info obj.
@@ -34,13 +34,9 @@ function associatePic(){
 	// Fix cookie.
 	$cookie = grHash($cookie,$email);
 	
-	// Filter email address
-	$email_address = htmlspecialchars($email);
-	$email_address = trim($email_address);
-	$email_address = stripslashes($email_address);
-	
 	// If valid, continue.
-	if(filter_var($email_address, FILTER_VALIDATE_EMAIL)) {
+	if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		//echo $email;
 		if(!checkHashedCookie($email,$cookie)){ 
 			$msg = "Bad cookie.";
 			return false;
@@ -77,7 +73,7 @@ function uploadPic($filename){
 	$ftype = $_FILES['profile_pic']['type'];
 	$ext = null;
 	if($ftype == "image/png") $ext = ".png";
-	if($ftype == "image/jpg") $ext = ".jpg";
+	if($ftype == "image/jpg" || $ftype == "image/jpeg") $ext = ".jpg";
 	if($ftype == "image/bmp") $ext = ".bmp";
 
 

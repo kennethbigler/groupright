@@ -241,7 +241,7 @@ function createGREvent(){
 			"email":_cookies.user,
 			"cookie":_cookies.accesscode,
 			"event_title":event_name,
-			"event_descripton":description,
+			"event_description":description,
 			"group_uid":group_id,
 			"start_time":start_time,
 			"location":location,
@@ -268,7 +268,7 @@ function createGREvent(){
 			"email":_cookies.user,
 			"cookie":_cookies.accesscode,
 			"event_title":event_name,
-			"event_descripton":description,
+			"event_description":description,
 			"group_uid":group_id,
 			"start_time":start_time,
 			"end_time":end_time,
@@ -635,7 +635,8 @@ function isValid(step){
 			return false;
 		}
 		var startAMPM=document.getElementById("startAMPMHelp").value;
-		if(startAMPM=="PM"){	startHour+=12; }
+		if(startAMPM=="PM" && startHour != 12){	startHour+=12; }
+		else if(startHour == 12 && startAMPM == "AM"){ startHour = 0; }
 		
 		// Verify end time.
 		var endHour=parseInt( document.getElementById("endHourHelp").value );
@@ -645,7 +646,8 @@ function isValid(step){
 			return false;
 		}		
 		var endAMPM=document.getElementById("endAMPMHelp").value;
-		if(endAMPM=="PM"){ endHour+=12; }
+		if(endAMPM=="PM" && endHour != 12){ endHour+=12; }
+		else if(endHour == 12 && endAMPM == "AM"){ endHour = 0; }
 		
 		// Check that the start date is before the end date.
 		if(fixedStartDate==fixedEndDate){

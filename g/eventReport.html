@@ -11,7 +11,7 @@
 <link href="css/font.css" rel="stylesheet">
 <link href="css/datepicker.css" rel="stylesheet">
 <link href="css/timepicker.css" rel="stylesheet">
-<link href="css/eventresponse.css" rel="stylesheet" />
+<link href="css/eventreport.css" rel="stylesheet" />
 <link rel='stylesheet' media='screen and (max-width: 767px)' href='css/home-styles-phone.css' />
 <link rel='stylesheet' media='screen and (min-width: 768px) and (max-width: 1199px)' href='css/home-styles-tablet.css' />
 <link rel='stylesheet' media='screen and (min-width: 1200px)' href='css/home-styles-computer.css' />
@@ -56,6 +56,9 @@
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">	
+						<a id="addMode" class="dropdown-toggle"></a>
+					</li>
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Groups<span class="caret"></span></a>
 						<ul class="dropdown-menu" id="myGroups">
@@ -88,7 +91,7 @@
 </div>
 <div class="container">
 <div class="row">     
-      <div class="col-md-12">
+      <!--<div class="col-md-12">-->
         <div class="panel panel-default">
            <div class="panel-heading">
            		<div class="row">
@@ -96,6 +99,7 @@
 	           			<h4>Select the time for the event.</h4>
 	           			<h5 id="addEventName">Event Name: </h5>
 	           			<h5 id="addEventCreator">Creator: </h5>
+				
 	           		</div>
 	      			<div class="col-lg-3">
 	      			</div>
@@ -114,7 +118,20 @@
 	           			</table>
 	           		</div>
 			    </div>
-           	</div>
+				
+				<div class="row" style="position:relative;">
+					<div class="col-sm-4">
+						<h5 id="addResponders" style="margin-left:15px;">Responded: </h5>
+						<h5 id="addNonResponders" style="margin-left:15px;">Not Responded: </h5>
+					</div>
+					<div class="col-sm-6 text-right" id="selTimePrintout">
+					
+					</div>
+					<div class="col-sm-2 text-right" style="position:absolute; bottom:0; right:0;">
+						<button id="pickButton" class="btn btn-block btn-primary disabled" onclick="pickEventTime()">Pick Time</button>
+					</div>
+				</div>
+			</div>
             <div class="panel-body">
               <table class="table" id="completeTable" style="
 				-webkit-touch-callout: none;
@@ -131,19 +148,20 @@
 			    <tbody>
 			    </tbody>
 			  </table>
-			  <div class="row">
-			  	<div class="col-md-12">
-			  		<div class="pull-right">
-			  		<input class="btn btn-danger"  type="button" value="Reset" onclick="resetAvailMap();">
-			  		<input class="btn btn-default"  type="button" value="Send Availability"
-						onclick="submitAvailability();">
-			  		</div>
-			  	</div>
-			  </div>
             </div>
          </div>
-       </div>
+       <!--</div>-->
 </div><!--Row-->
+<div class="row">
+	<div class="panel panel-default">
+	   <div class="panel-heading">
+		<h3>Our Suggestion </h4>
+	   </div>
+		<div class="panel-body">
+			<h4 id="addOurSuggestion"></h4>
+		</div>
+	</div>
+</div>
 
 </div><!--Container-->
      

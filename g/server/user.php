@@ -1,5 +1,36 @@
 <?php
 
+
+	function sendInviteEmail($email,$gname){
+		global $GR_DIR;
+		$hackedUrl = "https://www.groupright.net".$GR_DIR."/reset.html?vc=".$vc;
+	
+		$to = $email;
+		$subject = 'You\'re invited to join '.$gname.' on GroupRight';
+		
+		$headers = "From: " . "no-reply@groupright.net" . "\r\n";
+		$headers .= "Reply-To: " . "no-reply@groupright.net" . "\r\n";
+		$headers .= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+		
+		$message = '<html><body>';
+		$message .= '<img src="https://www.groupright.net'.$GR_DIR.'/images/emailLogo.png" alt="GroupRight" />';
+		$message .= '<p><strong>'.$email."</strong>,</p>";
+		$message .= "<p>You've been added to a group on GroupRight.</p>";
+		$message .= "<p>On GroupRight, your group can:</p>";
+		$message .= "<ul><li>Schedule events</li>";
+		$message .= "<li>Create and complete tasks</li>";
+		$message .= "<li>Create collaborative lists and polls.</li>";
+		$message .= "<li>And easily manage all of your groups!</li></ul>";
+		$message .= "<p>Come join today.  Your groups are waiting.</p>";
+		$message .= "<p><a href='https://groupright.net/g/'>GroupRight.net</a></p>";
+		$message .= "</body></html>";
+		
+		//echo $message;
+	
+		mail($to,$subject,$message,$headers);
+	}
+
 	function _getUserInfo($email_address,$cookie,$complete){
 		// Enter DB.
 		$dbh = ConnectToDB();
@@ -34,6 +65,30 @@
 		
 	}
 	
+	function _checkUserExists($email){
+		// Enter DB.
+		$dbh = ConnectToDB();
+		
+		// Get user info.
+		$stmt = $dbh->prepare("
+			(
+			SELECT email FROM active_users
+			WHERE email=?
+			)
+			UNION ALL(
+			SELECT email FROM pending_users
+			WHERE email=?
+			)
+		");
+		$stmt->execute(array($email_address,$email_address));
+		
+		while($row = $stmt->fetch()){
+			echo $email_address." is registered";
+			return true;			
+		}
+		return false;
+	}
+	
 	function _getUser($email_address){
 		// Enter DB.
 		$dbh = ConnectToDB();
@@ -65,6 +120,14 @@
 		$user_info["tasks"] = getAllTasksSince($email_address,$last_task);
 		$user_info["events"] = getAllEventsSince($email_address,$last_event);
 		$user_info["updates"] = getAllUpdatesSince($email_address,$last_update);
+		
+		foreach($user_info["updates"] as $val){
+			if(strpos($val["description"],"chose a time for") === false) continue;
+			$user_info["events"] = array_merge(
+					$user_info["events"],
+					fetchEvent($email_address,$val["link_id"])
+			);
+		}
 		
 		return $user_info;
 		

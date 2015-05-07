@@ -69,6 +69,9 @@
 			// add other members
 			for($i = 1; $i < count($members); $i++){
 				_addMember($members[$i],$g_uid,"member");
+				if(!_checkUserExists($members[$i])){
+					sendInviteEmail($members[$i],$name);
+				}
 			}
 			
 			http_response_code(200);
@@ -160,7 +163,7 @@
 		$stmt = $dbh->prepare(
 			"SELECT g.group_name AS group_name, m.color AS color, g.group_uid AS group_uid, role
 			FROM memberships AS m 
-			LEFT JOIN groups AS g ON m.group_uid = g.group_uid 
+			RIGHT JOIN groups AS g ON m.group_uid = g.group_uid 
 			LEFT JOIN active_users AS u ON m.email = u.email
 			LEFT JOIN sessions AS s
 			ON m.email = s.email

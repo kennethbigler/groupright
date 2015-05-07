@@ -119,6 +119,7 @@ function initTopBar(){
 	dealwithProfilePic();	// set profile picture
 	addUsersGroups();		// add groups to drop down
 	addSettingsLinks();		// add settings pages links
+	addMode();
 }
 
 
@@ -170,6 +171,12 @@ function addSettingsLinks(){
 	settingsMenu.innerHTML+='<li><a href="notification_settings.html"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>';
 	settingsMenu.innerHTML+='<li><a href="error_settings.html"><span class="glyphicon glyphicon-wrench"></span> Report Error</a></li>';
 	settingsMenu.innerHTML+='<li><a href="contact.html"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>';
+}
+
+function addMode(){
+	if(GR_DIR=="/dev"){
+		document.getElementById("addMode").innerHTML="<span class='label label-danger'>Dev Mode</span>";
+	}
 }
 //============================================================
 // LOGOUT

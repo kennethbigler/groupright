@@ -26,13 +26,45 @@ function getFullNameForEmail(email){
 }
 
 function getColorForGroup(groupid){
-	var color= GRMAIN.group(groupid).group_color;
-	return color;
+	var gr = GRMAIN.group(groupid);
+	if(!gr){
+		return;
+	}
+	return gr.group_color;
 
 	console.warn("No color found in fx: getColorForGroup");
 	return "FFFFFF";	
 }
 
+
+//============================================================
+// Modify Button wording on resize
+$(window).resize(function() {
+    // desktop
+    if ( $(this).width() >= 1200 ) {
+        $("#createGroup").html("Create a Group");
+        $("#scheduleEvent").html("Schedule an Event");
+        $("#createList").html("Create a List");
+		$("#makeDecision").html("Make a Decision");
+		$("#startTask").html("Start a Task");
+    }
+    // tablet
+    if ( $(this).width() >= 768 && $(this).width() < 1200 ) {
+        $("#createGroup").html("Groups");
+        $("#scheduleEvent").html("Events");
+        $("#createList").html("Lists");
+		$("#makeDecision").html("Decisions");
+		$("#startTask").html("Tasks");
+    }
+    // phone
+    if ( $(this).width() < 768 ) {
+		$("#createGroup").html("Create a Group");
+		$("#scheduleEvent").html("Schedule an Event");
+		$("#createList").html("Create a List");
+		$("#makeDecision").html("Make a Decision");
+		$("#startTask").html("Start a Task");
+    }
+});
 
 
 //============================================================
@@ -61,6 +93,13 @@ window.onload = function() {
 	};
 	GRMAIN.onupdateupdate = function(x){
 		if(x.length){
+			for(var i = 0; i < x.length; i++){
+				if(x[i].link_type == "task" && x[i].description.match("completed"))
+				{
+					GRMAIN.task(x[i].link_id).is_completed="1";
+					__resetTasks();
+				}				
+			}
 			__resetUpdates();
 		}
 	};
@@ -99,6 +138,9 @@ function addUsersInfo(){
 	initScheduleEvent();	// 'Schedule an Event'
 	initStartTask();		// 'Start a Task'
 	initSendMessage();		// 'Send Message'
+	
+	initCreateList();
+	initCreatePoll();
 	
 }
 
@@ -222,7 +264,7 @@ function addCalendarInfo(){
 	sd = days[ (new Date()).getDay() ];
 	
 	var hours = ["12am","1am","2am","3am","4am","5am","6am","7am","8am","9am","10am","11am",
-					"12pm","1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm","9pm","10pm","11pm"];
+					"12pm","1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm","9pm","10pm","11pm","12am"];
 	sh = 9; eh = 18;
 	
 	var prepped = new Array();
@@ -286,18 +328,41 @@ function addTasks(){
 		$(collapseDiv).attr( 'aria-labelledby', 'heading'+temp );
 		var detailDiv=document.createElement('div');
 		detailDiv.className="panel-body";
-		var createdPar=document.createElement('p');
-		
-		createdPar.innerHTML+="Created By: "+getFullNameForEmail(task_array[i].creator);
-		createdPar.style.marginLeft="5px";
-		collapseDiv.appendChild(createdPar);
-		//var responsibilityPar=document.createElement('p');
-		if(task_array[i].task_description==""){
-			detailDiv.innerHTML="No Description Provided";
+
+		//Add type info
+		var typePar=document.createElement('p');
+		if(task_array[i].is_individual=="1"){
+			typePar.innerHTML="<b>Responsiblity:</b> You";
 		}
 		else{
-			detailDiv.innerHTML=task_array[i].task_description;
+			typePar.innerHTML="<b>Responsiblity:</b> Entire Group";
 		}
+		typePar.style.marginLeft="5px";
+		collapseDiv.appendChild(typePar);
+		
+		//Add creator
+		var createdPar=document.createElement('p');
+		createdPar.innerHTML+="<b>Created By:</b> "+getFullNameForEmail(task_array[i].creator);
+		createdPar.style.marginLeft="5px";
+		collapseDiv.appendChild(createdPar);
+
+		//Add Description
+		var descriptionPar=document.createElement('p');
+		if(task_array[i].task_description==""){
+			descriptionPar.innerHTML="<b>Description:</b> None Provided";
+		}
+		else{
+			descriptionPar.innerHTML="<b>Description:</b> "+task_array[i].task_description;
+		}
+		descriptionPar.style.marginLeft="5px";
+		collapseDiv.appendChild(descriptionPar);
+
+		//Add group
+		var groupPar=document.createElement('p');
+		groupPar.innerHTML="<b>Group:</b> "+GRMAIN.group(task_array[i].group_id).group_name;
+		groupPar.style.marginLeft="5px";
+		collapseDiv.appendChild(groupPar);
+
 
 		var headingDivColLeft=document.createElement('div');
 		$(headingDivColLeft).attr( 'class', 'col-sm-10' );
@@ -314,11 +379,13 @@ function addTasks(){
 			if(task_array[i].link_id!=null){
 				//It's a task to provide availability
 				var eventLink=document.createElement('a');
-				console.log(task_array[i]);
+				//console.log(task_array[i]);
 				if(task_array[i].link_type == "event")
 					eventLink.href="eventResponse.html?guid="+task_array[i].group_id+"&event_id="+task_array[i].link_id;
 				else if(task_array[i].link_type == "event_report")
 					eventLink.href="eventReport.html?guid="+task_array[i].group_id+"&event_id="+task_array[i].link_id;
+				else if(task_array[i].link_type == "list")
+					eventLink.href="lists.html?guid="+task_array[i].group_id+"&list_id="+task_array[i].link_id;
 				else
 					eventLink.href="#";
 				var span=document.createElement('span');
@@ -326,14 +393,23 @@ function addTasks(){
 				span.style.color=getColorForGroup(task_array[i].group_id);
 				eventLink.appendChild(span);
 				button.appendChild(eventLink);
+				$(button).attr('href',eventLink);
 				button.style.border="2px solid"+getColorForGroup(task_array[i].group_id);
+
+				//Add creator
+				var instructionPar=document.createElement('p');
+				instructionPar.innerHTML+="<b>Instruction:</b> Click the arrow to complete this task.";
+				instructionPar.style.marginLeft="5px";
+				collapseDiv.appendChild(instructionPar);
 			}
 			else{
 				//It's a default task
 				button.style.border="2px solid"+getColorForGroup(task_array[i].group_id);
+				button.id = "taskcomplete_"+task_array[i].task_uid;
 				$(button).attr('onclick','toggleTask(this,'+task_array[i].task_uid+','+i+')');
 			}
 		}
+
 		
 
 
@@ -377,7 +453,16 @@ function addUpdates(){
 		//span.style.color=gr_colors[Math.floor(Math.random() * 8) ];
 		var a=document.createElement('a');
 		$(a).attr( 'class', 'list-group-item' );
-		$(a).attr( 'href', '#' );
+		
+		//console.log(updates[i]);
+		switch(updates[i].link_type){
+			case 'list':
+				$(a).attr('href','lists.html?guid='+updates[i].group_id+'&list_id='+updates[i].link_id);
+				break;
+			default:
+				$(a).attr( 'href', '#' );
+				break;
+		}
 		var h4=document.createElement('h4');
 		//h4.appendChild(span);
 		$(h4).attr('class','list-group-item-heading');
@@ -475,10 +560,11 @@ function initScheduleEvent(){
 	}
 }
 
-function initStartTask(){
 
+function populateGroupSelect(groupMenu){
+	if(!groupMenu) return;
+	
 	var allGroups = GRMAIN.groups();
-	var groupMenu = document.getElementById("taskGroups");
 	var numGroups = allGroups.length;
 
 	//If no groups
@@ -498,6 +584,20 @@ function initStartTask(){
 		item.innerHTML=allGroups[i].group_name;
 		groupMenu.appendChild(item);
 	}
+}
+
+function initCreateList(){
+	var groupMenu = document.getElementById("listGroups");
+	populateGroupSelect(groupMenu);
+}
+function initCreatePoll(){
+	var groupMenu = document.getElementById("pollGroups");
+	populateGroupSelect(groupMenu);
+}
+
+function initStartTask(){
+	var groupMenu = document.getElementById("taskGroups");
+	populateGroupSelect(groupMenu);
 }
 
 function initSendMessage(){
@@ -565,6 +665,8 @@ function initSendMessage(){
 
 
 
+
+
 function toggleTask(element, taskid, localIndex){
     var task_array=GRMAIN.tasks();
     var _cookies = genCookieDictionary();
@@ -586,7 +688,7 @@ function toggleTask(element, taskid, localIndex){
 											element.style.border="2px solid #666";
 											$(element).attr('onclick','return;');
 											//Clean the global object
-											GRMAIN.task(taskid).isCompleted="1";
+											GRMAIN.task(taskid).is_completed="1";
 											//Do something with the update
 											
 									},
