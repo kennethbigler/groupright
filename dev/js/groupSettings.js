@@ -107,9 +107,75 @@ function addMemberToGroup(groupID,groupName){
 
 }
 
-function makeMemberLeader(groupID,email){}
+function makeMemberLeader(groupID,email){
+	var _cookies = genCookieDictionary();
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"group_uid":groupID,
+			"new_leader":email,
+			"function":"make_leader"
+		};
+		// Contact Server
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					console.log("success");
+					window.location="";
+				},
+				220: function(data, status, jqXHR){
+					//they don't have the necessary access to see this page have them login again
+					//window.location="https://www.groupright.net"+GR_DIR+"/login.html";
+					alert("An Error Occured which prevented the leader from being changed.");
+				}
+			}
+		
+		});
+	}
+	else{
+		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
+		
+	}
+}
 
-function dropMember(groupID,email){}
+function dropMember(groupID,email,groupName){
+	var _cookies = genCookieDictionary();
+	if(_cookies.accesscode && _cookies.user){
+	
+		var obj = {
+			"ac":_cookies.accesscode,
+			"email":_cookies.user,
+			"group_uid":groupID,
+			"dropped_member":email,
+			"function":"drop_member"
+		};
+		// Contact Server
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
+			type:"POST",
+			data:obj,
+			statusCode:{
+				200: function(data, status, jqXHR){
+					console.log("success");
+					manageGroup(groupID,groupName,"leader",false);
+				},
+				220: function(data, status, jqXHR){
+					//they don't have the necessary access to see this page have them login again
+					//window.location="https://www.groupright.net"+GR_DIR+"/login.html";
+					alert("An Error Occured.");
+				}
+			}
+		
+		});
+	}
+	else{
+		console.warn("You are currently an Unauthenticated User accessing this page...This type of user Will Be Forced to Redirect in Final Version");
+		
+	}
+}
 
 function _leaveGroup(groupID){
 	var _cookies = genCookieDictionary();
@@ -448,18 +514,18 @@ function addMembersToModal(membersArray,groupName,role,groupID){
 				
 				// make leader
 				var button = document.createElement('a');
-				button.href = "#";
 				$(button).css({"float":"right","fontSize":"0.9em"});
 				button.innerHTML= "Make Leader";
+				$(button).attr('onclick','makeMemberLeader("'+groupID+'","'+membersArray[i].email+'")')
 				td.appendChild(button);
 				
 				td.appendChild($("<br />")[0]);
-				
+				 
 				// drop member
 				button = document.createElement('a');
-				button.href = "#";
 				$(button).css({"float":"right","fontSize":"0.9em"});
 				button.innerHTML= "Drop Member";
+				$(button).attr('onclick','dropMember("'+groupID+'","'+membersArray[i].email+'","'+groupName+'")')
 				td.appendChild(button);
 			}
 				
