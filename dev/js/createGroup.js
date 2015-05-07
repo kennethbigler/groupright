@@ -116,7 +116,8 @@ function createGroup(){
 				200:function(data,status,jqXHR){
 					//alert("Group Created");
 					//window.location = "./home.html";
-					$('#createGroupBox').modal('toggle');				
+					$('#createGroupBox').modal('toggle');			
+					window.location = ""; /* reload -- super simple */
 				},
 				211:function(){
 					//access denied, redirect to login
