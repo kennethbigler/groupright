@@ -267,7 +267,7 @@
 		// add popup window click event
 		var windowSettings = {
 			color:this.options.color,
-			description:(this.options.description)? this.options.description : "Something intelligent.",
+			description:(this.options.description)? this.options.description : "[No description]",
 			title:this.options.title,
 			time:this.options.start_time+" - "+this.options.end_time,
 			attending:[],
