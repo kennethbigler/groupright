@@ -66,6 +66,14 @@
 		$user_info["events"] = getAllEventsSince($email_address,$last_event);
 		$user_info["updates"] = getAllUpdatesSince($email_address,$last_update);
 		
+		foreach($user_info["updates"] as $val){
+			if(strpos($val["description"],"chose a time for") === false) continue;
+			$user_info["events"] = array_merge(
+					$user_info["events"],
+					fetchEvent($email_address,$val["link_id"])
+			);
+		}
+		
 		return $user_info;
 		
 	}
