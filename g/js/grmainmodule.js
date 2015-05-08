@@ -137,7 +137,7 @@ GRMainModule.prototype.load = function(cookies,successFn,failureFn){
 			type:"POST",
 			data:obj,
 			dataType:'text',
-			cache:false
+			cache:false,
 			statusCode:{
 				200: function(data, status, jqXHR){
 					self._parse(data);
