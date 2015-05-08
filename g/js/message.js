@@ -109,6 +109,8 @@ GRMessageModule.prototype.markMessagesRead = function(group_id){
 		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 				type:'POST',
 				data:obj,
+				dataType:'text',
+				cache:false,
 				statusCode:{
 					200:function(data,status,jqXHR) {
 						// cleared.
@@ -148,6 +150,8 @@ GRMessageModule.prototype.sendMessage = function(content,group_id,successFn,fail
 	$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:'POST',
 			data:obj,
+			dataType:'text',
+			cache:false,
 			statusCode:{
 				200:function(data,status,jqXHR) {
 					//alert("Message Sent");
@@ -190,6 +194,8 @@ GRMessageModule.prototype.loadMessages = function(group_id,successFn,failureFn){
 		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 				type:'POST',
 				data:obj,
+				dataType:'text',
+				cache:false,
 				statusCode:{
 					200:function(data,status,jqXHR) {
 						
