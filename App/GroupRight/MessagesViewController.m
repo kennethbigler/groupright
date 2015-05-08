@@ -76,10 +76,12 @@ NSString* activeGroupName;
     }
     isSelectingGroups=!isSelectingGroups;
     //if (self.groupPIcker) self.groupPIcker.hidden = !self.groupPIcker.hidden;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:([grmm.messages count]-1) inSection:0];
-    [self.messagesTable scrollToRowAtIndexPath:indexPath
-                          atScrollPosition:UITableViewScrollPositionTop
-                                  animated:YES];
+    if([grmm.messages count]>0){
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:([grmm.messages count]-1) inSection:0];
+        [self.messagesTable scrollToRowAtIndexPath:indexPath
+                                  atScrollPosition:UITableViewScrollPositionTop
+                                          animated:YES];
+    }
     //[self.messagesTable reloadData];
 
 }

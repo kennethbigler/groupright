@@ -104,7 +104,11 @@
     //Set the background color
     update =[grmm.updates objectAtIndex:indexPath.row];
     NSString *guid =[update objectForKey:@"group_id"];
-    cell.backgroundColor=[grmm getColorForGroupWithId:guid];
+    UIColor* grColor=[grmm getColorForGroupWithId:guid];
+    cell.backgroundColor=grColor;
+    UIView *bgColorView = [[UIView alloc] init];
+    bgColorView.backgroundColor = grColor;
+    [cell setSelectedBackgroundView:bgColorView];
     
     return cell;
 }

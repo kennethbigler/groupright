@@ -61,6 +61,30 @@
     NSURLResponse* response;
     NSError* error = nil;
     responseData = [NSURLConnection sendSynchronousRequest:request     returningResponse:&response error:&error];
+    
+    NSHTTPURLResponse *httpresponse=(NSHTTPURLResponse *)response;
+    long responseCode=(long) [httpresponse statusCode];
+    NSLog(@"response code: %ld",responseCode);
+    if(responseCode!=200){
+        NSString *alertMessage;
+        switch (responseCode){
+                case 206: alertMessage=@"Invalid Email or Password";
+                break;
+                case 207: alertMessage=@"GroupRight is currently down for maintenance. Apologies.";
+                break;
+                case 209: alertMessage=@"Your account has been locked for your security. Please visit the web version of GroupRight to resolve this issue.";
+                break;
+                default: alertMessage=@"An unknown error occurred.";
+        }
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Error"
+                                                        message:alertMessage
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return @"";
+    }
+    
     NSString *cookie = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
     return cookie;
     

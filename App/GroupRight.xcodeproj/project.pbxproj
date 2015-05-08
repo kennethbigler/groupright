@@ -43,6 +43,7 @@
 		BBDE35AA1AE8490C0030A211 /* gr_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = BBDE35A91AE8490C0030A211 /* gr_blue.png */; };
 		D2183BE51AE706A80024CC77 /* GRMainModule.m in Sources */ = {isa = PBXBuildFile; fileRef = D2183BE41AE706A80024CC77 /* GRMainModule.m */; };
 		D25127261AEF421500812603 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25127251AEF421500812603 /* SettingsViewController.m */; };
+		D257ECB71AFC6CAB00305753 /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D257ECB61AFC6CAB00305753 /* TaskDetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +112,8 @@
 		D2183BE41AE706A80024CC77 /* GRMainModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRMainModule.m; sourceTree = "<group>"; };
 		D25127241AEF421500812603 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		D25127251AEF421500812603 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		D257ECB51AFC6CAB00305753 /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskDetailViewController.h; path = GroupRight/TaskDetailViewController.h; sourceTree = "<group>"; };
+		D257ECB61AFC6CAB00305753 /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskDetailViewController.m; path = GroupRight/TaskDetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +226,8 @@
 				BBADF0BA1AE871DB00361BA1 /* EventsViewController.h */,
 				BBADF0BB1AE871DB00361BA1 /* EventsViewController.m */,
 				BBB4A6BE1AE81D53001BB2DB /* TasksViewController.m */,
+				D257ECB51AFC6CAB00305753 /* TaskDetailViewController.h */,
+				D257ECB61AFC6CAB00305753 /* TaskDetailViewController.m */,
 			);
 			name = "View Controllers";
 			path = ..;
@@ -391,6 +396,7 @@
 				BBADF0BC1AE871DB00361BA1 /* EventsViewController.m in Sources */,
 				BB49168B1AE30482002E792D /* SecondViewController.m in Sources */,
 				BBADF0BF1AE87AE400361BA1 /* MessagesViewController.m in Sources */,
+				D257ECB71AFC6CAB00305753 /* TaskDetailViewController.m in Sources */,
 				BB4916851AE30482002E792D /* AppDelegate.m in Sources */,
 				BBA0E8681AEAF86A00CE8DF6 /* MessagesTableCell.m in Sources */,
 				BBB4A6C51AE81F47001BB2DB /* TasksTableViewCell.m in Sources */,

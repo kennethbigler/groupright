@@ -28,9 +28,17 @@
  */
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doYourStuff)
+                                                 name:UIApplicationWillEnterForegroundNotification object:nil];
     // Do any additional setup after loading the view, typically from a nib.
 }
+-(void)doYourStuff{
+    [_EventsTable reloadData];
+}
 
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)viewDidAppear:(BOOL)animated
 {
     GRMainModule *grmm = [GRMainModule grMain];
@@ -107,7 +115,12 @@
     
     [df setDateFormat:@"hh:mm a"];
     cell.event_time.text=[NSString stringWithFormat:@"%@ - %@", [df stringFromDate:st_date], [df stringFromDate:ed_date]];
-    cell.group_color_bar.backgroundColor=[grmm getColorForGroupWithId:[event objectForKey:@"group_id"]AtAlpha:1];
+    UIColor *grColor=[grmm getColorForGroupWithId:[event objectForKey:@"group_id"]AtAlpha:1];
+    cell.group_color_bar.backgroundColor=grColor;
+    
+    UIView *bgColorView = [[UIView alloc] init];
+    bgColorView.backgroundColor = grColor;
+    [cell setSelectedBackgroundView:bgColorView];
     
     //Set the correct photo
     /*if([[[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"link_type"] isEqual: @"event"]){

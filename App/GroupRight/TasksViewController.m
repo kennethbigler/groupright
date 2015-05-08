@@ -10,6 +10,7 @@
 #import "GRMainModule.h"
 #import "LoginViewController.h"
 #import "TasksTableViewCell.h"
+#import "TaskDetailViewController.h"
 
 @interface TasksViewController ()
 
@@ -28,7 +29,16 @@
 */
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doYourStuff)
+                                                 name:UIApplicationWillEnterForegroundNotification object:nil];
     // Do any additional setup after loading the view, typically from a nib.
+}
+-(void)doYourStuff{
+    [_TasksTable reloadData];
+}
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -124,6 +134,9 @@
     }
     //[cell.completed.layer addSublayer:circleLayer];
     [cell.completedButton.layer addSublayer:circleLayer];
+    UIView *bgColorView = [[UIView alloc] init];
+    bgColorView.backgroundColor = grColor;
+    [cell setSelectedBackgroundView:bgColorView];
                                   
                                   
     //Set the correct photo
@@ -144,6 +157,12 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UIStoryboard *storyboard=self.storyboard;
+    TaskDetailViewController *tdvc=[storyboard instantiateViewControllerWithIdentifier:@"TaskDetail"];
+    tdvc.task_title_string=@"Title";
+    [self presentViewController:tdvc animated:YES completion:nil];
+                                    
+    
     
 }
 
