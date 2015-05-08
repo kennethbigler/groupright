@@ -1,11 +1,16 @@
 package net.groupright.android.groupright;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,11 +26,13 @@ public class TaskAdapter extends BaseExpandableListAdapter {
     public ArrayList<String> groupItem;
     public HashMap<String, List<String>> childItem;
     private Context context;
+    //private final JSONObject taskMap;
 
-    public TaskAdapter(Context cntext, ArrayList<String> grList, HashMap<String, List<String>> cdItem) {
+    public TaskAdapter(Context cntext, ArrayList<String> grList, HashMap<String, List<String>> cdItem/*, JSONObject taskMap*/) {
         context = cntext;
         groupItem = grList;
         this.childItem = cdItem;
+        //this.taskMap = taskMap;
     }
 
     @Override
@@ -91,6 +98,13 @@ public class TaskAdapter extends BaseExpandableListAdapter {
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setText(headerTitle);
+
+        /*ImageView colorBar = (ImageView) convertView.findViewById(R.id.imageView3);
+        try {
+            colorBar.setBackgroundColor(Color.parseColor(taskMap.getString(Integer.toString(groupPosition))));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
 
         return convertView;
     }

@@ -62,6 +62,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     static JSONObject eventMap = new JSONObject();
     static JSONObject taskMap = new JSONObject();
     static JSONArray eventsList = new JSONArray();
+    static JSONArray tasksList = new JSONArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -278,7 +279,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             JSONArray jUpdates = json.getJSONArray("updates");
             //JSONArray jEvents = json.getJSONArray("events");
             eventsList = json.getJSONArray("events");
-            JSONArray jTasks = json.getJSONArray("tasks");
+            tasksList = json.getJSONArray("tasks");
             JSONArray jMem = json.getJSONArray("memberships");
             String thisGroup;
             String thisColor;
@@ -297,6 +298,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 updatesList.add(jUpdates.getJSONObject(i).getString("description"));
                 group = jUpdates.getJSONObject(i).getString("group_id");
                 updateMap.put(Integer.toString(i), colorMap.getString(group));
+                group = jUpdates.getJSONObject(i).getString("link_type");
+                updateMap.put("t" + Integer.toString(i), group);
                 //System.out.println(jUpdates.getJSONObject(i).getString("description"));
             }
 
@@ -305,19 +308,19 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 eventMap.put(Integer.toString(i), colorMap.getString(group));
             }
 
-            for (int i = 0; i < jTasks.length(); i ++) {
-                groupItem.add(jTasks.getJSONObject(i).getString("task_title"));
-                group = jTasks.getJSONObject(i).getString("group_id");
+            for (int i = 0; i < tasksList.length(); i ++) {
+                //groupItem.add(tasksList.getJSONObject(i).getString("task_title"));
+                group = tasksList.getJSONObject(i).getString("group_id");
                 taskMap.put(Integer.toString(i), colorMap.getString(group));
             }
 
-            for (int i = 0; i < jTasks.length(); i ++) {
+            /*for (int i = 0; i < jTasks.length(); i ++) {
                 jTasks.getJSONObject(i).getString("creator");
                 List<String> child = new ArrayList<>();
                 child.add("Created By: " + jTasks.getJSONObject(i).getString("creator"));
                 child.add(jTasks.getJSONObject(i).getString("task_description"));
                 childItem.put(groupItem.get(i), child);
-            }
+            }*/
 
         } catch (Throwable t) {
             System.out.println("Could not parse string");
@@ -534,33 +537,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 }
             });
         }
-
-
-        /*@Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            loadList(rootView);
-            return rootView;
-        }
-
-        private void loadList(View rootView) {
-
-            // put list item array on the screen
-            System.out.println("test1");
-            ListView lv = (ListView) rootView.findViewById(R.id.listView);
-            System.out.println("test2");
-            //lv.setAdapter(new UpdatesArrayAdapter(getActivity(), updatesList, updateMap));
-            lv.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, updatesList));
-
-            // what happens on item click
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    System.out.println(position + 1);
-                }
-            });
-        }*/
     }
 
     public static class TasksFragment extends Fragment {
@@ -590,26 +566,57 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            loadList(rootView);
+            return rootView;
+        }
+
+        private void loadList(View rootView) {
+            // put list item array on the screen
+            //ListView lv = (ListView) rootView.findViewById(R.id.listView);
+            //lv.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, eventsList));
+
+            ListView lv = (ListView) rootView.findViewById(R.id.listView);
+            List<String> listData = new ArrayList<String>();
+            if (tasksList != null) {
+                for (int i=0;i<tasksList.length();i++){
+                    try {
+                        listData.add(tasksList.get(i).toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            // get data from the table by the ListAdapter
+            System.out.println("testing");
+            TasksArrayAdapter customAdapter = new TasksArrayAdapter(getActivity(), listData, tasksList, taskMap);
+
+            lv.setAdapter(customAdapter);
+
+            // what happens on item click
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    System.out.println(position + 1);
+                }
+            });
+        }
+
+        //This is the code for the old expandable list view
+        /*@Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_task, container, false);
 
             // put list item array on the screen
             elv = (ExpandableListView) rootView.findViewById(R.id.expandableListView);
 
             // create task
-            mTaskAdapter = new TaskAdapter(getActivity(), groupItem, childItem);
+            mTaskAdapter = new TaskAdapter(getActivity(), groupItem, childItem/*, taskMap*//*);
             elv.setAdapter(mTaskAdapter);
 
-            // what happens on item click
-            /*elv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    System.out.println(position + 1);
-                }
-            });*/
-
-            //elv.setOnChildClickListener((ExpandableListView.OnChildClickListener) this);
             return rootView;
-        }
+        }*/
     }
 
     public static class EventsFragment extends Fragment {

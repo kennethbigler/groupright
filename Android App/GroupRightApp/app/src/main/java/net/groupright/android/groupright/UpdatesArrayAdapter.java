@@ -67,19 +67,26 @@ public class UpdatesArrayAdapter extends ArrayAdapter {
         //holder.text.setText("hello world");
         //textView.setText(values.indexOf(position));
         try {
-            rowView.setBackgroundColor(Color.parseColor(updateMap.getString(Integer.toString(position))));
+            rowView.setBackgroundColor(Color.parseColor("#B2"+updateMap.getString(Integer.toString(position)).substring(1)));
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        //if () {
-        //    imageView.setImageResource(R.drawable.task);
-        //} else if () {
-        //    imageView.setImageResource(R.drawable.cal);
-        //} else {
-        //    imageView.setImageResource(R.drawable.basecase);
+        try {
+            s = updateMap.getString("t" + Integer.toString(position));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //System.out.println(s);
+        // set the image view of the updates line
+        if (s.equals("task")) {
+            holder.image.setImageResource(R.drawable.task);
+        } else if (s.equals("event")) {
+            holder.image.setImageResource(R.drawable.cal);
+        } else {
             holder.image.setImageResource(R.drawable.basecase);
-        //}
+        }
 
         return rowView;
     }
