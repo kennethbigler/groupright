@@ -68,7 +68,7 @@ $(window).resize(function() {
 
 
 //============================================================
-// LOADING / INITIALIZATION
+// LOADING / INITIALIZATION 
 
 window.onload = function() {
 	//get the cookies and get all of the data from the server
@@ -293,8 +293,10 @@ function addTasks(){
 	var task_array = GRMAIN.tasks();
 	
 	var tasks=document.getElementById('addTasks');
+	tasks.innerHTML="";
 	if(task_array.length==0){
 		//Add no pending tasks
+		tasks.innerHTML="<h5 style='text-align:center'>No tasks to display</h5>";
 		return;
 	}
 	//document.getElementById('taskNumber').innerHTML=task_array.length;
@@ -438,7 +440,6 @@ function addTasks(){
 		*/
 		document.getElementById('addTasks').appendChild(containingDiv);
 	}
-
 }
 
 
@@ -447,6 +448,7 @@ function addUpdates(){
 	var updates = GRMAIN.updates();
 
 	var adder=document.getElementById("addUpdates");
+	adder.innerHTML="";
 	for(var i=0; i<updates.length; i++){
 		//var span = document.createElement('span');
 		//$(span).attr('class','glyphicon glyphicon-asterisk');
@@ -476,6 +478,9 @@ function addUpdates(){
 		//a.appendChild(p);
 		adder.appendChild(a);
 
+	}
+	if(updates.length==0){
+		adder.innerHTML="<h5 style='text-align:center'>No updates to display</h5>";
 	}
 
 

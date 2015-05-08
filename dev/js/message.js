@@ -370,6 +370,10 @@ function populateMessages(){
 			
 			// clear message box
 			document.getElementById("messageBox").innerHTML = "";
+
+			if(array.length==0){
+				document.getElementById("messageBox").innerHTML="<h5 style='text-align:center'> No messages to display for this group </h5>";
+			}
 			
 			//Iterate through returned array
 			for (var i = 0; i < array.length; i++) {
