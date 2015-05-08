@@ -136,6 +136,8 @@ GRMainModule.prototype.load = function(cookies,successFn,failureFn){
 		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
+			dataType:'text',
+			cache:false
 			statusCode:{
 				200: function(data, status, jqXHR){
 					self._parse(data);
@@ -179,6 +181,8 @@ GRMainModule.prototype._updateData = function(){
 		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
 			type:"POST",
 			data:obj,
+			dataType:'text',
+			cache:false,
 			statusCode:{
 				200: function(data, status, jqXHR){
 					var obj = JSON.parse(data);
