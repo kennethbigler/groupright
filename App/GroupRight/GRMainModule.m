@@ -117,7 +117,7 @@ GRMainModule *GRMAIN;
 - (UIColor *) getColorForTaskWithId:(NSString *)task_id{
     NSString* guid;
     for(int i=0; i<[tasks count]; i++){
-        if([[tasks objectAtIndex:i] objectForKey:@"task_uid"]==task_id){
+        if([[[tasks objectAtIndex:i] objectForKey:@"task_uid"] isEqualToString: task_id]){
             guid=[[tasks objectAtIndex:i] objectForKey:@"group_id"];
             break;
         }
@@ -159,6 +159,14 @@ GRMainModule *GRMAIN;
     [events removeAllObjects];
     [tasks removeAllObjects];
     [updates removeAllObjects];
+}
+- (NSString*) getFullNameForGroupWithId:(NSString*)group_id{
+    for(int i=0; i<[groups count]; i++){
+        if([[groups objectAtIndex:i] objectForKey:@"group_id"]==group_id){
+            return [[groups objectAtIndex:i] objectForKey:@"group_name"];
+        }
+    }
+    return @"Not Found";
 }
 
 @end

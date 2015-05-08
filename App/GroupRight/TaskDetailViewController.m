@@ -13,7 +13,8 @@
 @end
 
 @implementation TaskDetailViewController
-@synthesize task_title_string;
+@synthesize color;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -21,7 +22,12 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     // Do any additional setup after loading the view.
-    self.task_title.text=task_title_string;
+    //self.task_title.text=_task_title_string;
+    self.task_title.backgroundColor=color;
+    //self.responsibility.text=_responsibility_string;
+    //self.group.text=_group_string;
+    //self.creator.text=_creator_string;
+    //self.description.text=_description_string;
 }
 
 - (void)didReceiveMemoryWarning {

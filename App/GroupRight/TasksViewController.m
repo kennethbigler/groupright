@@ -157,9 +157,29 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    GRMainModule *grmm = [GRMainModule grMain];
+    NSDictionary *task = [grmm.tasks objectAtIndex: indexPath.row];
+
     UIStoryboard *storyboard=self.storyboard;
     TaskDetailViewController *tdvc=[storyboard instantiateViewControllerWithIdentifier:@"TaskDetail"];
-    tdvc.task_title_string=@"Title";
+    tdvc.color=[grmm getColorForGroupWithId:[task objectForKey:@"group_id"]];
+    /*
+    if([[task objectForKey:@"is_individual"] isEqual:@"1"]){
+        tdvc.responsibility_string=@"You";
+    }
+    else{
+        tdvc.responsibility_string=@"Group";
+    }
+    
+    tdvc.task_title_string=[task objectForKey:@"task_title"];
+    tdvc.creator_string=[grmm getFullNameForEmail:[task objectForKey:@"creator"]];
+    tdvc.group_string=[grmm getFullNameForGroupWithId:[task objectForKey:@"group_id"]];
+    if([[task objectForKey:@"task_description"] isEqualToString:@""]){
+        tdvc.description_string=@"None Provided";
+    }
+    else{
+        tdvc.description_string=[task objectForKey:@"task_description"];
+    }*/
     [self presentViewController:tdvc animated:YES completion:nil];
                                     
     

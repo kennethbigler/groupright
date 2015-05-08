@@ -10,10 +10,17 @@
 
 @interface TaskDetailViewController : UIViewController
 @property (weak, nonatomic) NSString* task_title_string;
+@property (weak, nonatomic) UIColor* color;
+@property (weak, nonatomic) NSString* responsibility_string;
+@property (weak, nonatomic) NSString* group_string;
+@property (weak, nonatomic) NSString* creator_string;
+@property (weak, nonatomic) NSString* description_string;
+
 @property (weak, nonatomic) IBOutlet UILabel *task_title;
 @property (weak, nonatomic) IBOutlet UILabel *responsibility;
 @property (weak, nonatomic) IBOutlet UILabel *group;
 @property (weak, nonatomic) IBOutlet UILabel *creator;
+//@property (weak, nonatomic) IBOutlet UILabel *description;
 - (IBAction)close:(id)sender;
 
 @end

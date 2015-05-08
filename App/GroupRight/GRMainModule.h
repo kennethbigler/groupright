@@ -40,6 +40,7 @@
 - (UIColor*) getColorForGroupWithId:(NSString*) guid AtAlpha: (float) alpha;
 - (UIColor*) getColorForGroupWithId:(NSString*) guid;
 - (UIColor *) getColorForTaskWithId:(NSString *)task_id;
+- (NSString*) getFullNameForGroupWithId:(NSString*)group_id;
 - (void) setMessagesForGroupWithId:(NSString*) guid;
 - (void) clearData;
 
