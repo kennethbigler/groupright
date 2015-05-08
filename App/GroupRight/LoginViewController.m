@@ -103,6 +103,7 @@
     {
         cookie = [cookie stringByReplacingOccurrencesOfString:@"\n" withString:@""];
         cookie = [cookie stringByReplacingOccurrencesOfString:@" " withString:@""];
+        cookie = [cookie stringByReplacingOccurrencesOfString:@"\r" withString:@""];
         [grmm setAc:cookie];
         [self dismissViewControllerAnimated:YES completion:nil];
         [GroupRightNetworking getUserInfo];
