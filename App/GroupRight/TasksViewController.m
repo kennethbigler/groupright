@@ -163,7 +163,7 @@
     UIStoryboard *storyboard=self.storyboard;
     TaskDetailViewController *tdvc=[storyboard instantiateViewControllerWithIdentifier:@"TaskDetail"];
     tdvc.color=[grmm getColorForGroupWithId:[task objectForKey:@"group_id"]];
-    /*
+    
     if([[task objectForKey:@"is_individual"] isEqual:@"1"]){
         tdvc.responsibility_string=@"You";
     }
@@ -179,7 +179,7 @@
     }
     else{
         tdvc.description_string=[task objectForKey:@"task_description"];
-    }*/
+    }
     [self presentViewController:tdvc animated:YES completion:nil];
                                     
     
