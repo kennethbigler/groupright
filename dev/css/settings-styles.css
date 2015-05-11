@@ -5,8 +5,7 @@ footer {
 	line-height: 3em;
 	min-height: 3em;
 	text-align: center;
-	position: absolute !important;
-	bottom: 0px;
+	position: absolute;
 	width: 100%;
 }
 
@@ -21,7 +20,13 @@ footer a {
 footer a:hover {
 	color: #E3C00C;
 }
+
+@media screen and (max-width: 767px) {
+	footer { bottom:-15em;}
+}
+
 /* End Footer Code */
+
 /* This is code for main content, making the footer not overlap any of it */
 div.scrollable {
 	overflow: auto;
