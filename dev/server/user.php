@@ -80,10 +80,10 @@
 			WHERE email=?
 			)
 		");
-		$stmt->execute(array($email_address,$email_address));
+		$stmt->execute(array($email,$email));
 		
 		while($row = $stmt->fetch()){
-			echo $email_address." is registered";
+			echo $email." is registered";
 			return true;			
 		}
 		return false;
