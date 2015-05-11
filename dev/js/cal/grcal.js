@@ -28,7 +28,7 @@
 			start_hour:"7am",
 			end_hour:"7pm",
 			num_days:7,
-			start_day:"Monday",
+			start_day:"2015-05-09T01:20:06.320Z",
         }, options );
  
 		this.options = this.parseSettings(settings);
@@ -41,7 +41,6 @@
 		
 		// Events
 		this.events = {};
-		for(var i = 0; i < 7; i++) this.events[ daytitles[i] ] = new Array();
  
         return this.element;
 	}
@@ -56,6 +55,20 @@
 		return settings;
 	};
 	
+	//---------------------------------------------------------------------
+	GRCalendar.prototype.shiftCalBack = function(){
+		var x = new Date( this.options.start_day );
+		x.setDate( x.getDate() - 1 );
+		this.options.start_day = x.toDateString();
+		this.render();
+	}
+	//---------------------------------------------------------------------
+	GRCalendar.prototype.shiftCalForward = function(){
+		var x = new Date( this.options.start_day );
+		x.setDate( x.getDate() + 1 );
+		this.options.start_day = x.toDateString();
+		this.render();
+	}
 	//---------------------------------------------------------------------
 	
 	GRCalendar.prototype.render = function(){
@@ -83,18 +96,42 @@
 		}
 		calendar.append(hours);
 		
+		//console.log(this.events);
+		//console.log(this.options);
+		
+		var refDate = new Date(this.options.start_day);
+		
 		// Add each day.
 		for(var i = 0; i < this.options.num_days; i++){
-			var sday = daytitles.indexOf(this.options.start_day);
-			var ind = (sday+i)%7;
+			
+			// Get index / key.
+			var ind = refDate.toDateString();
+			//console.log(ind);
+			//var sday = daytitles.indexOf(this.options.start_day);
+			//var ind = (sday+i)%7;
 		
 			// make the day
-			var day = $("<div />",{class:"gr-day",id:daynames[ind]});
+			var day = $("<div />",{class:"gr-day"});
 			day.width(this.dim.day_width);
 			
 			// make the title
-			if(!this.mobile)day.append( $("<div />",{class:"gr-day-title",text:daytitles[ind]}) );
-			else day.append( $("<div />",{class:"gr-day-title",text:daynames[ind]}) );
+			
+			var dateStr = refDate.toDateString();
+			var __days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+			dateStr = __days[ refDate.getDay() ]+" "+(refDate.getMonth()+1) + "/" + refDate.getDate();
+			
+			if(!this.mobile)day.append( 
+				$("<div />",{
+					class:"gr-day-title",
+					text:dateStr
+				}) 
+			);
+			else day.append( 
+				$("<div />",{
+					class:"gr-day-title",
+					text:daynames[refDate.getDay()]
+				})
+			);
 			
 			// make the hour markers.
 			var contDiv = $("<div />").css("position","relative");
@@ -105,25 +142,34 @@
 					$("<div />",{class:"gr-hour"}).height(this.dim.cell_height)
 				);
 			}
-			
-			for(var j = 0; j < this.events[daytitles[ind]].length; j++){
-				var ev = this.events[ daytitles[ind] ][ j ];
-				var evDiv = ev.render({mobile:this.mobile});
-				var stMark = hoursBetween(parseTime(this.options.start_hour),
-											parseTime(ev.options.start_time));
-				var enMark = hoursBetween(parseTime(ev.options.start_time),
-											parseTime(ev.options.end_time));
-				evDiv.css({
-					"top":(stMark*this.dim.cell_height)+"px",
-					"height":(enMark*this.dim.cell_height)+"px"
-				});
-				contDiv.append(evDiv);
+						
+			if(this.events[ind]){
+				
+				for(var j = 0; j < this.events[ind].length; j++){
+					var ev = this.events[ ind ][ j ];
+					var evDiv = ev.render({mobile:this.mobile});
+					var stMark = new Date(this.events[ind][ j ].options.start_time).getHours();
+					var enMark = new Date(this.events[ind][ j ].options.end_time).getHours();
+					
+					// fix event length
+					enMark = enMark - stMark;
+					
+					// fix start
+					stMark = stMark - hournames.indexOf(this.options.start_hour);
+					evDiv.css({
+						"top":(stMark*this.dim.cell_height)+"px",
+						"height":(enMark*this.dim.cell_height)+"px"
+					});
+					contDiv.append(evDiv);
+				}
 			}
 			
+			// update for next iteration.
+			
+			refDate.setDate(refDate.getDate()+1)
+			
 			day.append(contDiv);
-			
-			
-			
+
 			days.append(day);
 		}
 		
@@ -181,7 +227,9 @@
 				colorIndex = (colorIndex + 1) % standardColors.length;
 			}
 			var ev = new GRCalendarEvent( options );
-			this.events[ ev.options.day ].push( ev );
+			var day = new Date(ev.options.start_time).toDateString();
+			if(!this.events[ day ]) this.events[ day ] = new Array();
+			this.events[ day ].push( ev );
 		}
 		this.render();
 	};
@@ -238,8 +286,8 @@
 			title:"New Event",
 			color:'#96e8c2',
 			day:'Monday',
-			start_time:'8:30am',
-			end_time:'10am'
+			start_time:'2015-05-09T01:20:06.320Z',
+			end_time:'2015-05-09T02:20:06.320Z'
         }, options );
  
 		this.options = this.parseSettings(settings);
@@ -251,13 +299,25 @@
 		return settings;
 	};
 	
+	GRCalendarEvent.prototype._formatTime = function( date ){
+		if(!(date instanceof Date )){
+			try{
+				date = new Date(date);
+			}catch(e){
+				console.warn(" Input is not a date. "); return;
+			}
+		}
+		
+		return date.toLocaleTimeString();
+	};
+	
 	GRCalendarEvent.prototype.render = function(opt){
 		var div = $("<div />",{class:"gr-event-cont"});
 		var div2 = $("<div />",{class:"gr-event"});
 		
 		//if(!opt.mobile){
 			div2.append( 
-				$("<p />",{class:"title",text:this.options.title})
+				$("<p />",{class:"title",text:this.options.name})
 			);
 		//}
 					
@@ -268,8 +328,8 @@
 		var windowSettings = {
 			color:this.options.color,
 			description:(this.options.description)? this.options.description : "[No description]",
-			title:this.options.title,
-			time:this.options.start_time+" - "+this.options.end_time,
+			title:this.options.name,
+			time:this._formatTime(this.options.start_time)+" - "+this._formatTime(this.options.end_time),
 			attending:[],
 			exit:function(){
 				$(".gr-event").removeClass("active");

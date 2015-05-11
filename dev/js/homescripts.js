@@ -39,34 +39,11 @@ function getColorForGroup(groupid){
 
 //============================================================
 // Modify Button wording on resize
-$(window).resize(function() {
-    // desktop
-    if ( $(this).width() >= 1200 ) {
-        $("#createGroup").html("Create a Group");
-        $("#scheduleEvent").html("Schedule an Event");
-        $("#createList").html("Create a List");
-		$("#makeDecision").html("Make a Decision");
-		$("#startTask").html("Start a Task");
-    }
-    // tablet
-    if ( $(this).width() >= 768 && $(this).width() < 1200 ) {
-        $("#createGroup").html("Groups");
-        $("#scheduleEvent").html("Events");
-        $("#createList").html("Lists");
-		$("#makeDecision").html("Decisions");
-		$("#startTask").html("Tasks");
-    }
-    // phone
-    if ( $(this).width() < 768 ) {
-		$("#createGroup").html("Create a Group");
-		$("#scheduleEvent").html("Schedule an Event");
-		$("#createList").html("Create a List");
-		$("#makeDecision").html("Make a Decision");
-		$("#startTask").html("Start a Task");
-    }
-});
 
-$(window).onload(function() {
+$(window).resize(fixMenuItems);
+$(window).load(fixMenuItems);
+
+function fixMenuItems(){
     // desktop
     if ( $(this).width() >= 1200 ) {
         $("#createGroup").html("Create a Group");
@@ -91,7 +68,7 @@ $(window).onload(function() {
 		$("#makeDecision").html("Make a Decision");
 		$("#startTask").html("Start a Task");
     }
-});
+};
 
 
 //============================================================
@@ -228,18 +205,6 @@ function fixGroupFilter(){
 	}
 }
 
-function __checkEvent(ent){	
-	if(!ent.start_time || !ent.end_time) return false;	// not set.
-	
-	var start_date = new Date(ent.start_time);
-	if(isNaN(start_date.getTime())) return false;		// invalid date
-	
-	//console.log(start_date);
-	if((new Date()) - start_date > 24*60*60*1000) return false;			// event is older than a day.
-	
-	return true;
-}
-
 function __formatEvent(raw){
 		var gs = new Date(raw.start_time);
 		var ge = new Date(raw.end_time);
@@ -272,16 +237,15 @@ function __formatEvent(raw){
 		return obj;
 }
 
+var GR_CALENDAR = null;
+
 function addCalendarInfo(){
 	
 	// FILTERING
 	//	[may need to be moved to GRMainModule / Server]
 	var evnts = GRMAIN.events();
 	
-	var good = new Array();
-	for(var i = 0; i < evnts.length; i++){		
-		if(__checkEvent(evnts[i])) good.push(evnts[i]);
-	}
+	var good = evnts;
 	
 	//console.log(good);
 	
@@ -297,12 +261,18 @@ function addCalendarInfo(){
 	var prepped = new Array();
 	
 	for(var i = 0; i < good.length; i++){
-		var obj = __formatEvent(good[i]);
+		//var obj = __formatEvent(good[i]);
+		var obj = good[i];
 		prepped.push(obj);
 		
 		// update bounds
+		obj.__startHour = new Date(obj.start_time).getHours();
+		obj.__endHour = new Date(obj.end_time).getHours();
+		
 		if( obj.__startHour < sh) sh = obj.__startHour;
 		if( obj.__endHour+1 > eh) eh = obj.__endHour+1;
+		
+		obj.color = GRMAIN.group(obj.group_id).group_color;
 	}
 		
 	var cal = $("#calendar");
@@ -310,10 +280,12 @@ function addCalendarInfo(){
 			num_days:5,
 			start_hour:hours[sh],
 			end_hour:hours[eh],
-			start_day:sd
+			start_day:new Date().toDateString()
 		});
 		
 		cal[0]._grcalendar.addEvents(prepped);
+		
+	GR_CALENDAR = cal[0]._grcalendar;
 }
 
 function addTasks(){

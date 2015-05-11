@@ -174,7 +174,13 @@
 		<!-- Calendar -->
 		<div id="comingup" class="col-lg-6 col-sm-12">
 			<div class="main6w" style="position:relative;">
+				<button class="btn btn-default cal-arrow" style="left:1.0em;" onclick="GR_CALENDAR.shiftCalBack()">
+					<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+				</button>
 				<h2>Coming Up</h2>
+				<button class="btn btn-default cal-arrow" style="right:1.0em;" onclick="GR_CALENDAR.shiftCalForward()">
+					<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+				</button>
 				<hr />
 				<div id="calendar" style="margin:5px 10px;position:absolute;top:80px;bottom:0px;left:0px;right:0px;">
 				</div>

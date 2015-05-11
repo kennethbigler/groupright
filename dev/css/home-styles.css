@@ -275,3 +275,9 @@ div.scrollable::-webkit-scrollbar-thumb{
   color: #222;
   border-color: #222;
 }
+
+.cal-arrow{
+	position:absolute;
+	top:20px;
+	height:40px;
+}
