@@ -250,7 +250,7 @@ function addListItem(){
 		$x = _getListInfo($list_uid,$group_uid);
 		$list_title = $x["title"];
 		
-		addListUpdate($email,$group_uid,"added an item to \"".$list_title."\"",$list_uid);
+		addListUpdate($email,$group_uid,"added an item to list \"".$list_title."\"",$list_uid);
 		
 	}else{
 		http_response_code(206);
