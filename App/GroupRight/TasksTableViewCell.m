@@ -31,8 +31,8 @@
     NSLog(@"Task Completed");
     NSLog(@"btnSelected data is %@", [sender accessibilityValue]);
     if([[sender accessibilityValue] isEqual:@"null"]){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unsupported Feature"
-                                                        message:@"We're sorry. This action corresponds to an event and can currently only be completed on the Web version of GroupRight."
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Web Version Feature"
+                                                        message:@"We're sorry. This action corresponds to an event or list and can currently only be completed on the Web version of GroupRight."
                                                        delegate:self
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];

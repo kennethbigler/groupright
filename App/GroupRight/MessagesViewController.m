@@ -27,6 +27,7 @@ NSString* activeGroupName;
     [self.messagesTable setHidden:YES];
     [self.messageInput setHidden:YES];
     [self.sendButton setHidden:YES];
+    
     //NSLog(@"here");
     //NSLog(activeGroupName);
     //NSLog(activeGroupId);
@@ -34,6 +35,9 @@ NSString* activeGroupName;
     // Do any additional setup after loading the view.
    
     
+}
+-(void) viewWillAppear:(BOOL)animated{
+    [self.groupPIcker reloadAllComponents];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,8 +66,8 @@ NSString* activeGroupName;
         [GroupRightNetworking getMessagesForGroupId:activeGroupId];
         [_messagesTable reloadData];
         [self.messagesTable setHidden:NO];
-        [self.messageInput setHidden:NO];
-        [self.sendButton setHidden:NO];
+        //[self.messageInput setHidden:NO];
+        //[self.sendButton setHidden:NO];
     }
     else{
         //self.activeGroup.topItem.title=@"Select Group";
@@ -91,6 +95,7 @@ NSString* activeGroupName;
 }
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
     GRMainModule *grmm=[GRMainModule grMain];
+    //NSLog(@"Number of groups %lu",(unsigned long)[grmm.groups count]);
     return [grmm.groups count];
 }
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
