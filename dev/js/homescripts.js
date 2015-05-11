@@ -66,6 +66,33 @@ $(window).resize(function() {
     }
 });
 
+$(window).onload(function() {
+    // desktop
+    if ( $(this).width() >= 1200 ) {
+        $("#createGroup").html("Create a Group");
+        $("#scheduleEvent").html("Schedule an Event");
+        $("#createList").html("Create a List");
+		$("#makeDecision").html("Make a Decision");
+		$("#startTask").html("Start a Task");
+    }
+    // tablet
+    if ( $(this).width() >= 768 && $(this).width() < 1200 ) {
+        $("#createGroup").html("Groups");
+        $("#scheduleEvent").html("Events");
+        $("#createList").html("Lists");
+		$("#makeDecision").html("Decisions");
+		$("#startTask").html("Tasks");
+    }
+    // phone
+    if ( $(this).width() < 768 ) {
+		$("#createGroup").html("Create a Group");
+		$("#scheduleEvent").html("Schedule an Event");
+		$("#createList").html("Create a List");
+		$("#makeDecision").html("Make a Decision");
+		$("#startTask").html("Start a Task");
+    }
+});
+
 
 //============================================================
 // LOADING / INITIALIZATION 

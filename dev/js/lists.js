@@ -242,6 +242,11 @@ function drawList(){
 	button.type="button";
 	button.innerHTML="Add";
 	$(button).click(function(){addItem();});
+	$(input).keydown(function(){
+		if(event.keyCode == 13)
+			{addItem();
+		}
+	});
 	$(input).attr( 'id', 'addItem' );
 	span.appendChild(button);
 	li2.appendChild(div);
