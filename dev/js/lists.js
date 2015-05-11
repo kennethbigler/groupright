@@ -285,6 +285,11 @@ function addItem(){
 	
 	var _cookie = genCookieDictionary();
 	
+	if (newItem == "" || newItem.length<=0) {
+		document.getElementById('messageError').innerHTML="Please Enter an Item";
+		return false;
+	}
+
 	addItemToList(newItem.value,function(){
 		
 		var value={item_name:newItem.value,item_uid:null,item_creator:_cookie.user};
