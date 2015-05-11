@@ -123,6 +123,7 @@
 			if(!this.mobile)day.append( 
 				$("<div />",{
 					class:"gr-day-title",
+					style:((refDate.toDateString() == new Date().toDateString()) ? "font-weight:bold" : ""),
 					text:dateStr
 				}) 
 			);

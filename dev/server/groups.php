@@ -36,12 +36,13 @@
 		$dbh = ConnectToDB();
 	
 		// Prevent duplicate.
+		/*
 		$stmt = $dbh->prepare(
 			"SELECT * FROM `groups` where group_name=? AND group_leader=?"
 		);				
 		$stmt->execute(array($name,$leader));			
 		while($row = $stmt->fetch()){ http_response_code(213); return; }
-	
+		*/
 	
 		// Make Group
 		$stmt = $dbh->prepare(
