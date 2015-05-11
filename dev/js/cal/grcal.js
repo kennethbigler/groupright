@@ -149,8 +149,10 @@
 				for(var j = 0; j < this.events[ind].length; j++){
 					var ev = this.events[ ind ][ j ];
 					var evDiv = ev.render({mobile:this.mobile});
-					var stMark = new Date(this.events[ind][ j ].options.start_time).getHours();
-					var enMark = new Date(this.events[ind][ j ].options.end_time).getHours();
+					var stMark = new Date(this.events[ind][ j ].options.start_time).getHours() +
+									new Date(this.events[ind][ j ].options.start_time).getMinutes()/60.0;
+					var enMark = new Date(this.events[ind][ j ].options.end_time).getHours() +
+									new Date(this.events[ind][ j ].options.end_time).getMinutes()/60.0;
 					
 					// fix event length
 					enMark = enMark - stMark;
