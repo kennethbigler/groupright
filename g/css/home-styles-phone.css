@@ -21,3 +21,7 @@ div.main6w {
 .btn-lg, .btn-group-lg>.btn {
 	margin-bottom: 5px;
 }
+
+#messageBox {
+	height: 200px;
+}
