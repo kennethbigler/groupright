@@ -121,42 +121,42 @@
                <div class="panel-body">
                   <div class="row">
                     <div class="col-xs-6">
-                        <h4> First Name: </h4>
+                        <h5> First Name: </h5>
                     </div>
                     <div class="col-xs-6">
-                        <h4 id="firstName"> Joe </h4>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-xs-6">
-                        <h4> Last Name: </h4>
-                    </div>
-                    <div class="col-xs-6">
-                        <h4 id="lastName"> Joe </h4>
+                        <h5 id="firstName"> Joe </h5>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-xs-6">
-                        <h4> Email: </h4>
+                        <h5> Last Name: </h5>
                     </div>
                     <div class="col-xs-6">
-                        <h4 id="email"> Joe </h4>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-xs-6">
-                        <h4> Phone Number: </h4>
-                    </div>
-                    <div class="col-xs-6">
-                        <h4 id="phoneNumber"> Not Provided </h4>
+                        <h5 id="lastName"> Joe </h5>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-xs-6">
-                        <h4> Date Joined: </h4>
+                        <h5> Email: </h5>
                     </div>
                     <div class="col-xs-6">
-                        <h4 id="dateJoined"> Not Available </h4>
+                        <h5 id="email"> Joe </h5>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-6">
+                        <h5> Phone Number: </h5>
+                    </div>
+                    <div class="col-xs-6">
+                        <h5 id="phoneNumber"> Not Provided </h5>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-6">
+                        <h5> Date Joined: </h5>
+                    </div>
+                    <div class="col-xs-6">
+                        <h5 id="dateJoined"> Not Available </h5>
                     </div>
                   </div>
                </div>
@@ -202,18 +202,18 @@
                       <h5 class="header-center">Change Your Name</h5>  
                         <div class="row">
                           <p id="nameError" style="color:red;margin-left:15px;"></p>
-                          <div class="col-xs-4">
+                          <div class="col-md-4 col-xs-6">
                             <label for="newFirstName" class="sr-only">First Name</label>  
                             <input type="text" id="newFirstName" class="form-control" placeholder="First Name" required >
                           </div>
-                          <div class="col-xs-4">
+                          <div class="col-md-4 col-xs-6">
                             <label for="newLastName" class="sr-only">Last Name</label>  
                             <input type="text" id="newLastName" class="form-control" placeholder="Last Name" required >
                           </div>
                         </div>
                         
                         <div class="row" style="margin-top:10px;">
-                          <div class="col-xs-3">
+                          <div class="col-md-4 col-xs-3">
                           <button class="btn btn-primary" type="button" onclick="changeName();">Update</button>
                         </div>
                         </div>
@@ -223,17 +223,17 @@
                       <h5 class="header-center">Change Your Password</h5>  
                         <div class="row">
                           <p id="passwordError" style="color:red;margin-left:15px;"></p>
-                          <div class="col-xs-4">
+                          <div class="col-md-4 col-xs-6">
                             <label for="oldPassword" class="sr-only">Current Password</label>  
                             <input type="password" id="oldPassword" class="form-control" placeholder="Current Password" required >
                           </div>
                         </div>
                         <div class="row" style="margin-top:10px;">
-                          <div class="col-xs-4">
+                          <div class="col-md-4 col-xs-6">
                             <label for="newPassword1" class="sr-only">New Password</label>  
                             <input type="password" id="newPassword1" class="form-control" placeholder="New Password" required >
                           </div>
-                            <div class="col-xs-4">
+                            <div class="col-md-4 col-xs-6">
                             <label for="newPassword2" class="sr-only">Confirm New Password</label>  
                             <input type="password" id="newPassword2" class="form-control" placeholder="Confirm New Password" required >
                           </div>
@@ -249,13 +249,13 @@
                          <h5 class="header-center">Add a Phone Number</h5>  
                         <div class="row">
                           <p id="phoneNumberError" style="color:red;margin-left:15px;"></p>
-                          <div class="col-xs-4">
+                          <div class="col-md-4 col-xs-6">
                             
 
                             <label for="newPhoneNumber" class="sr-only">Phone Number</label>  
                             <input type="phone"  id="newPhoneNumber" class="form-control" name="phoneNumber" placeholder="Phone Number" required />
                           </div>
-                          <div class="col-xs-4">
+                          <div class="col-md-4 col-xs-6">
                              <select class="form-control" name="countrySelectBox">
                                 <option value="US">United States</option>
                              </select>
