@@ -239,6 +239,7 @@ function drawPage(){
 		//Draw the heading rows column specially
 		if(i==0){
 			var thead=document.createElement('thead');
+			var refDate=new Date(earliest_time);
 			for(var j=0; j<numberOfDays+1;j++){
 				var th=document.createElement('th');
 				th.className="text-center";
@@ -246,8 +247,13 @@ function drawPage(){
 					tr.appendChild(th);
 				}
 				else{
-					th.innerHTML=getDayForColumn(j);//"Day "+j;
+					var __days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+					dateStr = __days[ refDate.getDay() ]+" "+(refDate.getMonth()+1) + "/" + refDate.getDate();
+					th.innerHTML=dateStr;
 					tr.appendChild(th);
+					
+					// prep for next
+					refDate.setDate( refDate.getDate() + 1 );
 				}
 			}
 			thead.appendChild(tr);
