@@ -124,6 +124,9 @@ function createGroup(){
 					//alert("Access Denied");	
 					window.location = "./login.html";
 				},
+				213:function(){
+					document.getElementById("createGroupError").innerHTML="You are already the leader of a group with the same name.";
+				},
 				220:function(){
 					//something else happened, redirect anyway
 					window.location = "./login.html";

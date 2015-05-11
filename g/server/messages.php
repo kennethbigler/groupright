@@ -122,7 +122,7 @@ function getNewMessages(){
 	$group_uid = $_POST['group_uid'];
 	$last_timestamp = $_POST['last_timestamp'];
 	
-	if(!isset($group_uid)){ http_response_code(299); return; }
+	if(!isset($group_uid)){ http_response_code(220); return; }
 	
 	// IF valid, continue.
 	if(filter_var($email, FILTER_VALIDATE_EMAIL)){

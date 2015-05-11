@@ -290,6 +290,7 @@ function createGREvent(){
 					$("#eventStep5").hide();
 					//window.location = "./home.html";		
 					resetEventParameters();		
+					GRMAIN.reload();
 				},
 				206:function(){
 					$('#createTaskBox').modal('hide');

@@ -59,7 +59,7 @@ GRMessageModule.prototype.update = function(){
 	var self = this;
 	if(email && ac){
 		// Contact Server
-		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php?r="+Math.random(),{
 				type:'POST',
 				data:obj,
 				statusCode:{
@@ -86,6 +86,9 @@ GRMessageModule.prototype.update = function(){
 						//alert("We have literally no idea what happened.")
 						failureFn();
 					}
+				},
+				error:function(x,s,e){
+					//console.log(JSON.stringify(x)+" "+s+" "+JSON.stringify(e));
 				}
 		});
 	}
@@ -234,7 +237,7 @@ GRMessageModule.prototype._parse = function(guid,data){
 		//console.log(msg.timestamp);
 	}
 	if(msg) this.lastMessage = new Date(msg.timestamp);
-	console.log(this);
+	//console.log(this);
 };
 
 // ============================================================

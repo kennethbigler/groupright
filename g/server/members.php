@@ -46,12 +46,16 @@ function _disbandGroup($group_uid)
 	
 	$sql = "
 		DELETE FROM memberships
+		WHERE group_uid = ?;
+		
+		UPDATE groups
+		SET group_leader = NULL
 		WHERE group_uid = ?
 	";
 	
 	$stmt = $dbh->prepare($sql);
 	
-	$stmt->execute(array($group_uid));
+	$stmt->execute(array($group_uid,$group_uid));
 	
 	return;
 }

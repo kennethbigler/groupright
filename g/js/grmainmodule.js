@@ -84,6 +84,7 @@ function GRMainModule(){
 	
 	var self = this;
 	this._updater = window.setInterval(function(){self._updateData();},5000);
+	this.reload = function(){self._updateData();};
 }
 
 
@@ -133,7 +134,7 @@ GRMainModule.prototype.load = function(cookies,successFn,failureFn){
 		var self = this;
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php?r="+Math.random(),{
 			type:"POST",
 			data:obj,
 			dataType:'text',
@@ -178,7 +179,7 @@ GRMainModule.prototype._updateData = function(){
 		var self = this;
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php",{
+		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php?r="+Math.random(),{
 			type:"POST",
 			data:obj,
 			dataType:'text',
@@ -269,9 +270,9 @@ GRMainModule.prototype._parseEvents = function(events){
 		if(evt.start_time) evt.start_time = evt.start_time.replace(/[-]/g,"/")+" UTC";
 		if(evt.end_time) evt.end_time = evt.end_time.replace(/[-]/g,"/")+" UTC";
 		this._events[evt.event_uid] = evt;
+		evt.event_uid = parseInt(evt.event_uid);
+		this._lastEventID = (this._lastEventID > evt.event_uid) ? this._lastEventID : evt.event_uid;
 	}
-	if(evt) this._lastEventID = parseInt(evt.event_uid);
-	//console.log(this._events);
 };
 
 GRMainModule.prototype._parseTasks = function(tasks){
@@ -280,9 +281,9 @@ GRMainModule.prototype._parseTasks = function(tasks){
 	for(var i = 0; i < tasks.length; i++){
 		tsk = tasks[i];
 		this._tasks[tsk.task_uid] = tsk;
+		tsk.task_uid = parseInt(tsk.task_uid);
+		this._lastTaskID = (this._lastTaskID > tsk.task_uid) ? this._lastTaskID : tsk.task_uid;
 	}
-	if(tsk) this._lastTaskID = parseInt(tsk.task_uid);
-	//console.log(this._tasks);
 };
 
 GRMainModule.prototype._parseUpdates = function(updates){

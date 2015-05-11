@@ -46,7 +46,8 @@ function createGRList(){
 				200:function(data,status,jqXHR) {
 					//alert("list Created");
 					$('#createListBox').modal('hide');
-					//window.location = "./home.html";				
+					//window.location = "./home.html";		
+					GRMAIN.reload();
 				},
 				210:function() {
 					//access denied, redirect to login

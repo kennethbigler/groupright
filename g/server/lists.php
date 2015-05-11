@@ -199,7 +199,9 @@ function getListInfo(){
 		
 		$info["items"] = _getListItems($list_uid);
 		
+		http_response_code(200);
 		echo json_encode($info);
+		
 		
 		_markListContribComplete($email,$group_uid,$list_uid);
 		

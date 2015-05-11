@@ -29,8 +29,8 @@ function loadList(parseFn){
 	var _get = getGETArguments();
 	var _cookie = genCookieDictionary();
 	
-	console.log(_get);
-	console.log(_cookie);
+	//console.log(_get);
+	//console.log(_cookie);
 	
 	if(_get.guid && _get.list_id && _cookie.accesscode && _cookie.user){
 		var obj = {
@@ -157,7 +157,7 @@ function initMembers(arr){
 function _parseListData(data){
 	try{
 		var obj = JSON.parse(data);
-		console.log(obj);
+		//console.log(obj);
 		
 		if(obj.title) listName = obj.title;
 		if(obj.creator) listCreator = obj.creator;
@@ -170,17 +170,29 @@ function _parseListData(data){
 	}
 }
 
+var UPDATER = null;
+
 window.onload = function() {
 	
 	getGroupMembers();
 	
 	// Load data...
+	
 	loadList(function(data){
 		_parseListData(data);
 		addHeading(listName,listCreator,listDescription);
 		drawList();
 		
 	});
+		
+	UPDATER = window.setInterval(function(){
+		loadList(function(data){
+			_parseListData(data);
+			addHeading(listName,listCreator,listDescription);
+			drawList();
+			
+		});
+	},5000);
 
 }
 
@@ -193,13 +205,14 @@ function addHeading(listName, listCreator, listDescription){
 	document.getElementById("addListDescription").innerHTML="Description: "+listDescription;
 }
 
+
 function drawList(){
 	var list=document.getElementById("addListItems");
-	list.innerHTML="";
+	$(".group-list-item").remove();
 	//Add all of the items
 	for(var i=0; i<items.length; i++){
 		var li=document.createElement('li');
-		li.className="list-group-item row";
+		li.className="list-group-item row group-list-item";
 		
 		// text
 		var sp = $("<span />",{text:items[i].item_name,class:"col-sm-9"});
@@ -221,13 +234,24 @@ function drawList(){
 			per.append(pic);
 		
 		$(li).append(per);
-		list.appendChild(li);
+		$("#add-item-item").before($(li));
 	}
 	
 	
+	
+	if(!INPUT_DRAWN){
+		list.appendChild( drawAddItemInput() );
+		INPUT_DRAWN = true;
+	}
+}
+
+var INPUT_DRAWN = false;
+
+function drawAddItemInput(){
 	//Add the input section
 	var li2=document.createElement('li');
 	li2.className="list-group-item";
+	li2.id = "add-item-item";
 	li2.style.backgroundColor="rgba(91, 192, 222, 0.1)";
 	var div=document.createElement('div');
 	div.className="input-group";
@@ -242,12 +266,18 @@ function drawList(){
 	button.type="button";
 	button.innerHTML="Add";
 	$(button).click(function(){addItem();});
+	$(input).keydown(function(){
+		if(event.keyCode == 13)
+			{addItem();
+		}
+	});
 	$(input).attr( 'id', 'addItem' );
 	span.appendChild(button);
 	li2.appendChild(div);
 	div.appendChild(input);
 	div.appendChild(span);
-	list.appendChild(li2);
+	
+	return li2;
 }
 
 function addItem(){
@@ -262,5 +292,7 @@ function addItem(){
 			items.push(value);
 			drawList();
 		}
+		newItem.value = "";
 	});
+	
 }
