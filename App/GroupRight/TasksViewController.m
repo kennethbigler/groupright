@@ -89,40 +89,51 @@
 {
     GRMainModule *grmm = [GRMainModule grMain];
     static NSString *cellID = @"TasksCell";
+    NSDictionary *task = [grmm.tasks objectAtIndex: indexPath.row];
+    UIColor *grColor = [grmm getColorForGroupWithId:[task objectForKey:@"group_id"] AtAlpha:1.0f];
     
     //Get a new or recycled cell
     TasksTableViewCell *cell = (TasksTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellID];
     if (cell == nil)
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TasksTableCell" owner:self options:nil];
-        
         cell = (TasksTableViewCell*)[nib objectAtIndex:0];
+        CAShapeLayer *circleLayer = [CAShapeLayer layer];
+        circleLayer.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, 30, 30)].CGPath;
+        if([[task objectForKey:@"is_completed"] isEqual:@"1"]){
+            circleLayer.fillColor = grColor.CGColor;
+            circleLayer.strokeColor = [UIColor colorWithRed:.44 green:.44 blue:.44 alpha:1].CGColor;
+            circleLayer.lineWidth = 2;
+        }
+        else{
+            circleLayer.fillColor = [UIColor whiteColor].CGColor;
+            circleLayer.strokeColor = grColor.CGColor;
+            circleLayer.lineWidth = 2;
+        }
+        [cell.completedButton.layer addSublayer:circleLayer];
+    }
+    else{
+        //We just need to make some changes
+        CAShapeLayer *circleLayer;
+        circleLayer=[cell.completedButton.layer.sublayers objectAtIndex:0];
+        if([[task objectForKey:@"is_completed"] isEqual:@"1"]){
+            circleLayer.fillColor = grColor.CGColor;
+            circleLayer.strokeColor = [UIColor colorWithRed:.44 green:.44 blue:.44 alpha:1].CGColor;
+            circleLayer.lineWidth = 2;
+        }
+        else{
+            circleLayer.fillColor = [UIColor whiteColor].CGColor;
+            circleLayer.strokeColor = grColor.CGColor;
+            circleLayer.lineWidth = 2;
+        }
     }
     
     //Set Name and Description
-    NSDictionary *task = [grmm.tasks objectAtIndex: indexPath.row];
-    
-    
     cell.description.text = [task objectForKey:@"task_title"];
-  
-    
-    UIColor *grColor = [grmm getColorForGroupWithId:[task objectForKey:@"group_id"] AtAlpha:1.0f];
     cell.colorImage.backgroundColor = grColor;
     cell.colorImage.image = nil;
     //cell.statusImage.backgroundColor = grColor;
-    CAShapeLayer *circleLayer = [CAShapeLayer layer];
-    circleLayer.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, 30, 30)].CGPath;
-    if([[task objectForKey:@"is_completed"] isEqual:@"1"]){
-        circleLayer.fillColor = grColor.CGColor;
-        circleLayer.strokeColor = [UIColor colorWithRed:.44 green:.44 blue:.44 alpha:1].CGColor;
-        circleLayer.lineWidth = 2;
-    }
-    else{
-        circleLayer.fillColor = [UIColor whiteColor].CGColor;
-        circleLayer.strokeColor = grColor.CGColor;
-        circleLayer.lineWidth = 2;
-    }
-    //NSLog([task objectForKey:@"link_type"]);
+    
     if(![[task objectForKey:@"link_type"] isEqual:[NSNull null]]){
         [cell.completedButton setAccessibilityValue:@"null"];
     }
@@ -132,24 +143,10 @@
     else{
         [cell.completedButton setAccessibilityValue:[task objectForKey:@"task_uid"]];
     }
-    //[cell.completed.layer addSublayer:circleLayer];
-    [cell.completedButton.layer addSublayer:circleLayer];
+    
     UIView *bgColorView = [[UIView alloc] init];
     bgColorView.backgroundColor = grColor;
     [cell setSelectedBackgroundView:bgColorView];
-                                  
-                                  
-    //Set the correct photo
-    /*if([[[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"link_type"] isEqual: @"event"]){
-        cell.thumbnailImageView.image = [UIImage imageNamed:@"cal.png"];
-        
-    }
-    else if([[[grmm.updates objectAtIndex:indexPath.row] objectForKey:@"link_type"] isEqual: @"task"]){
-        cell.thumbnailImageView.image = [UIImage imageNamed:@"task.png"];
-    }
-    else {
-        cell.thumbnailImageView.image = [UIImage imageNamed:@"default.png"];
-    }*/
     
     
     return cell;
@@ -162,7 +159,7 @@
 
     UIStoryboard *storyboard=self.storyboard;
     TaskDetailViewController *tdvc=[storyboard instantiateViewControllerWithIdentifier:@"TaskDetail"];
-    tdvc.color=[grmm getColorForGroupWithId:[task objectForKey:@"group_id"]];
+    tdvc.color=[grmm getColorForGroupWithId:[task objectForKey:@"group_id"]AtAlpha:1];
     
     if([[task objectForKey:@"is_individual"] isEqual:@"1"]){
         tdvc.responsibility_string=@"You";

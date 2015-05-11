@@ -53,6 +53,63 @@
     }
     //LoginViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:@"loginVC"];
     //[self presentViewController:lvc animated:NO completion:nil];
+    self.displayEvents= [[NSMutableArray alloc]init];
+    
+    NSDate *currentDate = [NSDate date];
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:currentDate]; // Get necessary date components
+    
+    NSInteger currentMonth=[components month]; //gives you month
+    NSInteger currentDay=[components day]; //gives you day
+    NSInteger currentYear=[components year]; // gives you year
+    NSInteger day,month,year;
+    for(int i=0; i<[grmm.events count]; i++){
+        NSDictionary *event = [grmm.events objectAtIndex:i];
+        
+        NSString *startDateStr = [event objectForKey:@"start_time"];
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        [df setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+        [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        [df setTimeZone:[NSTimeZone systemTimeZone]];
+        
+        NSDate *st_date = [df dateFromString:startDateStr];
+        
+        
+        
+        [df setDateFormat:@"d"];
+        day = [[df stringFromDate:st_date] intValue];
+        NSString * temp=[df stringFromDate:st_date];
+        
+        [df setDateFormat:@"M"];
+        month = [[df stringFromDate:st_date] intValue];
+        
+        [df setDateFormat:@"y"];
+        year = [[df stringFromDate:st_date] intValue];
+  
+        if(year==currentYear){
+            if(month>currentMonth){
+                //Future Month
+                [self.displayEvents addObject:event];
+                //NSLog(@"added event");
+            }
+            else if(month<currentMonth){
+                //Past Month (Don't add)
+            }
+            else{
+                //This month
+                if(day>=currentDay){
+                    [self.displayEvents addObject:event];
+                     //NSLog(@"added event");
+                }
+                
+            }
+            
+        }
+        else if(year>currentYear){
+            [self.displayEvents addObject:event];
+             //NSLog(@"added event");
+        }
+    }
     [_EventsTable reloadData];
     //NSLog(@"Hello1");
 }
@@ -73,9 +130,9 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    GRMainModule *grmm = [GRMainModule grMain];
+    //GRMainModule *grmm = [GRMainModule grMain];
     //NSLog(@"Hello");
-    return [grmm.events count];
+    return [_displayEvents count];
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -93,7 +150,7 @@
     }
     
     //Set Name and Description
-    NSDictionary *event = [grmm.events objectAtIndex:indexPath.row];
+    NSDictionary *event = [_displayEvents objectAtIndex:indexPath.row];
     cell.event_title.text = [event objectForKey:@"name"];
                              
     NSString *startDateStr = [event objectForKey:@"start_time"];

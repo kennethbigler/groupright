@@ -64,7 +64,7 @@
     
     NSHTTPURLResponse *httpresponse=(NSHTTPURLResponse *)response;
     long responseCode=(long) [httpresponse statusCode];
-    NSLog(@"response code: %ld",responseCode);
+    //NSLog(@"response code: %ld",responseCode);
     if(responseCode!=200){
         NSString *alertMessage;
         switch (responseCode){

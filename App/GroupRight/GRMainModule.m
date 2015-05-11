@@ -65,8 +65,18 @@ GRMainModule *GRMAIN;
         }
     }
     
-    
-    tasks = (NSMutableArray *) [raw objectForKey:@"tasks"];
+    tasks = [[NSMutableArray alloc] init];
+    NSMutableArray* tasks_temp = (NSMutableArray *) [raw objectForKey:@"tasks"];
+    for(int i=0; i<[tasks_temp count]; i++){
+        NSDictionary *task=[tasks_temp objectAtIndex:i];
+        if([[task objectForKey:@"is_completed"] isEqualToString:@"1"]){
+            [tasks  addObject:task];
+        }
+        else{
+            [tasks insertObject:task atIndex:0];
+        }
+    }
+    //tasks=[[tasks reverseObjectEnumerator] allObjects];
     updates = (NSMutableArray *) [raw objectForKey:@"updates"];
     
     return;
@@ -162,7 +172,7 @@ GRMainModule *GRMAIN;
 }
 - (NSString*) getFullNameForGroupWithId:(NSString*)group_id{
     for(int i=0; i<[groups count]; i++){
-        if([[groups objectAtIndex:i] objectForKey:@"group_id"]==group_id){
+        if([[[groups objectAtIndex:i] objectForKey:@"group_id"] isEqualToString: group_id]){
             return [[groups objectAtIndex:i] objectForKey:@"group_name"];
         }
     }
