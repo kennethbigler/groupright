@@ -84,6 +84,7 @@ function GRMainModule(){
 	
 	var self = this;
 	this._updater = window.setInterval(function(){self._updateData();},5000);
+	this.reload = function(){self._updateData();};
 }
 
 

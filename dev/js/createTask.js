@@ -54,7 +54,8 @@ function createGRTask(){
 				200:function(data,status,jqXHR) {
 					//alert("Task Created");
 					$('#createTaskBox').modal('hide');
-					//window.location = "./home.html";				
+					//window.location = "./home.html";		
+					GRMAIN.reload();
 				},
 				210:function() {
 					//access denied, redirect to login
