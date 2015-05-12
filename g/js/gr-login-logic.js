@@ -193,7 +193,8 @@ function signUp(){
 			data:obj,
 			statusCode:{
 				200:function(data,status,jqXHR){
-					alertSuccessBannerSignup("Thanks for signing up for GroupRight. Please check your email and follow the instructions to verify your account.");				
+					alertSuccessBannerSignup("Thanks for signing up for GroupRight. Please check your email and follow the instructions to verify your account.");
+					hideSignUpFields();			
 				},
 				208:function(data,status,jqXHR){
 					alertBannerSignup("You have already an account with GroupRight. <a href='forgot.html'>Did you forget your password?</a>")
@@ -202,6 +203,20 @@ function signUp(){
 			}
 		});
 	return false;
+}
+
+function hideSignUpFields(){
+	document.getElementById("signupFirstName").style.display="none";
+	document.getElementById("signupLastName").style.display="none";
+	document.getElementById("signupInputEmail").style.display="none";
+	document.getElementById("signupInputPassword").style.display="none";
+	document.getElementById("signupConfirmPassword").style.display="none";
+	document.getElementById("checkboxSection").style.display="none";
+	document.getElementById("cancelButton").style.display="none";
+	document.getElementById("signUpButton").style.display="none";
+	document.getElementById("showWelcome1").style.display="none";
+	document.getElementById("showWelcome2").style.display="none";
+
 }
 	
 //==================================================

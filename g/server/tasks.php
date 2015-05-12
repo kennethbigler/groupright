@@ -235,7 +235,7 @@ function _completeTask($email,$task_uid){
 		$group_uid = $row['group_uid'];
 		//echo $group_uid;
 		echo $row['is_completed'];
-		addTaskUpdate($email,$group_uid," completed \"".$row['title']."\"",$task_uid);
+		addTaskUpdate($email,$group_uid," completed task \"".$row['title']."\"",$task_uid);
 		if($row['is_individual'] != 1) _completeGroupTask($task_uid);
 		return;
 	}

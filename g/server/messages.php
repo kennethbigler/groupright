@@ -25,30 +25,29 @@ function getGroupMessages($group_uid,$date_string){
 	return $msgs;	
 }
 
-function _getNumberUnreadMsgs($email,$group_uid)
+function _getNumberUnreadMsgs($email)
 {
 	$dbh = ConnectToDB();
 	
 	$sql = "
-		SELECT COUNT(*) as num_unread
-		FROM messages as msg
-		LEFT JOIN memberships as mb
-		ON msg.group_uid = mb.group_uid
-		WHERE mb.email = ?
-		AND msg.group_uid = ?
-		AND msg.timestamp > mb.last_message_read
+		SELECT group_uid,COUNT(*) as num_unread 
+		FROM messages
+		JOIN memberships USING (group_uid)
+		WHERE memberships.email = ?
+		AND timestamp > memberships.last_message_read
+		GROUP BY group_uid
 	";
 	
-	$arr = array($email,$group_uid);
+	$arr = array($email);
 	$stmt = $dbh->prepare($sql);
 	$stmt->execute($arr);
 	
-	$msgs = array();
+	$numUnread = array();
 	while($row = $stmt->fetch()){
-		return $row['num_unread'];	
+		$obj = array();
+		$numUnread[ $row['group_uid'] ] = $row['num_unread'];
 	}
-	
-	return 0;	
+	return $numUnread;
 }
 
 function _getAllNumberUnreadMsgs($email)
@@ -85,7 +84,7 @@ function getNumUnread(){
 	// IF valid, continue.
 	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 		if(!checkHashedCookie($email,$cookie)){ http_response_code(211); return; }
-		echo _getAllNumberUnreadMsgs($email);
+		echo json_encode( _getNumberUnreadMsgs($email) );
 	}else{
 		http_response_code(206);
 		return;

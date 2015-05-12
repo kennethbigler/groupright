@@ -604,6 +604,19 @@ function initStartTask(){
 	populateGroupSelect(groupMenu);
 }
 
+function _updateMsgCount(dict){
+	var opts = $("#messageGroups option");
+	var numGroups = GRMAIN.groups().length;
+	for(var i = 0; i < numGroups; i++){
+		var gr = opts[i].value;
+		if(gr == "XXX") continue;
+		if(dict[gr]) opts[i].innerHTML = "<span class='badge'>["+dict[gr]+"] </span>";
+		else opts[i].innerHTML = "<span class='badge'></span>";
+		opts[i].innerHTML +=GRMAIN.group(gr).group_name;
+	}
+	return;
+}
+
 function initSendMessage(){
 
 	var allGroups = GRMAIN.groups();
@@ -643,13 +656,15 @@ function initSendMessage(){
 						data:obj,
 						statusCode:{
 								200: function(data, status, jqXHR){
-									try{
-										var num_unread = parseInt(data);
-										$("#messageCount").show().text(num_unread);
-										if(num_unread == 0) $("#messageCount").hide();
-									}catch(e){
-										$("#messageCount").hide().text("?");
+									var x = JSON.parse(data);
+									var sum = 0;
+									for(var i in x){
+										sum += parseInt(x[i]);
 									}
+									_updateMsgCount(x);
+									
+									$("#messageCount").show().text(sum);
+									if(sum == 0) $("#messageCount").hide();
 								},
 								211: function(data, status, jqXHR){
 									console.warn("Could Not Get # Unread fx: initSendMessage")
