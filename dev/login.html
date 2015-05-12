@@ -112,7 +112,7 @@
 			<input type="password" id="signupConfirmPassword" class="form-control has-error" placeholder="Confirm Password" required>
 			
 			
-			<div class="checkbox">
+			<div class="checkbox" id="checkboxSection">
 			  <label>
 				<input id="termsAndConditionsAgreed" type="checkbox" value="signup-terms-conditions" /> I have read and agree to the
 					<a href="terms.html" target="_blank">Terms and Conditions</a>.
@@ -121,7 +121,20 @@
 						
 			<button class="btn btn-lg btn-block btn-primary" type="submit" id="signUpButton">Sign up</button>
 			<hr class="groupright-divider"/>
-			<button class="btn btn-lg btn-block" type="button" onclick="flipToLogIn()">Cancel</button>
+			<button class="btn btn-lg btn-block" id="cancelButton" type="button" onclick="flipToLogIn()">Cancel</button>
+
+			<div class="row" id="showWelcome1" style="display:none;">
+				<div class="col-xs-2">
+				</div>
+				<div class="col-xs-8">
+					<img src="images/groupLogo.png" style="margin:auto;width:250px" alt="logo"/>
+				</div>
+				<div class="col-xs-2">
+				</div>
+			</div>
+			<div class="row" id="showWelcome1" style="display:none;">
+					<h3 style="text-align:center"> Welcome to GroupRight! </h3>
+				
 		  </form>
 
 		</div> <!-- /container -->
