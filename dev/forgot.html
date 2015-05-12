@@ -111,7 +111,9 @@
 				data:obj,
 				statusCode:{
 					200:function(data, status, jqXHR){
-						alertSuccess("A reset email has been sent to the address provided. This link will expire within 24 hours.")
+						alertSuccess("A reset email has been sent to the address provided. This link will expire within 24 hours.");
+						document.getElementById("forgotEmail").style.display="none";
+						document.getElementById("signInButton").style.display="none";
 					},
 					212:function(data, status, jqXHR){
 						alertBanner("We could not find an account matching the email address provided.");
