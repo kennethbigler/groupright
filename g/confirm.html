@@ -37,18 +37,18 @@
 		    </div>
       </div>
     </nav>
-    <div class="alert alert-danger" id="alertDangerBanner" style="display:none" role="alert">
-	  This is an invalid login attempt alert.
-	</div>
-	<div class="alert alert-success" id="alertSuccessBanner" style="display:none" role="alert">
-	  This is a successful alert.
-	</div>
 	
 	<div class="flip-container" >
 	<div class="flipper" style="height:200px;">
 		<div class="container-fluid login-box front" style="height:200px">
 		  <form class="" role="form">
 			<h2 class="header-center">Verify Your Account</h2>
+			<div class="alert alert-danger" id="alertDangerBanner" style="display:none" role="alert">
+			  This is an invalid login attempt alert.
+			</div>
+			<div class="alert alert-success" id="alertSuccessBanner" style="display:none" role="alert">
+			  This is a successful alert.
+			</div>
 			
 			<label for="loginInputPassword" class="sr-only">Password</label>
 			<input type="password" id="loginInputPassword" class="form-control" placeholder="Password" required autofocus>
@@ -90,16 +90,10 @@
 		    document.getElementById("alertDangerBanner").style.display="block";
 		    document.getElementById("alertSuccessBanner").style.display="none";
 		}
-		
-		function installCookieAndRedirect(data){
-		
-			var dArray = data.split(",");
-			var user = dArray[0].trim();
-			data = dArray[1].trim();
-		
-			installCookie( user, data, false, function(){
-				window.location = "./home.html"; /* presumed redirect */
-			});
+		function successBanner(text){
+			document.getElementById("alertSuccessBanner").innerHTML=text;
+		    document.getElementById("alertSuccessBanner").style.display="block";
+		    document.getElementById("alertDangerBanner").style.display="none";
 		}
 
 		function verifyAccount(){
@@ -130,9 +124,13 @@
 				data:obj,
 				statusCode:{
 					200:function(data, status, jqXHR){
-						alert("Validated User");
+						successBanner("Account Verified.")
 						//install cookie
-						installCookieAndRedirect(data);
+						$("#loginInputPassword").hide();
+						$("#signInButton").text("Proceed to Login");
+						$("#signInButton").click(function(){
+							window.location = "login.html";
+						});
 					},
 					206:function(data, status, jqXHR){
 						alert("Invalid Attempt");

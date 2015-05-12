@@ -141,7 +141,13 @@
 				data:obj,
 				statusCode:{
 					200:function(data, status, jqXHR){
-						alertSuccess("Your password has successfully been reset. <a href='login.html?signup=0'>Click here to login</a>");
+						alertSuccess("Your password has successfully been reset");
+						$("#resetInputPassword").hide();
+						$("#resetInputPassword2").hide();
+						$("#signInButton").text("Go to Login");
+						$("#signInButton").click(function(){
+							window.location = "login.html";
+						});
 					},
 					207:function(data, status, jqXHR){
 						alertBanner("Sorry, GroupRight is temporarily offline for Maintenance.");
