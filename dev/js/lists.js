@@ -104,6 +104,7 @@ function getGroupMembers(){
 }
 
 function addItemToList(item,postFn){
+	if(item.trim() == "") return;
 	if(!postFn || !(postFn instanceof Function)) parseFn = function(){};
 	
 	var _get = getGETArguments();

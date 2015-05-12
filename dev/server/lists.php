@@ -244,6 +244,8 @@ function addListItem(){
 	if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 		if(!verifyUserGroup($email,$cookie,$group_uid)) return;
 		if(!_checkGroupList($group_uid,$list_uid)){ http_response_code(230); return; }
+		$item = trim($item);
+		if($item == "") return;
 		$item_id = _addListItem($email,$list_uid,$item);
 		echo $item_id;
 		
