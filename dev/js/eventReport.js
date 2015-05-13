@@ -453,7 +453,8 @@ function colorCell(elem){
 
 function decolorCell(elem){
 	var x = elem.value;
-	elem.innerHTML=statusMatrix[x.i-1][x.j-1];
+	//elem.innerHTML=statusMatrix[x.i-1][x.j-1];
+	elem.innerHTML="";
 	$(elem).css({"boxShadow":""});
 }
 
@@ -500,6 +501,7 @@ function prepareCell(elm)
 			$.each($("#completeTable td"),function(i,td){
 				if(td.value) decolorCell(td);
 			});
+			addSuggestionDots();
 			colorSpan(selected_time.start,selected_time.end);
 		}
 	};
@@ -521,6 +523,7 @@ function prepareCell(elm)
 			$.each($("#completeTable td"),function(i,td){
 				if(td.value) decolorCell(td);
 			});
+			addSuggestionDots();
 			colorSpan(selected_time.start,selected_time.end);
 		}
 	};
