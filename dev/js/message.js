@@ -14,9 +14,11 @@ function GRMessageModule(){
 	this.newMsgs = [];
 	
 	var self = this;
+	
 	this.updater = window.setInterval(function(){
 		self.update();
 	},5000);
+
 	
 }
 

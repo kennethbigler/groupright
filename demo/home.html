@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GroupRight, Groups Done Right</title>
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<!-- Core CSS File, many styles used throughout GroupRight -->
+<link href="css/home-styles.css" rel="stylesheet" />
+<!-- Calendar Styles -->
+<link href="js/cal/grcal.css" rel="stylesheet"/>
+<!-- GroupRight Fonts -->
+<link href="css/font.css" rel="stylesheet"/>
+
+<!-- External Libraries for selecting Date and Time -->
+<link href="css/datepicker.css" rel="stylesheet"/>
+<link href="css/timepicker.css" rel="stylesheet"/>
+
+<!-- 
+    Check width of page dynamically.
+    This is really just to assist/improve upon the Bootstrap styles
+    We have a Computer/Tablet/Phone view
+-->
+<link rel='stylesheet' media='screen and (max-width: 767px)' href='css/home-styles-phone.css' />
+<link rel='stylesheet' media='screen and (min-width: 768px) and (max-width: 1199px)' href='css/home-styles-tablet.css' />
+<link rel='stylesheet' media='screen and (min-width: 1200px)' href='css/home-styles-computer.css' />
+<link rel='stylesheet' href='css/selectize.default.css' />
+<!-- link to favicon -->
+<link rel="icon" href="images/favicon.png" />
+
+<!-- These are keywords for Search Engine Optimization -->
+<meta name="keywords" content="GroupRight, Group Right, Groups done right, Group, Right, GroupWright, Group Wright, Group, Wright, groups, collaboration, collaborative group management, management, tasks, assignment, teamwork, scheduler, scheduling, planning, coordination, team building, Santa Clara University, SCU, Santa Clara, Kenneth Bigler, Kenneth, Bigler, Kenneth William Lidgate Bigler, Zachary Wilson, Zachary, Wilson, Scott Sarsfield, Scott, Sarsfield, Senior Design Project, Senior, Design, Project">
+<!-- Description for Google, hopefully to help get us on the front page -->
+<meta name="description" content="GroupRight is a collaborative group management system.  It is the Senior Design Project for Kenneth Bigler, Zachary Wilson, and Scott Sarsfield, students from Santa Clara University.">
+<!-- Ken Bigler, Zach Wilson, and Scott Sarsfield Wrote this site -->
+<meta name="author" content="GroupRight">
+<!--
+	This enables the bootstrap mobile view,
+	why this is not done by default I DO NOT KNOW,
+	BUT THIS IS NEEDED
+-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+<!-- Begin Code for our top navigation bar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid page-container">
+			<a href="https://www.groupright.net/" >
+				<img align="left" src="images/LogoWhite.svg" alt="GroupRight" id="whitelogo"/>
+			</a>
+			<img class="profpic img-circle" id="profileImage" title="Profile" alt="Profile Picture" src="images/black.png" align="right" />
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">	
+						<a id="addMode" class="dropdown-toggle"></a>
+					</li>
+					<li class="dropdown">
+						<a id="usergroups" class="dropdown-toggle" data-toggle="dropdown" href="#">All Groups<span class="caret"></span></a>
+						<ul class="dropdown-menu" id="myGroups">
+							<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:red;"></span> Senior Design</a></li>
+							<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:orange;"></span> Web Dev</a></li>
+							<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:green;"></span> Family</a></li>
+							<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:blue;"></span> Fake Madrid</a></li>
+							<li><a href="#"><span class="glyphicon glyphicon-stop" style="color:purple;"></span> Spiked Punch</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="profileName">Name<span class="caret"></span></a>
+						<ul class="dropdown-menu" id="settingsMenu">
+							<li onclick="logoutAndRedirect()"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+							<li><a href="account_settings.html"><span class="glyphicon glyphicon-th-list"></span> My Account</a></li>
+							<li><a href="group_settings.html"><span class="glyphicon glyphicon-cog"></span> Group Settings</a></li>
+							<li><a href="notification_settings.html"><span class="glyphicon glyphicon-bell"></span> Notifications</a></li>
+							<li><a href="error_settings.html"><span class="glyphicon glyphicon-wrench"></span> Report Error</a></li>
+							<li><a href="contact.html"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</nav>
+<!-- End Navigation Bar Code -->
+<!-- False footer, I think it is there to keep our content from out behind the header, but I do not remember for sure... -->
+<div class="foofooter">&nbsp;</div>
+
+<!--Begin Code for our top Main Action Buttons -->
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-2">
+			<button id="createGroup" type="button" class="btn btn-lg btn-block btn-primary"  data-toggle="modal" href="#createGroupBox" >Create a Group</button>
+		</div>
+		<div class="col-sm-2">
+			<button id="scheduleEvent" type="button" class="btn btn-lg btn-block btn-warning" data-toggle="modal" href="#createEventBox">Schedule an Event</button>
+		</div>
+		<div class="col-sm-2">
+			<button id="createList" type="button" class="btn btn-lg btn-block btn-info"  style="background-color:#6B558D;color:white;border-color:#64428A;" data-toggle="modal" href="#createListBox" >Create a List</button>
+		</div>
+		<div class="col-sm-2">
+			<button id="makeDecision" type="button" class="btn btn-lg btn-block btn-info"  data-toggle="modal" href="#createPollBox">Create a Poll</button>
+		</div>
+		<div class="col-sm-2">
+			<button id="startTask" type="button" class="btn btn-lg btn-block btn-success" data-toggle="modal" href="#createTaskBox">Start a Task</button>
+		</div>
+		<div class="col-sm-2">
+			<button id="sendMessage" type="button" class="btn btn-lg btn-block btn-danger" data-toggle="modal" href="#createMessageBox" onclick="populateMessages()">Messages <span class="badge" id="messageCount" style="display:none;">4</span></button>
+		</div>
+	</div>
+</div>
+<!-- End Code for our top Main Action Buttons -->
+
+<!-- This is a wrapping container, we needed it to make the styling work at some point -->
+<div class="wrapstuff">
+
+<!-- FINALLY! We can begin the main content -->
+<div id="mainview" class="container-fluid">
+	<div id="row">
+		<!-- Updates -->
+		<div id="updates" class="col-lg-3 col-sm-6">
+			<div class="main3w">
+				<h2>Updates</h2><!--
+				<div class="row">
+					<div class="col-sm-2" align="center" style="margin-left:20px;background-color:lightgrey">
+						<span class="glyphicon glyphicon-calendar" align="center">
+					</div>
+					<div class="col-sm-2" align="center">
+						<span class="glyphicon glyphicon-tasks" align="center">
+					</div>
+					<div class="col-sm-2" align="center">
+						<span class="glyphicon glyphicon-info-sign" align="center">
+					</div>
+					<div class="col-sm-2" align="center">
+						<span class="glyphicon glyphicon-object-align-left" align="center">
+					</div>
+					<div class="col-sm-2" align="center">
+						<span class="glyphicon glyphicon-menu-hamburger" align="center">
+					</div>
+					<div class="col-sm-2" align="center">
+						<span class="glyphicon glyphicon-menu-hamburger" align="center">
+					</div>
+				</div>-->
+				<hr />
+				<div class="scrollable frontbox">
+					<div id="addUpdates" class="list-group">
+
+					</div>
+					<!--<div class="alert alert-danger">
+						<p>Warning!</p>
+					</div>-->
+				</div>
+			</div>
+		</div>
+		<!-- Tasks -->
+		<div id="tasks" class="col-lg-3 col-sm-6">
+			<div class="main3w">
+				<h2>Tasks <span class='badge' id='taskNumber'></span></h2>
+				<hr />
+				<div id="addTasks" class="scrollable frontbox">
+					<!--<div class="alert alert-danger">
+						<p>Warning!</p>
+					</div>-->
+				</div>
+			</div>
+		</div>
+		<!-- Calendar -->
+		<div id="comingup" class="col-lg-6 col-sm-12">
+			<div class="main6w" style="position:relative;">
+				<button class="btn btn-default cal-arrow" style="left:1.0em;" onclick="GR_CALENDAR.shiftCalBack()">
+					<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+				</button>
+				<h2>Coming Up</h2>
+				<button class="btn btn-default cal-arrow" style="right:1.0em;" onclick="GR_CALENDAR.shiftCalForward()">
+					<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+				</button>
+				<hr />
+				<div id="calendar" style="margin:5px 10px;position:absolute;top:80px;bottom:0px;left:0px;right:0px;">
+				</div>
+			</div>
+		</div>
+	<!-- /.row -->
+	</div>
+<!-- /#mainview -->
+</div>
+<!-- /.wrapstuff -->
+</div>
+<!-- Incase we want to fix to the bottom, fix scrolling issues with this, needs more work for small screens after the bottom stacks.  To continue work, add class "navbar-fixed-bottom" to footer
+<div class="foofooter">&nbsp;</div>-->
+<!--************************************************************************************************************
+	LIGHT BOX SECTION
+	**************************************************************************************************************-->
+<!--Create Group -->
+<div class="modal fade" id="createGroupBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Create a Group</h4>
+      </div>
+      <div class="modal-body">
+			<p id="createGroupError" style="color:red;margin-left:1px;"></p>
+      			<h5 class="header-center">Step 1: Add a group name.</h5>	
+				<div class="row">
+					<div class="col-xs-10">
+						<label for="groupNameField" class="sr-only">Group Name</label>	
+						<input type="text" id="groupnameField" class="form-control" placeholder="Group Name (All members will see this)" required autofocus>
+					</div>
+				</div>
+				<h5 class="header-center">Step 2: Add an email address for each member. (You are automatically the leader.) </h5>
+				<div id="members" >
+					<div class="row" style="margin:4px;">
+						<input type="text" id="selectize" placeholder="Other Members" >
+						<br/>
+						<br/>
+						<br/>
+						<br/>
+						<br/>
+						<br/>
+						<br/>
+						<!--
+						<div class="col-xs-8">
+							<input type="text" id="member1 " class="form-control" placeholder="yourEmail@groupright.net" required disabled>
+						</div>
+						<div class="col-xs-2" >
+							<div style="margin-top:6px;"> <span style="vertical-align:middle" class="label label-success">Leader</span> </div>
+						</div>
+					</div>
+					<div class="row" style="margin-top:4px" >
+
+						<div class="col-xs-8" >
+							<input type="text" class="form-control" id="member2 selectize" placeholder="Member 2" onkeydown="addField(2)">
+							<input type="text" class="form-control" id="selectize" placeholder="Member 2">
+						</div>
+						<div class="col-xs-2">
+							<div style="margin-top:6px;"> <span class="label label-info">Member</span> </div>
+						</div>-->
+					</div>
+				</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="createGroup()" >Create Group</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Create Event -->
+<div class="modal fade" id="createEventBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Create an Event</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="progress">
+  		<div class="progress-bar progress-bar-warning progress-bar-striped active" id="eventprogress"role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+		</div>
+		</div>
+		<p id="eventError" style="color:red"></p> 
+			<div id="eventStep0" style="display:none">
+				<h5 class="header-center">Which group is the event for?</h5>
+			</div>
+			<div id="eventStep1">
+	      		<h5 class="header-center">Step 1: Add an event name, group, location, and description.</h5>	
+				<div class="row">
+					<div class="col-sm-7">
+						<input type="text" id="eventName" class="form-control" placeholder="Event Name">
+					</div>
+					<div class="col-sm-5">
+						<select class="form-control" id="eventGroups">
+						    <option value="XXX">Select Group</option>
+						</select>
+					</div>
+				</div>
+				<br/>
+				<div class="row">
+					<div class="col-sm-12">
+						<input type="text" id="eventLocation" class="form-control" placeholder="Location (Optional)" >
+					</div>
+				</div>
+				<br/>
+				<textarea class="form-control" rows="3" id="eventDescription" placeholder="Description (Optional)"></textarea>
+			</div>
+
+			<div id="eventStep2" style="display:none">
+				<h5 class="header-center">Step 2: How should the event be scheduled?</h5>	
+				<div class="row">
+					 <div class="col-sm-12">
+			            <div class="btn-group" data-toggle="buttons">
+			                <label class="btn btn-default">
+			                    <input type="radio" name="fixedtime" value="1" /> This event has a fixed time.
+			                </label> 
+			                <label class="btn btn-default">
+			                    <input type="radio" name="fixedtime" value="2" /> Help me find a convenient time for everyone.
+			                </label> 
+			            </div>
+			         </div>
+				</div>
+			</div>
+
+			<div id="eventStep3fixed" style="display:none">
+				<h5 class="header-center">Step 3: When is the event? </h5>
+				<br/>
+				<div class="row">
+					<label class="col-sm-4">Date</label>
+					<div class="col-sm-3">
+						<input id="startdatefixed" type="text" type="text" class="form-control" placeholder="Date">
+					</div>
+					<div class="col-sm-3">
+						<div class="input-group">
+							<input type="text" class="form-control" id="startHourFixed" placeholder="9">
+							<span class="input-group-addon"><b>:</b></span>
+							<input type="text" class="form-control" id="startMinuteFixed" placeholder="30">
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<select class="form-control" id="startAMPMFixed">
+							<option value="AM">AM</option>
+							<option value="PM">PM</option>
+						</select>
+					</div>
+            	</div>
+            	<br/>
+				<div class="row">
+					<label class="col-sm-4"></label>
+					<div class="col-sm-3">
+						<input id="enddatefixed" type="text" type="text" class="form-control" placeholder="End Date" style="display:none;">
+					</div>
+					<div class="col-sm-3">
+						<div class="input-group">
+							<input type="text" class="form-control" id="endHourFixed" placeholder="12">
+							<span class="input-group-addon"><b>:</b></span>
+							<input type="text" class="form-control" id="endMinuteFixed" placeholder="00">
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<select class="form-control" id="endAMPMFixed">
+							<option value="PM">PM</option>
+							<option value="AM">AM</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div id="eventStep3help" style="display:none">
+				<h5 class="header-center">Step 3: What timeframe should the event occur? </h5>
+				<br/>
+				<div class="row">
+					<label class="control-label col-sm-4"> Possible Date Ranges:</label>
+					<div class="col-sm-8">
+						<div class="input-daterange  input-group" id="datepicker">
+					    <input type="text" class="input-sm form-control" id="startdatehelp" name="start" />
+					    <span class="input-group-addon">to</span>
+					    <input type="text" class="input-sm form-control" id="enddatehelp" name="end" />
+					</div>
+					</div>
+					<br/>
+					<br/>
+				</div>
+				<div class="row">
+				<label class="control-label col-sm-4"> Earliest Start Time:</label>
+					<div class="col-sm-3">
+						<div class="input-group">
+							<input type="text" class="form-control" id="startHourHelp" >
+							<span class="input-group-addon"><b>:</b></span>
+							<input type="text" class="form-control" id="startMinuteHelp">
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<select class="form-control" id="startAMPMHelp">
+							<option value="AM">AM</option>
+							<option value="PM">PM</option>
+						</select>
+					</div>
+				</div>
+				<br/>
+				<div class="row">
+				<label class="control-label col-sm-4"> Latest End Time:</label>
+					<div class="col-sm-3">
+						<div class="input-group">
+							<input type="text" class="form-control" id="endHourHelp" >
+							<span class="input-group-addon"><b>:</b></span>
+							<input type="text" class="form-control" id="endMinuteHelp">
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<select class="form-control" id="endAMPMHelp">
+							<option value="PM">PM</option>
+							<option value="AM">AM</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div id="eventStep3helpadvanced" style="display:none">
+				<h5 class="header-center">Step 3: Add all possible days and time ranges when the event can take place </h5>
+			</div>
+			<div id="eventStep4fixed" style="display:none">
+				<h5 class="header-center">Step 4: Would you like to know who's planning on coming? </h5>
+				<div class="row">
+					 <div class="col-sm-4">
+			            <div class="btn-group" data-toggle="buttons">
+			                <label class="btn btn-default">
+			                    <input type="radio" id="yesComing" name="whoscoming" value="1" /> Yes
+			                </label> 
+			                <label class="btn btn-default">
+			                    <input type="radio" id="noComing" name="whoscoming" value="2" /> No
+			                </label> 
+			            </div>
+			         </div>
+				</div>
+			</div>
+			<div id="eventStep4help" style="display:none">
+				<h5 class="header-center">Step 4: How should the final time be determined? </h5>
+				<div class="row">
+					 <div class="col-sm-4">
+			            <div class="btn-group" data-toggle="buttons">
+			                <label class="btn btn-default">
+			                    <input type="radio" id="iDecide" name="whodecides" value="1" /> Let GroupRight pick the best time after everyone has responded.
+			                </label> 
+			                <label class="btn btn-default">
+			                    <input type="radio" id="groupRightDecide" name="whodecides" value="2" /> Provide me with the best options and I'll make the final decision.
+			                </label> 
+			            </div>
+			         </div>
+				</div>
+			</div>
+			<div id="eventStep5" style="display:none">
+				<h5 class="header-center">Step 5: Review and Schedule </h5>
+				<br/>
+				<div id="eventReview">
+
+				</div>
+			</div>
+			<br/>
+			<br/>
+
+			
+      </div>
+      <div class="modal-footer">
+      	<div class="row">
+      		<div class="col-sm-3">
+      			<button type="button" id="eventPreviousButton"class="btn btn-warning pull-left" onclick="previous()" style="display:none;">Prev</button>
+      		</div>
+      		<div class="col-sm-4">
+      		</div>
+      		<div class="col-sm-2">
+      			
+      		</div>
+      		<div class="col-sm-3">
+      			 <button type="button" id="createEventButton" class="btn btn-warning pull-right" onclick="createGREvent()" style="display:none;">Create Event</button>
+	             <button type="button" id="eventNextButton" class="btn btn-warning pull-right" onclick="next()">Next</button>
+      		</div>
+	        
+	        
+    	</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!--Make A List -->
+<div class="modal fade" id="createListBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="myModalLabel">Create a List</h4>
+	</div>
+	<div class="modal-body">
+		<p id="listError" style="color:red"></p> 
+		<div class="row">
+			<div class="col-sm-6">
+				<h5 class="header-center"><strong>Step 1:</strong> Select a Group:</h5>
+			</div>
+			<div class="col-sm-6">
+				<select class="form-control" id="listGroups">
+				    <option value="XXX">Select Group</option>
+				</select>
+			</div>
+		</div>
+		<h5 class="header-center"><strong>Step 2:</strong> What is the list you are creating?</h5>	
+		<div class="row">
+			<div class="col-xs-10">
+				<label for="listNameField" class="sr-only">Task Name</label>	
+				<input type="text" id="listNameField" class="form-control" placeholder="List Name" required autofocus>
+			</div>
+		</div>
+		<h5 class="header-center"><strong>Step 3:</strong> Add a list description:</h5>	
+		<div class="row">
+			<div class="col-xs-12">
+				<label for="listDescription" class="sr-only">Assignment Name</label>	
+				<input type="text" id="listDescription" class="form-control" placeholder="List Description" required>
+			</div>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-info" style="background:#6B5580; border-color:#64928A;" onclick="createGRList()" >Create List</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Make A Poll -->
+<div class="modal fade" id="createPollBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="myModalLabel">Create a Poll</h4>
+	</div>
+	<div class="modal-body">
+		<p id="pollError" style="color:red"></p> 
+		<div class="row">
+			<div class="col-sm-6">
+				<h5 class="header-center"><strong>Step 1:</strong> Select a Group:</h5>
+			</div>
+			<div class="col-sm-6">
+				<select class="form-control" id="pollGroups">
+				    <option value="XXX">Select Group</option>
+				</select>
+			</div>
+		</div>
+		<h5 class="header-center"><strong>Step 2:</strong> What is the poll you are creating?</h5>	
+		<div class="row">
+			<div class="col-xs-10">
+				<label for="pollNameField" class="sr-only">Task Name</label>	
+				<input type="text" id="pollNameField" class="form-control" placeholder="Poll Name" required autofocus>
+			</div>
+		</div>
+		<h5 class="header-center"><strong>Step 3:</strong> Enter options (separated by ';')</h5>	
+		<div class="row">
+			<div class="col-xs-12">
+				<label for="pollOptions" class="sr-only">Assignment Name</label>	
+				<input type="text" id="pollOptions" class="form-control" placeholder="Poll Options" required>
+			</div>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-info" onclick="createGRPoll()" >Create Poll</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--Create Task -->
+<div class="modal fade" id="createTaskBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="myModalLabel">Create a Task</h4>
+	</div>
+	<div class="modal-body">
+		<p id="taskError" style="color:red"></p> 
+		<div class="row">
+			<div class="col-sm-6">
+				<h5 class="header-center"><strong>Step 1:</strong> Select a Group:</h5>
+			</div>
+			<div class="col-sm-6">
+				<select class="form-control" id="taskGroups">
+				    <option value="XXX">Select Group</option>
+				</select>
+			</div>
+		</div>
+		<h5 class="header-center"><strong>Step 2:</strong> What is the task you are assigning?</h5>	
+		<div class="row">
+			<div class="col-xs-10">
+				<label for="taskNameField" class="sr-only">Task Name</label>	
+				<input type="text" id="taskNameField" class="form-control" placeholder="Task Name" required autofocus>
+			</div>
+		</div>
+		<!--<h5 class="header-center">Step 2: Set the deadline.</h5>
+		<div class="row">
+			<div class="col-xs-8">
+				<div class="input-daterange input-group" id="datepicker">
+			    <input type="text" class="input-sm form-control" />
+			</div>
+			<div class="col-xs-4">
+				&nbsp;
+			</div>
+		</div>-->
+		<div class="row tp15">
+			<div class="col-sm-7">
+				<h5 class="header-center"><strong>Step 3:</strong> Who do you want to assign this to?</h5>
+			</div>
+			<div class="col-sm-5">
+	            <div class="btn-group" data-toggle="buttons" id="is_personal">
+					<label class="btn btn-default">
+						<input type="radio" name="personal" value="0" /> A Group
+					</label> 
+					<label class="btn btn-default">
+						<input type="radio" name="personal" value="1" /> Myself
+					</label> 
+	            </div>
+	        </div>
+		</div>
+		<h5 class="header-center"><strong>Step 4:</strong> Add a task description:</h5>	
+		<div class="row">
+			<div class="col-xs-12">
+				<label for="taskDescription" class="sr-only">Assignment Name</label>	
+				<input type="text" id="taskDescription" class="form-control" placeholder="Task Description" required>
+			</div>
+		</div>
+		<!--<h5 class="header-center">Step 3: Pick the group or member:</h5>	
+		<div class="row">
+			<div class="col-xs-10">
+				<label for="assignmentNameField" class="sr-only">Assignment Name</label>	
+				<input type="text" id="assignmentNameField" class="form-control" placeholder="Assignment Name" required autofocus>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<h5 class="header-center">Step 5: Is this event reoccurring?</h5>
+			</div>
+			<div class="col-sm-6">
+	            <div class="btn-group" data-toggle="buttons">
+	                <label class="btn btn-default">
+	                    <input type="radio" name="fixedtime" value="1" /> Yes
+	                </label> 
+	                <label class="btn btn-default">
+	                    <input type="radio" name="fixedtime" value="2" /> No
+	                </label> 
+	            </div>
+	        </div>
+		</div>
+		<div class="row">
+			<div class="col-xs-10">
+				<label for="assignmentNameField" class="sr-only">Assignment Name</label>	
+				<input type="text" id="assignmentNameField" class="form-control" placeholder="Assignment Name" required autofocus>
+			</div>
+		</div>-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" onclick="createGRTask()" >Create Task</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Send Message-->
+<div class="modal fade" id="createMessageBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+   <div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="myModalLabel">Messages</h4>
+	</div>
+	<div class="modal-body">
+		<p id="messageError" style="color:red"></p>
+		<div class="row">
+			<div class="col-sm-6">
+				<h5 class="header-center">Select Group:</h5>
+			</div>
+			<div class="col-sm-6">
+				<select class="form-control" id="messageGroups" onchange="populateMessages()">
+				    <option value="XXX">Select Group</option>
+				</select>
+			</div>
+			<div class="col-sm-12 scrollable" id="messageBox">
+				<div id="tempMessage">
+					<div class="row" style="text-align:center;color:#555;">
+					Select a group from above to begin.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-sm-7">
+				<input type="text" class="form-control" id="myMessage" placeholder="Enter Message" />
+			</div>
+			<div class="col-sm-5">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		        <button type="button" class="btn btn-danger" onclick="createGRMessage()" >Send Message</button>
+	        </div>
+        </div>
+    </div>
+   </div>
+  </div>
+</div>
+
+
+<!--************************************************************************************************************
+END OF LIGHT BOX SECTION
+**************************************************************************************************************-->
+
+<footer class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 footing">
+			<p>GroupRight &copy; 2015</p>
+		</div>
+		<div class="col-sm-1 footing">
+			<p><a href="about.html"> About</a></p>
+		</div>
+		<div class="col-sm-2 footing">
+			<p><a href="contact.html"> Contact</a></p>
+		</div>
+		<div class="col-sm-1 footing">
+			<p><a href="terms.html"> Terms</a></p>
+		</div>
+		<div class="col-sm-2 footing">
+			<p><a href="privacy.html"> Privacy</a></p>
+		</div>
+		<div class="col-sm-3 footing">
+			<div>
+				<a href="https://twitter.com/group_right">
+					<img class="snm" title="Twitter" alt="Twitter" src="images/twitter.png"/>
+				</a>
+				<a href="http://www.pinterest.com/groupright/">
+					<img class="snm" title="Pinterest" alt="Pinterest" src="images/pinterest.png"/>
+				</a>
+				<a href="https://www.facebook.com/groupright">
+					<img class="snm" title="Facebook" alt="Facebook" src="images/facebook.png"/>
+				</a>
+				<a href="https://www.linkedin.com/company/groupright">
+					<img class="snm" title="LinkedIn" alt="LinkedIn" src="images/linkedin.png"/>
+				</a>
+				<a href="http://instagram.com/group.right">
+					<img class="snm" title="Instagram" alt="RSS" src="images/instagram.png"/>
+				</a>
+			</div>
+		</div>
+	<!-- /.row -->
+	</div>
+</footer>
+
+<!-- We include all our scripts at the end of the page so that the page will get better load times -->
+
+<script src="js/jquery.min.js">
+</script>
+<script src="js/grglobals.js"></script>
+<script src="js/typeahead.js">
+</script>
+<script src="js/cookie.js">
+</script>
+<script src="js/createEvent.js">
+</script>
+<script src="js/createTask.js">
+</script>
+<script src="js/createList.js">
+</script>
+<script src="js/createPoll.js">
+</script>
+<script src="js/grdefaults.js">
+</script>
+<script src="js/grmainmodule.js">
+</script>
+<script src="js/grtopbar.js">
+</script>
+<script src="js/homescripts.js">
+</script>
+<script src="js/createGroup.js">
+</script>
+<script src="js/message.js">
+</script>
+<script src="js/bootstrap.js">
+</script>
+<script src="js/cal/grcal.js">
+</script>
+<script src="js/datepicker.js">
+</script>
+
+
+</body>
+</html>

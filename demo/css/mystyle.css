@@ -1,0 +1,235 @@
+@charset "utf-8";
+/* CSS Document */
+
+header {
+	background-color: black;
+	color: white;
+	position: absolute;
+	height: 3em;
+	line-height: 3em;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+img {
+	display:block;
+	margin:auto;
+	width: 100%;
+}
+
+a {
+	color: white;
+	text-decoration: none;
+}
+
+
+div.holder{
+	position: absolute;
+	top: 3em;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: auto;
+}
+
+div.holder::-webkit-scrollbar {
+	display:none;
+}
+
+section {
+	position: relative;
+	width: 100%;
+	display: block;
+	margin: auto;
+	color: white;
+	text-align: center;
+}
+section:before {
+	content: "";
+	display: block;
+	padding-top: 50.5%;
+}
+
+div.content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	/*-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;*/
+}
+
+div.text {
+	position: absolute;
+	top: 50%;
+	left: 15%;
+	right: 15%;
+	-moz-transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+h1 {
+	margin: 0;
+	font-family: 'Lato', sans-serif;
+	font-size: 2.5vw;
+}
+
+p, h2 {
+	margin: 0;
+	font-family: 'Lato', sans-serif;
+}
+
+h2 {
+	font-size: 2em;
+}
+
+footer {
+	text-align: center;
+	background-color: #003056;
+	color: white;
+	height: 3em;
+	line-height: 3em;
+}
+
+/* Pure CSS Icons, Arrows Inside of Circles By Sam Peniak */
+/* main changes I made were to center the button better on the page */
+.bottom {
+	display: block;
+	width: 4vw;
+	height: 4vw;
+	border: 0.5vw solid white;
+	border-radius: 50%;
+	position: absolute;
+	bottom: 2vw;
+	left: 50%;
+	-moz-transform: translateX(-50%);
+	-webkit-transform: translate(-50%);
+	transform: translate(-50%);
+}
+
+.bottom:after {
+	content: '';
+	display: inline-block;
+	margin-top: 0.6vw;
+	width: 1.4vw;
+	height: 1.4vw;
+	border-top: 0.5vw solid white;
+	border-right: 0.5vw solid white;
+	-moz-transform: rotate(135deg);
+	-webkit-transform: rotate(135deg);
+	transform: rotate(135deg);
+}
+
+.top {
+	display: block;
+	width: 4vw;
+	height: 4vw;
+	border: 0.5vw solid white;
+	border-radius: 50%;
+	position: absolute;
+	bottom: 2vw;
+	left: 50%;
+	-moz-transform: translateX(-50%);
+	-webkit-transform: translate(-50%);
+	transform: translate(-50%);
+}
+
+.top:after {
+	content: '';
+	display: inline-block;
+	margin-top: 1.4vw;
+	width: 1.4vw;
+	height: 1.4vw;
+	border-top: 0.5vw solid white;
+	border-right: 0.5vw solid white;
+	-moz-transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+/* end Sam Peniak code */
+
+/* code from weebly */
+form {
+ 	margin-top: 1em;
+}
+
+ .inputs {
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-o-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 1px 0 #FFF, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
+	-moz-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
+	-ms-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
+	-o-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
+	box-shadow: 0 1px 0 #FFF, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-ms-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+	background: #EAE7E7;
+	border: 1px solid #C8C8C8;
+	color: #777;
+	font: 13px Helvetica, Arial, sans-serif;
+	margin: 0 0 10px;
+	padding: 15px 10px 15px 40px;
+	width: 270px;
+}
+
+.inputs:focus {
+	-webkit-box-shadow: 0 0 2px #ED1C24 inset;
+	-moz-box-shadow: 0 0 2px #ed1c24 inset;
+	-ms-box-shadow: 0 0 2px #ed1c24 inset;
+	-o-box-shadow: 0 0 2px #ed1c24 inset;
+	box-shadow: 0 0 2px #ED1C24 inset;
+	background-color: white;
+	border: 1px solid #ED1C24;
+	outline: none;
+}
+/* code from weebly */
+
+#mywarning {
+	color: white;
+	display: none;
+	max-width: 1000px;
+	display: block;
+	margin: 0px auto;
+	text-align: center;
+}
+
+#mywarning a {
+	text-decoration: underline;
+}
+
+#s1 {
+	background-color: #04518C;
+}
+
+#s2 {
+	background-color: #E3C00C;
+}
+
+#s3 {
+	background-color: #00A1D9;
+}
+
+#s4 {
+	background-color: #006E22;
+}
+
+/*
+	GroupRight Blue: #04518C;
+	GroupRight Gold: #E3C00C;
+	GroupRight Teal: #00A1D9;
+	GroupRight Green: #006E22;
+	GroupRight DarkBlue: #003056;
+	Black: #000;
+	White: #FFF;
+*/
+

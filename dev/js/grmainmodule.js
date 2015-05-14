@@ -134,7 +134,7 @@ GRMainModule.prototype.load = function(cookies,successFn,failureFn){
 		var self = this;
 	
 		// Contact Server
-		$.ajax("https://www.groupright.net"+GR_DIR+"/groupserve.php?r="+Math.random(),{
+		$.ajax("groupserve.php?r="+Math.random(),{
 			type:"POST",
 			data:obj,
 			dataType:'text',
@@ -146,6 +146,9 @@ GRMainModule.prototype.load = function(cookies,successFn,failureFn){
 				},
 				220: function(data, status, jqXHR){
 					failureFn();
+				},
+				324: function(){
+					window.location = "";
 				}
 			}
 		

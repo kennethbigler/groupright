@@ -1,0 +1,36 @@
+@charset "utf-8";
+/* CSS Document */
+
+footer {
+	position: absolute;
+	bottom: 0em;
+}
+
+.wrapstuff {
+	position: absolute;
+	bottom: 3em;
+	left: 0;
+	right: 0;
+	top: 9em;
+}
+
+#mainview {
+	height: 100%;
+	margin: 0;
+}
+
+#mainview>#row {
+	height: 100%;
+}
+
+#updates, #tasks, #comingup {
+	height: 100%
+}
+
+div.main3w {
+	height: 97%;
+}
+
+div.main6w {
+	height: 97%;
+}

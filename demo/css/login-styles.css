@@ -1,0 +1,202 @@
+
+/********************************************************************/
+/*		NAVBAR STYLES												*/
+/********************************************************************/
+.navbar-groupright{
+	background-color: #00A1D9;
+	min-height:0;
+}
+
+.navbar-brand-logo{
+	max-height:30px;
+	margin:10px;
+	width:auto;
+	
+}
+.nav-center {
+    margin:0;
+    float:none;
+	text-align:center;
+	
+}
+
+.header-center{
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+}
+
+/********************************************************************/
+/*		FORM STYLES												*/
+/********************************************************************/
+
+.btn-half{
+	width:49%;
+}
+
+.groupright-divider{
+	border: 1px solid #ccc;
+}
+
+.login-box input[type="text"],
+.login-box input[type="email"],
+.login-box input[type="password"],
+.login-box .btn,
+.signup-box input[type="text"],
+.signup-box input[type="email"],
+.signup-box input[type="password"],
+.signup-box .btn
+{
+	margin-top:10px;
+}
+
+.gr-spaced{
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+/********************************************************************/
+/*		LOGIN STYLES												*/
+/********************************************************************/
+
+@media (min-device-width: 737px){
+	.login-box,.signup-box{
+		width:450px;
+		height:520px;
+	}
+
+	.flipper,.flip-container{
+		/* sizing */
+		width:450px;
+		height:520px;
+	}
+	.login-box,.signup-box,.flipper,.flip-container{
+		/* positioning */
+		position:absolute;
+		top:0px; bottom:0px;
+		left:0px; right:0px;
+		margin:auto;
+		
+	}
+	
+	.flipper{
+		border-radius:10px;
+		box-shadow: 0px 0px 50px 0px #000;
+	}
+	
+
+	.login-box{	
+		/* padding */
+		padding:20px;
+		padding-top:0px;
+	}
+
+	.signup-box{	
+		/* padding */
+		padding:20px;
+		padding-top:0px;
+	}
+	
+	.login-box,.signup-box{
+		background-color:white;
+	}
+	
+}
+
+@media (max-device-width:736px){
+	.flip-container{
+		position:absolute;
+		top:50px;bottom:0px;
+		left:0px; right:0px;
+		margin:auto;
+		background-color:white;
+	}
+	
+
+	.login-box,.signup-box{	
+		/* padding */
+		padding:0;
+		padding-top:0px;
+	}
+	
+	.flipper{	
+		/* padding */
+		padding:20px;
+		padding-top:0px;
+	}
+	.login-box,.signup-box,.flipper{
+		background-color:white;	
+	}
+}
+
+.login-box,.signup-box,.flipper{
+
+	/* positioning */
+	position:relative;
+	left:0px; right:0px;
+	margin:auto;
+	
+	/* color, borders */
+	
+	border-radius:10px;
+	
+}
+
+
+/********************************************************************/
+/*		FLIPPING STYLES												*/
+/********************************************************************/
+
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000;
+}
+	/* flip the pane when hovered */
+	.flip-container:hover .flipper, .flip-container.hover .flipper {
+		/*transform: rotateY(180deg);*/
+	}
+
+/* flip speed goes here */
+.flipper {
+	transition: 1.6s;
+	-webkit-transition:1.6s;
+	transform-style: preserve-3d;
+	-webkit-transform-style:preserve-3d;
+
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+
+	position: absolute;
+	
+	background-color: white;
+	
+	border-radius:10px;
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+	-webkit-transform:rotate(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(180deg);
+	-webkit-transform: rotateY(180deg);
+}
+
+/********************************************
+body background 
+********************************************/
+body{
+	background-image: url("../images/collage_blur.jpeg");
+	padding-top: 70px;	
+}
+
