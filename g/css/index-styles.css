@@ -130,7 +130,7 @@ div.scrollable {
 	right:0;
 }
 #bgimage{  
- background: url("images/background.png") no-repeat;
+ /*background: url("images/background.png") no-repeat;*/
  background-size: cover;
 }
 
@@ -148,8 +148,9 @@ video {
   width: auto;
   height: auto;
   z-index: -100;
- background: url("images/background.png") no-repeat;
-  background-size: cover;
+ /*background: url("images/background.png") no-repeat;
+  */
+background-size: cover;
   transition: 1s opacity;
 }
 .stopfade { 
@@ -189,7 +190,7 @@ video {
 }
 
 @media screen and (max-device-width: 800px) {
-  html { background: url("images/background.png") #000 no-repeat center center fixed; }
+  html { /*background: url("images/background.png") #000 no-repeat center center fixed;*/ }
   #bgvid { display: none; }
 }
 /* End code for main content */

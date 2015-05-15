@@ -16,6 +16,12 @@
 .er_avail_no{background-color:#d9534f;}
 .er_avail_empty{background:color:#ccc;}
 
+
+.er_success{background-color:#c5efb3;}
+.er_info{background-color:#b7e1f4;}
+.er_warning{background-color:#f9efbb;}
+.er_danger{background-color:#efb3b3;}
+
 #avail_perfect,#avail_ok,#avail_rather_not,#avail_no{margin-top:0;}
 
 #event_title{font-size:1.3em; font-weight:bold; border-bottom:solid 1pt;}

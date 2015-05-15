@@ -108,11 +108,12 @@
 				return;
 			}
 			
+			// Send Confirmation Email
+			sendVerifEmail($email_address,$fname,$lname,$vc);
+			
 			// Save Pending Account
 			saveUserToPendingAccounts($email_address,$password,$fname,$lname,$vc);
 			
-			// Send Confirmation Email
-			sendVerifEmail($email_address,$fname,$lname,$vc);
 		}
 		else {
 			// maybe do something

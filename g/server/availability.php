@@ -20,7 +20,7 @@ function addEventAvailability($email,$group_uid,$event_uid,$avail){
 				score) VALUES (?,?,?,?,?)";
 	$stmt = $dbh->prepare( $sql );
 	
-	$scores = array(0=>0,1=>5,2=>20,3=>50);
+	$scores = array(0=>0,1=>10,2=>30,3=>50);
 	
 	for($i = 0; $i < sizeof($avail); $i++){
 		if(!isset($avail[$i]["start_time"])){ http_response_code(298); return; }
