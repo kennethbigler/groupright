@@ -9,24 +9,24 @@ var _demoPhase = [];
 var _baseDemoInfo = {
 "first_name":"Scott",
 "last_name":"Sarsfield",
-"photo_url":null,
+"photo_url":"https:\/\/www.groupright.net\/_profiles\/815fda376c535c047df8dff54d62b3097370e2f6.jpg",
 "memberships":[{
 "group_name":"Air Networks",
 "group_color":"#48CB09",
-"group_id":"72",
-"role":"leader",
+"group_id":"74",
+"role":"member",
 "members":[{
-"email":"ssarsfield@scu.edu",
-"first_name":"Scott",
-"last_name":"Sarsfield",
-"photo_url":null,
-"role":"leader"
-},
-{
 "email":"zwilson@scu.edu",
 "first_name":"Zachary",
 "last_name":"Wilson",
-"photo_url":null,
+"photo_url":"https:\/\/www.groupright.net\/_profiles\/195538e3714b75c2201e0e3e09c543229cdc20cb.png",
+"role":"leader"
+},
+{
+"email":"ssarsfield@scu.edu",
+"first_name":"Scott",
+"last_name":"Sarsfield",
+"photo_url":"https:\/\/www.groupright.net\/_profiles\/815fda376c535c047df8dff54d62b3097370e2f6.jpg",
 "role":"member"
 },
 {
@@ -35,6 +35,53 @@ var _baseDemoInfo = {
 "last_name":"Bigler",
 "photo_url":"https:\/\/www.groupright.net\/_profiles\/7d572ffc2aec0b676d691f5c4fbb248c4396399d.jpg",
 "role":"member"
+}]
+},
+{
+"group_name":"COEN 177 Project",
+"group_color":"#FFF763",
+"group_id":"75",
+"role":"member",
+"members":[{
+"email":"kbigler@scu.edu",
+"first_name":"Kenneth",
+"last_name":"Bigler",
+"photo_url":"https:\/\/www.groupright.net\/_profiles\/7d572ffc2aec0b676d691f5c4fbb248c4396399d.jpg",
+"role":"leader"
+},
+{
+"email":"ssarsfield@scu.edu",
+"first_name":"Scott",
+"last_name":"Sarsfield",
+"photo_url":"https:\/\/www.groupright.net\/_profiles\/815fda376c535c047df8dff54d62b3097370e2f6.jpg",
+"role":"member"
+},
+{
+"email":"zwilson@scu.edu",
+"first_name":"Zachary",
+"last_name":"Wilson",
+"photo_url":"https:\/\/www.groupright.net\/_profiles\/195538e3714b75c2201e0e3e09c543229cdc20cb.png",
+"role":"member"
+}]
+},
+{
+"group_name":"Orchestra",
+"group_color":"#E03FFE",
+"group_id":"76",
+"role":"leader",
+"members":[{
+"email":"ssarsfield@scu.edu",
+"first_name":"Scott",
+"last_name":"Sarsfield",
+"photo_url":"https:\/\/www.groupright.net\/_profiles\/815fda376c535c047df8dff54d62b3097370e2f6.jpg",
+"role":"leader"
+},
+{
+"email":"zwilson7@gmail.com",
+"first_name":"Taylor",
+"last_name":"McCarthy",
+"photo_url":"https:\/\/www.groupright.net\/_profiles\/0f3b19e5f81cc394286add6e213f32fc150aeab3.jpg",
+"role":"member"
 },
 {
 "email":"apotika@scu.edu",
@@ -42,36 +89,20 @@ var _baseDemoInfo = {
 "last_name":"Potika",
 "photo_url":null,
 "role":"member"
+},
+{
+"email":"kennethbigler@gmail.com",
+"first_name":"Jessica",
+"last_name":"Petersen",
+"photo_url":"https:\/\/www.groupright.net\/_profiles\/6c91165b9015c55e4194085f45d635d1617936ca.png",
+"role":"member"
 }]
-},
-],
+}],
 "tasks":[{
-"task_uid":"148",
-"task_title":"Provide Availability for 'Safety Training'",
-"task_description":"",
-"group_id":"72",
-"creator":"ssarsfield@scu.edu",
-"is_completed":"1",
-"is_individual":"1",
-"link_type":"event",
-"link_id":"104"
-},
-{
-"task_uid":"149",
-"task_title":"Pick Time for 'Safety Training'",
-"task_description":"",
-"group_id":"72",
-"creator":"ssarsfield@scu.edu",
-"is_completed":"1",
-"is_individual":"1",
-"link_type":"event_report",
-"link_id":"104"
-},
-{
-"task_uid":"150",
-"task_title":"Bring Safety Vests",
-"task_description":"For Safety",
-"group_id":"72",
+"task_uid":"165",
+"task_title":"Complete Report Introduction",
+"task_description":"This is the basic overview of the report.",
+"group_id":"75",
 "creator":"kbigler@scu.edu",
 "is_completed":"1",
 "is_individual":"0",
@@ -79,164 +110,172 @@ var _baseDemoInfo = {
 "link_id":null
 },
 {
-"task_uid":"151",
-"task_title":"Contribute to 'Holiday Party Items'",
-"task_description":"",
-"group_id":"72",
+"task_uid":"166",
+"task_title":"Study Beethoven's 5th",
+"task_description":"We will do a practice performance soon.",
+"group_id":"76",
 "creator":"ssarsfield@scu.edu",
-"is_completed":"1",
-"is_individual":"1",
-"link_type":"list",
-"link_id":"29"
-},
-{
-"task_uid":"156",
-"task_title":"Contribute to 'Items for launch'",
-"task_description":"",
-"group_id":"72",
-"creator":"kbigler@scu.edu",
 "is_completed":"0",
-"is_individual":"1",
-"link_type":"list",
-"link_id":"32"
-},
-{
-"task_uid":"157",
-"task_title":"Bring Food",
-"task_description":"Bring Food",
-"group_id":"72",
-"creator":"kbigler@scu.edu",
-"is_completed":"1",
 "is_individual":"0",
 "link_type":null,
 "link_id":null
+},
+{
+"task_uid":"167",
+"task_title":"Debug WiFi connection",
+"task_description":"Some customers have been reporting dropouts when they use Android devices.",
+"group_id":"74",
+"creator":"zwilson@scu.edu",
+"is_completed":"0",
+"is_individual":"0",
+"link_type":null,
+"link_id":null
+},
+{
+"task_uid":"168",
+"task_title":"Contribute to 'Songs for the concert.'",
+"task_description":"",
+"group_id":"76",
+"creator":"zwilson7@gmail.com",
+"is_completed":"1",
+"is_individual":"1",
+"link_type":"list",
+"link_id":"35"
 }],
 "events":[{
-"event_uid":"104",
-"name":"Safety Training",
-"description":"",
-"group_id":"72",
-"creator":"ssarsfield@scu.edu",
-"start_time":"2015-05-14 21:00:00",
-"end_time":"2015-05-14 23:00:00"
+"event_uid":"108",
+"name":"Code Review",
+"description":"Detailed Review to get us all on the same page before the presentation.",
+"group_id":"75",
+"creator":"kbigler@scu.edu",
+"start_time":"2015-05-14 18:00:00",
+"end_time":"2015-05-14 20:00:00"
+},
+{
+"event_uid":"107",
+"name":"Closing Meeting",
+"description":"Discussion of our week's progress and planning of what's to come next week.",
+"group_id":"74",
+"creator":"zwilson@scu.edu",
+"start_time":"2015-05-16 21:00:00",
+"end_time":"2015-05-16 22:30:00"
+},
+{
+"event_uid":"109",
+"name":"Meeting with Advisor",
+"description":"Lets get things settled.",
+"group_id":"75",
+"creator":"zwilson@scu.edu",
+"start_time":"2015-05-18 15:30:00",
+"end_time":"2015-05-18 16:15:00"
 }],
-"updates":[
+"updates":[{
+"update_uid":"579",
+"email":"zwilson7@gmail.com",
+"description":"added an item to list \"Songs for the concert.\"",
+"group_id":"76",
+"timestamp":"2015-05-14 00:46:19",
+"link_type":"list",
+"link_id":"35"
+},
 {
-"update_uid":"545",
-"email":"zwilson@scu.edu",
-"description":" completed task \"Bring Food\"",
-"group_id":"72",
-"timestamp":"2015-05-13 18:06:20",
+"update_uid":"568",
+"email":"kbigler@scu.edu",
+"description":" completed task \"Complete Report Introduction\"",
+"group_id":"75",
+"timestamp":"2015-05-13 21:26:12",
 "link_type":"task",
-"link_id":"157"
+"link_id":"165"
 },
 {
-"update_uid":"544",
-"email":"kbigler@scu.edu",
-"description":"created task \"Bring Food\"",
-"group_id":"72",
-"timestamp":"2015-05-13 18:05:47",
+"update_uid":"567",
+"email":"ssarsfield@scu.edu",
+"description":" completed task \"Debug WiFi connection\"",
+"group_id":"74",
+"timestamp":"2015-05-13 21:25:00",
 "link_type":"task",
-"link_id":"157"
+"link_id":"167"
 },
 {
-"update_uid":"543",
-"email":"kbigler@scu.edu",
-"description":"added an item to list \"Items for launch\"",
-"group_id":"72",
-"timestamp":"2015-05-13 18:02:35",
-"link_type":"list",
-"link_id":"32"
-},
-{
-"update_uid":"542",
-"email":"kbigler@scu.edu",
-"description":"created list \"Items for launch\"",
-"group_id":"72",
-"timestamp":"2015-05-13 18:00:27",
-"link_type":"list",
-"link_id":"32"
-},
-{
-"update_uid":"537",
+"update_uid":"566",
 "email":"zwilson@scu.edu",
-"description":"added an item to list \"Holiday Party Items\"",
-"group_id":"72",
-"timestamp":"2015-05-13 17:24:49",
-"link_type":"list",
-"link_id":"29"
-},
-{
-"update_uid":"536",
-"email":"kbigler@scu.edu",
-"description":"added an item to list \"Holiday Party Items\"",
-"group_id":"72",
-"timestamp":"2015-05-13 17:24:39",
-"link_type":"list",
-"link_id":"29"
-},
-{
-"update_uid":"535",
-"email":"ssarsfield@scu.edu",
-"description":"added an item to list \"Holiday Party Items\"",
-"group_id":"72",
-"timestamp":"2015-05-13 17:24:38",
-"link_type":"list",
-"link_id":"29"
-},
-{
-"update_uid":"534",
-"email":"zwilson@scu.edu",
-"description":"added an item to list \"Holiday Party Items\"",
-"group_id":"72",
-"timestamp":"2015-05-13 17:24:34",
-"link_type":"list",
-"link_id":"29"
-},
-{
-"update_uid":"533",
-"email":"ssarsfield@scu.edu",
-"description":"created list \"Holiday Party Items\"",
-"group_id":"72",
-"timestamp":"2015-05-13 17:24:23",
-"link_type":"list",
-"link_id":"29"
-},
-{
-"update_uid":"532",
-"email":"ssarsfield@scu.edu",
-"description":"chose a time for \"Safety Training\"",
-"group_id":"72",
-"timestamp":"2015-05-13 17:23:37",
+"description":"created event \"Meeting with Advisor\"",
+"group_id":"75",
+"timestamp":"2015-05-13 21:24:25",
 "link_type":"event",
-"link_id":"104"
+"link_id":"109"
 },
 {
-"update_uid":"531",
+"update_uid":"565",
+"email":"kennethbigler@gmail.com",
+"description":"added an item to list \"Songs for the concert.\"",
+"group_id":"76",
+"timestamp":"2015-05-13 21:22:34",
+"link_type":"list",
+"link_id":"35"
+},
+{
+"update_uid":"564",
+"email":"kennethbigler@gmail.com",
+"description":"added an item to list \"Songs for the concert.\"",
+"group_id":"76",
+"timestamp":"2015-05-13 21:22:12",
+"link_type":"list",
+"link_id":"35"
+},
+{
+"update_uid":"563",
+"email":"zwilson7@gmail.com",
+"description":"created list \"Songs for the concert.\"",
+"group_id":"76",
+"timestamp":"2015-05-13 21:18:53",
+"link_type":"list",
+"link_id":"35"
+},
+{
+"update_uid":"562",
 "email":"zwilson@scu.edu",
-"description":" completed task \"Bring Safety Vests\"",
-"group_id":"72",
-"timestamp":"2015-05-13 17:21:57",
+"description":"created task \"Debug WiFi connection\"",
+"group_id":"74",
+"timestamp":"2015-05-13 21:16:44",
 "link_type":"task",
-"link_id":"150"
+"link_id":"167"
 },
 {
-"update_uid":"530",
-"email":"kbigler@scu.edu",
-"description":"created task \"Bring Safety Vests\"",
-"group_id":"72",
-"timestamp":"2015-05-13 17:19:41",
-"link_type":"task",
-"link_id":"150"
-},
-{
-"update_uid":"529",
+"update_uid":"561",
 "email":"ssarsfield@scu.edu",
-"description":"created event \"Safety Training\"",
-"group_id":"72",
-"timestamp":"2015-05-13 17:16:00",
+"description":"created task \"Study Beethoven's 5th\"",
+"group_id":"76",
+"timestamp":"2015-05-13 21:15:25",
+"link_type":"task",
+"link_id":"166"
+},
+{
+"update_uid":"560",
+"email":"kbigler@scu.edu",
+"description":"created task \"Complete Report Introduction\"",
+"group_id":"75",
+"timestamp":"2015-05-13 21:12:03",
+"link_type":"task",
+"link_id":"165"
+},
+{
+"update_uid":"559",
+"email":"kbigler@scu.edu",
+"description":"created event \"Code Review\"",
+"group_id":"75",
+"timestamp":"2015-05-13 21:10:47",
 "link_type":"event",
-"link_id":"104"
+"link_id":"108"
+},
+{
+"update_uid":"558",
+"email":"zwilson@scu.edu",
+"description":"created event \"Closing Meeting\"",
+"group_id":"74",
+"timestamp":"2015-05-13 21:07:53",
+"link_type":"event",
+"link_id":"107"
 }]
 };
 
@@ -245,8 +284,8 @@ _demoPhase[1] = {};
 _demoPhase[2] = {
 "memberships":[{
 "group_name":"Seventh Inning Stretchers",
-"group_color":"#FFF763",
-"group_id":"73",
+"group_color":"#E03FFE",
+"group_id":"173",
 "role":"leader",
 "members":[{
 "email":"ssarsfield@scu.edu",
@@ -281,10 +320,10 @@ _demoPhase[2] = {
 
 _demoPhase[3] = {
 "tasks":[{
-"task_uid":"158",
+"task_uid":"1158",
 "task_title":"Provide Availability for 'Practice'",
 "task_description":"",
-"group_id":"73",
+"group_id":"173",
 "creator":"ssarsfield@scu.edu",
 "is_completed":"1",
 "is_individual":"1",
@@ -292,10 +331,10 @@ _demoPhase[3] = {
 "link_id":"105"
 },
 {
-"task_uid":"159",
+"task_uid":"1159",
 "task_title":"Pick Time for 'Practice'",
 "task_description":"",
-"group_id":"73",
+"group_id":"173",
 "creator":"ssarsfield@scu.edu",
 "is_completed":"0",
 "is_individual":"1",
@@ -304,10 +343,10 @@ _demoPhase[3] = {
 }],
 "events":[],
 "updates":[{
-"update_uid":"548",
+"update_uid":"1548",
 "email":"ssarsfield@scu.edu",
 "description":"created event \"Practice\"",
-"group_id":"73",
+"group_id":"173",
 "timestamp":"2015-05-13 18:32:36",
 "link_type":"event",
 "link_id":"105"
@@ -317,10 +356,10 @@ _demoPhase[3] = {
 _demoPhase[4] = {
 "tasks":[
 {
-"task_uid":"159",
+"task_uid":"1159",
 "task_title":"Pick Time for 'Practice'",
 "task_description":"",
-"group_id":"73",
+"group_id":"173",
 "creator":"ssarsfield@scu.edu",
 "is_completed":"1",
 "is_individual":"1",
@@ -328,50 +367,50 @@ _demoPhase[4] = {
 "link_id":"105"
 },
 {
-"task_uid":"160",
-"task_title":"Bring bases.",
-"task_description":"Include home plate.",
-"group_id":"73",
-"creator":"ssarsfield@scu.edu",
-"is_completed":"1",
+"task_uid":"167",
+"task_title":"Debug WiFi connection",
+"task_description":"Some customers have been reporting dropouts when they use Android devices.",
+"group_id":"74",
+"creator":"zwilson@scu.edu",
+"is_completed":"0",
 "is_individual":"0",
 "link_type":null,
 "link_id":null
 }],
 "events":[
 {
-"event_uid":"105",
+"event_uid":"1105",
 "name":"Practice",
 "description":"",
-"group_id":"73",
+"group_id":"173",
 "creator":"ssarsfield@scu.edu",
 "start_time":"2015-05-15 21:00:00",
 "end_time":"2015-05-15 22:00:00"
 }],
 "updates":[
 {
-"update_uid":"551",
+"update_uid":"1551",
 "email":"ssarsfield@scu.edu",
 "description":"chose a time for \"Practice\"",
-"group_id":"73",
+"group_id":"173",
 "timestamp":"2015-05-13 18:37:11",
 "link_type":"event",
 "link_id":"105"
 },
 {
-"update_uid":"550",
+"update_uid":"1550",
 "email":"zwilson@scu.edu",
 "description":" completed task \"Bring bases.\"",
-"group_id":"73",
+"group_id":"173",
 "timestamp":"2015-05-13 18:35:52",
 "link_type":"task",
 "link_id":"160"
 },
 {
-"update_uid":"549",
+"update_uid":"1549",
 "email":"ssarsfield@scu.edu",
 "description":"created task \"Bring bases.\"",
-"group_id":"73",
+"group_id":"173",
 "timestamp":"2015-05-13 18:34:17",
 "link_type":"task",
 "link_id":"160"
@@ -381,10 +420,10 @@ _demoPhase[4] = {
 _demoPhase[5] = {
 "tasks":[
 {
-"task_uid":"161",
+"task_uid":"1161",
 "task_title":"Contribute to 'Party Items'",
 "task_description":"",
-"group_id":"73",
+"group_id":"173",
 "creator":"ssarsfield@scu.edu",
 "is_completed":"1",
 "is_individual":"1",
@@ -394,37 +433,37 @@ _demoPhase[5] = {
 "events":[],
 "updates":[
 {
-"update_uid":"555",
+"update_uid":"1555",
 "email":"zwilson@scu.edu",
 "description":"added an item to list \"Party Items\"",
-"group_id":"73",
+"group_id":"173",
 "timestamp":"2015-05-13 18:38:19",
 "link_type":"list",
 "link_id":"33"
 },
 {
-"update_uid":"554",
+"update_uid":"1554",
 "email":"kbigler@scu.edu",
 "description":"added an item to list \"Party Items\"",
-"group_id":"73",
+"group_id":"173",
 "timestamp":"2015-05-13 18:38:18",
 "link_type":"list",
 "link_id":"33"
 },
 {
-"update_uid":"553",
+"update_uid":"1553",
 "email":"ssarsfield@scu.edu",
 "description":"added an item to list \"Party Items\"",
-"group_id":"73",
+"group_id":"173",
 "timestamp":"2015-05-13 18:38:13",
 "link_type":"list",
 "link_id":"33"
 },
 {
-"update_uid":"552",
+"update_uid":"1552",
 "email":"ssarsfield@scu.edu",
 "description":"created list \"Party Items\"",
-"group_id":"73",
+"group_id":"173",
 "timestamp":"2015-05-13 18:37:55",
 "link_type":"list",
 "link_id":"33"
@@ -434,10 +473,10 @@ _demoPhase[5] = {
 
 var _addedData = [];
 _addedData[0] = [{
-"task_uid":"158",
+"task_uid":"1158",
 "task_title":"Provide Availability for 'Practice'",
 "task_description":"",
-"group_id":"73",
+"group_id":"173",
 "creator":"ssarsfield@scu.edu",
 "is_completed":"0",
 "is_individual":"1",
@@ -445,10 +484,10 @@ _addedData[0] = [{
 "link_id":"105"
 },
 {
-"task_uid":"159",
+"task_uid":"1159",
 "task_title":"Pick Time for 'Practice'",
 "task_description":"",
-"group_id":"73",
+"group_id":"173",
 "creator":"ssarsfield@scu.edu",
 "is_completed":"0",
 "is_individual":"1",
@@ -457,20 +496,20 @@ _addedData[0] = [{
 }];
 
 _addedData[1] = [{
-"update_uid":"548",
+"update_uid":"1548",
 "email":"ssarsfield@scu.edu",
 "description":"created event \"Practice\"",
-"group_id":"73",
+"group_id":"173",
 "timestamp":"2015-05-13 18:32:36",
 "link_type":"event",
 "link_id":"105"
 }];
 
 _addedData[2] = [{
-"task_uid":"160",
+"task_uid":"1160",
 "task_title":"Bring bases.",
 "task_description":"Include home plate.",
-"group_id":"73",
+"group_id":"173",
 "creator":"ssarsfield@scu.edu",
 "is_completed":"0",
 "is_individual":"0",
@@ -479,30 +518,30 @@ _addedData[2] = [{
 }];
 
 _addedData[3] = [{
-"update_uid":"549",
+"update_uid":"1549",
 "email":"ssarsfield@scu.edu",
 "description":"created task \"Bring bases.\"",
-"group_id":"73",
+"group_id":"173",
 "timestamp":"2015-05-13 18:34:17",
 "link_type":"task",
 "link_id":"160"
 }];
 
 _addedData[4] = [{
-"update_uid":"550",
+"update_uid":"1550",
 "email":"zwilson@scu.edu",
-"description":" completed task \"Bring bases.\"",
-"group_id":"73",
+"description":" completed task \"Debug Wifi connection.\"",
+"group_id":"74",
 "timestamp":"2015-05-13 18:35:52",
 "link_type":"task",
-"link_id":"160"
+"link_id":"167"
 }];
 
 _addedData[5] = [{
-"task_uid":"161",
+"task_uid":"1161",
 "task_title":"Contribute to 'Party Items'",
 "task_description":"",
-"group_id":"73",
+"group_id":"173",
 "creator":"ssarsfield@scu.edu",
 "is_completed":"0",
 "is_individual":"1",
@@ -512,10 +551,10 @@ _addedData[5] = [{
 
 _addedData[6] = [
 {
-"update_uid":"552",
+"update_uid":"1552",
 "email":"ssarsfield@scu.edu",
 "description":"created list \"Party Items\"",
-"group_id":"73",
+"group_id":"173",
 "timestamp":"2015-05-13 18:37:55",
 "link_type":"list",
 "link_id":"33"
