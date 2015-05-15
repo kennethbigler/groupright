@@ -49,7 +49,7 @@ function fixMenuItems(){
         $("#createGroup").html("Create a Group");
         $("#scheduleEvent").html("Schedule an Event");
         $("#createList").html("Create a List");
-		$("#makeDecision").html("Make a Decision");
+		$("#makeDecision").html("Create a Poll");
 		$("#startTask").html("Start a Task");
     }
     // tablet
@@ -57,7 +57,7 @@ function fixMenuItems(){
         $("#createGroup").html("Groups");
         $("#scheduleEvent").html("Events");
         $("#createList").html("Lists");
-		$("#makeDecision").html("Decisions");
+		$("#makeDecision").html("Polls");
 		$("#startTask").html("Tasks");
     }
     // phone
@@ -65,7 +65,7 @@ function fixMenuItems(){
 		$("#createGroup").html("Create a Group");
 		$("#scheduleEvent").html("Schedule an Event");
 		$("#createList").html("Create a List");
-		$("#makeDecision").html("Make a Decision");
+		$("#makeDecision").html("Create a Poll");
 		$("#startTask").html("Start a Task");
     }
 };

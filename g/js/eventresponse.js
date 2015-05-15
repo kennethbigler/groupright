@@ -15,7 +15,7 @@ var eventName="Quarterly BBQ";
 var earliest_time="2015-03-28 23:00:00 PDT";
 var latest_time="2015-04-03 5:30:00 PDT";
 
-var color_classes = ["success","info","warning","danger"];
+var color_classes = ["er_success","er_info","er_warning","er_danger"];
 var current_color_class=1;
 
 var availability_map = [];
@@ -263,7 +263,7 @@ function drawPage(){
 			availability_map[i] ={};
 			for(var j=0; j<numberOfDays+1;j++){				
 				var td=document.createElement('td');
-				td.className="success";
+				td.className=color_classes[0];
 				td.style.border="1px solid gray";
 				if(j==0){
 					td.innerHTML=getTimeForRow(i);
@@ -280,7 +280,6 @@ function drawPage(){
 					prepareCell(td);
 				}
 			}
-			//tr.className="success";
 			tbody.appendChild(tr);
 		}
 		
@@ -315,13 +314,13 @@ function resetAvailMap(){
 
 function colorCell(elm)
 {
-	$(elm).removeClass("success info warning danger");
+	$(elm).removeClass(color_classes.join(" "));
 	$(elm).addClass(color_classes[current_color_class]);
 }
 
 function colorCellByIndex(elm,index)
 {
-	$(elm).removeClass("success info warning danger");
+	$(elm).removeClass(color_classes.join(" "));
 	$(elm).addClass(color_classes[index]);	
 }
 

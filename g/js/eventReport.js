@@ -30,6 +30,9 @@ var nonRespondersArray=[];
 var selStartTime = null;
 var selEndTime = null;
 
+var currentLongestRow=-1;
+var currentLongestColumn=-1;
+var currentLongestSteps=-1;
 // ======================================================
 // ONLOAD / SERVER COMM.
 
@@ -57,10 +60,11 @@ window.onload = function() {
 		initStatusMatrix();				/* availability scores */
 		
 		// Draw Elements
+		findSuggestedTimes();
 		drawPage();						/* page */
 		drawColorScale();				/* scale */
 		addRespondersInfo();			/* responders */
-		findSuggestedTimes();			/* suggested time */
+		//findSuggestedTimes();			/* suggested time */
 	});
 }
 
@@ -424,9 +428,10 @@ function drawPage(){
 					td.style.backgroundColor = getColorForPercentage((statusMatrix[i-1][j-1]-minScore)/maxScore);
 					td.value = {i:i,j:j};
 					td.className += " er_row"+i+" er_col"+j;
+					td.id += "row"+i+"_col"+j;
 					availability_map[i][j] = 0;
 					//td.innerHTML=getScoreForRowColumn(i,j);
-					td.innerHTML=statusMatrix[i-1][j-1];
+					//td.innerHTML=statusMatrix[i-1][j-1];
 					prepareCell(td);
 
 				}
@@ -437,6 +442,7 @@ function drawPage(){
 		
 	}
 	table.appendChild(tbody);
+	addSuggestionDots();
 	
 }
 
@@ -447,7 +453,8 @@ function colorCell(elem){
 
 function decolorCell(elem){
 	var x = elem.value;
-	elem.innerHTML=statusMatrix[x.i-1][x.j-1];
+	//elem.innerHTML=statusMatrix[x.i-1][x.j-1];
+	elem.innerHTML="";
 	$(elem).css({"boxShadow":""});
 }
 
@@ -494,6 +501,7 @@ function prepareCell(elm)
 			$.each($("#completeTable td"),function(i,td){
 				if(td.value) decolorCell(td);
 			});
+			addSuggestionDots();
 			colorSpan(selected_time.start,selected_time.end);
 		}
 	};
@@ -515,6 +523,7 @@ function prepareCell(elm)
 			$.each($("#completeTable td"),function(i,td){
 				if(td.value) decolorCell(td);
 			});
+			addSuggestionDots();
 			colorSpan(selected_time.start,selected_time.end);
 		}
 	};
@@ -665,9 +674,6 @@ function getRespondersInfo(){
 // SUGGESTED TIMES
 
 function findSuggestedTimes(){
-	var currentLongestColumn=-1;
-	var currentLongestRow=-1;
-	var currentLongestSteps=-1;
 	var tempCounter=0;
 	var k;
 	//figure this out in morning
@@ -691,5 +697,17 @@ function findSuggestedTimes(){
 	//console.log(currentLongestColumn);
 	//console.log(currentLongestRow);
 	//console.log(currentLongestSteps);
-	document.getElementById("addOurSuggestion").innerHTML=correspondenceMatrix[currentLongestRow][currentLongestColumn] +"("+(30*currentLongestSteps)+"minute window)";
+	document.getElementById("addOurSuggestion").innerHTML=correspondenceMatrix[currentLongestRow][currentLongestColumn] +"(We found a "+(30*currentLongestSteps)+" minute window.)";
+	//addSuggestionDots(currentLongestRow,currentLongestColumn,currentLongestSteps);
+}
+function addSuggestionDots(){
+	var longRow=currentLongestRow+1;
+	var longCol=currentLongestColumn+1;
+	for(var i=0; i<currentLongestSteps; i++){
+		var temp=longRow+i;
+		//console.log("row"+temp+"_col"+currentLongestColumn);
+		document.getElementById("row"+temp+"_col"+longCol).innerHTML="<span style='color:white' class='glyphicon glyphicon-record'></span>";
+	}
+
+
 }

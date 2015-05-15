@@ -214,8 +214,8 @@ function hideSignUpFields(){
 	document.getElementById("checkboxSection").style.display="none";
 	document.getElementById("cancelButton").style.display="none";
 	document.getElementById("signUpButton").style.display="none";
-	document.getElementById("showWelcome1").style.display="none";
-	document.getElementById("showWelcome2").style.display="none";
+	document.getElementById("showWelcome1").style.display="block";
+	document.getElementById("showWelcome2").style.display="block";
 
 }
 	
