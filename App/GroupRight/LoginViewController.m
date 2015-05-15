@@ -97,8 +97,8 @@
 
 - (IBAction)bypassLogin:(id)sender {
     GRMainModule *grmm = [GRMainModule grMain];
-    [grmm setUser:@"zwilson7@gmail.com"];
-    NSString *cookie=[GroupRightNetworking loginToGroupServeWithUsername:@"zwilson7@gmail.com" andPassword:@"test1"];
+    [grmm setUser:@"zwilson@scu.edu"];
+    NSString *cookie=[GroupRightNetworking loginToGroupServeWithUsername:@"zwilson@scu.edu" andPassword:@"test1"];
     
     if(![cookie isEqualToString:@""])
     {
