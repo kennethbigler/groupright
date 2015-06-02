@@ -77,16 +77,14 @@ function addTask($email,$title,$description,$group_uid,$event_uid,$is_indv,$dead
 			
 	$dbh = ConnectToDB();
 	
-	$sql = "INSERT INTO tasks(creator_email,title,description,group_uid,event_uid,is_individual,deadline)
+	$sql = "INSERT INTO tasks(creator_email,title,description,group_uid,is_individual,deadline)
 			VALUES(?,?,?,"
 			.((isset($group_uid))? "?" : "NULL").","
-			.((isset($event_uid))? "?" : "NULL").","
 			."?,"
 			.((isset($deadline))? "?" : "NULL").")";
 	
 	$arr = array($email,$title,$description);
 	if(isset($group_uid)) $arr[] = $group_uid;
-	if(isset($event_uid)) $arr[] = $event_uid;
 	$arr[] = $is_indv;
 	if(isset($deadline)) $arr[] = $deadline;
 	
